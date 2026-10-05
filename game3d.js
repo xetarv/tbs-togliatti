@@ -1,5 +1,6 @@
 (() => {
   'use strict';
+  try {
 
   const $ = id => document.getElementById(id);
   const canvas = $('game');
@@ -13,9 +14,10 @@
   }
 
   const T = window.THREE;
-  const WORLD_W = 260, WORLD_H = 220, ROAD = 12.4;
-  const roadsX = [26, 68, 110, 152, 194, 236];
-  const roadsZ = [30, 70, 110, 150, 190];
+  T.ColorManagement.legacyMode=false;
+  const WORLD_W = 302, WORLD_H = 260, ROAD = 12.4;
+  const roadsX = [26, 68, 110, 152, 194, 236, 278];
+  const roadsZ = [30, 70, 110, 150, 190, 230];
   const missions = [
     {title:'Контур будущего', description:'Заберите модуль связи в центре ТБС и отвезите его инженерам Жигулёвской долины.', from:{x:26,z:30,name:'Центр ТБС'}, to:{x:110,z:110,name:'Жигулёвская долина'}, reward:1200},
     {title:'Письмо над Волгой', description:'Получите дрон К-50 на площадке НПЦ БАС и отправьте груз к набережной Волги.', from:{x:194,z:30,name:'НПЦ БАС • ТБС'}, to:{x:68,z:30,name:'Набережная Волги'}, reward:1800},
@@ -27,23 +29,25 @@
 
   const renderer = new T.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
   const lowPower=matchMedia('(pointer:coarse)').matches || innerWidth<700;
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower?1.15:1.5));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower?1.15:1.75));
   renderer.setSize(innerWidth,innerHeight,false);
   renderer.outputEncoding = T.sRGBEncoding;
+  renderer.physicallyCorrectLights=true;
   renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = .84;
+  renderer.toneMappingExposure = 1.1;
   renderer.shadowMap.enabled = !lowPower;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
   const scene = new T.Scene();
   scene.background = new T.Color(0x091827);
-  scene.fog = new T.FogExp2(0x12283a,0.0042);
+  scene.fog = new T.FogExp2(0x91abb9,0.0022);
   const camera = new T.PerspectiveCamera(66,innerWidth/innerHeight,.1,550);
   camera.position.set(84,12,30);
-  scene.add(new T.HemisphereLight(0x98cce8,0x101d2c,.62));
-  const sun = new T.DirectionalLight(0xffc3a5,1.2);
+  scene.add(new T.HemisphereLight(0xd7eaff,0x788078,1.9));
+  const sun = new T.DirectionalLight(0xffd4a6,2.2);
   sun.position.set(-35,62,40);
   sun.castShadow=true;
-  sun.shadow.mapSize.set(1024,1024);
+  sun.shadow.mapSize.set(lowPower?1024:2048,lowPower?1024:2048);
+  sun.shadow.normalBias=.035;
   sun.shadow.camera.left=-52;sun.shadow.camera.right=52;
   sun.shadow.camera.top=52;sun.shadow.camera.bottom=-52;
   sun.shadow.camera.near=1;sun.shadow.camera.far=150;
@@ -57,24 +61,30 @@
   const sky = new T.Mesh(new T.SphereGeometry(430,32,16),new T.ShaderMaterial({
     side:T.BackSide,depthWrite:false,fog:false,
     vertexShader:'varying vec3 vDir; void main(){vDir=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-    fragmentShader:'varying vec3 vDir; void main(){float h=normalize(vDir).y; vec3 low=vec3(0.26,0.34,0.44); vec3 middle=vec3(0.10,0.23,0.36); vec3 high=vec3(0.025,0.075,0.16); vec3 color=mix(low,middle,smoothstep(-0.06,0.18,h)); color=mix(color,high,smoothstep(0.18,0.80,h)); gl_FragColor=vec4(color,1.0);}'
+    fragmentShader:'varying vec3 vDir; void main(){vec3 d=normalize(vDir);float h=d.y;vec3 color=mix(vec3(.72,.65,.56),vec3(.32,.53,.72),smoothstep(-.05,.32,h));color=mix(color,vec3(.07,.22,.43),smoothstep(.25,.95,h));float glow=pow(max(dot(d,normalize(vec3(-35.,62.,40.))),0.),24.);color+=vec3(.6,.32,.12)*glow;gl_FragColor=vec4(color,1.0);}'
   }));
   scene.add(sky);
   const duskSun=new T.Mesh(new T.SphereGeometry(8,20,12),new T.MeshBasicMaterial({color:0xffa676,fog:false,depthWrite:false}));
-  duskSun.position.set(-190,58,-115);scene.add(duskSun);
+  duskSun.position.set(-160,283,183);scene.add(duskSun);
+  // A prefiltered sky lights glass and paint without network resources.
+  const environmentScene=new T.Scene();environmentScene.add(sky.clone());
+  const pmrem=new T.PMREMGenerator(renderer);
+  const environmentMap=pmrem.fromScene(environmentScene,.05,.1,500);
+  scene.environment=environmentMap.texture;pmrem.dispose();
 
-  const mat = (color,metalness=0,roughness=.8,emissive=0x000000) => new T.MeshStandardMaterial({color,metalness,roughness,emissive});
+  const mat = (color,metalness=0,roughness=.8,emissive=0x000000) => new T.MeshStandardMaterial({color,metalness,roughness,emissive,envMapIntensity:.45});
   const dark=mat(0x142733,.22,.72), roadMat=mat(0x192b34,.08,.93), curbMat=mat(0x31505a,.08,.83),
         cyanMat=mat(0x47e6e0,.12,.27,0x148c8b), orangeMat=mat(0xff4808,.2,.34,0xa32c0c),
         whiteMat=mat(0xdcebf0,.24,.42), glassMat=mat(0x16445d,.68,.18,0x071a28),
         tireMat=mat(0x101820,.08,.95), laneMat=new T.MeshBasicMaterial({color:0xaabac0}),
         grassMat=mat(0x173730), roofMat=mat(0x203945,.12,.76);
+  const trimMat=mat(0x5d7e87,.48,.35);
   const unitBox = new T.BoxGeometry(1,1,1);
   const unitPlane = new T.PlaneGeometry(1,1);
   function box(parent,x,y,z,w,h,d,material){const o=new T.Mesh(unitBox,material);o.position.set(x,y,z);o.scale.set(w,h,d);parent.add(o);return o}
   function flat(parent,x,y,z,w,d,material){const o=new T.Mesh(unitPlane,material);o.rotation.x=-Math.PI/2;o.position.set(x,y,z);o.scale.set(w,d,1);o.receiveShadow=true;parent.add(o);return o}
 
-  function makeTexture(draw,w=256,h=256){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.wrapS=t.wrapT=T.RepeatWrapping;return t}
+  function makeTexture(draw,w=256,h=256){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t}
   const asphaltTexture=makeTexture((p,w,h)=>{
     p.fillStyle='#afb7ba';p.fillRect(0,0,w,h);
     for(let i=0;i<5400;i++){
@@ -83,21 +93,75 @@
       p.fillRect(x,y,1+(i%3),1+(i%2));
     }
   });
-  function roadSurface(w,d){const texture=asphaltTexture.clone();texture.repeat.set(w/8,d/8);texture.needsUpdate=true;return new T.MeshStandardMaterial({color:0x35434a,map:texture,roughness:.96,metalness:.02})}
+  function roadSurface(w,d){const texture=asphaltTexture.clone();texture.repeat.set(w/8,d/8);texture.needsUpdate=true;return new T.MeshStandardMaterial({color:0x35434a,map:texture,bumpMap:texture,bumpScale:.025,roughness:.86,metalness:.04})}
   const waterTexture=makeTexture((p,w,h)=>{
-    p.fillStyle='#0b354c';p.fillRect(0,0,w,h);
-    for(let i=0;i<24;i++){
-      const y=5+i*5.2;p.strokeStyle=i%3===0?'#3787a199':'#1b5b7990';p.lineWidth=i%3===0?2:1;
-      p.beginPath();for(let x=0;x<=w;x+=6){const wave=y+Math.sin(x*.07+i*.55)*2.2;x?p.lineTo(x,wave):p.moveTo(x,wave)}p.stroke();
+    p.fillStyle='#7595a1';p.fillRect(0,0,w,h);
+    for(let i=0;i<95;i++){
+      const y=i*1.37;p.strokeStyle=i%3===0?'#c2d9dc28':'#405e6e25';p.lineWidth=1;
+      p.beginPath();for(let x=0;x<=w;x+=6){const wave=y+Math.sin(x*.07+i*.55)*.8;x?p.lineTo(x,wave):p.moveTo(x,wave)}p.stroke();
     }
   },512,128);
   waterTexture.repeat.set(7,1);
-  function imageTexture(file){const source=window.TBS_EMBEDDED?.[file] || 'assets/'+file;const tex=new T.TextureLoader().load(source);tex.encoding=T.sRGBEncoding;return tex}
+  function imageTexture(file){const source=window.TBS_EMBEDDED?.[file] || 'assets/'+file;const tex=new T.TextureLoader().load(source,t=>{for(const callback of t.userData.onReady||[])callback();t.userData.onReady=[];});tex.userData.onReady=[];tex.encoding=T.sRGBEncoding;tex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return tex}
   const markTexture=imageTexture('cropped-fav-tb_drone-192x192.png');
   const droneTexture=imageTexture('home-sec3-img__1-768x597.webp');
   const factoryTexture=imageTexture('tb-samara-hero-vid-poster.webp');
   const hangarTexture=imageTexture('tb-samara-mission-big-img.webp');
 
+  const pavingTexture=makeTexture((p,w,h)=>{
+    p.fillStyle='#b8b9b2';p.fillRect(0,0,w,h);
+    for(let y=0;y<h;y+=32)for(let x=0;x<w;x+=64){
+      p.fillStyle=(x+y)%96===0?'#c2c4bd':'#aeb3b0';p.fillRect(x+2,y+2,60,28);
+      p.fillStyle='#ffffff24';p.fillRect(x+2,y+2,60,1);
+    }
+  });pavingTexture.repeat.set(4,4);
+  const pavingMat=new T.MeshStandardMaterial({map:pavingTexture,color:0xb7bec0,roughness:.92});
+  const facadeMaterials=Array.from({length:6},(_,seed)=>{
+    const texture=makeTexture((p,w,h)=>{
+      p.fillStyle=['#73818a','#495967','#a5aaa6','#596b75','#879798','#647485'][seed];p.fillRect(0,0,w,h);
+      for(let y=0;y<h;y+=128)for(let x=0;x<w;x+=128){
+        p.fillStyle='#182d3c';p.fillRect(x+15,y+17,98,89);
+        const n=(x/128*17+y/128*31+seed*13)%11;
+        const g=p.createLinearGradient(x,y,x+98,y+89);
+        g.addColorStop(0,n<2?'#c7ab78':'#708f9d');g.addColorStop(.5,n<2?'#a78758':'#3d606f');g.addColorStop(1,'#1d394b');
+        p.fillStyle=g;p.fillRect(x+19,y+21,90,81);
+        p.fillStyle='#b8c9cc80';p.fillRect(x+19,y+21,90,2);
+        p.fillStyle='#243d48';p.fillRect(x+61,y+21,3,81);
+        p.fillStyle='#192a3470';p.fillRect(x+19,y+67,90,2);
+        p.fillStyle='#142b3b55';p.fillRect(x+19,y+21,90,10+n*2);
+        p.fillStyle='#192a3440';p.fillRect(x,y+122,128,6);
+        p.fillStyle='#ffffff20';p.fillRect(x,y+120,128,2);
+      }
+    },512,512);
+    return texture;
+  });
+  function facade(parent,x,y,z,width,height,angle,seed){
+    const tex=facadeMaterials[seed%6].clone();tex.repeat.set(Math.max(1,Math.round(width/2.8))/4,Math.max(1,Math.round(height/2.8))/4);tex.needsUpdate=true;
+    const surface=new T.Mesh(new T.PlaneGeometry(width,height),new T.MeshStandardMaterial({map:tex,metalness:.32,roughness:.38,envMapIntensity:.7}));
+    surface.position.set(x,y,z);surface.rotation.y=angle;surface.receiveShadow=true;parent.add(surface);
+  }
+  // The original bitmap is mapped directly onto a plane of the same aspect ratio.
+  // Text and branding live on separate plaques; photographs are never recomposed.
+  const photoPanels=[];
+  function architecturalPanel(parent,x,y,z,width,height,angle,photo,title,subtitle){
+    const panel=new T.Group();panel.position.set(x,y,z);panel.rotation.y=angle;parent.add(panel);
+    const frame=box(panel,0,0,0,1,1,.24,dark);
+    const rim=box(panel,0,0,.13,1,1,.06,trimMat);
+    const face=new T.Mesh(unitPlane,new T.MeshBasicMaterial({map:photo,toneMapped:false}));
+    face.position.z=.17;panel.add(face);
+    const hood=box(panel,0,0,.22,1,.1,.65,roofMat);hood.castShadow=true;
+    function fit(){
+      const img=photo.image;if(!img?.naturalWidth)return;
+      const ratio=img.naturalWidth/img.naturalHeight;
+      const pw=Math.min(width,height*ratio),ph=pw/ratio;
+      face.scale.set(pw,ph,1);frame.scale.set(pw+.32,ph+.32,.24);rim.scale.set(pw+.10,ph+.10,.06);
+      hood.position.y=ph/2+.23;hood.scale.x=pw+.65;
+      panel.userData={sourceAspect:ratio,displayAspect:pw/ph};
+    }
+    if(photo.image?.complete)fit();else photo.userData.onReady.push(fit);
+    photoPanels.push(panel);
+    return panel;
+  }
   const glowTexture=makeTexture((p,w,h)=>{
     const g=p.createRadialGradient(w/2,h/2,2,w/2,h/2,w/2);
     g.addColorStop(0,'rgba(126,255,237,.85)');g.addColorStop(.24,'rgba(80,220,231,.38)');g.addColorStop(1,'rgba(80,220,231,0)');
@@ -105,7 +169,11 @@
   },128,128);
   glowTexture.wrapS=glowTexture.wrapT=T.ClampToEdgeWrapping;
   const crosswalkMat=new T.MeshBasicMaterial({color:0x9bb9bc,transparent:true,opacity:.58,depthWrite:false});
-  const leafMats=[mat(0x285b58),mat(0x286567),mat(0x346358)];
+  const leafMats=[mat(0x47784c),mat(0x567e50),mat(0x6b884c)];
+  const flags=[];
+  const flagTexture=makeTexture((p,w,h)=>{p.fillStyle='#e5e9e4';p.fillRect(0,0,w,h);p.fillStyle='#ff4b09';p.fillRect(0,h-12,w,12);},512,300);
+  function paintFlag(){const p=flagTexture.image.getContext('2d');p.drawImage(markTexture.image,160,40,190,190);flagTexture.needsUpdate=true;}
+  if(markTexture.image?.complete)paintFlag();else markTexture.userData.onReady.push(paintFlag);
   let maglevTrain;
   function streetLight(x,z){
     const metal=mat(0x3b5965,.62,.32);
@@ -118,10 +186,17 @@
   }
   function tree(x,z,seed){
     const trunk=new T.Mesh(new T.CylinderGeometry(.12,.18,2.3,7),mat(0x665449));trunk.position.set(x,1.22,z);scene.add(trunk);
-    const crown=new T.Mesh(new T.IcosahedronGeometry(1.35+(seed%3)*.19,1),leafMats[seed%leafMats.length]);
-    crown.position.set(x,3.03,z);crown.scale.set(1,1.26,1);crown.castShadow=true;scene.add(crown);
-    const crownTop=new T.Mesh(new T.IcosahedronGeometry(.84,1),leafMats[(seed+1)%leafMats.length]);
-    crownTop.position.set(x+.35,4.16,z-.2);scene.add(crownTop);
+    const canopy=new T.InstancedMesh(new T.IcosahedronGeometry(1,1),leafMats[seed%3],36);
+    const dummy=new T.Object3D();
+    for(let i=0;i<36;i++){
+      const angle=i*2.399+seed,r=Math.sqrt((i+.5)/36)*1.48;
+      dummy.position.set(x+Math.cos(angle)*r,3.25+Math.sin(i*1.73)*.66+(1-r/1.6)*.9,z+Math.sin(angle)*r);
+      const size=.36+(i%5)*.055;dummy.scale.set(size*1.4,size,size*1.1);dummy.rotation.set(i*.6,i*.7,i*.23);dummy.updateMatrix();canopy.setMatrixAt(i,dummy.matrix);
+      canopy.setColorAt(i,new T.Color().setHSL(.23+(i%3)*.012,.28,.28+(i%7)*.026));
+    }
+    canopy.castShadow=true;canopy.receiveShadow=true;scene.add(canopy);
+    const planter=box(scene,x,.3,z,2.5,.35,2.5,curbMat);planter.receiveShadow=true;
+    flat(scene,x,.485,z,2.26,2.26,grassMat);
   }
 
   function sprite(parent,texture,x,y,z,w,h,opacity=1){
@@ -134,16 +209,45 @@
     p.fillStyle='#071826';p.fillRect(0,0,1024,256);
     p.strokeStyle='#ff4808';p.lineWidth=12;p.strokeRect(7,7,1010,242);
     p.fillStyle='#ff4808';p.fillRect(35,35,14,186);
-    p.fillStyle='#f2ffff';p.font='900 73px Segoe UI, Arial';p.textAlign='center';p.fillText(title,545,112);
-    p.fillStyle='#82bdc4';p.font='700 38px Segoe UI, Arial';p.fillText(sub,545,182);
+    let fontSize=82;do{p.font='900 '+fontSize+'px Segoe UI, Arial';fontSize-=2;}while(p.measureText(title).width>910&&fontSize>30);
+    p.fillStyle='#ffffff';p.textAlign='center';p.fillText(title,535,112);
+    p.fillStyle='#b9e6ee';p.font='700 35px Segoe UI, Arial';p.fillText(sub,535,185,900);
     const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;return t;
   }
+  function streetNameplate(x,z,width,angle,title){
+    const texture=makeTexture((p,w,h)=>{
+      p.fillStyle='#09202a';p.fillRect(0,0,w,h);p.fillStyle='#ff4b09';p.fillRect(0,h-8,w,8);
+      let size=88;do{p.font='900 '+size+'px Segoe UI,Arial';size-=2;}while(p.measureText(title).width>w-64&&size>28);
+      p.fillStyle='#ffffff';p.textAlign='center';p.textBaseline='middle';p.fillText(title,w/2,h*.48);
+    },1024,128);
+    const sign=new T.Mesh(new T.PlaneGeometry(width,width/8),new T.MeshBasicMaterial({map:texture,toneMapped:false,fog:false}));
+    sign.position.set(x,2.4,z);sign.rotation.y=angle;scene.add(sign);
+  }
   function city(){
-    flat(scene,WORLD_W/2,-.16,WORLD_H/2,WORLD_W+150,WORLD_H+150,grassMat);
-    flat(scene,WORLD_W/2,.02,9,WORLD_W,18,new T.MeshBasicMaterial({map:waterTexture}));
+    flat(scene,WORLD_W/2,-.16,WORLD_H/2,WORLD_W+650,WORLD_H+650,grassMat);
+    // Distant architecture and the opposite bank give the city a horizon.
+    const distantMat=mat(0x586777,.12,.8);
+    for(let i=0;i<34;i++){
+      const bx=-30+(i%17)*24,bz=i<17?WORLD_H+45:-68,height=12+(i*19%34);
+      box(scene,bx,height/2,bz,10+(i%3)*3,height,11,distantMat);
+      box(scene,bx,height+1,bz,5,2,6,roofMat);
+    }
+    for(let i=0;i<10;i++){
+      const hill=new T.Mesh(new T.SphereGeometry(1,20,12),mat(0x5c756b));
+      hill.position.set(-100+i*58,0,-132-(i%3)*18);hill.scale.set(65,15+(i*7%19),42);scene.add(hill);
+    }
+    const waterMaterial=new T.MeshStandardMaterial({color:0x376e86,map:waterTexture,metalness:.6,roughness:.24,envMapIntensity:1.4});
+    waterMaterial.onBeforeCompile=shader=>{
+      shader.uniforms.waveTime={value:0};waterMaterial.userData.shader=shader;
+      shader.vertexShader='uniform float waveTime;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n transformed.z += sin(position.x*1.7+waveTime)*.045+sin(position.y*3.1+waveTime*.7)*.025;');
+    };
+    const river=new T.Mesh(new T.PlaneGeometry(WORLD_W,18,180,24),waterMaterial);river.rotation.x=-Math.PI/2;river.position.set(WORLD_W/2,.02,9);scene.add(river);scene.userData.waterMaterial=waterMaterial;
     box(scene,WORLD_W/2,.21,19,WORLD_W,.38,1.3,curbMat);
     box(scene,WORLD_W/2,.36,19.6,WORLD_W,.08,.12,cyanMat);
-    flat(scene,WORLD_W/2,.06,21.5,WORLD_W,4.4,mat(0x31484c,.1,.85));
+    flat(scene,WORLD_W/2,.06,21.5,WORLD_W,4.4,pavingMat);
+    for(let x=1;x<WORLD_W;x+=3){box(scene,x,.9,18.6,.07,1.35,.07,trimMat);}
+    box(scene,WORLD_W/2,1.55,18.6,WORLD_W,.08,.08,trimMat);
     for(let x=8,i=0;x<WORLD_W-5;x+=8.2,i++){
       if(roadsX.some(v=>Math.abs(x-v)<5))continue;
       tree(x,21.5,i);
@@ -195,15 +299,48 @@
     {i:3,j:2,name:'АВТОВАЗ',sub:'ЭЛЕКТРОМОБИЛЬНОСТЬ',photo:null,h:11},
     {i:4,j:0,name:'ЗАВОД ТБС',sub:'БЕСПИЛОТНЫЕ СИСТЕМЫ',photo:droneTexture,h:13},
     {i:0,j:2,name:'ТБС · ЭНЕРГИЯ',sub:'ЗАРЯДКА',photo:null,h:8},
-    {i:2,j:3,name:'ТБС · ЛОГИСТИКА',sub:'К-25  /  К-50',photo:factoryTexture,h:9}
+    {i:2,j:3,name:'ТБС · ЛОГИСТИКА',sub:'К-25  /  К-50',photo:factoryTexture,h:9},
+    {i:5,j:2,name:'ТБС · АЭРОПОРТ',sub:'ВОЗДУШНАЯ МОБИЛЬНОСТЬ',photo:droneTexture,h:11},
+    {i:3,j:4,name:'ТБС · АКАДЕМИЯ',sub:'ИНЖЕНЕРНЫЙ КАМПУС',photo:hangarTexture,h:10}
   ];
   const special=new Map(landmarks.map(l=>[l.i+','+l.j,l]));
+  landmarks.forEach(l=>l.h+=4);
+  const districtLabels=[];
   const buildingColors=[0x213b4a,0x294253,0x1a3545,0x344754,0x1d414b];
   const windowLit=new T.MeshBasicMaterial({color:0x74b9c3});
   const windowWarm=new T.MeshBasicMaterial({color:0xe9aa76});
   const windowDark=new T.MeshStandardMaterial({color:0x143647,metalness:.7,roughness:.2});
-  const trimMat=mat(0x5d7e87,.48,.35);
   const landingMat=new T.MeshBasicMaterial({color:0x7ce5db,transparent:true,opacity:.74,depthWrite:false});
+  const fountainJets=[];
+  function park(x,z,w,d,seed){
+    flat(scene,x,.4,z,w-1,d-1,mat(0x567749));
+    flat(scene,x,.42,z,3,d-1,pavingMat);flat(scene,x,.43,z,w-1,3,pavingMat);
+    const bowl=new T.Mesh(new T.CylinderGeometry(3.6,3.8,.6,40),trimMat);bowl.position.set(x,.7,z);bowl.receiveShadow=true;scene.add(bowl);
+    const pool=new T.Mesh(new T.CylinderGeometry(3.28,3.28,.08,40),mat(0x46a7b7,.45,.16));pool.position.set(x,1.03,z);scene.add(pool);
+    const jetMaterial=new T.MeshPhysicalMaterial({color:0xb9f1ff,transparent:true,opacity:.58,roughness:.12,metalness:.1});
+    for(let n=0;n<7;n++){
+      const jet=new T.Mesh(new T.CylinderGeometry(.045,.12,n===0?2.6:1.6,8),jetMaterial);
+      jet.position.set(x+(n?Math.cos(n)*1.8:0),n===0?2.3:1.85,z+(n?Math.sin(n)*1.8:0));scene.add(jet);fountainJets.push(jet);
+    }
+    for(const sx of [-1,1])for(const sz of [-1,1]){
+      tree(x+sx*w*.32,z+sz*d*.32,seed+(sx+sz+2));
+      const bx=x+sx*5,bz=z+sz*5;
+      for(let slat=0;slat<4;slat++)box(scene,bx,.9,bz+slat*.15,2.7,.12,.12,mat(0x936d45));
+      box(scene,bx,1.4,bz+.6,2.7,.55,.1,mat(0x936d45));
+      for(const side of [-1,1])box(scene,bx+side*1,.62,bz+.24,.13,.6,.6,trimMat);
+    }
+  }
+  function busStop(x,z){
+    const shelter=new T.Group();shelter.position.set(x,0,z);scene.add(shelter);
+    box(shelter,0,.45,0,6,.18,2.5,trimMat);
+    box(shelter,0,3.65,0,6.6,.24,2.9,whiteMat).castShadow=true;
+    for(const side of [-1,1]){box(shelter,side*2.8,2,0,.12,3.2,2.3,trimMat);box(shelter,side*2.7,2,0,.04,2.8,2.15,glassMat);}
+    box(shelter,0,2,1.1,5.5,2.8,.05,glassMat);
+    box(shelter,0,1,0,4.3,.2,.65,whiteMat);
+    box(shelter,0,3.45,-1.35,6,.08,.06,orangeMat);
+    const sign=new T.Mesh(new T.PlaneGeometry(5.6,1.4),new T.MeshBasicMaterial({map:signTexture('ТБС · ЭКСПРЕСС','ГОРОДСКОЙ ЭЛЕКТРОТРАНСПОРТ'),toneMapped:false}));
+    sign.rotation.y=Math.PI;sign.position.set(0,4.45,-.2);shelter.add(sign);
+  }
   function building(parent,x,z,w,d,h,seed){
     const body=mat(buildingColors[seed%buildingColors.length],.25,.58);
     const main=box(parent,x,h/2,z,w,h,d,body);main.castShadow=true;main.receiveShadow=true;
@@ -218,28 +355,51 @@
       const crown=box(parent,x,h+1.15,z,w*.56,1.5,d*.5,body);crown.castShadow=true;
       box(parent,x,h+1.96,z,w*.6,.17,d*.54,trimMat);
     }
-    for(let y=2;y<h-1;y+=2.1){
-      for(let bx=x-w/2+1.3;bx<x+w/2-.5;bx+=2.5){
-        const lit=(Math.round(bx*3+y*7+seed)%5)!==0;
-        const pane=lit?((Math.round(bx+y+seed)%9)===0?windowWarm:windowLit):windowDark;
-        box(parent,bx,y,z+d/2+.023,1,.74,.04,pane);
-        box(parent,bx,y,z-d/2-.023,1,.74,.04,pane);
-      }
+    facade(parent,x,h/2+.3,z+d/2+.025,w-.55,h-1.1,0,seed);
+    facade(parent,x,h/2+.3,z-d/2-.025,w-.55,h-1.1,Math.PI,seed);
+    facade(parent,x+w/2+.025,h/2+.3,z,d-.55,h-1.1,Math.PI/2,seed);
+    facade(parent,x-w/2-.025,h/2+.3,z,d-.55,h-1.1,-Math.PI/2,seed);
+    for(let floor=3.2;floor<h-.7;floor+=3.2){
+      box(parent,x,floor,z,w+.18,.12,d+.18,seed%2?trimMat:roofMat);
     }
-    for(let y=2;y<h-1;y+=2.1)for(let bz=z-d/2+1.2;bz<z+d/2-.5;bz+=2.5){
-      const pane=(Math.round(bz+y+seed)%5)===0?windowDark:windowLit;
-      box(parent,x+w/2+.023,y,bz,.04,.74,1,pane);
-      box(parent,x-w/2-.023,y,bz,.04,.74,1,pane);
+    if(seed%2===0){
+      for(const side of [-1,1])box(parent,x+side*w*.3,h/2,z-d/2-.14,.22,h,.36,trimMat).castShadow=true;
     }
     box(parent,x,1.25,z-d/2-.28,2.1,2.3,.18,glassMat);
     box(parent,x,2.56,z-d/2-.5,4.1,.13,1.15,seed%3===0?orangeMat:cyanMat);
+    if(w<12){
+      // Actual projecting balconies, with slabs, glass balustrades and frames.
+      for(let floor=4;floor<h-1;floor+=3.2){
+        const balconyW=Math.min(w-1.2,5);
+        box(parent,x,floor,z-d/2-.7,balconyW,.19,1.5,trimMat).castShadow=true;
+        box(parent,x,floor+.6,z-d/2-1.38,balconyW,.95,.075,glassMat);
+        box(parent,x,floor+1.1,z-d/2-1.4,balconyW,.065,.08,whiteMat);
+        for(const side of [-1,1])box(parent,x+side*balconyW/2,floor+.6,z-d/2-.7,.08,1.05,1.5,trimMat);
+      }
+      if(seed%3===1){
+        const upper=box(parent,x,h+2,z,w*.7,4,d*.64,body);upper.castShadow=true;
+        facade(parent,x,h+2,z-d*.32-.025,w*.7-.2,3.6,Math.PI,seed+1);
+        box(parent,x,h+4.12,z,w*.76,.24,d*.7,trimMat);
+      }
+    }else{
+      // A glazed lobby sits proud of the main facade, under a structural canopy.
+      box(parent,x,1.7,z-d/2-.6,6,3.1,1.1,glassMat);
+      box(parent,x,3.35,z-d/2-1.1,8,.23,2.5,trimMat).castShadow=true;
+      for(const side of [-1,1])box(parent,x+side*3.5,1.7,z-d/2-1.9,.15,3.3,.15,whiteMat);
+      for(let n=-2;n<=2;n++)box(parent,x+n*1.1,1.7,z-d/2-1.2,.06,3,.07,trimMat);
+      for(const side of [-1,1]){
+        box(parent,x+side*(w/2-.7),h/2,z-d/2-.22,.32,h,.48,whiteMat).castShadow=true;
+        box(parent,x+side*(w/2-.7),h/2,z-d/2-.49,.09,h-.6,.025,orangeMat);
+      }
+    }
   }
   for(let j=0;j<roadsZ.length-1;j++)for(let i=0;i<roadsX.length-1;i++){
     const left=roadsX[i]+ROAD/2+1.2,right=roadsX[i+1]-ROAD/2-1.2;
     const top=roadsZ[j]+ROAD/2+1.2,bottom=roadsZ[j+1]-ROAD/2-1.2;
     const cx=(left+right)/2,cz=(top+bottom)/2,w=right-left,d=bottom-top;
-    flat(scene,cx,.13,cz,w+1,d+1,mat(0x193a36));
-    box(scene,cx,.33,cz,w+.8,.34,d+.8,mat(0x254840));
+    flat(scene,cx,.13,cz,w+1,d+1,pavingMat);
+    box(scene,cx,.26,cz,w+.8,.22,d+.8,curbMat);
+    flat(scene,cx,.38,cz,w+.6,d+.6,pavingMat);
     const landmark=special.get(i+','+j);
     if(landmark){
       building(scene,cx,cz,w-3,d-3,landmark.h,17+i*3+j);
@@ -247,37 +407,59 @@
       pad.rotation.x=-Math.PI/2;pad.position.set(cx-3,landmark.h+.37,cz+2);scene.add(pad);
       box(scene,cx-3,landmark.h+.39,cz+2,2.9,.04,.11,landingMat);
       box(scene,cx-3,landmark.h+.39,cz+2,.11,.04,2.9,landingMat);
-      for(const side of [-1,1])box(scene,cx+side*7,landmark.h+2.4,cz,.14,4.8,.14,trimMat);
-      sprite(scene,signTexture(landmark.name,landmark.sub),cx,landmark.h+5.6,cz,17,4.2);
-      sprite(scene,markTexture,cx-w/2+3,landmark.h+5.6,cz,3.5,3.5);
-      if(landmark.photo)sprite(scene,landmark.photo,cx,landmark.h+10.1,cz,14.5,8.2);
-      if(landmark.photo){
-        const front=cz-(d-3)/2-.14;
-        box(scene,cx+2,landmark.h*.51,front,13.3,6.8,.21,orangeMat);
-        box(scene,cx+2,landmark.h*.51,front-.1,12.8,6.3,.16,dark);
-        const image=new T.Mesh(new T.PlaneGeometry(12.2,5.8),new T.MeshBasicMaterial({map:landmark.photo,side:T.DoubleSide}));
-        image.rotation.y=Math.PI;image.position.set(cx+2,landmark.h*.51,front-.2);scene.add(image);
-      }
-      const wallLogo=new T.Mesh(new T.PlaneGeometry(3.4,3.4),new T.MeshBasicMaterial({map:markTexture,transparent:true,side:T.DoubleSide}));
-      wallLogo.rotation.y=Math.PI;wallLogo.position.set(cx-w/2+4,landmark.h*.52,cz-(d-3)/2-.28);scene.add(wallLogo);
+      const faceZ=cz-(d-3)/2-.25;
+      const photoHeight=landmark.h-4.6,photoY=3.8+photoHeight/2;
+      architecturalPanel(scene,cx,photoY,faceZ-.14,w-5,photoHeight,Math.PI,landmark.photo||factoryTexture,landmark.name,landmark.sub);
+      architecturalPanel(scene,cx+(w-3)/2+.38,photoY,cz,d-5,photoHeight,Math.PI/2,landmark.photo||droneTexture,landmark.name,landmark.sub);
+      architecturalPanel(scene,cx,photoY,cz+(d-3)/2+.38,w-5,photoHeight,0,landmark.photo||factoryTexture,landmark.name,landmark.sub);
+      architecturalPanel(scene,cx-(w-3)/2-.38,photoY,cz,d-5,photoHeight,-Math.PI/2,landmark.photo||droneTexture,landmark.name,landmark.sub);
+      streetNameplate(cx,faceZ-.45,w-5,Math.PI,landmark.name);
+      streetNameplate(cx,cz+(d-3)/2+.7,w-5,0,landmark.name);
+      streetNameplate(cx+(w-3)/2+.7,cz,d-5,Math.PI/2,landmark.name);
+      streetNameplate(cx-(w-3)/2-.7,cz,d-5,-Math.PI/2,landmark.name);
+      // Roof lettering is a physical sign, fixed to the architecture.
+      box(scene,cx,landmark.h+2.2,faceZ+.3,20.4,5.4,.5,dark);
+      const lettering=signTexture(landmark.name,landmark.sub);
+      const signWidth=Math.min(w-4,20);
+      const nameplate=new T.Mesh(new T.PlaneGeometry(signWidth,signWidth/4),new T.MeshBasicMaterial({map:lettering,toneMapped:false}));
+      nameplate.rotation.y=Math.PI;nameplate.position.set(cx,landmark.h+2.2,faceZ);scene.add(nameplate);
+      const label=sprite(scene,lettering,cx,landmark.h+5.6,cz,18,4.5);
+      label.material.toneMapped=false;label.material.fog=false;
+      districtLabels.push(label);
       addFlag(cx-w/3,cz+d/2+1);
       addFlag(cx+w/3,cz+d/2+1);
       addFlag(cx-w/3,cz-d/2-1);
       addFlag(cx+w/3,cz-d/2-1);
+    }else if((j===4&&i%2===0)||(i===5&&j===0)){
+      park(cx,cz,w,d,i+j);busStop(cx,top+1.7);
     }else{
       for(let n=0;n<3;n++){
         const bx=left+5+n*(w-10)/2;
-        const height=5+((i*7+j*3+n*5)%8);
+        const height=7+((i*7+j*3+n*5)%13)+(j>1&&n===1?8:0);
         building(scene,bx,cz,Math.max(4,w/3-2),d-3,height,i*17+j*11+n);
       }
     }
   }
 
+  // Batch stationary architecture; moving vehicles and image panels remain separate.
+  const staticBatches=new Map();
+  for(const child of [...scene.children])if(child.isMesh&&child.geometry===unitBox){
+    if(!staticBatches.has(child.material))staticBatches.set(child.material,[]);
+    staticBatches.get(child.material).push(child);
+  }
+  for(const [material,meshes] of staticBatches){
+    if(meshes.length<3)continue;
+    const batch=new T.InstancedMesh(unitBox,material,meshes.length);
+    meshes.forEach((mesh,i)=>{mesh.updateMatrix();batch.setMatrixAt(i,mesh.matrix);scene.remove(mesh);});
+    batch.castShadow=meshes.some(m=>m.castShadow);batch.receiveShadow=true;scene.add(batch);
+  }
+
   function addFlag(x,z){
     const pole=new T.Mesh(new T.CylinderGeometry(.055,.065,4.6,8),whiteMat);
     pole.position.set(x,2.5,z);scene.add(pole);
-    box(scene,x,4.8,z,3.1,1.8,.12,whiteMat).position.x=x+1.5;
-    sprite(scene,markTexture,x+1.65,4.8,z+.09,2.2,1.9);
+    const fabric=new T.Mesh(new T.PlaneGeometry(2.8,1.65,14,5),new T.MeshStandardMaterial({map:flagTexture,color:0xffffff,side:T.DoubleSide,roughness:.95}));
+    fabric.position.set(x+1.4,4.7,z);fabric.castShadow=true;scene.add(fabric);
+    flags.push(fabric);
     box(scene,x,5.7,z,.19,.2,.19,orangeMat);
   }
 
@@ -294,18 +476,31 @@
     const mesh=new T.Mesh(geometry,material);mesh.castShadow=true;parent.add(mesh);return mesh;
   }
 
+  function coachwork(parent,w,length,height,y,material){
+    const r=.24,x=-w/2,z=-length/2,shape=new T.Shape();
+    shape.moveTo(x+r,z);shape.lineTo(x+w-r,z);shape.quadraticCurveTo(x+w,z,x+w,z+r);
+    shape.lineTo(x+w,z+length-r);shape.quadraticCurveTo(x+w,z+length,x+w-r,z+length);
+    shape.lineTo(x+r,z+length);shape.quadraticCurveTo(x,z+length,x,z+length-r);
+    shape.lineTo(x,z+r);shape.quadraticCurveTo(x,z,x+r,z);
+    const mesh=new T.Mesh(new T.ExtrudeGeometry(shape,{depth:height,bevelEnabled:true,bevelSegments:3,steps:1,bevelSize:.075,bevelThickness:.075,curveSegments:6}),material);
+    mesh.rotation.x=-Math.PI/2;mesh.position.y=y;mesh.castShadow=true;parent.add(mesh);return mesh;
+  }
   function createCar(color,hero=false){
     const group=new T.Group();
-    const body=mat(color,.38,.3);
-    const chassis=box(group,0,.96,0,2.8,.82,5.35,body);chassis.castShadow=true;
+    const body=new T.MeshPhysicalMaterial({color,metalness:.65,roughness:.24,clearcoat:1,clearcoatRoughness:.12,envMapIntensity:1.3});
+    coachwork(group,2.65,5.15,.63,.65,body);
     wedge(group,2.76,-2.82,-1.1,.67,1.02,1.61,body);
     wedge(group,2.76,1.05,2.78,.67,1.63,1.04,body);
     box(group,0,.55,0,2.33,.22,4.98,dark);
     box(group,0,1.79,-.2,2.13,.67,2.5,glassMat);
-    box(group,0,2.2,-.2,2.18,.13,2.5,hero?dark:body);
+    const roof=coachwork(group,2.02,2.35,.07,2.13,hero?dark:body);roof.position.z=-.2;
     for(const side of [-1,1]){
       box(group,side*1.34,1.08,-.01,.11,.22,4.9,hero?orangeMat:cyanMat);
       box(group,side*1.12,1.83,-.28,.05,.49,2.1,glassMat);
+      box(group,side*1.15,1.84,-.15,.07,.64,.1,dark);
+      box(group,side*1.62,1.67,-1.04,.43,.18,.36,body);
+      box(group,side*1.41,1.35,.38,.04,.07,.34,trimMat);
+      box(group,side*1.415,1.06,.72,.02,.55,.025,dark);
       box(group,side*1.04,2.2,-.2,.12,.13,2.55,body);
     }
     const frontGlass=box(group,0,1.73,-1.46,1.99,.1,.96,glassMat);frontGlass.rotation.x=-.72;
@@ -317,6 +512,11 @@
       const wheel=new T.Mesh(new T.CylinderGeometry(.5,.5,.34,18),tireMat);
       wheel.rotation.z=Math.PI/2;wheel.position.set(side*1.45,.52,z);wheel.castShadow=true;group.add(wheel);wheels.push(wheel);
       const hub=new T.Mesh(new T.CylinderGeometry(.27,.27,.36,12),trimMat);hub.rotation.z=Math.PI/2;hub.position.set(side*1.46,.52,z);group.add(hub);
+      const fender=new T.Mesh(new T.TorusGeometry(.58,.085,8,24,Math.PI),body);fender.rotation.y=Math.PI/2;fender.position.set(side*1.43,.52,z);group.add(fender);
+      const rim=new T.Mesh(new T.TorusGeometry(.34,.04,8,24),trimMat);rim.rotation.y=Math.PI/2;rim.position.set(side*1.65,.52,z);group.add(rim);
+      for(let spoke=0;spoke<5;spoke++){
+        const spokeMesh=box(group,side*1.65,.52,z,.025,.065,.48,whiteMat);spokeMesh.rotation.x=spoke*Math.PI/5;
+      }
     }
     for(const side of [-1,1]){
       box(group,side*.96,1.18,-2.87,.72,.14,.08,new T.MeshBasicMaterial({color:0xbffff1}));
@@ -330,7 +530,9 @@
       const roofLogo=new T.Mesh(new T.PlaneGeometry(1.62,1.62),new T.MeshBasicMaterial({map:markTexture,transparent:true,depthWrite:false}));
       roofLogo.rotation.x=-Math.PI/2;roofLogo.position.set(0,2.28,-.24);group.add(roofLogo);
       box(group,0,.24,0,2.37,.06,4.55,new T.MeshBasicMaterial({color:0x16eee0,transparent:true,opacity:.53}));
-      const frontLight=new T.PointLight(0x8affed,1.3,10,2);frontLight.position.set(0,1.14,-2.75);group.add(frontLight);
+      for(const side of [-1,1]){
+        const frontLight=new T.SpotLight(0xccefff,2.6,28,.43,.6,1.3);frontLight.position.set(side*.96,1.2,-2.8);frontLight.target.position.set(side*1.5,.05,-17);group.add(frontLight,frontLight.target);
+      }
     }
     group.userData.wheels=wheels;
     scene.add(group);return group;
@@ -387,6 +589,8 @@
   function start(){mode='playing';$('overlay').classList.add('hidden');last=performance.now();showToast('Смена ТБС началась · W — вперёд, S — назад')}
   function togglePause(){
     if(mode==='playing'){
+
+      for(const k in keys)keys[k]=false;
       mode='paused';$('overlayChapter').textContent='ТБС · Пауза';$('overlayTitle').innerHTML='ПАУЗА<br><span>НА МАРШРУТЕ</span>';
       $('overlaySub').textContent='Тольятти ждёт вашего возвращения';
       $('overlayCopy').textContent='Вы на задании «'+currentMission().title+'». Продолжайте движение к оранжевому маяку.';
@@ -458,6 +662,14 @@
     car.position.set(player.x,.12,player.z);car.rotation.y=-player.a;
     for(const wheel of car.userData.wheels)wheel.rotation.x+=player.speed*dt*1.35;
     waterTexture.offset.x=(elapsed*.012)%1;
+    const waterShader=scene.userData.waterMaterial.userData.shader;if(waterShader)waterShader.uniforms.waveTime.value=elapsed;
+    for(const flag of flags){
+      const pos=flag.geometry.attributes.position;
+      for(let i=0;i<pos.count;i++){const u=(pos.getX(i)+1.4)/2.8;pos.setZ(i,Math.sin(u*7-elapsed*3.2+flag.position.x)*.19*u+Math.sin(u*13-elapsed*4)*.04*u);}
+      pos.needsUpdate=true;flag.geometry.computeVertexNormals();
+    }
+    fountainJets.forEach((jet,i)=>{jet.scale.y=1+Math.sin(elapsed*3+i)*.08;});
+    districtLabels.forEach(label=>{const range=camera.position.distanceTo(label.position);label.visible=range>42&&range<105;});
     maglevTrain.position.x=8+(elapsed*9)%(WORLD_W-16);
     sun.position.set(player.x-35,62,player.z+40);
     sun.target.position.set(player.x,0,player.z);sun.target.updateMatrixWorld();
@@ -478,8 +690,7 @@
     else pickupRing.visible=false;
     const forward=new T.Vector3(Math.sin(player.a),0,-Math.cos(player.a));
     const wanted=new T.Vector3(player.x-forward.x*16,10.5+Math.abs(player.speed)*.025,player.z-forward.z*16);
-    const smoothing=1-Math.exp(-dt*5);
-    camera.position.lerp(wanted,smoothing);
+    camera.position.lerp(wanted,1-Math.exp(-dt*5));
     camera.lookAt(player.x+forward.x*8,2.5,player.z+forward.z*8);
     sky.position.copy(camera.position);
     updateHud();
@@ -495,13 +706,17 @@
   }
   function resize(){
     camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,lowPower?1.15:1.5));renderer.setSize(innerWidth,innerHeight,false);
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,lowPower?1.15:1.75));renderer.setSize(innerWidth,innerHeight,false);
   }
   addEventListener('resize',resize);
   function frame(now){
-    const dt=Math.min((now-last)/1000||0,.05);last=now;
+    const dt=Math.max(0,Math.min((now-last)/1000||0,.05));last=now;
     updateScene(dt);renderer.render(scene,camera);drawMini();requestAnimationFrame(frame);
   }
   updateHud();requestAnimationFrame(frame);
   if(new URLSearchParams(location.search).has('play'))start();
+  } catch(error) {
+    console.error(error);
+    const toast=document.getElementById('toast');toast.textContent='Ошибка запуска 3D: '+error.message;toast.classList.add('show');
+  }
 })();
