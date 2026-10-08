@@ -52,6 +52,10 @@ window.createTBSGraphics=function({T,renderer,scene,camera,sky,car,water,buildin
   }
   const cubeTarget=new T.WebGLCubeRenderTarget(128,{generateMipmaps:true,minFilter:T.LinearMipmapLinearFilter});
   const cubeCamera=new T.CubeCamera(.3,120,cubeTarget);
+  const quarter=scene.userData.quarterLighting;
+  const quarterTarget=quarter?new T.WebGLCubeRenderTarget(128,{generateMipmaps:true,minFilter:T.LinearMipmapLinearFilter}):null;
+  const quarterCamera=quarter?new T.CubeCamera(.3,120,quarterTarget):null;
+  let quarterDaylight=-1,quarterDue=-10;
   const waterTarget=new T.WebGLRenderTarget(512,256,{minFilter:T.LinearFilter,magFilter:T.LinearFilter});
   const mirrorCamera=new T.PerspectiveCamera(),mirrorDirection=new T.Vector3(),reflectionMatrix=new T.Matrix4();
   let cubeReady=false,waterReady=false;
@@ -83,6 +87,7 @@ window.createTBSGraphics=function({T,renderer,scene,camera,sky,car,water,buildin
     renderer.shadowMap.enabled=settings.shadow>0;
     scene.traverse(o=>{if(o.isDirectionalLight&&o.castShadow){o.shadow.mapSize.set(settings.shadow||512,settings.shadow||512);if(o.shadow.map){o.shadow.map.dispose();o.shadow.map=null;}o.shadow.needsUpdate=true;}});
     if(!settings.reflection){car.userData.paint.envMap=null;car.userData.paint.needsUpdate=true;}
+    if(quarter)for(const material of quarter.reflective){material.envMap=settings.reflection&&quarterDaylight>=0?quarterTarget.texture:null;material.needsUpdate=true;}
     cubeDue=-10;waterDue=-10;resize();
     try{localStorage.setItem('tbs.graphicsQuality',quality);}catch{}
     return quality;
@@ -91,13 +96,22 @@ window.createTBSGraphics=function({T,renderer,scene,camera,sky,car,water,buildin
     clock+=dt;
     if(!settings.reflection){if(water.userData.shader)water.userData.shader.uniforms.reflectionStrength.value=0;return;}
     const refreshCube=clock-cubeDue>.85,refreshWater=camera.position.z<90&&clock-waterDue>.12;
-    if(refreshCube||refreshWater){
+    const refreshQuarter=quarter&&Math.hypot(camera.position.x-quarter.x,camera.position.z-quarter.z)<90&&Math.abs(daylight-quarterDaylight)>.12&&clock-quarterDue>1;
+    if(refreshCube||refreshWater||refreshQuarter){
       ambient.intensity=.55+1.45*daylight;reflectionSun.intensity=.1+1.9*daylight;
       for(const {source,mesh} of reflectionObjects){mesh.position.copy(source.position);mesh.quaternion.copy(source.quaternion);mesh.visible=source.position.distanceToSquared(car.position)<120*120;}
       for(const proxy of proxies)proxy.visible=Math.abs(proxy.position.x-car.position.x)<110&&Math.abs(proxy.position.z-car.position.z)<110;
     }
     const previousToneMapping=renderer.toneMapping;
-    if(refreshCube||refreshWater)renderer.toneMapping=T.NoToneMapping;
+    if(refreshCube||refreshWater||refreshQuarter)renderer.toneMapping=T.NoToneMapping;
+    if(refreshQuarter){
+      quarterDue=clock;quarterDaylight=daylight;
+      for(const proxy of proxies)proxy.visible=Math.abs(proxy.position.x-quarter.x)<110&&Math.abs(proxy.position.z-quarter.z)<110;
+      quarterCamera.position.set(quarter.x+12.5,4,quarter.z-5.8);reflectionSky.position.copy(quarterCamera.position);
+      quarterCamera.update(renderer,reflectionScene);quarterTarget.texture.needsPMREMUpdate=true;
+      for(const material of quarter.reflective){material.envMap=quarterTarget.texture;material.needsUpdate=true;}
+      for(const proxy of proxies)proxy.visible=Math.abs(proxy.position.x-car.position.x)<110&&Math.abs(proxy.position.z-car.position.z)<110;
+    }
     if(refreshCube){
       cubeDue=clock;cubeCamera.position.copy(car.position);cubeCamera.position.y=2;reflectionSky.position.copy(cubeCamera.position);
       cubeCamera.update(renderer,reflectionScene);cubeTarget.texture.needsPMREMUpdate=true;
