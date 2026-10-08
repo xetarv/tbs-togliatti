@@ -1,0 +1,6 @@
+Asphalt 031 by ambientCG / Lennart Demes
+Source: https://ambientcg.com/view?id=Asphalt031
+License: CC0 1.0 Universal
+https://docs.ambientcg.com/license/
+Photogrammetry material, original unmodified 1K-JPG color, OpenGL normal and roughness maps.
+Downloaded 2026-10-08.
