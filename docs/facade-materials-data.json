@@ -1,0 +1,2049 @@
+{
+  "task": 5,
+  "date": "2026-10-09",
+  "decision": "rollback: no reproducible overall frame-time improvement after restoring opaque order",
+  "baseline": "artifacts/render-next/baseline",
+  "baselineManifest": "artifacts/render-next/baseline-manifest.json",
+  "hardware": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "settings": {
+    "quality": "high",
+    "width": 1024,
+    "height": 768,
+    "dpr": 1,
+    "warmupFrames": 120,
+    "frames": 600,
+    "dt": 0.016666666666666666,
+    "order": "ABBAAB"
+  },
+  "experimentSource": {
+    "fixedPath": "artifacts/render-next/facade-fixed.js",
+    "fixedSha256": "1d8d5069aa55bed0d9bc8da74c26afabd396d77802dd87d70bac9fad803fc839",
+    "baselineSha256": "87b42567ada5a639741edc2fe9c6c12ea30939b72dfbd025298d55ea26964dff",
+    "testsPath": "artifacts/render-next/facade-materials.test.cjs"
+  },
+  "profiling": [
+    {
+      "route": "city-day",
+      "gpuPasses": {
+        "post": {
+          "samples": 50,
+          "meanMs": 0.5218918399999998
+        },
+        "main-with-shadows": {
+          "samples": 50,
+          "meanMs": 29.549649919999997
+        },
+        "shadow": {
+          "samples": 50,
+          "meanMs": 4.4269913600000015
+        },
+        "reflection": {
+          "samples": 18,
+          "meanMs": 0.36647822222222226
+        }
+      },
+      "censusFrames": [180, 300, 450],
+      "groupsPerCensusFrame": {
+        "shadow:instanced-world": {
+          "calls": 57.66666666666667,
+          "triangles": 1217772,
+          "wallMs": 0.43333331743876136
+        },
+        "shadow:other-world": {
+          "calls": 192,
+          "triangles": 89736.66666666667,
+          "wallMs": 0.799999992052714
+        },
+        "shadow:transport": {
+          "calls": 444,
+          "triangles": 148353.3333333333,
+          "wallMs": 1.6333334048589072
+        },
+        "main:other-world": {
+          "calls": 1505.3333333333335,
+          "triangles": 265542.6666666667,
+          "wallMs": 12.866667310396831
+        },
+        "main:transport": {
+          "calls": 832,
+          "triangles": 205017.33333333334,
+          "wallMs": 7.200000246365866
+        },
+        "main:instanced-world": {
+          "calls": 402,
+          "triangles": 2008776,
+          "wallMs": 4.00000003973643
+        },
+        "main:signal-housing": {
+          "calls": 22.666666666666668,
+          "triangles": 8640,
+          "wallMs": 0.23333334922790527
+        },
+        "main:traffic-signal": {
+          "calls": 349,
+          "triangles": 5584,
+          "wallMs": 1.566666801770528
+        },
+        "post-or-environment:other-world": {
+          "calls": 1,
+          "triangles": 2,
+          "wallMs": 0
+        }
+      },
+      "facadeQuads": {
+        "callsPerFrame": 143.33333333333334,
+        "directWallMsPerFrame": 3.3333334922790527,
+        "materialsSeen": 201
+      }
+    },
+    {
+      "route": "waterfront-night",
+      "gpuPasses": {
+        "post": {
+          "samples": 50,
+          "meanMs": 0.38885375999999994
+        },
+        "main-with-shadows": {
+          "samples": 50,
+          "meanMs": 22.955110400000002
+        },
+        "shadow": {
+          "samples": 50,
+          "meanMs": 4.434449280000001
+        },
+        "reflection": {
+          "samples": 25,
+          "meanMs": 0.13328384000000001
+        }
+      },
+      "censusFrames": [180, 300, 450],
+      "groupsPerCensusFrame": {
+        "shadow:instanced-world": {
+          "calls": 50,
+          "triangles": 1770185.3333333333,
+          "wallMs": 0.7000000874201456
+        },
+        "shadow:other-world": {
+          "calls": 130.66666666666669,
+          "triangles": 131982.66666666666,
+          "wallMs": 0.599999984105428
+        },
+        "shadow:transport": {
+          "calls": 277,
+          "triangles": 118976,
+          "wallMs": 0.8666665951410929
+        },
+        "main:other-world": {
+          "calls": 1227.9999999999998,
+          "triangles": 269149.3333333334,
+          "wallMs": 10.133333563804626
+        },
+        "main:transport": {
+          "calls": 525,
+          "triangles": 170786.00000000003,
+          "wallMs": 4.166666626930237
+        },
+        "main:instanced-world": {
+          "calls": 351,
+          "triangles": 2138973.333333333,
+          "wallMs": 3.866666714350383
+        },
+        "main:signal-housing": {
+          "calls": 21.333333333333332,
+          "triangles": 8000,
+          "wallMs": 0.23333326975504556
+        },
+        "main:traffic-signal": {
+          "calls": 291,
+          "triangles": 4656,
+          "wallMs": 1.133333444595337
+        },
+        "post-or-environment:other-world": {
+          "calls": 1,
+          "triangles": 2,
+          "wallMs": 0.0333333412806193
+        }
+      },
+      "facadeQuads": {
+        "callsPerFrame": 116.66666666666667,
+        "directWallMsPerFrame": 2.633333365122477,
+        "materialsSeen": 177
+      }
+    }
+  ],
+  "rejectedWithoutSort": [
+    {
+      "route": "city-day",
+      "variants": [
+        {
+          "after": false,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 23.541247940008347,
+              "range": [23.28519504752279, 23.820222931790816]
+            },
+            "frameMs": {
+              "mean": 42.482303839759425,
+              "range": [41.98113522545523, 42.9457429048414]
+            },
+            "p95Ms": {
+              "mean": 50.63333332538605,
+              "range": [49.800000071525574, 51.299999952316284]
+            },
+            "p99Ms": {
+              "mean": 52.36666667461395,
+              "range": [51.5, 53.5]
+            },
+            "stepMs": {
+              "mean": 42.02050000051657,
+              "range": [41.52699999829133, 42.476333333452544]
+            },
+            "gpuMs": {
+              "mean": 29.298701653333335,
+              "range": [28.977841493333337, 29.640744959999992]
+            },
+            "calls": {
+              "mean": 3839.5633333333335,
+              "range": [3839.5633333333335, 3839.5633333333335]
+            },
+            "triangles": {
+              "mean": 4146092.0483333333,
+              "range": [4146092.0483333333, 4146092.0483333333]
+            },
+            "heapBytes": {
+              "mean": 174344261.33333334,
+              "range": [167164263, 184240219]
+            },
+            "retainedHeapBytes": {
+              "mean": 116755214.66666667,
+              "range": [116746892, 116760172]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 3109,
+            "textures": 228
+          },
+          "programCount": 84,
+          "gpuTelemetry": {
+            "samples": 42,
+            "pstates": ["P5", "P0"],
+            "graphicsMHz": {
+              "mean": 797.8333333333334,
+              "range": [615, 975]
+            },
+            "temperatureC": [36, 41],
+            "utilizationPercent": {
+              "mean": 34.07142857142857,
+              "range": [24, 43]
+            },
+            "powerWatts": [4.82, 11]
+          }
+        },
+        {
+          "after": true,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 24.102052208571905,
+              "range": [23.981871466731917, 24.27617287555437]
+            },
+            "frameMs": {
+              "mean": 41.49137451307735,
+              "range": [41.19265442400027, 41.69816360608962]
+            },
+            "p95Ms": {
+              "mean": 49.46666665871938,
+              "range": [48.89999997615814, 49.800000071525574]
+            },
+            "p99Ms": {
+              "mean": 51.43333331743876,
+              "range": [51.10000002384186, 51.699999928474426]
+            },
+            "stepMs": {
+              "mean": 41.03944444417953,
+              "range": [40.74799999852975, 41.236166665554045]
+            },
+            "gpuMs": {
+              "mean": 28.46906353777778,
+              "range": [28.332905813333326, 28.548546133333335]
+            },
+            "calls": {
+              "mean": 3839.5633333333335,
+              "range": [3839.5633333333335, 3839.5633333333335]
+            },
+            "triangles": {
+              "mean": 4146092.0483333333,
+              "range": [4146092.0483333333, 4146092.0483333333]
+            },
+            "heapBytes": {
+              "mean": 170481945,
+              "range": [169844261, 171746381]
+            },
+            "retainedHeapBytes": {
+              "mean": 115711382,
+              "range": [115704070, 115723858]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 3109,
+            "textures": 228
+          },
+          "programCount": 84,
+          "gpuTelemetry": {
+            "samples": 42,
+            "pstates": ["P0", "P5"],
+            "graphicsMHz": {
+              "mean": 850.8333333333334,
+              "range": [577, 1500]
+            },
+            "temperatureC": [38, 42],
+            "utilizationPercent": {
+              "mean": 32.54761904761905,
+              "range": [12, 46]
+            },
+            "powerWatts": [5.66, 13.98]
+          }
+        }
+      ],
+      "traceMatches": true,
+      "allTerminalImagesMatch": false,
+      "repeatedBaselineImagesStable": true,
+      "repeatedCandidateImagesStable": true
+    },
+    {
+      "route": "waterfront-night",
+      "variants": [
+        {
+          "after": false,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 29.147916936642634,
+              "range": [28.33558031173869, 30.202949703769068]
+            },
+            "frameMs": {
+              "mean": 34.3321647189628,
+              "range": [33.109348914858096, 35.291318864774624]
+            },
+            "p95Ms": {
+              "mean": 44.96666665871938,
+              "range": [43.39999997615814, 47.700000047683716]
+            },
+            "p99Ms": {
+              "mean": 47.1666667064031,
+              "range": [45.200000047683716, 50.60000002384186]
+            },
+            "stepMs": {
+              "mean": 33.87783333473735,
+              "range": [32.66583333114783, 34.82050000290076]
+            },
+            "gpuMs": {
+              "mean": 21.773114026666672,
+              "range": [21.10121984, 22.10941610666667]
+            },
+            "calls": {
+              "mean": 2826.3783333333336,
+              "range": [2826.3783333333336, 2826.3783333333336]
+            },
+            "triangles": {
+              "mean": 5030367.116666666,
+              "range": [5030367.116666666, 5030367.116666666]
+            },
+            "heapBytes": {
+              "mean": 177678128.33333334,
+              "range": [162796270, 185987585]
+            },
+            "retainedHeapBytes": {
+              "mean": 113476621.33333333,
+              "range": [113471800, 113483556]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 2110,
+            "textures": 175
+          },
+          "programCount": 74,
+          "gpuTelemetry": {
+            "samples": 35,
+            "pstates": ["P0", "P5"],
+            "graphicsMHz": {
+              "mean": 949.0571428571428,
+              "range": [720, 1500]
+            },
+            "temperatureC": [38, 43],
+            "utilizationPercent": {
+              "mean": 35.114285714285714,
+              "range": [12, 50]
+            },
+            "powerWatts": [6.01, 15.66]
+          }
+        },
+        {
+          "after": true,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 30.057468376573656,
+              "range": [29.35972277360174, 30.76306788421651]
+            },
+            "frameMs": {
+              "mean": 33.281691708429435,
+              "range": [32.50651085137923, 34.06026711189289]
+            },
+            "p95Ms": {
+              "mean": 43.03333334128062,
+              "range": [42.39999997615814, 43.5]
+            },
+            "p99Ms": {
+              "mean": 44.39999997615814,
+              "range": [43.799999952316284, 44.700000047683716]
+            },
+            "stepMs": {
+              "mean": 32.838388889498184,
+              "range": [32.06883333325386, 33.6083333359162]
+            },
+            "gpuMs": {
+              "mean": 21.307942684444452,
+              "range": [20.845533866666663, 21.83650645333334]
+            },
+            "calls": {
+              "mean": 2826.3783333333336,
+              "range": [2826.3783333333336, 2826.3783333333336]
+            },
+            "triangles": {
+              "mean": 5030367.116666666,
+              "range": [5030367.116666666, 5030367.116666666]
+            },
+            "heapBytes": {
+              "mean": 186910837,
+              "range": [184457916, 189191359]
+            },
+            "retainedHeapBytes": {
+              "mean": 112622764.66666667,
+              "range": [112618362, 112629998]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 2110,
+            "textures": 175
+          },
+          "programCount": 74,
+          "gpuTelemetry": {
+            "samples": 34,
+            "pstates": ["P0", "P5"],
+            "graphicsMHz": {
+              "mean": 954.6764705882352,
+              "range": [697, 1320]
+            },
+            "temperatureC": [39, 42],
+            "utilizationPercent": {
+              "mean": 32.705882352941174,
+              "range": [14, 41]
+            },
+            "powerWatts": [6.02, 16.85]
+          }
+        }
+      ],
+      "traceMatches": true,
+      "allTerminalImagesMatch": true,
+      "repeatedBaselineImagesStable": true,
+      "repeatedCandidateImagesStable": true
+    }
+  ],
+  "fixed": [
+    {
+      "route": "city-day",
+      "variants": [
+        {
+          "after": false,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 23.964206525552814,
+              "range": [23.81813916316689, 24.199380269580534]
+            },
+            "frameMs": {
+              "mean": 41.730940456316084,
+              "range": [41.32337228722485, 41.98480801331579]
+            },
+            "p95Ms": {
+              "mean": 49.59999998410543,
+              "range": [49.39999997615814, 49.89999997615814]
+            },
+            "p99Ms": {
+              "mean": 51.833333333333336,
+              "range": [51.39999997615814, 52.10000002384186]
+            },
+            "stepMs": {
+              "mean": 41.27372222304344,
+              "range": [40.87116666754087, 41.51983333488305]
+            },
+            "gpuMs": {
+              "mean": 28.849948444444454,
+              "range": [28.684328960000002, 28.967109973333343]
+            },
+            "calls": {
+              "mean": 3839.5633333333335,
+              "range": [3839.5633333333335, 3839.5633333333335]
+            },
+            "triangles": {
+              "mean": 4146092.0483333333,
+              "range": [4146092.0483333333, 4146092.0483333333]
+            },
+            "heapBytes": {
+              "mean": 163105358,
+              "range": [161195440, 165418691]
+            },
+            "retainedHeapBytes": {
+              "mean": 116754062.66666667,
+              "range": [116748972, 116758484]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 3109,
+            "textures": 228
+          },
+          "programCount": 84,
+          "gpuTelemetry": {
+            "samples": 42,
+            "pstates": ["P0", "P5", "P3"],
+            "graphicsMHz": {
+              "mean": 797.4761904761905,
+              "range": [555, 990]
+            },
+            "temperatureC": [37, 42],
+            "utilizationPercent": {
+              "mean": 34.714285714285715,
+              "range": [14, 47]
+            },
+            "powerWatts": [5.71, 12.07]
+          }
+        },
+        {
+          "after": true,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 23.91484898715532,
+              "range": [23.7025898739687, 24.05941349652174]
+            },
+            "frameMs": {
+              "mean": 41.816750139147295,
+              "range": [41.56377295500448, 42.18948247078464]
+            },
+            "p95Ms": {
+              "mean": 49.99999996026357,
+              "range": [49.799999952316284, 50.39999997615814]
+            },
+            "p99Ms": {
+              "mean": 52.13333340485891,
+              "range": [51.90000009536743, 52.60000002384186]
+            },
+            "stepMs": {
+              "mean": 41.36311110999849,
+              "range": [41.11616666813691, 41.73049999535084]
+            },
+            "gpuMs": {
+              "mean": 28.38608099555556,
+              "range": [28.00084309333334, 28.686015146666673]
+            },
+            "calls": {
+              "mean": 3839.5633333333335,
+              "range": [3839.5633333333335, 3839.5633333333335]
+            },
+            "triangles": {
+              "mean": 4146092.0483333333,
+              "range": [4146092.0483333333, 4146092.0483333333]
+            },
+            "heapBytes": {
+              "mean": 178218840.33333334,
+              "range": [171529135, 190858387]
+            },
+            "retainedHeapBytes": {
+              "mean": 115700657.33333333,
+              "range": [115691764, 115705656]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 3109,
+            "textures": 228
+          },
+          "programCount": 84,
+          "gpuTelemetry": {
+            "samples": 42,
+            "pstates": ["P0", "P5", "P3"],
+            "graphicsMHz": {
+              "mean": 811.4047619047619,
+              "range": [540, 1500]
+            },
+            "temperatureC": [40, 42],
+            "utilizationPercent": {
+              "mean": 32.11904761904762,
+              "range": [13, 42]
+            },
+            "powerWatts": [5.47, 13.6]
+          }
+        }
+      ],
+      "traceMatches": true,
+      "allTerminalImagesMatch": true,
+      "repeatedBaselineImagesStable": true,
+      "repeatedCandidateImagesStable": true
+    },
+    {
+      "route": "waterfront-night",
+      "variants": [
+        {
+          "after": false,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 29.64996561164608,
+              "range": [29.293245437329986, 30.02987947930756]
+            },
+            "frameMs": {
+              "mean": 33.73032832503916,
+              "range": [33.30016694502759, 34.13756260430076]
+            },
+            "p95Ms": {
+              "mean": 43.8333332935969,
+              "range": [42.5, 45.09999990463257]
+            },
+            "p99Ms": {
+              "mean": 45.93333331743876,
+              "range": [43.699999928474426, 49.10000002384186]
+            },
+            "stepMs": {
+              "mean": 33.28094444334507,
+              "range": [32.85149999976158, 33.69033333023389]
+            },
+            "gpuMs": {
+              "mean": 21.386567608888885,
+              "range": [21.14051413333333, 21.769830399999993]
+            },
+            "calls": {
+              "mean": 2826.3783333333336,
+              "range": [2826.3783333333336, 2826.3783333333336]
+            },
+            "triangles": {
+              "mean": 5030367.116666666,
+              "range": [5030367.116666666, 5030367.116666666]
+            },
+            "heapBytes": {
+              "mean": 162714582,
+              "range": [161056858, 165620814]
+            },
+            "retainedHeapBytes": {
+              "mean": 113473024,
+              "range": [113472260, 113473432]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 2110,
+            "textures": 175
+          },
+          "programCount": 74,
+          "gpuTelemetry": {
+            "samples": 35,
+            "pstates": ["P0", "P5"],
+            "graphicsMHz": {
+              "mean": 946.3428571428572,
+              "range": [742, 1500]
+            },
+            "temperatureC": [39, 42],
+            "utilizationPercent": {
+              "mean": 34.34285714285714,
+              "range": [21, 51]
+            },
+            "powerWatts": [6.24, 18.18]
+          }
+        },
+        {
+          "after": true,
+          "repeats": 3,
+          "metrics": {
+            "fps": {
+              "mean": 29.892530524946736,
+              "range": [29.444438982702103, 30.216966902657017]
+            },
+            "frameMs": {
+              "mean": 33.45720645515004,
+              "range": [33.0939899832259, 33.96227045071145]
+            },
+            "p95Ms": {
+              "mean": 43.233333349227905,
+              "range": [43, 43.5]
+            },
+            "p99Ms": {
+              "mean": 44.70000000794729,
+              "range": [44.39999997615814, 45.200000047683716]
+            },
+            "stepMs": {
+              "mean": 33.01461111254162,
+              "range": [32.650666665832205, 33.51833333551884]
+            },
+            "gpuMs": {
+              "mean": 21.180702720000003,
+              "range": [20.945210026666675, 21.550182400000008]
+            },
+            "calls": {
+              "mean": 2826.3783333333336,
+              "range": [2826.3783333333336, 2826.3783333333336]
+            },
+            "triangles": {
+              "mean": 5030367.116666666,
+              "range": [5030367.116666666, 5030367.116666666]
+            },
+            "heapBytes": {
+              "mean": 186239358,
+              "range": [183511978, 187893410]
+            },
+            "retainedHeapBytes": {
+              "mean": 112618949.33333333,
+              "range": [112617288, 112620216]
+            }
+          },
+          "resourceCounts": {
+            "geometries": 2110,
+            "textures": 175
+          },
+          "programCount": 74,
+          "gpuTelemetry": {
+            "samples": 34,
+            "pstates": ["P0", "P5"],
+            "graphicsMHz": {
+              "mean": 995.3235294117648,
+              "range": [765, 1500]
+            },
+            "temperatureC": [40, 42],
+            "utilizationPercent": {
+              "mean": 31.205882352941178,
+              "range": [17, 41]
+            },
+            "powerWatts": [6.38, 15.96]
+          }
+        }
+      ],
+      "traceMatches": true,
+      "allTerminalImagesMatch": true,
+      "repeatedBaselineImagesStable": true,
+      "repeatedCandidateImagesStable": true
+    }
+  ],
+  "originalSortDiagnostic": [
+    {
+      "after": false,
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {
+        "180": "e06acba7f13a49da5724ecf88ead1576a0adac400a3f4f77eb440989ba7455f0",
+        "300": "d9627e8433e5745c0dc4b479235a29720ca8204c305818938e8a753e44d297ec",
+        "450": "6a5e8f4f2887ba08c2c3a80254872b25c896054fbe0828fa573cd7049b512a47"
+      }
+    },
+    {
+      "after": true,
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {
+        "180": "e06acba7f13a49da5724ecf88ead1576a0adac400a3f4f77eb440989ba7455f0",
+        "300": "d9627e8433e5745c0dc4b479235a29720ca8204c305818938e8a753e44d297ec",
+        "450": "6a5e8f4f2887ba08c2c3a80254872b25c896054fbe0828fa573cd7049b512a47"
+      }
+    }
+  ],
+  "finalRows": [
+    {
+      "route": "city-day",
+      "round": 1,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 24.199380269580534,
+        "frameMs": 41.32337228722485,
+        "p95Ms": 49.39999997615814,
+        "p99Ms": 52,
+        "maxMs": 53.299999952316284,
+        "over50Ms": 17,
+        "over100Ms": 0,
+        "stepMs": 40.87116666754087,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 28.684328960000002,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3109,
+          "textures": 228
+        },
+        "heapBytes": 161195440,
+        "mainThreadBusy": 0.9937168843750211,
+        "scriptSeconds": 0.005528,
+        "retainedHeapBytes": 116754732
+      },
+      "buffer": [1024, 768],
+      "programCount": 84,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543700960,
+          "value": "2026/10/09 15:01:40.951, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 23 %, 907 MHz, 38, 7.53 W"
+        },
+        {
+          "time": 1791543703060,
+          "value": "2026/10/09 15:01:43.051, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 660 MHz, 38, 7.57 W"
+        },
+        {
+          "time": 1791543705037,
+          "value": "2026/10/09 15:01:45.028, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 870 MHz, 38, 6.03 W"
+        },
+        {
+          "time": 1791543707039,
+          "value": "2026/10/09 15:01:47.030, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 35 %, 742 MHz, 38, 5.83 W"
+        },
+        {
+          "time": 1791543709073,
+          "value": "2026/10/09 15:01:49.061, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 36 %, 667 MHz, 38, 5.71 W"
+        },
+        {
+          "time": 1791543711061,
+          "value": "2026/10/09 15:01:51.050, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 637 MHz, 37, 5.82 W"
+        },
+        {
+          "time": 1791543713076,
+          "value": "2026/10/09 15:01:53.063, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 660 MHz, 38, 5.76 W"
+        },
+        {
+          "time": 1791543715062,
+          "value": "2026/10/09 15:01:55.053, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 44 %, 802 MHz, 38, 6.07 W"
+        },
+        {
+          "time": 1791543717070,
+          "value": "2026/10/09 15:01:57.061, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 26 %, 930 MHz, 38, 9.57 W"
+        },
+        {
+          "time": 1791543719089,
+          "value": "2026/10/09 15:01:59.080, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 900 MHz, 38, 8.08 W"
+        },
+        {
+          "time": 1791543721078,
+          "value": "2026/10/09 15:02:01.069, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 43 %, 900 MHz, 38, 8.93 W"
+        },
+        {
+          "time": 1791543723112,
+          "value": "2026/10/09 15:02:03.103, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 32 %, 930 MHz, 38, 9.93 W"
+        },
+        {
+          "time": 1791543725099,
+          "value": "2026/10/09 15:02:05.091, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 46 %, 900 MHz, 39, 10.16 W"
+        },
+        {
+          "time": 1791543725939,
+          "value": "2026/10/09 15:02:05.931, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 14 %, 900 MHz, 38, 9.90 W"
+        }
+      ],
+      "signalMode": "original",
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {}
+    },
+    {
+      "route": "waterfront-night",
+      "round": 1,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 29.293245437329986,
+        "frameMs": 34.13756260430076,
+        "p95Ms": 43.89999997615814,
+        "p99Ms": 45,
+        "maxMs": 114.39999997615814,
+        "over50Ms": 1,
+        "over100Ms": 1,
+        "stepMs": 33.69033333023389,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 21.769830399999993,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2110,
+          "textures": 175
+        },
+        "heapBytes": 161466074,
+        "mainThreadBusy": 0.9921908180101212,
+        "scriptSeconds": 0.005506,
+        "retainedHeapBytes": 113473380
+      },
+      "buffer": [1024, 768],
+      "programCount": 74,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543744291,
+          "value": "2026/10/09 15:02:24.282, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 37 %, 1207 MHz, 40, 15.61 W"
+        },
+        {
+          "time": 1791543746356,
+          "value": "2026/10/09 15:02:26.348, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 922 MHz, 40, 10.82 W"
+        },
+        {
+          "time": 1791543748365,
+          "value": "2026/10/09 15:02:28.356, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 24 %, 930 MHz, 40, 10.52 W"
+        },
+        {
+          "time": 1791543750381,
+          "value": "2026/10/09 15:02:30.371, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 757 MHz, 39, 6.33 W"
+        },
+        {
+          "time": 1791543752399,
+          "value": "2026/10/09 15:02:32.390, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 40 %, 765 MHz, 39, 6.24 W"
+        },
+        {
+          "time": 1791543754388,
+          "value": "2026/10/09 15:02:34.379, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 26 %, 907 MHz, 39, 8.85 W"
+        },
+        {
+          "time": 1791543756398,
+          "value": "2026/10/09 15:02:36.389, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 29 %, 840 MHz, 39, 9.09 W"
+        },
+        {
+          "time": 1791543758402,
+          "value": "2026/10/09 15:02:38.391, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 29 %, 817 MHz, 39, 10.62 W"
+        },
+        {
+          "time": 1791543760403,
+          "value": "2026/10/09 15:02:40.394, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 35 %, 825 MHz, 39, 10.71 W"
+        },
+        {
+          "time": 1791543762406,
+          "value": "2026/10/09 15:02:42.396, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 34 %, 930 MHz, 40, 12.13 W"
+        },
+        {
+          "time": 1791543764410,
+          "value": "2026/10/09 15:02:44.401, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 36 %, 1080 MHz, 40, 10.61 W"
+        },
+        {
+          "time": 1791543764950,
+          "value": "2026/10/09 15:02:44.942, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 1080 MHz, 39, 10.42 W"
+        }
+      ],
+      "signalMode": "original",
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249",
+      "visualHashes": {}
+    },
+    {
+      "route": "city-day",
+      "round": 2,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 24.05941349652174,
+        "frameMs": 41.56377295500448,
+        "p95Ms": 49.799999952316284,
+        "p99Ms": 51.90000009536743,
+        "maxMs": 52.89999997615814,
+        "over50Ms": 22,
+        "over100Ms": 0,
+        "stepMs": 41.11616666813691,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 28.00084309333334,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3109,
+          "textures": 228
+        },
+        "heapBytes": 171529135,
+        "mainThreadBusy": 0.9940506511915329,
+        "scriptSeconds": 0.005471,
+        "retainedHeapBytes": 115691764
+      },
+      "buffer": [1024, 768],
+      "programCount": 84,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543783474,
+          "value": "2026/10/09 15:03:03.465, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 36 %, 952 MHz, 41, 10.94 W"
+        },
+        {
+          "time": 1791543785542,
+          "value": "2026/10/09 15:03:05.531, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 817 MHz, 40, 5.47 W"
+        },
+        {
+          "time": 1791543787548,
+          "value": "2026/10/09 15:03:07.540, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 21 %, 922 MHz, 40, 10.08 W"
+        },
+        {
+          "time": 1791543789568,
+          "value": "2026/10/09 15:03:09.558, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 555 MHz, 40, 5.90 W"
+        },
+        {
+          "time": 1791543791575,
+          "value": "2026/10/09 15:03:11.564, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 42 %, 607 MHz, 40, 5.83 W"
+        },
+        {
+          "time": 1791543793557,
+          "value": "2026/10/09 15:03:13.548, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 622 MHz, 40, 5.95 W"
+        },
+        {
+          "time": 1791543795561,
+          "value": "2026/10/09 15:03:15.553, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 17 %, 1500 MHz, 40, 9.46 W"
+        },
+        {
+          "time": 1791543797593,
+          "value": "2026/10/09 15:03:17.585, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 15 %, 735 MHz, 40, 13.60 W"
+        },
+        {
+          "time": 1791543799581,
+          "value": "2026/10/09 15:03:19.573, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 41 %, 915 MHz, 40, 6.82 W"
+        },
+        {
+          "time": 1791543801580,
+          "value": "2026/10/09 15:03:21.572, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 28 %, 810 MHz, 40, 9.65 W"
+        },
+        {
+          "time": 1791543803613,
+          "value": "2026/10/09 15:03:23.605, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 30 %, 915 MHz, 40, 10.47 W"
+        },
+        {
+          "time": 1791543805601,
+          "value": "2026/10/09 15:03:25.592, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 31 %, 900 MHz, 40, 10.61 W"
+        },
+        {
+          "time": 1791543807631,
+          "value": "2026/10/09 15:03:27.622, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 915 MHz, 40, 10.97 W"
+        },
+        {
+          "time": 1791543808623,
+          "value": "2026/10/09 15:03:28.615, NVIDIA GeForce RTX 3050 Laptop GPU, P3, 42 %, 765 MHz, 40, 9.61 W"
+        }
+      ],
+      "signalMode": "precise",
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {}
+    },
+    {
+      "route": "waterfront-night",
+      "round": 2,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 29.444438982702103,
+        "frameMs": 33.96227045071145,
+        "p95Ms": 43.5,
+        "p99Ms": 45.200000047683716,
+        "maxMs": 112.60000002384186,
+        "over50Ms": 1,
+        "over100Ms": 1,
+        "stepMs": 33.51833333551884,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 21.550182400000008,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2110,
+          "textures": 175
+        },
+        "heapBytes": 187312686,
+        "mainThreadBusy": 0.9923880605849931,
+        "scriptSeconds": 0.005293,
+        "retainedHeapBytes": 112617288
+      },
+      "buffer": [1024, 768],
+      "programCount": 74,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543826868,
+          "value": "2026/10/09 15:03:46.860, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 36 %, 1200 MHz, 41, 15.96 W"
+        },
+        {
+          "time": 1791543828950,
+          "value": "2026/10/09 15:03:48.940, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 937 MHz, 41, 10.86 W"
+        },
+        {
+          "time": 1791543830942,
+          "value": "2026/10/09 15:03:50.933, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 26 %, 930 MHz, 41, 10.66 W"
+        },
+        {
+          "time": 1791543832944,
+          "value": "2026/10/09 15:03:52.935, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 36 %, 810 MHz, 40, 6.54 W"
+        },
+        {
+          "time": 1791543834942,
+          "value": "2026/10/09 15:03:54.933, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 772 MHz, 40, 6.38 W"
+        },
+        {
+          "time": 1791543836956,
+          "value": "2026/10/09 15:03:56.947, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 892 MHz, 40, 9.74 W"
+        },
+        {
+          "time": 1791543838973,
+          "value": "2026/10/09 15:03:58.965, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 17 %, 1500 MHz, 41, 13.24 W"
+        },
+        {
+          "time": 1791543840976,
+          "value": "2026/10/09 15:04:00.967, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 20 %, 1500 MHz, 41, 15.73 W"
+        },
+        {
+          "time": 1791543842983,
+          "value": "2026/10/09 15:04:02.975, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 1065 MHz, 41, 10.47 W"
+        },
+        {
+          "time": 1791543844970,
+          "value": "2026/10/09 15:04:04.962, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 35 %, 960 MHz, 41, 12.27 W"
+        },
+        {
+          "time": 1791543846979,
+          "value": "2026/10/09 15:04:06.970, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 35 %, 885 MHz, 40, 11.13 W"
+        },
+        {
+          "time": 1791543847415,
+          "value": "2026/10/09 15:04:07.408, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 26 %, 1102 MHz, 40, 10.48 W"
+        }
+      ],
+      "signalMode": "precise",
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249",
+      "visualHashes": {}
+    },
+    {
+      "route": "city-day",
+      "round": 3,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 23.98254359097552,
+        "frameMs": 41.69699499165275,
+        "p95Ms": 49.799999952316284,
+        "p99Ms": 51.90000009536743,
+        "maxMs": 55.5,
+        "over50Ms": 21,
+        "over100Ms": 0,
+        "stepMs": 41.24266666650772,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 28.47138474666667,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3109,
+          "textures": 228
+        },
+        "heapBytes": 172268999,
+        "mainThreadBusy": 0.9938696070295637,
+        "scriptSeconds": 0.005827,
+        "retainedHeapBytes": 115705656
+      },
+      "buffer": [1024, 768],
+      "programCount": 84,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543867010,
+          "value": "2026/10/09 15:04:27.001, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 34 %, 870 MHz, 41, 6.54 W"
+        },
+        {
+          "time": 1791543869074,
+          "value": "2026/10/09 15:04:29.065, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 37 %, 877 MHz, 41, 6.25 W"
+        },
+        {
+          "time": 1791543871074,
+          "value": "2026/10/09 15:04:31.066, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 22 %, 930 MHz, 41, 10.18 W"
+        },
+        {
+          "time": 1791543873094,
+          "value": "2026/10/09 15:04:33.085, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 37 %, 555 MHz, 41, 6.10 W"
+        },
+        {
+          "time": 1791543875115,
+          "value": "2026/10/09 15:04:35.105, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 570 MHz, 40, 5.96 W"
+        },
+        {
+          "time": 1791543877094,
+          "value": "2026/10/09 15:04:37.084, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 630 MHz, 40, 5.94 W"
+        },
+        {
+          "time": 1791543879098,
+          "value": "2026/10/09 15:04:39.089, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 41 %, 637 MHz, 40, 5.89 W"
+        },
+        {
+          "time": 1791543881113,
+          "value": "2026/10/09 15:04:41.105, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 41 %, 780 MHz, 40, 6.15 W"
+        },
+        {
+          "time": 1791543883111,
+          "value": "2026/10/09 15:04:43.103, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 900 MHz, 40, 7.90 W"
+        },
+        {
+          "time": 1791543885112,
+          "value": "2026/10/09 15:04:45.103, NVIDIA GeForce RTX 3050 Laptop GPU, P3, 34 %, 810 MHz, 40, 9.80 W"
+        },
+        {
+          "time": 1791543887121,
+          "value": "2026/10/09 15:04:47.113, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 945 MHz, 40, 10.20 W"
+        },
+        {
+          "time": 1791543889142,
+          "value": "2026/10/09 15:04:49.134, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 952 MHz, 41, 9.48 W"
+        },
+        {
+          "time": 1791543891157,
+          "value": "2026/10/09 15:04:51.149, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 930 MHz, 41, 10.35 W"
+        },
+        {
+          "time": 1791543892216,
+          "value": "2026/10/09 15:04:52.209, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 930 MHz, 40, 10.57 W"
+        }
+      ],
+      "signalMode": "precise",
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {}
+    },
+    {
+      "route": "waterfront-night",
+      "round": 3,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 30.216966902657017,
+        "frameMs": 33.0939899832259,
+        "p95Ms": 43,
+        "p99Ms": 44.39999997615814,
+        "maxMs": 109.30000007152557,
+        "over50Ms": 1,
+        "over100Ms": 1,
+        "stepMs": 32.650666665832205,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 20.945210026666675,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2110,
+          "textures": 175
+        },
+        "heapBytes": 183511978,
+        "mainThreadBusy": 0.9920492685985386,
+        "scriptSeconds": 0.005659,
+        "retainedHeapBytes": 112619344
+      },
+      "buffer": [1024, 768],
+      "programCount": 74,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543910660,
+          "value": "2026/10/09 15:05:10.652, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 30 %, 1230 MHz, 41, 10.36 W"
+        },
+        {
+          "time": 1791543912742,
+          "value": "2026/10/09 15:05:12.733, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 945 MHz, 41, 10.99 W"
+        },
+        {
+          "time": 1791543914729,
+          "value": "2026/10/09 15:05:14.719, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 25 %, 1162 MHz, 41, 11.29 W"
+        },
+        {
+          "time": 1791543916752,
+          "value": "2026/10/09 15:05:16.744, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 35 %, 862 MHz, 41, 6.41 W"
+        },
+        {
+          "time": 1791543918742,
+          "value": "2026/10/09 15:05:18.733, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 817 MHz, 40, 6.41 W"
+        },
+        {
+          "time": 1791543920760,
+          "value": "2026/10/09 15:05:20.751, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 952 MHz, 41, 9.96 W"
+        },
+        {
+          "time": 1791543922758,
+          "value": "2026/10/09 15:05:22.749, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 31 %, 900 MHz, 41, 10.11 W"
+        },
+        {
+          "time": 1791543924784,
+          "value": "2026/10/09 15:05:24.775, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 37 %, 915 MHz, 41, 10.44 W"
+        },
+        {
+          "time": 1791543926774,
+          "value": "2026/10/09 15:05:26.765, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 31 %, 1102 MHz, 41, 11.11 W"
+        },
+        {
+          "time": 1791543928799,
+          "value": "2026/10/09 15:05:28.791, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 36 %, 960 MHz, 41, 12.17 W"
+        },
+        {
+          "time": 1791543930702,
+          "value": "2026/10/09 15:05:30.693, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 36 %, 862 MHz, 40, 11.28 W"
+        }
+      ],
+      "signalMode": "precise",
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249",
+      "visualHashes": {}
+    },
+    {
+      "route": "city-day",
+      "round": 4,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 23.87510014391102,
+        "frameMs": 41.88464106840761,
+        "p95Ms": 49.5,
+        "p99Ms": 51.39999997615814,
+        "maxMs": 54.59999990463257,
+        "over50Ms": 19,
+        "over100Ms": 0,
+        "stepMs": 41.430166666706405,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 28.967109973333343,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3109,
+          "textures": 228
+        },
+        "heapBytes": 162701943,
+        "mainThreadBusy": 0.9946439930689793,
+        "scriptSeconds": 0.005624,
+        "retainedHeapBytes": 116748972
+      },
+      "buffer": [1024, 768],
+      "programCount": 84,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543950784,
+          "value": "2026/10/09 15:05:50.774, NVIDIA GeForce RTX 3050 Laptop GPU, P3, 39 %, 795 MHz, 41, 8.18 W"
+        },
+        {
+          "time": 1791543952870,
+          "value": "2026/10/09 15:05:52.858, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 817 MHz, 40, 6.38 W"
+        },
+        {
+          "time": 1791543954877,
+          "value": "2026/10/09 15:05:54.868, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 21 %, 937 MHz, 41, 10.26 W"
+        },
+        {
+          "time": 1791543956882,
+          "value": "2026/10/09 15:05:56.871, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 40 %, 562 MHz, 40, 6.11 W"
+        },
+        {
+          "time": 1791543958871,
+          "value": "2026/10/09 15:05:58.861, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 615 MHz, 40, 5.90 W"
+        },
+        {
+          "time": 1791543960889,
+          "value": "2026/10/09 15:06:00.879, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 637 MHz, 40, 6.02 W"
+        },
+        {
+          "time": 1791543962878,
+          "value": "2026/10/09 15:06:02.870, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 37 %, 652 MHz, 40, 6.02 W"
+        },
+        {
+          "time": 1791543964882,
+          "value": "2026/10/09 15:06:04.871, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 780 MHz, 40, 6.24 W"
+        },
+        {
+          "time": 1791543966885,
+          "value": "2026/10/09 15:06:06.876, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 907 MHz, 40, 9.45 W"
+        },
+        {
+          "time": 1791543968924,
+          "value": "2026/10/09 15:06:08.916, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 47 %, 930 MHz, 40, 8.98 W"
+        },
+        {
+          "time": 1791543970917,
+          "value": "2026/10/09 15:06:10.907, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 43 %, 810 MHz, 40, 9.56 W"
+        },
+        {
+          "time": 1791543972932,
+          "value": "2026/10/09 15:06:12.923, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 30 %, 930 MHz, 40, 10.84 W"
+        },
+        {
+          "time": 1791543974920,
+          "value": "2026/10/09 15:06:14.911, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 990 MHz, 40, 11.46 W"
+        },
+        {
+          "time": 1791543976111,
+          "value": "2026/10/09 15:06:16.103, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 29 %, 720 MHz, 40, 9.44 W"
+        }
+      ],
+      "signalMode": "original",
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {}
+    },
+    {
+      "route": "waterfront-night",
+      "round": 4,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 29.626771918300705,
+        "frameMs": 33.75325542578912,
+        "p95Ms": 45.09999990463257,
+        "p99Ms": 49.10000002384186,
+        "maxMs": 110.5,
+        "over50Ms": 4,
+        "over100Ms": 1,
+        "stepMs": 33.301000000039735,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 21.14051413333333,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2110,
+          "textures": 175
+        },
+        "heapBytes": 161056858,
+        "mainThreadBusy": 0.9922878418002157,
+        "scriptSeconds": 0.005373,
+        "retainedHeapBytes": 113472260
+      },
+      "buffer": [1024, 768],
+      "programCount": 74,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791543994159,
+          "value": "2026/10/09 15:06:34.151, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 37 %, 1200 MHz, 41, 13.08 W"
+        },
+        {
+          "time": 1791543996239,
+          "value": "2026/10/09 15:06:36.229, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 21 %, 900 MHz, 41, 12.19 W"
+        },
+        {
+          "time": 1791543998244,
+          "value": "2026/10/09 15:06:38.235, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 922 MHz, 41, 10.68 W"
+        },
+        {
+          "time": 1791544000237,
+          "value": "2026/10/09 15:06:40.227, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 40 %, 795 MHz, 41, 6.47 W"
+        },
+        {
+          "time": 1791544002239,
+          "value": "2026/10/09 15:06:42.230, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 23 %, 900 MHz, 41, 7.71 W"
+        },
+        {
+          "time": 1791544004251,
+          "value": "2026/10/09 15:06:44.242, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 41 %, 795 MHz, 41, 8.46 W"
+        },
+        {
+          "time": 1791544006271,
+          "value": "2026/10/09 15:06:46.262, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 32 %, 900 MHz, 41, 10.27 W"
+        },
+        {
+          "time": 1791544008257,
+          "value": "2026/10/09 15:06:48.249, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 35 %, 900 MHz, 41, 10.73 W"
+        },
+        {
+          "time": 1791544010260,
+          "value": "2026/10/09 15:06:50.251, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 31 %, 1005 MHz, 41, 11.10 W"
+        },
+        {
+          "time": 1791544012279,
+          "value": "2026/10/09 15:06:52.269, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 39 %, 930 MHz, 41, 11.94 W"
+        },
+        {
+          "time": 1791544014270,
+          "value": "2026/10/09 15:06:54.261, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 35 %, 885 MHz, 41, 11.62 W"
+        },
+        {
+          "time": 1791544014593,
+          "value": "2026/10/09 15:06:54.586, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 49 %, 1095 MHz, 41, 10.33 W"
+        }
+      ],
+      "signalMode": "original",
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249",
+      "visualHashes": {}
+    },
+    {
+      "route": "city-day",
+      "round": 5,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 23.81813916316689,
+        "frameMs": 41.98480801331579,
+        "p95Ms": 49.89999997615814,
+        "p99Ms": 52.10000002384186,
+        "maxMs": 53.09999990463257,
+        "over50Ms": 25,
+        "over100Ms": 0,
+        "stepMs": 41.51983333488305,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 28.898406400000017,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3109,
+          "textures": 228
+        },
+        "heapBytes": 165418691,
+        "mainThreadBusy": 0.993551046353133,
+        "scriptSeconds": 0.005542,
+        "retainedHeapBytes": 116758484
+      },
+      "buffer": [1024, 768],
+      "programCount": 84,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791544033517,
+          "value": "2026/10/09 15:07:13.509, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 40 %, 945 MHz, 42, 12.07 W"
+        },
+        {
+          "time": 1791544035579,
+          "value": "2026/10/09 15:07:15.569, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 810 MHz, 41, 6.50 W"
+        },
+        {
+          "time": 1791544037596,
+          "value": "2026/10/09 15:07:17.588, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 20 %, 960 MHz, 42, 10.35 W"
+        },
+        {
+          "time": 1791544039585,
+          "value": "2026/10/09 15:07:19.575, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 37 %, 555 MHz, 41, 6.07 W"
+        },
+        {
+          "time": 1791544041597,
+          "value": "2026/10/09 15:07:21.583, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 622 MHz, 41, 6.03 W"
+        },
+        {
+          "time": 1791544043624,
+          "value": "2026/10/09 15:07:23.615, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 37 %, 630 MHz, 41, 6.05 W"
+        },
+        {
+          "time": 1791544045612,
+          "value": "2026/10/09 15:07:25.603, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 667 MHz, 40, 5.99 W"
+        },
+        {
+          "time": 1791544047615,
+          "value": "2026/10/09 15:07:27.605, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 40 %, 757 MHz, 40, 6.14 W"
+        },
+        {
+          "time": 1791544049652,
+          "value": "2026/10/09 15:07:29.643, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 26 %, 907 MHz, 41, 9.41 W"
+        },
+        {
+          "time": 1791544051633,
+          "value": "2026/10/09 15:07:31.624, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 42 %, 832 MHz, 40, 9.02 W"
+        },
+        {
+          "time": 1791544053641,
+          "value": "2026/10/09 15:07:33.632, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 28 %, 735 MHz, 41, 10.70 W"
+        },
+        {
+          "time": 1791544055666,
+          "value": "2026/10/09 15:07:35.655, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 32 %, 915 MHz, 41, 9.61 W"
+        },
+        {
+          "time": 1791544057660,
+          "value": "2026/10/09 15:07:37.651, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 952 MHz, 41, 10.71 W"
+        },
+        {
+          "time": 1791544058907,
+          "value": "2026/10/09 15:07:38.899, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 34 %, 720 MHz, 40, 9.68 W"
+        }
+      ],
+      "signalMode": "original",
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {}
+    },
+    {
+      "route": "waterfront-night",
+      "round": 5,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 30.02987947930756,
+        "frameMs": 33.30016694502759,
+        "p95Ms": 42.5,
+        "p99Ms": 43.699999928474426,
+        "maxMs": 112.39999997615814,
+        "over50Ms": 1,
+        "over100Ms": 1,
+        "stepMs": 32.85149999976158,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 21.249358293333334,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2110,
+          "textures": 175
+        },
+        "heapBytes": 165620814,
+        "mainThreadBusy": 0.9956234591151462,
+        "scriptSeconds": 0.005363,
+        "retainedHeapBytes": 113473432
+      },
+      "buffer": [1024, 768],
+      "programCount": 74,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791544077352,
+          "value": "2026/10/09 15:07:57.345, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 33 %, 1500 MHz, 42, 18.18 W"
+        },
+        {
+          "time": 1791544079423,
+          "value": "2026/10/09 15:07:59.409, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 26 %, 975 MHz, 42, 11.17 W"
+        },
+        {
+          "time": 1791544081424,
+          "value": "2026/10/09 15:08:01.416, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 960 MHz, 42, 10.84 W"
+        },
+        {
+          "time": 1791544083459,
+          "value": "2026/10/09 15:08:03.450, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 40 %, 742 MHz, 41, 6.70 W"
+        },
+        {
+          "time": 1791544085435,
+          "value": "2026/10/09 15:08:05.426, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 38 %, 802 MHz, 41, 6.45 W"
+        },
+        {
+          "time": 1791544087437,
+          "value": "2026/10/09 15:08:07.429, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 922 MHz, 41, 9.57 W"
+        },
+        {
+          "time": 1791544089443,
+          "value": "2026/10/09 15:08:09.435, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 44 %, 945 MHz, 41, 8.92 W"
+        },
+        {
+          "time": 1791544091448,
+          "value": "2026/10/09 15:08:11.440, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 50 %, 1020 MHz, 41, 10.59 W"
+        },
+        {
+          "time": 1791544093462,
+          "value": "2026/10/09 15:08:13.453, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 51 %, 1132 MHz, 41, 10.86 W"
+        },
+        {
+          "time": 1791544095465,
+          "value": "2026/10/09 15:08:15.455, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 36 %, 952 MHz, 42, 11.82 W"
+        },
+        {
+          "time": 1791544097478,
+          "value": "2026/10/09 15:08:17.467, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 34 %, 885 MHz, 41, 10.92 W"
+        }
+      ],
+      "signalMode": "original",
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249",
+      "visualHashes": {}
+    },
+    {
+      "route": "city-day",
+      "round": 6,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 23.7025898739687,
+        "frameMs": 42.18948247078464,
+        "p95Ms": 50.39999997615814,
+        "p99Ms": 52.60000002384186,
+        "maxMs": 54.60000002384186,
+        "over50Ms": 43,
+        "over100Ms": 0,
+        "stepMs": 41.73049999535084,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 28.686015146666673,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3109,
+          "textures": 228
+        },
+        "heapBytes": 190858387,
+        "mainThreadBusy": 0.9939340040723842,
+        "scriptSeconds": 0.005835,
+        "retainedHeapBytes": 115704552
+      },
+      "buffer": [1024, 768],
+      "programCount": 84,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791544116879,
+          "value": "2026/10/09 15:08:36.870, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 23 %, 960 MHz, 42, 8.51 W"
+        },
+        {
+          "time": 1791544118948,
+          "value": "2026/10/09 15:08:38.939, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 42 %, 742 MHz, 41, 6.52 W"
+        },
+        {
+          "time": 1791544120967,
+          "value": "2026/10/09 15:08:40.958, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 20 %, 930 MHz, 41, 10.36 W"
+        },
+        {
+          "time": 1791544122982,
+          "value": "2026/10/09 15:08:42.974, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 40 %, 540 MHz, 41, 6.21 W"
+        },
+        {
+          "time": 1791544125004,
+          "value": "2026/10/09 15:08:44.994, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 41 %, 577 MHz, 41, 5.91 W"
+        },
+        {
+          "time": 1791544126976,
+          "value": "2026/10/09 15:08:46.968, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 622 MHz, 41, 6.04 W"
+        },
+        {
+          "time": 1791544128991,
+          "value": "2026/10/09 15:08:48.980, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 652 MHz, 40, 5.99 W"
+        },
+        {
+          "time": 1791544130994,
+          "value": "2026/10/09 15:08:50.986, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 705 MHz, 40, 6.15 W"
+        },
+        {
+          "time": 1791544133001,
+          "value": "2026/10/09 15:08:52.993, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 23 %, 907 MHz, 41, 9.35 W"
+        },
+        {
+          "time": 1791544135004,
+          "value": "2026/10/09 15:08:54.996, NVIDIA GeForce RTX 3050 Laptop GPU, P3, 34 %, 780 MHz, 41, 9.60 W"
+        },
+        {
+          "time": 1791544137019,
+          "value": "2026/10/09 15:08:57.011, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 892 MHz, 41, 10.66 W"
+        },
+        {
+          "time": 1791544139005,
+          "value": "2026/10/09 15:08:58.996, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 30 %, 907 MHz, 41, 8.94 W"
+        },
+        {
+          "time": 1791544141020,
+          "value": "2026/10/09 15:09:01.011, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 29 %, 952 MHz, 41, 10.62 W"
+        },
+        {
+          "time": 1791544142397,
+          "value": "2026/10/09 15:09:02.389, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 13 %, 667 MHz, 40, 9.99 W"
+        }
+      ],
+      "signalMode": "precise",
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b",
+      "visualHashes": {}
+    },
+    {
+      "route": "waterfront-night",
+      "round": 6,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "censusDetails": {},
+      "materialCensus": {},
+      "passGpu": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 30.01618568948109,
+        "frameMs": 33.31535893151278,
+        "p95Ms": 43.200000047683716,
+        "p99Ms": 44.5,
+        "maxMs": 107.90000009536743,
+        "over50Ms": 1,
+        "over100Ms": 1,
+        "stepMs": 32.87483333627383,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 21.046715733333333,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2110,
+          "textures": 175
+        },
+        "heapBytes": 187893410,
+        "mainThreadBusy": 0.9955975601856879,
+        "scriptSeconds": 0.005557,
+        "retainedHeapBytes": 112620216
+      },
+      "buffer": [1024, 768],
+      "programCount": 74,
+      "maxAttributes": 16,
+      "programsValid": true,
+      "telemetry": [
+        {
+          "time": 1791544160499,
+          "value": "2026/10/09 15:09:20.487, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 41 %, 1260 MHz, 42, 14.06 W"
+        },
+        {
+          "time": 1791544162576,
+          "value": "2026/10/09 15:09:22.567, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 21 %, 915 MHz, 42, 13.21 W"
+        },
+        {
+          "time": 1791544164570,
+          "value": "2026/10/09 15:09:24.562, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 27 %, 952 MHz, 42, 10.87 W"
+        },
+        {
+          "time": 1791544166575,
+          "value": "2026/10/09 15:09:26.566, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 37 %, 765 MHz, 41, 6.55 W"
+        },
+        {
+          "time": 1791544168578,
+          "value": "2026/10/09 15:09:28.569, NVIDIA GeForce RTX 3050 Laptop GPU, P5, 39 %, 795 MHz, 41, 6.54 W"
+        },
+        {
+          "time": 1791544170610,
+          "value": "2026/10/09 15:09:30.601, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 922 MHz, 41, 10.86 W"
+        },
+        {
+          "time": 1791544172581,
+          "value": "2026/10/09 15:09:32.572, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 28 %, 900 MHz, 41, 9.89 W"
+        },
+        {
+          "time": 1791544174598,
+          "value": "2026/10/09 15:09:34.589, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 33 %, 960 MHz, 41, 10.70 W"
+        },
+        {
+          "time": 1791544176608,
+          "value": "2026/10/09 15:09:36.599, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 31 %, 1057 MHz, 41, 11.09 W"
+        },
+        {
+          "time": 1791544178604,
+          "value": "2026/10/09 15:09:38.594, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 38 %, 915 MHz, 41, 12.16 W"
+        },
+        {
+          "time": 1791544180635,
+          "value": "2026/10/09 15:09:40.626, NVIDIA GeForce RTX 3050 Laptop GPU, P0, 30 %, 1140 MHz, 41, 11.21 W"
+        }
+      ],
+      "signalMode": "precise",
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249",
+      "visualHashes": {}
+    }
+  ],
+  "notes": [
+    "Full-frame TIME_ELAPSED queries and renderBufferDirect wall time do not isolate pure CPU/shader costs.",
+    "Pass samples use different frames; reflection is per sampled invocation, not per frame.",
+    "Primary FPS repetitions exclude CPU profiler/census/checkpoint capture.",
+    "Retained JS heap after GC is not VRAM; geometries/textures are resource counts.",
+    "Raw CPU profiles and frame/state traces are in artifacts/render-next.",
+    "Inherited raw signalMode=original on baseline rows is an obsolete Task4 label. Task5 baseline traffic.js SHA matches the accepted current batching implementation; both versions use its default precise mode. Harness now detects the actual scene attributes."
+  ],
+  "rollbackVerification": {
+    "sourceRestoredSha256": "87b42567ada5a639741edc2fe9c6c12ea30939b72dfbd025298d55ea26964dff",
+    "sourceMatchesBaseline": true,
+    "all136BaselineHashesUnchanged": true,
+    "existingFilesDifferingFromTask5Snapshot": ["tools/check-driving.cjs"],
+    "trafficSourceMatchesBaseline": true
+  },
+  "imageDifferenceWithoutSort": {
+    "cityDayPixels": 86,
+    "cityDayBounds": [799, 148, 868, 188],
+    "waterfrontNightPixels": 0,
+    "method": "decoded RGBA PNG comparison; repeated baseline and repeated candidate hashes each stable"
+  },
+  "checks": {
+    "fixedExperiment": {
+      "npmRunCheckExit": 0,
+      "tests": 48
+    },
+    "afterRollback": {
+      "npmRunCheckExit": 0,
+      "tests": 45
+    }
+  }
+}

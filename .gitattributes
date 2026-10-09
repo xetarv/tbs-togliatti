@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Keep the old published blobs verbatim; these files are archival, not executable.
+docs/legacy-source/*.txt -text

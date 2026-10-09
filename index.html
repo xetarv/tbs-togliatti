@@ -1,120 +1,239 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#07111d">
-  <link rel="icon" href="assets/cropped-fav-tb_drone-192x192.png">
-  <title>ТБС: Тольятти 2040 — мини-игра</title>
-  <style>
-    :root { color-scheme: dark; --ink:#eaf8ff; --muted:#8ca9bb; --cyan:#51f6ed; --cyan2:#0baab7; --orange:#ffb45f; --brand:#ff4808; --panel:rgba(7,19,34,.83); --line:rgba(115,226,235,.23) }
-    * { box-sizing:border-box }
-    html,body { margin:0; width:100%; height:100%; overflow:hidden; font-family:Inter,Segoe UI,Arial,sans-serif; background:#07111d; color:var(--ink) }
-    button { font:inherit; cursor:pointer }
-    #game { display:block; width:100vw; height:100vh; touch-action:none }
-    .vignette { position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 50% 45%,transparent 35%,rgba(0,4,15,.22) 100%); z-index:1 }
-    .hud { position:fixed; inset:0; z-index:2; pointer-events:none; padding:22px; display:flex; flex-direction:column; justify-content:space-between }
-    .hud button { pointer-events:auto }
-    .topbar { display:flex; justify-content:space-between; align-items:flex-start; gap:14px }
-    .brand,.stats,.mission,.mapcard,.speedcard,.tip,.toast { border:1px solid var(--line); background:var(--panel); box-shadow:0 14px 36px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.05); backdrop-filter:blur(14px) }
-    .brand { display:flex; gap:12px; align-items:center; padding:11px 15px; border-radius:15px; min-width:240px; border-color:#ff48086b }
-    .brand-logo { display:block; width:190px; height:auto; max-height:34px }
-    .brand-mark { display:block; width:43px; height:43px; object-fit:contain; flex:none; filter:drop-shadow(0 0 12px #ff480860) }
-    .brand-tag { border-left:1px solid #ff480866; padding-left:11px; color:#ffb29a; font-size:10px; line-height:1.25; font-weight:900; letter-spacing:.09em; white-space:nowrap }
-    .brand-icon { width:41px; height:41px; border:2px solid var(--cyan); border-radius:12px; display:grid; place-items:center; color:var(--cyan); transform:rotate(-9deg); box-shadow:0 0 22px #31e2df45 }
-    .brand-icon span { font-size:23px; transform:rotate(9deg); line-height:1 }
-    .brand strong { display:block; font-size:19px; letter-spacing:.22em; line-height:1 }
-    .brand small { display:block; margin-top:5px; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.13em }
-    .stats { display:flex; gap:24px; align-items:center; padding:11px 16px; border-radius:15px; min-height:64px }
-    .stat { display:flex; flex-direction:column; gap:4px; min-width:64px }
-    .stat span { font-size:10px; color:var(--muted); letter-spacing:.15em; text-transform:uppercase }
-    .stat strong { font-size:17px; font-variant-numeric:tabular-nums }
-    .stat strong em { font-style:normal; font-size:11px; color:var(--cyan) }
-    .pause-btn { border:1px solid var(--line); color:var(--cyan); border-radius:9px; background:#173445; width:35px; height:35px; font-size:17px }
-    #qualitySelect { pointer-events:auto; min-width:0; max-width:105px; height:35px; border:1px solid var(--line); border-radius:8px; background:#173445; color:var(--cyan); padding:0 5px; font:11px Segoe UI,Arial,sans-serif }
-    .mainhud { display:flex; justify-content:flex-end; align-items:flex-start; gap:14px; margin-top:14px }
-    .mission { width:min(310px,37vw); border-radius:16px; padding:18px }
-    .eyebrow { color:var(--cyan); font-size:10px; letter-spacing:.2em; font-weight:800; text-transform:uppercase }
-    .mission h2 { font-size:20px; line-height:1.17; margin:9px 0 7px }
-    .mission p { color:#bbd2df; font-size:12px; line-height:1.5; margin:0 }
-    .mission .objective { margin-top:15px; padding:10px 11px; border-radius:10px; background:#0a2634; border-left:3px solid var(--orange); display:flex; gap:9px; align-items:flex-start; font-size:12px; line-height:1.35 }
-    .objective .diamond { color:var(--orange); font-size:16px; line-height:1 }
-    .mission .distance { display:block; color:var(--muted); margin-top:10px; font-size:11px; letter-spacing:.06em }
-    .bottomhud { display:flex; align-items:flex-end; justify-content:space-between; gap:14px }
-    .mapcard { padding:10px; border-radius:16px; width:176px }
-    .map-head { font-size:9px; display:flex; justify-content:space-between; color:var(--muted); letter-spacing:.16em; margin:0 3px 8px }
-    #minimap { width:154px; height:126px; display:block; border-radius:7px; background:#071522 }
-    .tip { position:absolute; left:50%; bottom:23px; transform:translateX(-50%); border-radius:30px; padding:10px 17px; color:#b9d0dc; font-size:11px; white-space:nowrap }
-    kbd { border:1px solid #58919d; border-bottom-width:2px; color:var(--cyan); border-radius:4px; padding:1px 5px; font:700 10px inherit }
-    .speedcard { min-width:173px; padding:12px 16px; border-radius:16px; text-align:right }
-    .speedcard .label { display:block; font-size:9px; letter-spacing:.17em; color:var(--muted); text-transform:uppercase }
-    .speedcard strong { font-size:36px; line-height:1.1; font-variant-numeric:tabular-nums; letter-spacing:-.04em }
-    .speedcard strong small { font-size:12px; color:var(--cyan); letter-spacing:0 }
-    .battery { margin-top:9px; height:5px; border-radius:5px; background:#22404a; overflow:hidden }
-    .battery span { display:block; height:100%; width:100%; background:linear-gradient(90deg,var(--cyan2),var(--cyan)); border-radius:5px }
-    .battery-text { color:var(--muted); font-size:10px; margin-top:5px }
-    .toast { position:fixed; z-index:5; left:50%; top:22%; transform:translate(-50%,-12px); opacity:0; pointer-events:none; padding:12px 20px; border-radius:11px; color:var(--ink); font-size:13px; transition:opacity .25s,transform .25s; text-align:center; max-width:80vw }
-    .toast.show { opacity:1; transform:translate(-50%,0) }
-    .overlay { position:fixed; z-index:6; inset:0; display:grid; place-items:center; background:linear-gradient(125deg,rgba(2,10,22,.78),rgba(2,15,27,.44)); backdrop-filter:blur(7px); padding:18px }
-    .overlay.hidden { display:none }
-    .intro { width:min(580px,100%); max-height:calc(100vh - 36px); overflow:auto; border:1px solid #4fd8df6b; border-radius:25px; background:linear-gradient(150deg,rgba(10,33,48,.97),rgba(5,17,31,.97)); box-shadow:0 30px 80px #0009, 0 0 60px #12bfca20; padding:35px; position:relative }
-    .intro:before { content:"ТБС"; position:absolute; right:-22px; top:72px; font-weight:1000; font-size:158px; color:#48e9ec0a; transform:rotate(-13deg); pointer-events:none }
-    .intro:after { content:""; position:absolute; right:20px; top:20px; width:94px; height:94px; border:1px solid #50f6ed37; border-radius:50%; box-shadow:0 0 0 18px #50f6ed0b,0 0 0 38px #50f6ed08; pointer-events:none }
-    .intro .chapter { color:var(--cyan); font-size:11px; letter-spacing:.24em; font-weight:800; text-transform:uppercase }
-    .intro h1 { font-size:clamp(37px,6vw,62px); margin:15px 0 4px; line-height:.95; letter-spacing:-.055em; position:relative }
-    .intro h1 span { color:var(--brand) }
-    .intro .sub { font-size:15px; color:#e0f5ff; letter-spacing:.22em; text-transform:uppercase; margin:12px 0 22px }
-    .intro .copy { line-height:1.6; font-size:14px; color:#a9c3cf; max-width:450px; margin:0 0 23px; position:relative }
-    .intro-logo { display:block; width:195px; height:auto; margin:0 0 18px; position:relative }
-    .intro-mark { position:absolute; right:33px; top:34px; width:75px; height:75px; object-fit:contain; filter:drop-shadow(0 0 23px #ff480888) }
-    .intro-photo { height:112px; border:1px solid #ff480866; border-radius:10px; overflow:hidden; position:relative; margin:0 0 19px; background:#163448 }
-    .intro-photo img { display:block; width:100%; height:100%; object-fit:cover; object-position:center 53%; filter:brightness(.8) saturate(.95) }
-    .intro-photo figcaption { position:absolute; inset:auto 0 0; padding:23px 12px 8px; background:linear-gradient(transparent,#04101ccc); font-size:10px; color:#fff; letter-spacing:.12em; font-weight:800 }
-    .controls-line { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:27px }
-    .controls-line span { border:1px solid var(--line); background:#14303d; border-radius:8px; padding:8px 10px; font-size:11px; color:#bdd8df }
-    .controls-line b { color:var(--cyan) }
-    .start { border:0; border-radius:10px; background:linear-gradient(135deg,#ff8356,#ff4808); color:#fff; padding:14px 22px; font-size:13px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; box-shadow:0 8px 26px #ff480855; position:relative }
-    .start:hover { filter:brightness(1.1) }
-    .disclaimer { margin-top:22px; color:#6f92a1; font-size:10px; line-height:1.4 }
-    .touch { display:none; position:fixed; z-index:4; inset:auto 0 17px; padding:0 17px; pointer-events:none; justify-content:space-between; align-items:flex-end }
-    .touch > div { display:flex; gap:9px; align-items:flex-end }
-    .touch button { pointer-events:auto; border:1px solid #53e6e488; border-radius:13px; background:#082b3cda; color:#ddffff; font-size:18px; font-weight:800; min-width:56px; height:56px; box-shadow:0 7px 20px #0008; touch-action:none; user-select:none }
-    .touch button.active { background:#158c9e }
-    .touch .action { width:62px; height:62px; border-radius:50%; color:var(--orange); border-color:#ffb45f99; font-size:11px }
-    .touch .go { height:75px; color:var(--cyan); font-size:12px }
-    @media (hover:none), (pointer:coarse) { .touch { display:flex } .tip { display:none } .hud { padding:11px } .mission { width:min(280px,55vw) } .mapcard { margin-bottom:82px } .speedcard { margin-bottom:82px } }
-    @media (max-width:650px) { .brand { min-width:0; padding:8px 10px } .brand-logo { display:none } .brand-mark { width:32px; height:32px } .brand-tag { font-size:8px; padding-left:6px } .brand-icon { width:33px; height:33px } .brand-icon span { font-size:18px } .brand strong { font-size:15px } .brand small { font-size:8px; max-width:135px; line-height:1.3 } .stats { gap:10px; padding:7px 9px; min-height:52px } .stat { min-width:0 } .stat span { font-size:8px } .stat strong { font-size:13px } .mainhud { margin-top:9px } .mission { padding:11px; width:210px } .mission h2 { font-size:15px; margin:6px 0 5px } .mission p { font-size:10px } .mission .objective { margin-top:8px; font-size:10px; padding:7px } .mission .distance { margin-top:5px; font-size:9px } .eyebrow { font-size:8px } .speedcard { min-width:116px; padding:9px } .speedcard strong { font-size:27px } .mapcard { width:130px; padding:6px } #minimap { width:116px; height:95px } .intro { padding:25px } .intro-photo { height:80px } .intro-mark { width:49px; height:49px; right:26px; top:26px } }
-    @media (max-width:1000px) { .topbar { flex-wrap:wrap } }
-    @media (max-width:650px) { .hud { padding:11px } .topbar { gap:8px; flex-wrap:wrap } .stats { gap:8px; max-width:100%; flex-wrap:wrap } .pause-btn { flex:none } .tip { display:none } }
-    @media (max-width:450px) { .brand-tag { display:none } .brand { gap:0 } .stats { gap:7px } .pause-btn { width:32px; height:35px } .mission { max-width:70vw } }
-    @media (max-height:620px) { .tip { display:none } .mission p { display:none } .mission .objective { margin-top:7px } .mapcard { width:128px } #minimap { width:106px; height:80px } }
-  </style>
-</head>
-<body>
-  <canvas id="game" aria-label="Игровое поле: футуристический Тольятти"></canvas>
-  <div class="vignette"></div>
-  <div class="hud">
-    <div>
-      <div class="topbar">
-        <div class="brand"><img class="brand-mark" src="assets/cropped-fav-tb_drone-192x192.png" alt="Знак ТБ"><img class="brand-logo" src="assets/tb-drone-logo-footer.svg" alt="Транспорт будущего"><span class="brand-tag">ТБС<br>САМАРА · 2040</span></div>
-        <div class="stats"><div class="stat"><span>Доставки</span><strong id="delivered">0</strong></div><div class="stat"><span>Баланс</span><strong id="credits">0 <em>₽</em></strong></div><select id="qualitySelect" aria-label="Качество графики" title="Качество графики"><option value="low">Низкое</option><option value="medium">Среднее</option><option value="high">Высокое</option></select><button class="pause-btn" id="daylightBtn" title="Время суток: День (N)" aria-label="Время суток: День (N)">☀</button><button class="pause-btn" id="soundBtn" title="Включить/выключить звук (M)" aria-label="Отключить звук" aria-pressed="false">♪</button><button class="pause-btn" style="width:auto;padding:0 8px;font-size:11px" id="cameraBtn" title="Режим камеры (C). ЛКМ — вращение, колесо — приближение/отдаление" aria-pressed="false">Камера: авто</button><button class="pause-btn" id="pauseBtn" title="Пауза (P)" aria-label="Пауза">Ⅱ</button></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111d" />
+    <link rel="icon" href="assets/cropped-fav-tb_drone-192x192.png" />
+    <title>ТБС: Тольятти 2040 — мини-игра</title>
+    <link rel="stylesheet" href="styles/game.css" />
+  </head>
+  <body>
+    <canvas id="game" aria-label="Игровое поле: футуристический Тольятти"></canvas>
+    <div class="vignette"></div>
+    <div class="hud">
+      <div>
+        <div class="topbar">
+          <div class="brand">
+            <img
+              class="brand-mark"
+              src="assets/cropped-fav-tb_drone-192x192.png"
+              alt="Знак ТБ"
+            /><img
+              class="brand-logo"
+              src="assets/tb-drone-logo-footer.svg"
+              alt="Транспорт будущего"
+            /><span class="brand-tag">ТБС<br />САМАРА · 2040</span>
+          </div>
+          <div class="stats">
+            <div class="stat"><span>Доставки</span><strong id="delivered">0</strong></div>
+            <div class="stat">
+              <span>Баланс</span><strong id="credits">0 <em>₽</em></strong>
+            </div>
+            <select id="qualitySelect" aria-label="Качество графики" title="Качество графики">
+              <option value="low">Низкое</option>
+              <option value="medium">Среднее</option>
+              <option value="high">Высокое</option></select
+            ><button
+              class="pause-btn"
+              id="daylightBtn"
+              title="Время суток: День (N)"
+              aria-label="Время суток: День (N)"
+            >
+              ☀</button
+            ><button
+              class="pause-btn"
+              id="soundBtn"
+              title="Включить/выключить звук (M)"
+              aria-label="Отключить звук"
+              aria-pressed="false"
+            >
+              ♪</button
+            ><button
+              class="pause-btn camera-btn"
+              id="cameraBtn"
+              title="Режим камеры (C). ЛКМ — вращение, колесо — приближение/отдаление"
+              aria-pressed="false"
+            >
+              Камера: авто</button
+            ><button class="pause-btn" id="pauseBtn" title="Пауза (P)" aria-label="Пауза">Ⅱ</button>
+          </div>
+        </div>
+        <div class="mainhud">
+          <div class="mission">
+            <span class="eyebrow">Задание ТБС <span id="missionNumber">01</span> / 03</span>
+            <h2 id="missionTitle">Маршрут загружается</h2>
+            <p id="missionDescription"></p>
+            <div class="objective">
+              <span class="diamond">◆</span><span id="objective">Нажмите «Начать игру»</span>
+            </div>
+            <span class="distance" id="distance">ТОЧКА НАЗНАЧЕНИЯ: —</span>
+          </div>
+        </div>
       </div>
-      <div class="mainhud"><div class="mission"><span class="eyebrow">Задание ТБС <span id="missionNumber">01</span> / 03</span><h2 id="missionTitle">Маршрут загружается</h2><p id="missionDescription"></p><div class="objective"><span class="diamond">◆</span><span id="objective">Нажмите «Начать игру»</span></div><span class="distance" id="distance">ТОЧКА НАЗНАЧЕНИЯ: —</span></div></div>
+      <div class="bottomhud">
+        <div class="mapcard">
+          <div class="map-head"><b>ТОЛЬЯТТИ 2040</b><b>ТБС ◉</b></div>
+          <canvas id="minimap" width="308" height="252"></canvas>
+        </div>
+        <div class="tip">
+          <kbd>W</kbd> — вперёд &nbsp;·&nbsp; <kbd>S</kbd> — назад &nbsp;·&nbsp; <kbd>A</kbd>/<kbd
+            >D</kbd
+          >
+          — поворот &nbsp;·&nbsp; <kbd>Пробел</kbd> — ручник &nbsp;·&nbsp; <kbd>C</kbd> — камера
+          &nbsp;·&nbsp; <kbd>E</kbd> — дрон &nbsp;·&nbsp; <kbd>P</kbd> — пауза
+        </div>
+        <div class="speedcard">
+          <span class="label">ТБС • Электромобиль</span
+          ><strong id="speed">00 <small>км/ч</small></strong>
+          <div class="battery"><span id="batteryFill"></span></div>
+          <div class="battery-text" id="batteryText">ЗАРЯД 100%</div>
+        </div>
+      </div>
     </div>
-    <div class="bottomhud"><div class="mapcard"><div class="map-head"><b>ТОЛЬЯТТИ 2040</b><b>ТБС ◉</b></div><canvas id="minimap" width="308" height="252"></canvas></div><div class="tip"><kbd>W</kbd> — вперёд &nbsp;·&nbsp; <kbd>S</kbd> — назад &nbsp;·&nbsp; <kbd>A</kbd>/<kbd>D</kbd> — поворот &nbsp;·&nbsp; <kbd>Пробел</kbd> — ручник &nbsp;·&nbsp; <kbd>C</kbd> — камера &nbsp;·&nbsp; <kbd>E</kbd> — дрон &nbsp;·&nbsp; <kbd>P</kbd> — пауза</div><div class="speedcard"><span class="label">ТБС • Электромобиль</span><strong id="speed">00 <small>км/ч</small></strong><div class="battery"><span id="batteryFill"></span></div><div class="battery-text" id="batteryText">ЗАРЯД 100%</div></div></div>
-  </div>
-  <div class="toast" id="toast"></div>
-  <div class="touch" id="touchControls"><div><button data-key="left" aria-label="Повернуть налево">◀</button><button data-key="right" aria-label="Повернуть направо">▶</button></div><div><button class="action" data-key="action" aria-label="Взаимодействовать">ТБС<br>ДРОН</button><button data-key="down" aria-label="Тормоз и задний ход">НАЗАД</button><button class="go" data-key="up" aria-label="Газ">ГАЗ ▲</button></div></div>
-  <div class="overlay" id="overlay"><div class="intro"><img class="intro-logo" src="assets/tb-drone-logo-footer.svg" alt="Логотип «Транспорт будущего»"><img class="intro-mark" src="assets/cropped-fav-tb_drone-192x192.png" alt="Оранжевый знак ТБ"><div class="chapter" id="overlayChapter">Открытый город · 3D-игра</div><h1 id="overlayTitle">ТБС:<br><span>ТОЛЬЯТТИ 2040</span></h1><div class="sub" id="overlaySub">Город будущего начинается здесь</div><p class="copy" id="overlayCopy">Садитесь за руль электромобиля «Транспорт будущего Самара», проезжайте по районам Тольятти и доставляйте технологические грузы дронами ТБС. Следуйте за оранжевым маяком.</p><figure class="intro-photo"><img src="assets/tb-samara-hero-vid-poster.webp" alt="Здание НПЦ БАС Самара в Тольятти"><figcaption>НПЦ БАС «САМАРА» · ТОЛЬЯТТИ</figcaption></figure><div class="controls-line"><span><b>W</b> · вперёд</span><span><b>S</b> · назад</span><span><b>A / D</b> · влево / вправо</span><span><b>E</b> · дрон</span><span><b>Пробел</b> · ручник</span><span><b>C</b> · камера</span><span><b>Колесо мыши</b> · масштаб</span><span><b>P / Esc</b> · пауза</span><span><b>M</b> · звук</span><span><b>N</b> · время суток</span></div><button class="start" id="startBtn">Начать смену →</button><div class="disclaimer">Фанатская игра. Карта условная. Логотип и фотографии: <a href="https://tb-drone.ru/" target="_blank" rel="noopener" style="color:#ff9d7d">официальный сайт «Транспорт будущего»</a>.</div></div></div>
-  <script src="assets/three.min.js"></script>
-  <script src="embedded-assets.js"></script>
-  <script src="visual-assets.js"></script>
-  <script src="assets/asphalt031-embedded.js"></script>
-  <script src="assets/tbs-fastback-mesh.js"></script>
-  <script src="hero-car.js"></script>
-  <script src="graphics3d.js"></script>
-  <script src="ambient3d.js"></script>
-  <script src="game3d.js"></script>
-</body>
+    <div class="toast" id="toast"></div>
+    <div class="touch" id="touchControls">
+      <div>
+        <button data-key="left" aria-label="Повернуть налево">◀</button
+        ><button data-key="right" aria-label="Повернуть направо">▶</button>
+      </div>
+      <div>
+        <button class="action" data-key="action" aria-label="Взаимодействовать">
+          ТБС<br />ДРОН</button
+        ><button data-key="down" aria-label="Тормоз и задний ход">НАЗАД</button
+        ><button class="go" data-key="up" aria-label="Газ">ГАЗ ▲</button>
+      </div>
+    </div>
+    <div class="overlay" id="overlay">
+      <div class="intro">
+        <img
+          class="intro-logo"
+          src="assets/tb-drone-logo-footer.svg"
+          alt="Логотип «Транспорт будущего»"
+        /><img
+          class="intro-mark"
+          src="assets/cropped-fav-tb_drone-192x192.png"
+          alt="Оранжевый знак ТБ"
+        />
+        <div class="chapter" id="overlayChapter">Открытый город · 3D-игра</div>
+        <h1 id="overlayTitle">ТБС:<br /><span>ТОЛЬЯТТИ 2040</span></h1>
+        <div class="sub" id="overlaySub">Город будущего начинается здесь</div>
+        <p class="copy" id="overlayCopy">
+          Садитесь за руль электромобиля «Транспорт будущего Самара», проезжайте по районам Тольятти
+          и доставляйте технологические грузы дронами ТБС. Следуйте за оранжевым маяком.
+        </p>
+        <figure class="intro-photo">
+          <img src="assets/tb-samara-hero-vid-poster.webp" alt="Здание НПЦ БАС Самара в Тольятти" />
+          <figcaption>НПЦ БАС «САМАРА» · ТОЛЬЯТТИ</figcaption>
+        </figure>
+        <div class="controls-line">
+          <span><b>W</b> · вперёд</span><span><b>S</b> · назад</span
+          ><span><b>A / D</b> · влево / вправо</span><span><b>E</b> · дрон</span
+          ><span><b>Пробел</b> · ручник</span><span><b>C</b> · камера</span
+          ><span><b>Колесо мыши</b> · масштаб</span><span><b>P / Esc</b> · пауза</span
+          ><span><b>M</b> · звук</span><span><b>N</b> · время суток</span>
+        </div>
+        <button class="start" id="startBtn">Начать смену →</button>
+        <div class="disclaimer">
+          Фанатская игра. Карта условная. Логотип и фотографии:
+          <a href="https://tb-drone.ru/" target="_blank" rel="noopener"
+            >официальный сайт «Транспорт будущего»</a
+          >.
+        </div>
+      </div>
+    </div>
+    <script src="assets/three.min.js"></script>
+    <script src="assets/brand-embedded.js"></script>
+    <script src="assets/asphalt031-embedded.js"></script>
+    <script src="assets/tbs-fastback-mesh.js"></script>
+    <script src="src/bootstrap/namespace.js"></script>
+    <script src="src/domain/config.js"></script>
+    <script src="src/domain/state.js"></script>
+    <script src="src/domain/math.js"></script>
+    <script src="src/adapters/ui/dom.js"></script>
+    <script src="src/adapters/rendering/vegetation-culling.js"></script>
+    <script src="src/adapters/world/visual-assets.js"></script>
+    <script src="src/adapters/vehicles/fastback/materials.js"></script>
+    <script src="src/adapters/vehicles/fastback/geometry.js"></script>
+    <script src="src/adapters/vehicles/fastback/exterior.js"></script>
+    <script src="src/adapters/vehicles/fastback/interior.js"></script>
+    <script src="src/adapters/vehicles/fastback/branding.js"></script>
+    <script src="src/adapters/vehicles/fastback/wheels.js"></script>
+    <script src="src/adapters/vehicles/fastback/lighting.js"></script>
+    <script src="src/adapters/vehicles/fastback.js"></script>
+    <script src="src/adapters/rendering/graphics.js"></script>
+    <script src="src/adapters/audio/ambience.js"></script>
+    <script src="src/adapters/rendering/scene.js"></script>
+    <script src="src/adapters/rendering/geometry.js"></script>
+    <script src="src/adapters/world/resources/signs.js"></script>
+    <script src="src/adapters/world/resources/facades.js"></script>
+    <script src="src/adapters/world/resources/landscape.js"></script>
+    <script src="src/adapters/world/resources/fixtures.js"></script>
+    <script src="src/adapters/world/resources.js"></script>
+    <script src="src/adapters/vehicles/drone-model.js"></script>
+    <script src="src/adapters/world/terrain.js"></script>
+    <script src="src/adapters/world/roads.js"></script>
+    <script src="src/adapters/world/parks.js"></script>
+    <script src="src/adapters/world/buildings/components/entrance.js"></script>
+    <script src="src/adapters/world/buildings/components/office.js"></script>
+    <script src="src/adapters/world/buildings/components/roof.js"></script>
+    <script src="src/adapters/world/buildings/components/shell.js"></script>
+    <script src="src/adapters/world/buildings/components/storefront.js"></script>
+    <script src="src/adapters/world/buildings/components/trim.js"></script>
+    <script src="src/adapters/world/buildings/components/windows.js"></script>
+    <script src="src/adapters/world/buildings/block.js"></script>
+    <script src="src/adapters/world/buildings/industrial.js"></script>
+    <script src="src/adapters/world/buildings/lighting.js"></script>
+    <script src="src/adapters/world/buildings/pavilion.js"></script>
+    <script src="src/adapters/world/buildings.js"></script>
+    <script src="src/adapters/world/showcase/branding.js"></script>
+    <script src="src/adapters/world/showcase/cladding.js"></script>
+    <script src="src/adapters/world/showcase/ground.js"></script>
+    <script src="src/adapters/world/showcase/landscape.js"></script>
+    <script src="src/adapters/world/showcase/lighting.js"></script>
+    <script src="src/adapters/world/showcase/materials.js"></script>
+    <script src="src/adapters/world/showcase/pavilion.js"></script>
+    <script src="src/adapters/world/showcase/roof.js"></script>
+    <script src="src/adapters/world/showcase/structure.js"></script>
+    <script src="src/adapters/world/showcase/windows.js"></script>
+    <script src="src/adapters/world/showcase.js"></script>
+    <script src="src/adapters/world/population.js"></script>
+    <script src="src/adapters/vehicles/traffic/commercial.js"></script>
+    <script src="src/adapters/vehicles/traffic/geometry.js"></script>
+    <script src="src/adapters/vehicles/traffic/lights.js"></script>
+    <script src="src/adapters/vehicles/traffic/passenger.js"></script>
+    <script src="src/adapters/vehicles/traffic/shadow.js"></script>
+    <script src="src/adapters/vehicles/traffic/suspension.js"></script>
+    <script src="src/adapters/vehicles/traffic/wheels.js"></script>
+    <script src="src/adapters/vehicles/car-model.js"></script>
+    <script src="src/adapters/vehicles/player-car.js"></script>
+    <script src="src/adapters/simulation/traffic.js"></script>
+    <script src="src/adapters/simulation/pedestrians.js"></script>
+    <script src="src/adapters/vehicles/drones.js"></script>
+    <script src="src/adapters/missions/markers.js"></script>
+    <script src="src/adapters/ui/toast.js"></script>
+    <script src="src/domain/missions.js"></script>
+    <script src="src/adapters/rendering/lighting.js"></script>
+    <script src="src/adapters/audio/sound.js"></script>
+    <script src="src/adapters/ui/hud.js"></script>
+    <script src="src/adapters/ui/minimap.js"></script>
+    <script src="src/application/session.js"></script>
+    <script src="src/application/mission-controller.js"></script>
+    <script src="src/adapters/input/camera.js"></script>
+    <script src="src/adapters/input/controls.js"></script>
+    <script src="src/domain/collision.js"></script>
+    <script src="src/domain/player-physics.js"></script>
+    <script src="src/adapters/rendering/display.js"></script>
+    <script src="src/adapters/browser/runtime.js"></script>
+    <script src="src/adapters/world/animation.js"></script>
+    <script src="src/domain/road-network.js"></script>
+    <script src="src/domain/traffic.js"></script>
+    <script src="src/application/game.js"></script>
+    <script src="src/adapters/ui/overlay.js"></script>
+    <script src="src/adapters/browser/presentation-state.js"></script>
+    <script src="src/bootstrap/world.js"></script>
+    <script src="src/bootstrap/presentation.js"></script>
+    <script src="src/bootstrap/game.js"></script>
+    <script src="src/app.js"></script>
+  </body>
 </html>
-

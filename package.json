@@ -1,0 +1,24 @@
+{
+  "name": "tbs-togliatti",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline 3D driving game set in Togliatti",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "test": "node --test tests/*.test.cjs",
+    "test:browser": "node tools/check-browser.cjs",
+    "check": "npm run lint && npm run format:check && npm test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "playwright-core": "^1.64.0",
+    "prettier": "^3.9.9"
+  }
+}

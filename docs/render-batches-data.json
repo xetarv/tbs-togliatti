@@ -1,0 +1,2466 @@
+{
+  "date": "2026-10-09",
+  "baseline": "Verified current working tree, includes completed vegetation optimization; not aa61f93",
+  "baselineManifestSha256": "1b8eef3883cd1690b51ecac3e7898c7de13c599528de62f2399093dda18caa84",
+  "preservation": {
+    "filesChecked": 128,
+    "changedPriorFiles": ["src/adapters/world/population.js"]
+  },
+  "cpuProfiles": {
+    "start-day": {
+      "windowMs": 3784.323,
+      "topInclusive": [
+        {
+          "name": "(root)",
+          "inclusiveMs": 3784.0900000000047
+        },
+        {
+          "name": "",
+          "inclusiveMs": 3568.715000000005
+        },
+        {
+          "name": "render",
+          "inclusiveMs": 3567.136000000005
+        },
+        {
+          "name": "Js.render",
+          "inclusiveMs": 3559.7600000000048
+        },
+        {
+          "name": "Nt",
+          "inclusiveMs": 1635.820999999998
+        },
+        {
+          "name": "Ot",
+          "inclusiveMs": 1628.6959999999983
+        },
+        {
+          "name": "zt",
+          "inclusiveMs": 1596.2949999999978
+        },
+        {
+          "name": "Js.renderBufferDirect",
+          "inclusiveMs": 1439.5919999999992
+        },
+        {
+          "name": "",
+          "inclusiveMs": 945.0800000000006
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 656.0299999999996
+        },
+        {
+          "name": "Bs.render",
+          "inclusiveMs": 633.9799999999996
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 624.9969999999995
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 622.4429999999998
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 587.0329999999997
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 554.4549999999992
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 485.7219999999997
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 435.89699999999993
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 433.1529999999996
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 330.5059999999999
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 317.84299999999996
+        }
+      ]
+    },
+    "waterfront-night": {
+      "windowMs": 2669.906,
+      "topInclusive": [
+        {
+          "name": "(root)",
+          "inclusiveMs": 2669.639000000005
+        },
+        {
+          "name": "",
+          "inclusiveMs": 2549.5980000000027
+        },
+        {
+          "name": "Js.render",
+          "inclusiveMs": 2544.8050000000026
+        },
+        {
+          "name": "render",
+          "inclusiveMs": 2544.8050000000026
+        },
+        {
+          "name": "Nt",
+          "inclusiveMs": 771.8939999999997
+        },
+        {
+          "name": "Ot",
+          "inclusiveMs": 768.5519999999997
+        },
+        {
+          "name": "zt",
+          "inclusiveMs": 753.5149999999998
+        },
+        {
+          "name": "Js.renderBufferDirect",
+          "inclusiveMs": 698.2349999999999
+        },
+        {
+          "name": "Bs.render",
+          "inclusiveMs": 606.6379999999999
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 603.0059999999997
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 588.4259999999998
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 580.1159999999996
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 557.6449999999996
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 534.0199999999996
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 486.27699999999976
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 410.5939999999999
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 372.9119999999999
+        },
+        {
+          "name": "",
+          "inclusiveMs": 371.3049999999999
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 338.72699999999975
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 292.3339999999999
+        }
+      ]
+    },
+    "bank-day": {
+      "windowMs": 2546.816,
+      "topInclusive": [
+        {
+          "name": "(root)",
+          "inclusiveMs": 2546.584999999997
+        },
+        {
+          "name": "render",
+          "inclusiveMs": 2428.681999999997
+        },
+        {
+          "name": "",
+          "inclusiveMs": 2428.681999999997
+        },
+        {
+          "name": "Js.render",
+          "inclusiveMs": 2427.630999999997
+        },
+        {
+          "name": "Nt",
+          "inclusiveMs": 682.3419999999993
+        },
+        {
+          "name": "Ot",
+          "inclusiveMs": 678.5739999999994
+        },
+        {
+          "name": "zt",
+          "inclusiveMs": 667.1789999999995
+        },
+        {
+          "name": "Bs.render",
+          "inclusiveMs": 613.2339999999999
+        },
+        {
+          "name": "Js.renderBufferDirect",
+          "inclusiveMs": 608.267
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 607.7469999999998
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 582.938
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 559.8759999999993
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 532.147
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 531.7009999999998
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 465.60799999999995
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 413.0070000000002
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 366.78899999999976
+        },
+        {
+          "name": "",
+          "inclusiveMs": 316.37899999999996
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 311.52600000000007
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 290.7359999999999
+        }
+      ]
+    }
+  },
+  "fixed": {
+    "summary": [
+      {
+        "view": "start-day",
+        "before": {
+          "fps": 34.674164833524195,
+          "frameMs": 28.839915966286377,
+          "gpuMs": 17.826747733333335,
+          "renderMs": 28.5804166679581,
+          "calls": 2402,
+          "triangles": 3831386,
+          "retainedHeapBytes": 104918242,
+          "fpsRange": [34.22392223498428, 35.1364119515433],
+          "p95Range": [30.100000023841858, 31.5]
+        },
+        "after": {
+          "fps": 37.027817536734894,
+          "frameMs": 27.006722689175806,
+          "gpuMs": 15.4828288,
+          "renderMs": 26.75791666805744,
+          "calls": 1989,
+          "triangles": 3540326,
+          "retainedHeapBytes": 104854423,
+          "fpsRange": [36.25837903717245, 37.83062054905203],
+          "p95Range": [29.699999928474426, 28.200000047683716]
+        },
+        "gainPercent": 6.787914617441926
+      },
+      {
+        "view": "waterfront-night",
+        "before": {
+          "fps": 47.980968893471754,
+          "frameMs": 20.84159663845511,
+          "gpuMs": 10.976665599999999,
+          "renderMs": 20.586249998211862,
+          "calls": 1248,
+          "triangles": 3185986,
+          "retainedHeapBytes": 104981985,
+          "fpsRange": [47.49740560434758, 48.47447961267495],
+          "p95Range": [22.199999928474426, 22.600000023841858]
+        },
+        "after": {
+          "fps": 51.72338853419246,
+          "frameMs": 19.333613445277976,
+          "gpuMs": 9.05233066666667,
+          "renderMs": 19.061249999205273,
+          "calls": 832,
+          "triangles": 2899474,
+          "retainedHeapBytes": 104935030,
+          "fpsRange": [51.007286755250746, 52.45988361896083],
+          "p95Range": [20.899999976158142, 22.5]
+        },
+        "gainPercent": 7.7998000603733075
+      },
+      {
+        "view": "bank-day",
+        "before": {
+          "fps": 50.64476316151156,
+          "frameMs": 19.74537815116033,
+          "gpuMs": 10.100718933333333,
+          "renderMs": 19.511666670441628,
+          "calls": 1185,
+          "triangles": 2763844,
+          "retainedHeapBytes": 105006015,
+          "fpsRange": [50.42372881355932, 50.867743866466945],
+          "p95Range": [20.600000023841858, 21]
+        },
+        "after": {
+          "fps": 56.250147715407074,
+          "frameMs": 17.777731092537152,
+          "gpuMs": 8.531165866666669,
+          "renderMs": 17.511666666467985,
+          "calls": 753,
+          "triangles": 2464708,
+          "retainedHeapBytes": 104961168,
+          "fpsRange": [56.09238746170163, 56.40879787573716],
+          "p95Range": [19.399999976158142, 20.100000023841858]
+        },
+        "gainPercent": 11.068043769934
+      }
+    ],
+    "samples": [
+      {
+        "enabled": false,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1929,
+            "triangles": 1564664
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 35.1364119515433,
+          "frameMs": 28.460504202281726,
+          "p95Ms": 30.100000023841858,
+          "renderMs": 28.199999994039537,
+          "gpuMs": 17.66912,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 2402,
+          "triangles": 3831386,
+          "heapBytes": 131169892,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104919458
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 780,
+            "triangles": 919274
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 48.47447961267495,
+          "frameMs": 20.62941176450553,
+          "p95Ms": 22.199999928474426,
+          "renderMs": 20.38249999880791,
+          "gpuMs": 10.437836799999996,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1248,
+          "triangles": 3185986,
+          "heapBytes": 106984139,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104981955
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 719,
+            "triangles": 497136
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 50.867743866466945,
+          "frameMs": 19.658823529211414,
+          "p95Ms": 20.600000023841858,
+          "renderMs": 19.421666673819225,
+          "gpuMs": 10.140637866666667,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1185,
+          "triangles": 2763844,
+          "heapBytes": 106865181,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 105006625
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1594,
+            "triangles": 1371944
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 33,
+            "triangles": 15996
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 36.25837903717245,
+          "frameMs": 27.57983193277311,
+          "p95Ms": 29.699999928474426,
+          "renderMs": 27.325000004967055,
+          "gpuMs": 15.72072106666667,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1989,
+          "triangles": 3540326,
+          "heapBytes": 146492267,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104854085
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 442,
+            "triangles": 731102
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 30,
+            "triangles": 20544
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 52.45988361896083,
+          "frameMs": 19.062184873749228,
+          "p95Ms": 20.899999976158142,
+          "renderMs": 18.786666668454806,
+          "gpuMs": 9.048610133333336,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 832,
+          "triangles": 2899474,
+          "heapBytes": 137998890,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104934758
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 365,
+            "triangles": 296340
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 14,
+            "triangles": 7920
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 56.09238746170163,
+          "frameMs": 17.827731092436974,
+          "p95Ms": 19.399999976158142,
+          "renderMs": 17.578333336114884,
+          "gpuMs": 8.603340800000002,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 753,
+          "triangles": 2464708,
+          "heapBytes": 106259840,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104964860
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1594,
+            "triangles": 1371944
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 33,
+            "triangles": 15996
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 37.83062054905203,
+          "frameMs": 26.4336134455785,
+          "p95Ms": 28.200000047683716,
+          "renderMs": 26.19083333114783,
+          "gpuMs": 15.244936533333332,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1989,
+          "triangles": 3540326,
+          "heapBytes": 113242403,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104854761
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 442,
+            "triangles": 731102
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 30,
+            "triangles": 20544
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 51.007286755250746,
+          "frameMs": 19.605042016806724,
+          "p95Ms": 22.5,
+          "renderMs": 19.335833329955737,
+          "gpuMs": 9.056051200000002,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 832,
+          "triangles": 2899474,
+          "heapBytes": 138002938,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104935302
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 365,
+            "triangles": 296340
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 14,
+            "triangles": 7920
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 56.40879787573716,
+          "frameMs": 17.727731092637327,
+          "p95Ms": 20.100000023841858,
+          "renderMs": 17.444999996821085,
+          "gpuMs": 8.458990933333336,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 753,
+          "triangles": 2464708,
+          "heapBytes": 106142560,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104957476
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1929,
+            "triangles": 1564664
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 34.22392223498428,
+          "frameMs": 29.21932773029103,
+          "p95Ms": 31.5,
+          "renderMs": 28.960833341876665,
+          "gpuMs": 17.98437546666667,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 2402,
+          "triangles": 3831386,
+          "heapBytes": 131199908,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104917026
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 780,
+            "triangles": 919274
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 47.49740560434758,
+          "frameMs": 21.05378151240469,
+          "p95Ms": 22.600000023841858,
+          "renderMs": 20.789999997615816,
+          "gpuMs": 11.515494400000001,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1248,
+          "triangles": 3185986,
+          "heapBytes": 119987283,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104982015
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 719,
+            "triangles": 497136
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 50.42372881355932,
+          "frameMs": 19.831932773109244,
+          "p95Ms": 21,
+          "renderMs": 19.60166666706403,
+          "gpuMs": 10.060799999999997,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1185,
+          "triangles": 2763844,
+          "heapBytes": 106536761,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 105005405
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      }
+    ]
+  },
+  "reflections": {
+    "summary": [
+      {
+        "view": "start-day",
+        "before": {
+          "fps": 33.94956065228265,
+          "frameMs": 29.455462185274655,
+          "gpuMs": 18.15210666666667,
+          "renderMs": 29.207083337008953,
+          "calls": 2405.6,
+          "triangles": 3831723.25,
+          "retainedHeapBytes": 104923486,
+          "fpsRange": [33.80009657124671, 34.10035246536206],
+          "p95Range": [30.700000047683716, 31.399999976158142]
+        },
+        "after": {
+          "fps": 37.34973792382835,
+          "frameMs": 26.773949580032284,
+          "gpuMs": 15.44804693333333,
+          "renderMs": 26.531666663785778,
+          "calls": 1992.6,
+          "triangles": 3540663.25,
+          "retainedHeapBytes": 104863233,
+          "fpsRange": [37.126010045033084, 37.5761785976494],
+          "p95Range": [28.59999990463257, 29]
+        },
+        "gainPercent": 10.015379304524474
+      },
+      {
+        "view": "waterfront-night",
+        "before": {
+          "fps": 48.01097393643804,
+          "frameMs": 20.82857142877178,
+          "gpuMs": 11.031227733333333,
+          "renderMs": 20.581666673719884,
+          "calls": 1248.6583333333333,
+          "triangles": 3186216.7,
+          "retainedHeapBytes": 104981055,
+          "fpsRange": [47.76430922418672, 48.260199528164556],
+          "p95Range": [22, 22.699999928474426]
+        },
+        "after": {
+          "fps": 53.62171905066852,
+          "frameMs": 18.649159663364667,
+          "gpuMs": 8.885213866666668,
+          "renderMs": 18.395833338797093,
+          "calls": 832.6583333333333,
+          "triangles": 2899704.7,
+          "retainedHeapBytes": 104938668,
+          "fpsRange": [53.62051097308017, 53.6229271826944],
+          "p95Range": [20, 19.899999976158142]
+        },
+        "gainPercent": 11.686380538038165
+      },
+      {
+        "view": "bank-day",
+        "before": {
+          "fps": 50.48683736000431,
+          "frameMs": 19.807142857243033,
+          "gpuMs": 10.037401599999999,
+          "renderMs": 19.559583329657713,
+          "calls": 1185.6583333333333,
+          "triangles": 2764074.7,
+          "retainedHeapBytes": 105029733,
+          "fpsRange": [50.30223612360037, 50.672798501621585],
+          "p95Range": [20.600000023841858, 21]
+        },
+        "after": {
+          "fps": 56.34202926093223,
+          "frameMs": 17.74873949549779,
+          "gpuMs": 8.470135466666665,
+          "renderMs": 17.374999993046124,
+          "calls": 753.6583333333333,
+          "triangles": 2464938.7,
+          "retainedHeapBytes": 104991440,
+          "fpsRange": [56.219587095016365, 56.46500593119811],
+          "p95Range": [18.5, 20.100000023841858]
+        },
+        "gainPercent": 11.597462243825163
+      }
+    ],
+    "samples": [
+      {
+        "enabled": false,
+        "round": 1,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1929,
+            "triangles": 1564664
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 34.10035246536206,
+          "frameMs": 29.325210084434318,
+          "p95Ms": 30.700000047683716,
+          "renderMs": 29.075833333532014,
+          "gpuMs": 18.151389866666666,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 2405.6,
+          "triangles": 3831723.25,
+          "heapBytes": 132410754,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104922228
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "round": 1,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 780,
+            "triangles": 919274
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 47.76430922418672,
+          "frameMs": 20.93613445358116,
+          "p95Ms": 22,
+          "renderMs": 20.69916667441527,
+          "gpuMs": 10.845218133333333,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1248.6583333333333,
+          "triangles": 3186216.7,
+          "heapBytes": 107055109,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104978389
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "round": 1,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 719,
+            "triangles": 497136
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 50.30223612360037,
+          "frameMs": 19.87983193317381,
+          "p95Ms": 20.600000023841858,
+          "renderMs": 19.617499998211862,
+          "gpuMs": 10.382267733333332,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1185.6583333333333,
+          "triangles": 2764074.7,
+          "heapBytes": 106952535,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 105027603
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "round": 2,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1594,
+            "triangles": 1371944
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 33,
+            "triangles": 15996
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 37.5761785976494,
+          "frameMs": 26.612605041816455,
+          "p95Ms": 28.59999990463257,
+          "renderMs": 26.384999996423723,
+          "gpuMs": 15.426184533333332,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1992.6,
+          "triangles": 3540663.25,
+          "heapBytes": 114501733,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104860303
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "round": 2,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 442,
+            "triangles": 731102
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 30,
+            "triangles": 20544
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 53.62051097308017,
+          "frameMs": 18.64957983153207,
+          "p95Ms": 20,
+          "renderMs": 18.399166680375735,
+          "gpuMs": 9.039598933333334,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 832.6583333333333,
+          "triangles": 2899704.7,
+          "heapBytes": 138148616,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104936400
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "round": 2,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 365,
+            "triangles": 296340
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 14,
+            "triangles": 7920
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 56.46500593119811,
+          "frameMs": 17.710084033613445,
+          "p95Ms": 18.5,
+          "renderMs": 17.451666656136513,
+          "gpuMs": 8.242687999999998,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 753.6583333333333,
+          "triangles": 2464938.7,
+          "heapBytes": 107284514,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104990538
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "round": 3,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1594,
+            "triangles": 1371944
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 33,
+            "triangles": 15996
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 37.126010045033084,
+          "frameMs": 26.935294118248112,
+          "p95Ms": 29,
+          "renderMs": 26.67833333114783,
+          "gpuMs": 15.46990933333333,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1992.6,
+          "triangles": 3540663.25,
+          "heapBytes": 114508493,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104866163
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "round": 3,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 442,
+            "triangles": 731102
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 30,
+            "triangles": 20544
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 53.6229271826944,
+          "frameMs": 18.648739495197265,
+          "p95Ms": 19.899999976158142,
+          "renderMs": 18.39249999721845,
+          "gpuMs": 8.730828800000003,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 832.6583333333333,
+          "triangles": 2899704.7,
+          "heapBytes": 138122624,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104940936
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": true,
+        "round": 3,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 365,
+            "triangles": 296340
+          },
+          "shadow": {
+            "calls": 389,
+            "triangles": 2168368
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 22,
+            "triangles": 32928
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 14,
+            "triangles": 7920
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 56.219587095016365,
+          "frameMs": 17.787394957382137,
+          "p95Ms": 20.100000023841858,
+          "renderMs": 17.298333329955735,
+          "gpuMs": 8.697582933333333,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 753.6583333333333,
+          "triangles": 2464938.7,
+          "heapBytes": 107005378,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 75
+          },
+          "retainedHeapBytes": 104992342
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "round": 4,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "start-day",
+        "draws": {
+          "main": {
+            "calls": 1929,
+            "triangles": 1564664
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 1255,
+            "triangles": 352172
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 35,
+            "triangles": 928360
+          },
+          "main:signal-circle": {
+            "calls": 21,
+            "triangles": 352
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 33.80009657124671,
+          "frameMs": 29.58571428611499,
+          "p95Ms": 31.399999976158142,
+          "renderMs": 29.338333340485892,
+          "gpuMs": 18.15282346666667,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 2405.6,
+          "triangles": 3831723.25,
+          "heapBytes": 132347050,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 720,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104924744
+        },
+        "pixelHash": "398771d469dbbd02394ec17837f25118fcf53c9e0b3f8e230800a347a997c080",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "round": 4,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "waterfront-night",
+        "draws": {
+          "main": {
+            "calls": 780,
+            "triangles": 919274
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 86,
+            "triangles": 137942
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 70,
+            "triangles": 497456
+          },
+          "main:signal-circle": {
+            "calls": 6,
+            "triangles": 96
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 48.260199528164556,
+          "frameMs": 20.7210084039624,
+          "p95Ms": 22.699999928474426,
+          "renderMs": 20.464166673024497,
+          "gpuMs": 11.217237333333333,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1248.6583333333333,
+          "triangles": 3186216.7,
+          "heapBytes": 120442033,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 104983721
+        },
+        "pixelHash": "69ea418a91f51243c44b7d1d8c54e9841858ab36e93f94ccdc1f4cc45d216ef4",
+        "nonemptyPixels": true
+      },
+      {
+        "enabled": false,
+        "round": 4,
+        "recurringReflections": true,
+        "baselineCommit": "working-tree-snapshot-with-verified-vegetation",
+        "sourceHashes": {
+          "population": "5c0755a25ebd174ce2afa7cd9bb378360833e3821006885cadb19e7a427008c6"
+        },
+        "viewport": [1024, 768],
+        "quality": "high",
+        "frozenSimulation": true,
+        "view": "bank-day",
+        "draws": {
+          "main": {
+            "calls": 719,
+            "triangles": 497136
+          },
+          "shadow": {
+            "calls": 467,
+            "triangles": 2266708
+          }
+        },
+        "census": {
+          "shadow:other-instanced": {
+            "calls": 3,
+            "triangles": 42472
+          },
+          "shadow:vegetation": {
+            "calls": 21,
+            "triangles": 1908000
+          },
+          "shadow:other-mesh": {
+            "calls": 343,
+            "triangles": 184968
+          },
+          "shadow:static-box-batch": {
+            "calls": 100,
+            "triangles": 131268
+          },
+          "main:other-mesh": {
+            "calls": 28,
+            "triangles": 104588
+          },
+          "main:other-instanced": {
+            "calls": 250,
+            "triangles": 75064
+          },
+          "main:static-box-batch": {
+            "calls": 368,
+            "triangles": 208716
+          },
+          "main:vegetation": {
+            "calls": 73,
+            "triangles": 108768
+          }
+        },
+        "instances": 308630,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "programsValid": true,
+        "metrics": {
+          "frames": 119,
+          "fps": 50.672798501621585,
+          "frameMs": 19.734453781312254,
+          "p95Ms": 21,
+          "renderMs": 19.501666661103567,
+          "gpuMs": 9.692535466666667,
+          "gpuSamples": 30,
+          "gpuTimerAvailable": true,
+          "calls": 1185.6583333333333,
+          "triangles": 2764074.7,
+          "heapBytes": 107171743,
+          "matrixBytes": 19772800,
+          "colorBytes": 3369504,
+          "instancedMeshes": 1039,
+          "resources": {
+            "geometries": 739,
+            "textures": 76
+          },
+          "retainedHeapBytes": 105031863
+        },
+        "pixelHash": "d5bd3ef4d575cc95b20efc9a33110a8df22e49a65c07edc8caab580eb8eab999",
+        "nonemptyPixels": true
+      }
+    ]
+  }
+}

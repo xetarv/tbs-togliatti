@@ -1,0 +1,879 @@
+{
+  "date": "2026-10-09",
+  "decision": "Rejected signal housing batching and restored all prior files exactly. No accepted game optimization.",
+  "baselineManifestSha256": "019a910f8550709b7a619d99055f08aa83c4c9fd685b83111b20af261000a3b6",
+  "preservation": {
+    "files": 132,
+    "changedPriorFiles": []
+  },
+  "method": {
+    "fullGameStep": true,
+    "simulationDt": 0.016666666666666666,
+    "frames": 600,
+    "warmupFrames": 120,
+    "seed": 72421,
+    "runs": "A B B A",
+    "viewport": [1024, 768],
+    "quality": "high",
+    "gpu": "RTX 3050 Laptop / ANGLE D3D11",
+    "warnings": [
+      "MainThreadBusy is CDP task wall time, not CPU core utilization.",
+      "CPU sampling and port timing instrumentation excluded from primary trial windows.",
+      "Some test/tool processes overlapped exploratory trial execution; strict isolation was not established. Do not claim a hardware-independent or sustained FPS gain.",
+      "GPU utilization telemetry was recorded after verification, outside FPS windows. No timed GPU-utilization percentages claimed.",
+      "Fixed simulation timestep gives identical routes despite varying actual frame intervals. This is not the native variable-dt scheduler."
+    ]
+  },
+  "summary": [
+    {
+      "route": "city-day",
+      "before": {
+        "fps": 17.586766765421,
+        "frameMs": 56.86093489146591,
+        "p95Ms": 69.10000002384186,
+        "p99Ms": 73.10000002384186,
+        "fpsRange": [17.49512969468466, 17.679368855411187],
+        "calls": 4409.705,
+        "triangles": 4144090.4483333332,
+        "stepMs": 56.26941666781902,
+        "gpuMs": 40.58104490666666,
+        "mainThreadBusy": 0.9992449222600523,
+        "retainedHeapBytes": 115225550,
+        "over50Ms": 788,
+        "over100Ms": 0,
+        "maxMs": 97
+      },
+      "trialAfter": {
+        "fps": 18.59950970575959,
+        "frameMs": 53.764858096788245,
+        "p95Ms": 65.69999992847443,
+        "p99Ms": 68.80000007152557,
+        "fpsRange": [18.584823118457997, 18.61421952346083],
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "stepMs": 53.10550000190735,
+        "gpuMs": 38.40886784,
+        "mainThreadBusy": 0.9977165648442063,
+        "retainedHeapBytes": 113713016,
+        "over50Ms": 732,
+        "over100Ms": 1,
+        "maxMs": 146.10000002384186
+      }
+    },
+    {
+      "route": "waterfront-night",
+      "before": {
+        "fps": 21.514606765823956,
+        "frameMs": 46.48005008339285,
+        "p95Ms": 61.10000002384186,
+        "p99Ms": 65.10000002384186,
+        "fpsRange": [21.417180941266576, 21.61292301254976],
+        "calls": 3282.56,
+        "triangles": 5028674.056666667,
+        "stepMs": 45.909999999801315,
+        "gpuMs": 31.46053632000001,
+        "mainThreadBusy": 0.9989790293043481,
+        "retainedHeapBytes": 111970484,
+        "over50Ms": 534,
+        "over100Ms": 2,
+        "maxMs": 153.80000007152557
+      },
+      "trialAfter": {
+        "fps": 25.55013841432987,
+        "frameMs": 39.13873121873763,
+        "p95Ms": 55.699999928474426,
+        "p99Ms": 59.299999952316284,
+        "fpsRange": [22.847596234491498, 28.977794978472257],
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "stepMs": 38.623749999503296,
+        "gpuMs": 25.524425386666664,
+        "mainThreadBusy": 0.999020656707073,
+        "retainedHeapBytes": 110455114,
+        "over50Ms": 225,
+        "over100Ms": 2,
+        "maxMs": 147.69999992847443
+      }
+    }
+  ],
+  "trialSamples": [
+    {
+      "route": "city-day",
+      "round": 1,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 17.49512969468466,
+        "frameMs": 57.15876460771927,
+        "p95Ms": 70,
+        "p99Ms": 75.60000002384186,
+        "maxMs": 97,
+        "over50Ms": 392,
+        "over100Ms": 0,
+        "stepMs": 56.54700000166893,
+        "calls": 4409.705,
+        "triangles": 4144090.4483333332,
+        "gpuMs": 40.65205589333332,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3069,
+          "textures": 228
+        },
+        "heapBytes": 169441020,
+        "mainThreadBusy": 0.999254176931943,
+        "scriptSeconds": 0.008247,
+        "retainedHeapBytes": 115212662
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"
+    },
+    {
+      "route": "waterfront-night",
+      "round": 1,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 21.417180941266576,
+        "frameMs": 46.691485809563396,
+        "p95Ms": 62,
+        "p99Ms": 66.30000007152557,
+        "maxMs": 149.29999995231628,
+        "over50Ms": 269,
+        "over100Ms": 1,
+        "stepMs": 46.11100000162919,
+        "calls": 3282.56,
+        "triangles": 5028674.056666667,
+        "gpuMs": 31.53264640000002,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2078,
+          "textures": 175
+        },
+        "heapBytes": 175226113,
+        "mainThreadBusy": 0.9987782607484968,
+        "scriptSeconds": 0.006756,
+        "retainedHeapBytes": 111970042
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249"
+    },
+    {
+      "route": "city-day",
+      "round": 2,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 18.61421952346083,
+        "frameMs": 53.722370617775766,
+        "p95Ms": 65.5,
+        "p99Ms": 68.90000009536743,
+        "maxMs": 146.10000002384186,
+        "over50Ms": 363,
+        "over100Ms": 1,
+        "stepMs": 52.99166666726271,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 38.28836352000001,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3069,
+          "textures": 228
+        },
+        "heapBytes": 187623279,
+        "mainThreadBusy": 0.9964768551246567,
+        "scriptSeconds": 0.007405,
+        "retainedHeapBytes": 113712734
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "fcd6c84e1cee200fcb65d122a39d0d0607c3e04d32534b395fae9f79e354bd5f",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"
+    },
+    {
+      "route": "waterfront-night",
+      "round": 2,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 22.847596234491498,
+        "frameMs": 43.76828046752535,
+        "p95Ms": 57.10000002384186,
+        "p99Ms": 60,
+        "maxMs": 147.69999992847443,
+        "over50Ms": 197,
+        "over100Ms": 1,
+        "stepMs": 43.20250000059605,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 29.451147946666655,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2078,
+          "textures": 175
+        },
+        "heapBytes": 151314715,
+        "mainThreadBusy": 0.9989358278676246,
+        "scriptSeconds": 0.006835,
+        "retainedHeapBytes": 110458094
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "657e5d43411e5c91b5086893f71c4eb6d3590528f6c1b1f938490eb239b505ef",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249"
+    },
+    {
+      "route": "city-day",
+      "round": 3,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 18.584823118457997,
+        "frameMs": 53.807345575800724,
+        "p95Ms": 65.79999995231628,
+        "p99Ms": 68.80000007152557,
+        "maxMs": 73.80000007152557,
+        "over50Ms": 369,
+        "over100Ms": 0,
+        "stepMs": 53.21933333655198,
+        "calls": 3839.5633333333335,
+        "triangles": 4146092.0483333333,
+        "gpuMs": 38.529372159999994,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3069,
+          "textures": 228
+        },
+        "heapBytes": 183597891,
+        "mainThreadBusy": 0.998956274563756,
+        "scriptSeconds": 0.007164,
+        "retainedHeapBytes": 113713298
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "fcd6c84e1cee200fcb65d122a39d0d0607c3e04d32534b395fae9f79e354bd5f",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"
+    },
+    {
+      "route": "waterfront-night",
+      "round": 3,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 28.977794978472257,
+        "frameMs": 34.509181969949914,
+        "p95Ms": 49.59999990463257,
+        "p99Ms": 56.300000071525574,
+        "maxMs": 125.69999992847443,
+        "over50Ms": 28,
+        "over100Ms": 1,
+        "stepMs": 34.044999998410546,
+        "calls": 2826.3783333333336,
+        "triangles": 5030367.116666666,
+        "gpuMs": 21.59770282666667,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2078,
+          "textures": 175
+        },
+        "heapBytes": 182690325,
+        "mainThreadBusy": 0.9991054855465213,
+        "scriptSeconds": 0.006037,
+        "retainedHeapBytes": 110452134
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "657e5d43411e5c91b5086893f71c4eb6d3590528f6c1b1f938490eb239b505ef",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249"
+    },
+    {
+      "route": "city-day",
+      "round": 4,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 17.679368855411187,
+        "frameMs": 56.56310517521255,
+        "p95Ms": 68.39999997615814,
+        "p99Ms": 70.80000007152557,
+        "maxMs": 74.20000004768372,
+        "over50Ms": 396,
+        "over100Ms": 0,
+        "stepMs": 55.99183333396912,
+        "calls": 4409.705,
+        "triangles": 4144090.4483333332,
+        "gpuMs": 40.51003392,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3069,
+          "textures": 228
+        },
+        "heapBytes": 164481476,
+        "mainThreadBusy": 0.9992356675881616,
+        "scriptSeconds": 0.007207,
+        "retainedHeapBytes": 115238438
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"
+    },
+    {
+      "route": "waterfront-night",
+      "round": 4,
+      "after": false,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 21.61292301254976,
+        "frameMs": 46.2686143572223,
+        "p95Ms": 60,
+        "p99Ms": 64,
+        "maxMs": 153.80000007152557,
+        "over50Ms": 265,
+        "over100Ms": 1,
+        "stepMs": 45.70899999797344,
+        "calls": 3282.56,
+        "triangles": 5028674.056666667,
+        "gpuMs": 31.38842624,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2078,
+          "textures": 175
+        },
+        "heapBytes": 179311937,
+        "mainThreadBusy": 0.9991797978601995,
+        "scriptSeconds": 0.006808,
+        "retainedHeapBytes": 111970926
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249"
+    }
+  ],
+  "rollbackVerification": [
+    {
+      "route": "city-day",
+      "round": 1,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 73.97247685924958,
+        "point": 1,
+        "headingRange": 1.5642183918440167,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 22.64616036054426,
+        "frameMs": 44.1575959932824,
+        "p95Ms": 54.799999952316284,
+        "p99Ms": 62.5,
+        "maxMs": 68.60000002384186,
+        "over50Ms": 119,
+        "over100Ms": 0,
+        "stepMs": 43.67816666662693,
+        "calls": 4409.705,
+        "triangles": 4144090.4483333332,
+        "gpuMs": 28.76039850666668,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 3069,
+          "textures": 228
+        },
+        "heapBytes": 167138171,
+        "mainThreadBusy": 0.9990488378132973,
+        "scriptSeconds": 0.006499,
+        "retainedHeapBytes": 115233919
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "c02d244ac64ac19b8f853ae4fd77e46ae4af5e21aefd6ac912cf9679e2a80b19",
+      "traceHash": "ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"
+    },
+    {
+      "route": "waterfront-night",
+      "round": 1,
+      "after": true,
+      "probe": false,
+      "dt": 0.016666666666666666,
+      "quality": "high",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings": {},
+      "census": {},
+      "routeProof": {
+        "distance": 78.47845023000563,
+        "point": 2,
+        "headingRange": 1.582119416494094,
+        "movedTraffic": 36,
+        "movedPeople": 59,
+        "elapsedFrames": 600
+      },
+      "metrics": {
+        "fps": 25.940730411257213,
+        "frameMs": 38.549415692861174,
+        "p95Ms": 56.89999997615814,
+        "p99Ms": 65.19999992847443,
+        "maxMs": 141.39999997615814,
+        "over50Ms": 102,
+        "over100Ms": 1,
+        "stepMs": 38.04866666913033,
+        "calls": 3282.56,
+        "triangles": 5028674.056666667,
+        "gpuMs": 24.69481130666667,
+        "gpuSamples": 150,
+        "resources": {
+          "geometries": 2078,
+          "textures": 175
+        },
+        "heapBytes": 175842497,
+        "mainThreadBusy": 0.9989778888537806,
+        "scriptSeconds": 0.006126,
+        "retainedHeapBytes": 111965587
+      },
+      "buffer": [1024, 768],
+      "programsValid": true,
+      "pixelHash": "4722060f5cdc673d7e5d8ef08f3e4e73a9d6bb9e469d04527be5411b94597e58",
+      "traceHash": "c738b38c5c01727e7801d9e52c81d18070af4243be4bd9092c23ad7cac729249"
+    }
+  ],
+  "pixelDifferences": [
+    {
+      "route": "city-day",
+      "changed": 131,
+      "percent": 0.016657511393229164,
+      "max": 110,
+      "gt2": 10,
+      "gt8": 8,
+      "gt32": 2,
+      "psnr": 69.29289354135173,
+      "mae": 0.00020005967881944444,
+      "points": [
+        {
+          "x": 807,
+          "y": 182,
+          "d": 1
+        },
+        {
+          "x": 847,
+          "y": 182,
+          "d": 3
+        },
+        {
+          "x": 849,
+          "y": 182,
+          "d": 2
+        },
+        {
+          "x": 847,
+          "y": 183,
+          "d": 1
+        },
+        {
+          "x": 848,
+          "y": 183,
+          "d": 110
+        },
+        {
+          "x": 849,
+          "y": 183,
+          "d": 32
+        },
+        {
+          "x": 851,
+          "y": 183,
+          "d": 49
+        },
+        {
+          "x": 847,
+          "y": 184,
+          "d": 12
+        },
+        {
+          "x": 848,
+          "y": 184,
+          "d": 30
+        },
+        {
+          "x": 849,
+          "y": 184,
+          "d": 5
+        }
+      ]
+    },
+    {
+      "route": "waterfront-night",
+      "changed": 49,
+      "percent": 0.006230672200520833,
+      "max": 33,
+      "gt2": 1,
+      "gt8": 1,
+      "gt32": 1,
+      "psnr": 79.86107615005422,
+      "mae": 0.0000457763671875,
+      "points": [
+        {
+          "x": 836,
+          "y": 193,
+          "d": 1
+        },
+        {
+          "x": 767,
+          "y": 195,
+          "d": 1
+        },
+        {
+          "x": 764,
+          "y": 198,
+          "d": 1
+        },
+        {
+          "x": 837,
+          "y": 198,
+          "d": 1
+        },
+        {
+          "x": 837,
+          "y": 200,
+          "d": 1
+        },
+        {
+          "x": 838,
+          "y": 203,
+          "d": 1
+        },
+        {
+          "x": 840,
+          "y": 206,
+          "d": 1
+        },
+        {
+          "x": 833,
+          "y": 214,
+          "d": 1
+        },
+        {
+          "x": 838,
+          "y": 214,
+          "d": 1
+        },
+        {
+          "x": 835,
+          "y": 215,
+          "d": 1
+        }
+      ]
+    }
+  ],
+  "cpuProfiles": {
+    "city-day": {
+      "samplingWindowMs": 34506.918,
+      "topInclusive": [
+        {
+          "name": "(root)",
+          "inclusiveMs": 34506.62900000078
+        },
+        {
+          "name": "",
+          "inclusiveMs": 17042.144000000033
+        },
+        {
+          "name": "step",
+          "inclusiveMs": 16906.192000000017
+        },
+        {
+          "name": "port.<computed>",
+          "inclusiveMs": 16772.485000000008
+        },
+        {
+          "name": "render",
+          "inclusiveMs": 16398.92900000005
+        },
+        {
+          "name": "Js.render",
+          "inclusiveMs": 16361.37500000005
+        },
+        {
+          "name": "(idle)",
+          "inclusiveMs": 16166.022000000075
+        },
+        {
+          "name": "Nt",
+          "inclusiveMs": 8428.690000000004
+        },
+        {
+          "name": "Ot",
+          "inclusiveMs": 8383.610000000006
+        },
+        {
+          "name": "zt",
+          "inclusiveMs": 7776.043000000009
+        },
+        {
+          "name": "Js.renderBufferDirect",
+          "inclusiveMs": 7130.380000000009
+        },
+        {
+          "name": "",
+          "inclusiveMs": 4330.316000000002
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 3037.607000000004
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 2849.6540000000027
+        },
+        {
+          "name": "Bs.render",
+          "inclusiveMs": 2276.5880000000016
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 2257.239
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 2190.1679999999983
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 2014.5550000000023
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 1825.6990000000028
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 1658.0849999999991
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 1601.6270000000002
+        },
+        {
+          "name": "setup",
+          "inclusiveMs": 1526.6620000000003
+        }
+      ]
+    },
+    "waterfront-night": {
+      "samplingWindowMs": 34185.801,
+      "topInclusive": [
+        {
+          "name": "(root)",
+          "inclusiveMs": 34185.5080000008
+        },
+        {
+          "name": "",
+          "inclusiveMs": 21341.067000000297
+        },
+        {
+          "name": "step",
+          "inclusiveMs": 21160.975000000275
+        },
+        {
+          "name": "port.<computed>",
+          "inclusiveMs": 20938.7020000003
+        },
+        {
+          "name": "render",
+          "inclusiveMs": 20320.328000000278
+        },
+        {
+          "name": "Js.render",
+          "inclusiveMs": 20249.726000000268
+        },
+        {
+          "name": "Nt",
+          "inclusiveMs": 11261.789000000048
+        },
+        {
+          "name": "Ot",
+          "inclusiveMs": 11198.171000000044
+        },
+        {
+          "name": "(idle)",
+          "inclusiveMs": 11073.01600000001
+        },
+        {
+          "name": "Js.renderBufferDirect",
+          "inclusiveMs": 10026.241000000033
+        },
+        {
+          "name": "",
+          "inclusiveMs": 6213.333000000014
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 3173.291999999998
+        },
+        {
+          "name": "Dt",
+          "inclusiveMs": 2964.9320000000002
+        },
+        {
+          "name": "Bs.render",
+          "inclusiveMs": 2731.7129999999934
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 2697.012999999995
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 2598.847999999996
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 2417.5319999999992
+        },
+        {
+          "name": "setValue",
+          "inclusiveMs": 2152.5840000000017
+        },
+        {
+          "name": "updateMatrixWorld",
+          "inclusiveMs": 2116.0489999999986
+        },
+        {
+          "name": "upload",
+          "inclusiveMs": 2031.9639999999984
+        },
+        {
+          "name": "y",
+          "inclusiveMs": 1853.146999999998
+        },
+        {
+          "name": "setup",
+          "inclusiveMs": 1768.1480000000015
+        }
+      ]
+    }
+  },
+  "census": {
+    "shadow:instanced-world": 60,
+    "shadow:other-world": 174,
+    "shadow:other-vehicle": 425,
+    "main:other-world": 1841,
+    "main:other-vehicle": 749,
+    "main:traffic-signal": 1180,
+    "main:instanced-world": 462,
+    "main:wheel-spoke": 140
+  }
+}
