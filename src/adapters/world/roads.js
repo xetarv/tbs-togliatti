@@ -612,6 +612,7 @@ window.TBS.createRoads = function ({
     metalness: 0.08,
   });
 
+  const trimStops = [];
   function busStop(x, z) {
     const shelter = new T.Group();
     shelter.position.set(x, 0, z);
@@ -690,6 +691,126 @@ window.TBS.createRoads = function ({
       for (const height of [0.72, 1.42])
         box(shelter, side * 6.1, height, 1.2, 2.8, 0.07, 0.07, trimMat);
     }
+    trimStops.push(shelter);
+  }
+  // Allocate only on the first render, after procedural world/NPC generation.
+  // Each stop remains a separate bounds group; its trim parts cast no shadows.
+  if (new URLSearchParams(location.search).get('trimStopBatching') !== '0') {
+    const original = scene.onBeforeRender;
+    let batches, scratch;
+    scene.onBeforeRender = function (renderer, renderedScene, camera, ...args) {
+      original.call(this, renderer, renderedScene, camera, ...args);
+      if (!batches) {
+        scratch = {
+          world: new T.Matrix4(),
+          normal: new T.Matrix3(),
+          position: new T.Vector3(),
+          projectionView: new T.Matrix4(),
+        };
+        const culling = window.TBS.createVegetationCulling({ T });
+        batches = trimStops.map((shelter) => {
+          const parts = shelter.children.filter(
+            (o) =>
+              o.isMesh &&
+              !o.isInstancedMesh &&
+              o.material === trimMat &&
+              o.geometry.type === 'BoxGeometry' &&
+              !o.castShadow &&
+              !o.receiveShadow,
+          );
+          const geometry = parts[0].geometry.clone();
+          const batch = new T.InstancedMesh(geometry, trimMat, parts.length);
+          const records = parts.map((part, index) => {
+            part.updateMatrix();
+            batch.setMatrixAt(index, part.matrix);
+            part.removeFromParent();
+            return { local: part.matrix.clone(), view: new T.Matrix4(), id: part.id };
+          });
+          const modelView = new T.InstancedBufferAttribute(new Float32Array(parts.length * 16), 16);
+          const normalView = new T.InstancedBufferAttribute(new Float32Array(parts.length * 9), 9);
+          modelView.setUsage(T.DynamicDrawUsage);
+          normalView.setUsage(T.DynamicDrawUsage);
+          geometry.setAttribute('trimModelView', modelView);
+          geometry.setAttribute('trimNormal', normalView);
+          const compile = trimMat.onBeforeCompile;
+          const cacheKey = trimMat.customProgramCacheKey;
+          const variant = cacheKey.call(trimMat) + ':stop-trim-exact-r149';
+          const compileTrim = function (shader, renderer) {
+            compile.call(this, shader, renderer);
+            shader.vertexShader =
+              'attribute mat4 trimModelView;\nattribute mat3 trimNormal;\n' + shader.vertexShader;
+            shader.vertexShader = shader.vertexShader
+              .replace(
+                '#include <project_vertex>',
+                'vec4 mvPosition = trimModelView * vec4(transformed, 1.0);\ngl_Position = projectionMatrix * mvPosition;',
+              )
+              .replace(
+                '#include <defaultnormal_vertex>',
+                'vec3 transformedNormal = trimNormal * objectNormal;\n#ifdef FLIP_SIDED\ntransformedNormal = -transformedNormal;\n#endif',
+              );
+          };
+          const trimCacheKey = () => variant;
+          batch.onBeforeRender = () => {
+            trimMat.onBeforeCompile = compileTrim;
+            trimMat.customProgramCacheKey = trimCacheKey;
+            trimMat.needsUpdate = true;
+          };
+          batch.onAfterRender = () => {
+            trimMat.onBeforeCompile = compile;
+            trimMat.customProgramCacheKey = cacheKey;
+            trimMat.needsUpdate = true;
+          };
+          shelter.add(culling.register(batch));
+          batch.updateWorldMatrix(true, false);
+          return {
+            shelter,
+            records,
+            modelView,
+            normalView,
+            previousView: new T.Matrix4(),
+            previousWorld: new T.Matrix4(),
+            previousProjection: new T.Matrix4(),
+            ready: false,
+          };
+        });
+      }
+      const { world, normal, position, projectionView } = scratch;
+      projectionView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      for (const entry of batches) {
+        const {
+          shelter,
+          records,
+          modelView,
+          normalView,
+          previousView,
+          previousWorld,
+          previousProjection,
+        } = entry;
+        if (
+          entry.ready &&
+          previousView.equals(camera.matrixWorldInverse) &&
+          previousWorld.equals(shelter.matrixWorld) &&
+          previousProjection.equals(camera.projectionMatrix)
+        )
+          continue;
+        previousView.copy(camera.matrixWorldInverse);
+        previousWorld.copy(shelter.matrixWorld);
+        previousProjection.copy(camera.projectionMatrix);
+        entry.ready = true;
+        for (const record of records) {
+          world.multiplyMatrices(shelter.matrixWorld, record.local);
+          record.view.multiplyMatrices(camera.matrixWorldInverse, world);
+          record.depth = position.setFromMatrixPosition(world).applyMatrix4(projectionView).z;
+        }
+        records.sort((a, b) => a.depth - b.depth || a.id - b.id);
+        records.forEach((record, index) => {
+          normal.getNormalMatrix(record.view);
+          record.view.toArray(modelView.array, index * 16);
+          normal.toArray(normalView.array, index * 9);
+        });
+        modelView.needsUpdate = normalView.needsUpdate = true;
+      }
+    };
   }
   return { roadInstances, roundedSidewalk, busStop };
 };

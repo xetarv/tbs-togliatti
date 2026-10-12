@@ -1,0 +1,798 @@
+{
+  "scenarios": {
+    "start-day": {
+      "before": {
+        "repeats": 3,
+        "fps": 56.54855560450626,
+        "fpsRepeats": [56.998220589645264, 57.38097518919437, 55.30983665604656],
+        "frameMs": {
+          "mean": 17.683917640511964,
+          "p95": 20.199999928474426,
+          "p99": 22.399999976158142,
+          "max": 37.90000009536743
+        },
+        "stepMs": 17.291111110978655,
+        "gpuMs": 9.77345102222222,
+        "gpuSamples": 450,
+        "calls": 2156.43,
+        "triangles": 3724985.9,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [38.115169525146484, 38.11748123168945, 38.11510467529297],
+        "backingStorageMiB": [65.9290542602539, 65.9290542602539, 65.9290542602539],
+        "resources": [
+          {
+            "geometries": 795,
+            "textures": 76
+          },
+          {
+            "geometries": 795,
+            "textures": 76
+          },
+          {
+            "geometries": 795,
+            "textures": 76
+          }
+        ],
+        "programs": [74, 74, 74],
+        "pixels": ["6c8489b0fd66d40ede75f58916cd6dd2f7c6a306614ae61b53678e323c36a7dc"],
+        "traces": ["aa69d197e5b9ee9542b345c5b96a754e6e0ce03283b8937f818ec6c4e1f492fc"],
+        "proof": [
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "after": {
+        "repeats": 3,
+        "fps": 56.42621416866545,
+        "fpsRepeats": [56.01638409122264, 56.629103010645196, 56.637670196671706],
+        "frameMs": {
+          "mean": 17.7222593210111,
+          "p95": 19.800000071525574,
+          "p99": 21,
+          "max": 26.600000023841858
+        },
+        "stepMs": 17.347500000397364,
+        "gpuMs": 9.815755946666668,
+        "gpuSamples": 450,
+        "calls": 2156.43,
+        "triangles": 3724985.9,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [38.05332565307617, 38.047752380371094, 38.04933547973633],
+        "backingStorageMiB": [65.96954822540283, 65.96954822540283, 65.96954822540283],
+        "resources": [
+          {
+            "geometries": 795,
+            "textures": 76
+          },
+          {
+            "geometries": 795,
+            "textures": 76
+          },
+          {
+            "geometries": 795,
+            "textures": 76
+          }
+        ],
+        "programs": [74, 74, 74],
+        "pixels": ["6c8489b0fd66d40ede75f58916cd6dd2f7c6a306614ae61b53678e323c36a7dc"],
+        "traces": ["aa69d197e5b9ee9542b345c5b96a754e6e0ce03283b8937f818ec6c4e1f492fc"],
+        "proof": [
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "fpsChangePercent": -0.21634758754308647,
+      "frameChangePercent": 0.21681666516757403,
+      "callsEliminated": 0,
+      "trianglesAdded": 0,
+      "pixelsExact": true,
+      "tracesExact": true,
+      "pairedFrameChangePercent": [1.7527666491712557, 1.327713381594342, -2.3444353131304774],
+      "telemetrySummary": [
+        {
+          "round": 1,
+          "after": false,
+          "mhz": 1193.5714285714287,
+          "temp": 42.714285714285715,
+          "util": 28.285714285714285
+        },
+        {
+          "round": 2,
+          "after": true,
+          "mhz": 1210.7142857142858,
+          "temp": 44.42857142857143,
+          "util": 28.714285714285715
+        },
+        {
+          "round": 3,
+          "after": true,
+          "mhz": 1178.5714285714287,
+          "temp": 44.857142857142854,
+          "util": 27.857142857142858
+        },
+        {
+          "round": 4,
+          "after": false,
+          "mhz": 1227.857142857143,
+          "temp": 45.57142857142857,
+          "util": 29
+        },
+        {
+          "round": 5,
+          "after": false,
+          "mhz": 1140,
+          "temp": 48.142857142857146,
+          "util": 28
+        },
+        {
+          "round": 6,
+          "after": true,
+          "mhz": 1135.7142857142858,
+          "temp": 55.142857142857146,
+          "util": 32.42857142857143
+        }
+      ]
+    },
+    "waterfront-night": {
+      "before": {
+        "repeats": 3,
+        "fps": 75.81670667760001,
+        "fpsRepeats": [74.31116404348445, 76.83328843885637, 76.35339256327893],
+        "frameMs": {
+          "mean": 13.18970506398228,
+          "p95": 14.800000071525574,
+          "p99": 15.799999952316284,
+          "max": 30.699999928474426
+        },
+        "stepMs": 12.847833333942626,
+        "gpuMs": 6.413998222222221,
+        "gpuSamples": 450,
+        "calls": 961.5233333333333,
+        "triangles": 3772991.86,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [37.018978118896484, 37.02337646484375, 37.0195198059082],
+        "backingStorageMiB": [65.91979217529297, 65.91979217529297, 65.91979217529297],
+        "resources": [
+          {
+            "geometries": 535,
+            "textures": 51
+          },
+          {
+            "geometries": 535,
+            "textures": 51
+          },
+          {
+            "geometries": 535,
+            "textures": 51
+          }
+        ],
+        "programs": [57, 57, 57],
+        "pixels": ["23ed8fb7dd71613f55d3499eb7f06cf8f6a7ef0c246325ccfe81ab185d1ff1d0"],
+        "traces": ["a5345e91eb75bcdee5245b946ba650fd073e3ca149a57da3bcb254f16525ffd4"],
+        "proof": [
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "after": {
+        "repeats": 3,
+        "fps": 75.14803787070628,
+        "fpsRepeats": [75.80935024081431, 75.3734066512568, 74.27799065058863],
+        "frameMs": {
+          "mean": 13.307067334486103,
+          "p95": 14.799999952316284,
+          "p99": 15.700000047683716,
+          "max": 36.700000047683716
+        },
+        "stepMs": 12.970277776916822,
+        "gpuMs": 6.4566452622222235,
+        "gpuSamples": 450,
+        "calls": 961.5233333333333,
+        "triangles": 3772991.86,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [36.945247650146484, 36.94983673095703, 36.95148849487305],
+        "backingStorageMiB": [65.9602861404419, 65.9602861404419, 65.9602861404419],
+        "resources": [
+          {
+            "geometries": 535,
+            "textures": 51
+          },
+          {
+            "geometries": 535,
+            "textures": 51
+          },
+          {
+            "geometries": 535,
+            "textures": 51
+          }
+        ],
+        "programs": [57, 57, 57],
+        "pixels": ["23ed8fb7dd71613f55d3499eb7f06cf8f6a7ef0c246325ccfe81ab185d1ff1d0"],
+        "traces": ["a5345e91eb75bcdee5245b946ba650fd073e3ca149a57da3bcb254f16525ffd4"],
+        "proof": [
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "fpsChangePercent": -0.8819544348413255,
+      "frameChangePercent": 0.8898020837805332,
+      "callsEliminated": 0,
+      "trianglesAdded": 0,
+      "pixelsExact": true,
+      "tracesExact": true,
+      "pairedFrameChangePercent": [-1.976255161890661, 1.9368658688259321, 2.7941007753605085],
+      "telemetrySummary": [
+        {
+          "round": 1,
+          "after": false,
+          "mhz": 1190,
+          "temp": 43,
+          "util": 31.5
+        },
+        {
+          "round": 2,
+          "after": true,
+          "mhz": 1257.5,
+          "temp": 44.5,
+          "util": 30
+        },
+        {
+          "round": 3,
+          "after": true,
+          "mhz": 1217.5,
+          "temp": 45.166666666666664,
+          "util": 33.333333333333336
+        },
+        {
+          "round": 4,
+          "after": false,
+          "mhz": 1239,
+          "temp": 45.8,
+          "util": 35.4
+        },
+        {
+          "round": 5,
+          "after": false,
+          "mhz": 1140,
+          "temp": 50,
+          "util": 26.5
+        },
+        {
+          "round": 6,
+          "after": true,
+          "mhz": 1110,
+          "temp": 56.333333333333336,
+          "util": 32
+        }
+      ]
+    },
+    "bank-day": {
+      "before": {
+        "repeats": 3,
+        "fps": 98.82640210249872,
+        "fpsRepeats": [99.07049055527041, 97.16612324936604, 100.29300962745918],
+        "frameMs": {
+          "mean": 10.11875347807199,
+          "p95": 11.399999976158142,
+          "p99": 12.5,
+          "max": 19.600000023841858
+        },
+        "stepMs": 9.77594444387489,
+        "gpuMs": 4.831462826666666,
+        "gpuSamples": 450,
+        "calls": 661.625,
+        "triangles": 2539223.8,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [36.297035217285156, 36.295257568359375, 36.3010368347168],
+        "backingStorageMiB": [65.90881443023682, 65.90881443023682, 65.90881443023682],
+        "resources": [
+          {
+            "geometries": 431,
+            "textures": 35
+          },
+          {
+            "geometries": 431,
+            "textures": 35
+          },
+          {
+            "geometries": 431,
+            "textures": 35
+          }
+        ],
+        "programs": [36, 36, 36],
+        "pixels": ["4f2fc694a266acc075dbaa2f20f19d494395f9fedab5e5a1acd9c5bb8ad59ef1"],
+        "traces": ["c82f80cf5ac4a7680e274a3f4400afdd32031c082a093675ae6dc49c89f34b74"],
+        "proof": [
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "after": {
+        "repeats": 3,
+        "fps": 99.12896695162505,
+        "fpsRepeats": [99.46366006421846, 98.01034099052019, 99.93326659993326],
+        "frameMs": {
+          "mean": 10.087868669992297,
+          "p95": 11.400000095367432,
+          "p99": 12.100000023841858,
+          "max": 14.199999928474426
+        },
+        "stepMs": 9.7465555551317,
+        "gpuMs": 4.866178417777777,
+        "gpuSamples": 450,
+        "calls": 661.625,
+        "triangles": 2539223.8,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [36.234012603759766, 36.23358154296875, 36.23307418823242],
+        "backingStorageMiB": [65.94930839538574, 65.94930839538574, 65.94930839538574],
+        "resources": [
+          {
+            "geometries": 431,
+            "textures": 35
+          },
+          {
+            "geometries": 431,
+            "textures": 35
+          },
+          {
+            "geometries": 431,
+            "textures": 35
+          }
+        ],
+        "programs": [36, 36, 36],
+        "pixels": ["4f2fc694a266acc075dbaa2f20f19d494395f9fedab5e5a1acd9c5bb8ad59ef1"],
+        "traces": ["c82f80cf5ac4a7680e274a3f4400afdd32031c082a093675ae6dc49c89f34b74"],
+        "proof": [
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 0,
+            "point": 0,
+            "headingRange": 0,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "fpsChangePercent": 0.3061579119439273,
+      "frameChangePercent": -0.30522344621423114,
+      "callsEliminated": 0,
+      "trianglesAdded": 0,
+      "pixelsExact": true,
+      "tracesExact": true,
+      "pairedFrameChangePercent": [-0.3952896049614463, -0.8613557841165131, 0.3599832565926997],
+      "telemetrySummary": [
+        {
+          "round": 1,
+          "after": false,
+          "mhz": 1278,
+          "temp": 43.4,
+          "util": 34.4
+        },
+        {
+          "round": 2,
+          "after": true,
+          "mhz": 1365,
+          "temp": 45,
+          "util": 26.6
+        },
+        {
+          "round": 3,
+          "after": true,
+          "mhz": 1215,
+          "temp": 45.8,
+          "util": 32.6
+        },
+        {
+          "round": 4,
+          "after": false,
+          "mhz": 1224,
+          "temp": 45.4,
+          "util": 32.8
+        },
+        {
+          "round": 5,
+          "after": false,
+          "mhz": 1140,
+          "temp": 51.8,
+          "util": 30.8
+        },
+        {
+          "round": 6,
+          "after": true,
+          "mhz": 1158,
+          "temp": 57.6,
+          "util": 33.2
+        }
+      ]
+    },
+    "city-day": {
+      "before": {
+        "repeats": 3,
+        "fps": 33.26915244195949,
+        "fpsRepeats": [33.08112884519799, 33.16648579216356, 33.56381607696703],
+        "frameMs": {
+          "mean": 30.057874234835836,
+          "p95": 36.39999997615814,
+          "p99": 38.800000071525574,
+          "max": 57.5
+        },
+        "stepMs": 29.599333332445887,
+        "gpuMs": 19.629150648888885,
+        "gpuSamples": 450,
+        "calls": 4297.16,
+        "triangles": 4597857.416666667,
+        "over50": 2,
+        "over100": 0,
+        "retainedJsHeapMiB": [45.78782272338867, 45.785404205322266, 45.79398727416992],
+        "backingStorageMiB": [66.00450134277344, 66.00450134277344, 66.00450134277344],
+        "resources": [
+          {
+            "geometries": 3219,
+            "textures": 233
+          },
+          {
+            "geometries": 3219,
+            "textures": 233
+          },
+          {
+            "geometries": 3219,
+            "textures": 233
+          }
+        ],
+        "programs": [86, 86, 86],
+        "pixels": ["376da2cfe416d3f7e61e18e101507eae7f22c1c5e28fc86e19a2462de4378225"],
+        "traces": ["ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"],
+        "proof": [
+          {
+            "distance": 73.97247685924958,
+            "point": 1,
+            "headingRange": 1.5642183918440167,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 73.97247685924958,
+            "point": 1,
+            "headingRange": 1.5642183918440167,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 73.97247685924958,
+            "point": 1,
+            "headingRange": 1.5642183918440167,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "after": {
+        "repeats": 3,
+        "fps": 33.693139311804785,
+        "fpsRepeats": [33.78397432629925, 33.65187444877793, 33.643935947292924],
+        "frameMs": {
+          "mean": 29.679632721241806,
+          "p95": 35.799999952316284,
+          "p99": 37.60000002384186,
+          "max": 43.5
+        },
+        "stepMs": 29.25544444243113,
+        "gpuMs": 19.54771918222222,
+        "gpuSamples": 450,
+        "calls": 4194.51,
+        "triangles": 4597872.336666667,
+        "over50": 0,
+        "over100": 0,
+        "retainedJsHeapMiB": [45.7784538269043, 45.7795524597168, 45.77012634277344],
+        "backingStorageMiB": [66.04499530792236, 66.04499530792236, 66.04499530792236],
+        "resources": [
+          {
+            "geometries": 3230,
+            "textures": 233
+          },
+          {
+            "geometries": 3230,
+            "textures": 233
+          },
+          {
+            "geometries": 3230,
+            "textures": 233
+          }
+        ],
+        "programs": [87, 87, 87],
+        "pixels": ["376da2cfe416d3f7e61e18e101507eae7f22c1c5e28fc86e19a2462de4378225"],
+        "traces": ["ddd42dbe68251e18a83831094112a56538ca0c5209ef77fe63498f1b97fc275b"],
+        "proof": [
+          {
+            "distance": 73.97247685924958,
+            "point": 1,
+            "headingRange": 1.5642183918440167,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 73.97247685924958,
+            "point": 1,
+            "headingRange": 1.5642183918440167,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          },
+          {
+            "distance": 73.97247685924958,
+            "point": 1,
+            "headingRange": 1.5642183918440167,
+            "movedTraffic": 36,
+            "movedPeople": 59,
+            "elapsedFrames": 600
+          }
+        ],
+        "buffer": [
+          [1920, 1080],
+          [1920, 1080],
+          [1920, 1080]
+        ],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2080 Ti (0x00001E07) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "fpsChangePercent": 1.2744144011031633,
+      "frameChangePercent": -1.2583774575637308,
+      "callsEliminated": 102.64999999999964,
+      "trianglesAdded": 14.919999999925494,
+      "pixelsExact": true,
+      "tracesExact": true,
+      "pairedFrameChangePercent": [-2.080410890420692, -1.4423822285239751, -0.23814059820886913],
+      "telemetrySummary": [
+        {
+          "round": 1,
+          "after": false,
+          "mhz": 1025.4545454545455,
+          "temp": 42,
+          "util": 31
+        },
+        {
+          "round": 2,
+          "after": true,
+          "mhz": 894,
+          "temp": 42.5,
+          "util": 34.2
+        },
+        {
+          "round": 3,
+          "after": true,
+          "mhz": 876.8181818181819,
+          "temp": 43.09090909090909,
+          "util": 34.18181818181818
+        },
+        {
+          "round": 4,
+          "after": false,
+          "mhz": 996.8181818181819,
+          "temp": 43.54545454545455,
+          "util": 34.36363636363637
+        },
+        {
+          "round": 5,
+          "after": false,
+          "mhz": 1140,
+          "temp": 53.36363636363637,
+          "util": 21.181818181818183
+        },
+        {
+          "round": 6,
+          "after": true,
+          "mhz": 1131.8181818181818,
+          "temp": 57.90909090909091,
+          "util": 25
+        }
+      ]
+    }
+  },
+  "head": "e3e4e088",
+  "method": "seed 72421, fixed dt1/60 full game, 120 warm +600 measured steps, 1920x1080 High, Chrome D3D11 RTX2080Ti, order B A A B B A",
+  "resumed": {
+    "originalCompleteWindows": 20,
+    "resumedWindows": 4,
+    "originalBaselineRounds": [1, 4, 5],
+    "originalCandidateRounds": [2, 3],
+    "postRebootCandidateRound": 6,
+    "chrome": "154.0.8037.99",
+    "candidateSha256": "bd72d2ebdb6541bf3b1deab2fea844a86409de40425a80884d9d6966a46305e0"
+  },
+  "decision": {
+    "accepted": true,
+    "scope": "11 stops, 187 non-shadowing trimMat unitBox meshes -> 11 local InstancedMesh batches",
+    "checks": {
+      "npmCheckPassed": 49,
+      "targetedTests": 4,
+      "allPrimaryTerminalPixelsExact": true,
+      "allPrimaryTracesExact": true,
+      "finalCheckpointPixelsExact": true
+    },
+    "limitations": [
+      "three repetitions only",
+      "candidate round 6 after reboot; first 20 windows preserved",
+      "headless throughput, not monitor/VSync FPS",
+      "static cameras differ from native-loop home audit",
+      "unfixed CPU/GPU clocks; FPS effect small",
+      "no long memory soak"
+    ]
+  }
+}
