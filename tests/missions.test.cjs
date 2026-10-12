@@ -4,10 +4,10 @@ const { loadModules } = require('./helpers.cjs');
 
 function createRoutes() {
   const { TBS } = loadModules([
-    'domain/config.js',
-    'domain/state.js',
-    'domain/math.js',
-    'domain/missions.js',
+    'dist/domain/config.js',
+    'dist/domain/state.js',
+    'dist/domain/math.js',
+    'dist/domain/missions.js',
   ]);
   const state = TBS.createState();
   const routes = TBS.createMissionRoutes({

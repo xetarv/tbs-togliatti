@@ -5,3 +5,4 @@ artifacts/
 Thumbs.db
 __pycache__/
 *.pyc
+# dist/ is intentionally tracked so file:// works immediately after cloning.

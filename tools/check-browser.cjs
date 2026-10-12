@@ -43,6 +43,16 @@ async function main() {
       { timeout: 60000 },
     );
     assert.deepEqual(errors, [], 'Startup errors: ' + errors.join('; '));
+    if (target === projectRoot) {
+      await page.addScriptTag({
+        url: pathToFileURL(path.join(projectRoot, 'dist/build-smoke.js')).href,
+      });
+      assert.deepEqual(
+        errors,
+        [],
+        'The compiled classic script must use the existing TBS registry.',
+      );
+    }
     assert.equal(await page.locator('#startBtn').isEnabled(), true);
     assert.equal(await page.locator('#overlay').isVisible(), true);
     await page.locator('#qualitySelect').selectOption('low');

@@ -4,13 +4,13 @@ const { loadModules } = require('./helpers.cjs');
 
 function application() {
   return loadModules([
-    'domain/config.js',
-    'domain/state.js',
-    'domain/math.js',
-    'domain/missions.js',
-    'application/session.js',
-    'application/mission-controller.js',
-    'application/game.js',
+    'dist/domain/config.js',
+    'dist/domain/state.js',
+    'dist/domain/math.js',
+    'dist/domain/missions.js',
+    'dist/application/session.js',
+    'dist/application/mission-controller.js',
+    'dist/application/game.js',
   ]).TBS;
 }
 

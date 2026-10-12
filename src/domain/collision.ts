@@ -1,23 +1,19 @@
 'use strict';
 
-/** @typedef {PointXZ & {heading: number}} VehicleFootprint */
-/** @typedef {PointXZ & {depth: number}} VehicleContact */
-/** @typedef {(first: VehicleFootprint, second: VehicleFootprint) => VehicleContact | null} VehicleContactTest */
-
 (() => {
   // Separating-axis collision test for two oriented vehicle footprints.
-  /** @type {VehicleContactTest} */
-  function vehicleContact(first, second) {
+  function vehicleContact(
+    first: VehicleFootprint,
+    second: VehicleFootprint,
+  ): VehicleContact | null {
     const { x: ax, z: az, heading: angleA } = first;
     const { x: bx, z: bz, heading: angleB } = second;
     const forwardA = { x: Math.sin(angleA), z: -Math.cos(angleA) },
       sideA = { x: Math.cos(angleA), z: Math.sin(angleA) };
     const forwardB = { x: Math.sin(angleB), z: -Math.cos(angleB) },
       sideB = { x: Math.cos(angleB), z: Math.sin(angleB) };
-    /** @param {PointXZ} a @param {PointXZ} b @returns {number} */
-    const dot = (a, b) => a.x * b.x + a.z * b.z;
-    /** @type {VehicleContact | null} */
-    let contact = null;
+    const dot = (a: PointXZ, b: PointXZ): number => a.x * b.x + a.z * b.z;
+    let contact: VehicleContact | null = null;
     for (const axis of [forwardA, sideA, forwardB, sideB]) {
       const radiusA = 2.95 * Math.abs(dot(axis, forwardA)) + 1.65 * Math.abs(dot(axis, sideA));
       const radiusB = 2.95 * Math.abs(dot(axis, forwardB)) + 1.65 * Math.abs(dot(axis, sideB));

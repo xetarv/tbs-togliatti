@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const { loadModules } = require('./helpers.cjs');
 
 function createTraffic() {
-  const { TBS } = loadModules(['domain/config.js', 'domain/traffic.js']);
+  const { TBS } = loadModules(['dist/domain/config.js', 'dist/domain/traffic.js']);
   const simulation = TBS.createTrafficSimulation({ ...TBS.config, player: { x: -100, z: -100 } });
   return simulation;
 }
@@ -31,7 +31,7 @@ test('following vehicles respect the car ahead and the player in their lane', ()
   const vehicle = { horizontal: true, road: 30, lane: 2.7, pos: 40, dir: 1, cruise: 8 };
   assert.ok(trafficLimit(vehicle, [{ ...vehicle, pos: 47.6 }], 0).speed < 1e-6);
   assert.equal(trafficLimit(vehicle, [{ ...vehicle, pos: 30 }], 0).speed, 8);
-  const { TBS } = loadModules(['domain/config.js', 'domain/traffic.js']);
+  const { TBS } = loadModules(['dist/domain/config.js', 'dist/domain/traffic.js']);
   const simulation = TBS.createTrafficSimulation({ ...TBS.config, player: { x: 48, z: 32.7 } });
   assert.equal(simulation.trafficLimit(vehicle, [], 0).speed, 0);
 });

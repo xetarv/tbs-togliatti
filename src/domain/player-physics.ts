@@ -1,20 +1,5 @@
 'use strict';
 
-/** @typedef {VehicleFootprint & {speed: number}} MovingPhysicsVehicle */
-/**
- * @typedef {object} PlayerPhysicsOptions
- * @property {PlayerState} player
- * @property {ControlsState} keys
- * @property {Readonly<DrivingSettings>} settings
- * @property {Readonly<WorldBounds>} bounds
- * @property {Readonly<RoadNetwork>} roadNetwork
- * @property {readonly MovingPhysicsVehicle[]} movingVehicles
- * @property {readonly VehicleFootprint[]} parkedVehicles
- * @property {GameMath['clamp']} clamp
- * @property {VehicleContactTest} vehicleContact
- */
-/** @typedef {{updatePhysics: (dt: number) => PhysicsEvent[]}} PlayerPhysics */
-/** @param {PlayerPhysicsOptions} options @returns {Readonly<PlayerPhysics>} */
 globalThis.TBS.domain.createPlayerPhysics = function ({
   player,
   keys,
@@ -25,12 +10,10 @@ globalThis.TBS.domain.createPlayerPhysics = function ({
   parkedVehicles,
   clamp,
   vehicleContact,
-}) {
-  /** @type {PhysicsEvent[]} */
-  let events = [];
+}: PlayerPhysicsOptions): Readonly<PlayerPhysics> {
+  let events: PhysicsEvent[] = [];
 
-  /** @type {FrameUpdate} */
-  function accelerate(dt) {
+  function accelerate(dt: number): void {
     if (keys.up && player.battery > 0 && !keys.handbrake)
       player.speed += settings.acceleration * dt;
     if (keys.down) player.speed -= settings.braking * dt;
@@ -43,8 +26,7 @@ globalThis.TBS.domain.createPlayerPhysics = function ({
     if (Math.abs(player.speed) < settings.stopThreshold) player.speed = 0;
   }
 
-  /** @type {FrameUpdate} */
-  function steer(dt) {
+  function steer(dt: number): void {
     const direction = Number(Boolean(keys.right)) - Number(Boolean(keys.left));
     const speed = Math.abs(player.speed);
     if (direction && speed > settings.steeringThreshold) {
@@ -58,15 +40,13 @@ globalThis.TBS.domain.createPlayerPhysics = function ({
     if (speed < 1) player.slip = 0;
   }
 
-  /** @param {PointXZ} previous @returns {void} */
-  function restorePosition(previous) {
+  function restorePosition(previous: PointXZ): void {
     player.x = previous.x;
     player.z = previous.z;
     player.speed = 0;
   }
 
-  /** @param {number} dt Elapsed seconds. @param {PointXZ} previous @returns {void} */
-  function move(dt, previous) {
+  function move(dt: number, previous: PointXZ): void {
     const heading = player.heading + player.slip;
     player.x = clamp(player.x + Math.sin(heading) * player.speed * dt, bounds.minX, bounds.maxX);
     player.z = clamp(player.z - Math.cos(heading) * player.speed * dt, bounds.minZ, bounds.maxZ);
@@ -76,21 +56,19 @@ globalThis.TBS.domain.createPlayerPhysics = function ({
     }
   }
 
-  /**
-   * Callers pair moving=true only with movingVehicles, which always supply speed.
-   * @param {VehicleFootprint | MovingPhysicsVehicle} vehicle
-   * @param {PointXZ} previous
-   * @param {boolean} moving
-   * @returns {void}
-   */
-  function resolveContact(vehicle, previous, moving) {
+  // Moving=true is paired only with vehicles carrying speed, as in the original callers.
+  function resolveContact(vehicle: MovingPhysicsVehicle, previous: PointXZ, moving: true): void;
+  function resolveContact(vehicle: VehicleFootprint, previous: PointXZ, moving: false): void;
+  function resolveContact(
+    vehicle: VehicleFootprint | MovingPhysicsVehicle,
+    previous: PointXZ,
+    moving: boolean,
+  ): void {
     const contact = vehicleContact(player, vehicle);
     if (!contact) return;
     events.push({
       type: 'impact',
-      speed:
-        Math.abs(player.speed) +
-        (moving ? /** @type {MovingPhysicsVehicle} */ (vehicle).speed * 0.25 : 0),
+      speed: Math.abs(player.speed) + (moving ? (vehicle as MovingPhysicsVehicle).speed * 0.25 : 0),
     });
     const x = player.x + contact.x * (contact.depth + 0.03);
     const z = player.z + contact.z * (contact.depth + 0.03);
@@ -103,8 +81,7 @@ globalThis.TBS.domain.createPlayerPhysics = function ({
     player.speed = 0;
   }
 
-  /** @type {FrameUpdate} */
-  function consumeBattery(dt) {
+  function consumeBattery(dt: number): void {
     player.battery = Math.max(
       0,
       player.battery - Math.abs(player.speed) * dt * settings.batteryDrain,
@@ -115,8 +92,7 @@ globalThis.TBS.domain.createPlayerPhysics = function ({
     events.push({ type: 'recharged' });
   }
 
-  /** @param {number} dt Elapsed seconds. @returns {PhysicsEvent[]} */
-  function updatePhysics(dt) {
+  function updatePhysics(dt: number): PhysicsEvent[] {
     events = [];
     const previous = { x: player.x, z: player.z };
     accelerate(dt);

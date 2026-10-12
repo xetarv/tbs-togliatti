@@ -2,3 +2,4 @@ node_modules/
 artifacts/
 assets/
 package-lock.json
+dist/

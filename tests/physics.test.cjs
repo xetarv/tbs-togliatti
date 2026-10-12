@@ -4,12 +4,12 @@ const { loadModules } = require('./helpers.cjs');
 
 function createPhysics() {
   const { TBS } = loadModules([
-    'domain/config.js',
-    'domain/state.js',
-    'domain/math.js',
-    'domain/collision.js',
-    'domain/road-network.js',
-    'domain/player-physics.js',
+    'dist/domain/config.js',
+    'dist/domain/state.js',
+    'dist/domain/math.js',
+    'dist/domain/collision.js',
+    'dist/domain/road-network.js',
+    'dist/domain/player-physics.js',
   ]);
   const state = TBS.createState();
   const physics = TBS.createPlayerPhysics({

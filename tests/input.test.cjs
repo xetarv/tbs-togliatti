@@ -14,7 +14,7 @@ function setupInput() {
       return this.editable;
     }
   }
-  const { TBS } = loadModules(['domain/state.js', 'adapters/input/controls.js'], {
+  const { TBS } = loadModules(['dist/domain/state.js', 'adapters/input/controls.js'], {
     document,
     HTMLElement,
     performance: { now: () => 10 },

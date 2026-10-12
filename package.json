@@ -11,9 +11,12 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --project tsconfig.contracts.json",
+    "build": "node tools/build-typescript.cjs",
+    "build:check": "node tools/build-typescript.cjs --check",
+    "build:watch": "node tools/build-typescript.cjs --watch",
     "test": "node --test tests/*.test.cjs",
     "test:browser": "node tools/check-browser.cjs",
-    "check": "npm run lint && npm run format:check && npm run typecheck && npm test"
+    "check": "npm run lint && npm run format:check && npm run build:check && npm test"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

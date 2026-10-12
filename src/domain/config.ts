@@ -1,44 +1,12 @@
 'use strict';
 
-/**
- * @typedef {object} DrivingSettings
- * @property {number} acceleration
- * @property {number} braking
- * @property {number} handbrake
- * @property {number} drag
- * @property {number} forwardSpeed
- * @property {number} reverseSpeed
- * @property {number} stopThreshold
- * @property {number} steeringThreshold
- * @property {number} turnRate
- * @property {number} batteryDrain
- */
-/** @typedef {{minX: number, maxX: number, minZ: number, maxZ: number}} WorldBounds */
-/** @typedef {PointXZ & {name: string}} MissionPoint */
-/** @typedef {{title: string, description: string, from: Readonly<MissionPoint>, to: Readonly<MissionPoint>, reward: number}} MissionDefinition */
-/** @typedef {{interactionRadius: number, maximumSpeed: number}} MissionRules */
-/**
- * @typedef {object} GameConfig
- * @property {Readonly<DrivingSettings>} driving
- * @property {Readonly<WorldBounds>} bounds
- * @property {Readonly<MissionRules>} missionRules
- * @property {number} WORLD_W
- * @property {number} WORLD_H
- * @property {number} ROAD
- * @property {readonly number[]} roadsX
- * @property {readonly number[]} roadsZ
- * @property {(i: number, j: number) => boolean} isParkBlock
- * @property {readonly Readonly<MissionDefinition>[]} missions
- */
-
 (() => {
   const WORLD_W = 386,
     WORLD_H = 300,
     ROAD = 12.4;
-  const roadsX = [26, 68, 110, 152, 194, 236, 278, 320, 362];
-  const roadsZ = [30, 70, 110, 150, 190, 230, 270];
-  /** @param {number} i @param {number} j @returns {boolean} */
-  function isParkBlock(i, j) {
+  const roadsX: number[] = [26, 68, 110, 152, 194, 236, 278, 320, 362];
+  const roadsZ: number[] = [30, 70, 110, 150, 190, 230, 270];
+  function isParkBlock(i: number, j: number): boolean {
     return (
       (i === 3 && j === 3) ||
       (j === 4 && i % 2 === 0) ||
@@ -47,7 +15,7 @@
       (j === 5 && i % 3 === 1)
     );
   }
-  const missions = [
+  const missions: MissionDefinition[] = [
     {
       title: 'Контур будущего',
       description:
@@ -71,15 +39,14 @@
       reward: 2400,
     },
   ];
-  /** @template T @param {T} value @returns {T} */
-  function freeze(value) {
+  function freeze<T>(value: T): T {
     if (value && typeof value === 'object') {
-      for (const child of Object.values(value)) freeze(child);
+      for (const child of Object.values(value) as unknown[]) freeze(child);
       Object.freeze(value);
     }
     return value;
   }
-  globalThis.TBS.domain.config = freeze({
+  globalThis.TBS.domain.config = freeze<GameConfig>({
     driving: {
       acceleration: 23,
       braking: 27,

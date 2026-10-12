@@ -1,24 +1,23 @@
 'use strict';
 
-/** @typedef {{left: number, right: number, top: number, bottom: number, cx: number, road: number}} ParkingLot */
-/** @typedef {{roadsX: readonly number[], roadsZ: readonly number[], ROAD: number, parkingLots: readonly ParkingLot[]}} RoadNetworkOptions */
-/** @typedef {{isDrivable: (x: number, z: number) => boolean}} RoadNetwork */
-/** @param {RoadNetworkOptions} options @returns {Readonly<RoadNetwork>} */
-globalThis.TBS.domain.createRoadNetwork = function ({ roadsX, roadsZ, ROAD, parkingLots }) {
+globalThis.TBS.domain.createRoadNetwork = function ({
+  roadsX,
+  roadsZ,
+  ROAD,
+  parkingLots,
+}: RoadNetworkOptions): Readonly<RoadNetwork> {
   const edge = ROAD / 2;
   const cornerRadius = 4;
   const vehicleClearance = 1.2;
 
-  /** @param {number} x @param {number} z @param {ParkingLot} lot @returns {boolean} */
-  function insideParkingLot(x, z, lot) {
+  function insideParkingLot(x: number, z: number, lot: ParkingLot): boolean {
     const inside =
       x > lot.left + 1.8 && x < lot.right - 1.8 && z > lot.top + 1.8 && z < lot.bottom - 3;
     const entrance = Math.abs(x - lot.cx) < 2.2 && z >= lot.road && z < lot.top + 5;
     return inside || entrance;
   }
 
-  /** @param {number} x @param {number} z @returns {boolean} */
-  function isDrivable(x, z) {
+  function isDrivable(x: number, z: number): boolean {
     const dx = Math.min(...roadsX.map((road) => Math.abs(road - x)));
     const dz = Math.min(...roadsZ.map((road) => Math.abs(road - z)));
     const insideLane = dx < edge - vehicleClearance || dz < edge - vehicleClearance;

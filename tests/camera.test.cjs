@@ -10,10 +10,13 @@ test('camera drag and zoom affect the live camera after toggling mouse control',
     setPointerCapture() {},
   };
   const button = { setAttribute() {}, addEventListener() {} };
-  const { TBS } = loadModules(['domain/math.js', 'domain/state.js', 'adapters/input/camera.js'], {
-    addEventListener() {},
-    innerHeight: 768,
-  });
+  const { TBS } = loadModules(
+    ['dist/domain/math.js', 'dist/domain/state.js', 'adapters/input/camera.js'],
+    {
+      addEventListener() {},
+      innerHeight: 768,
+    },
+  );
   const state = TBS.createState();
   state.mode = 'playing';
   const camera = new T.PerspectiveCamera();
