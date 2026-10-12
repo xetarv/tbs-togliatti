@@ -1,5 +1,37 @@
 'use strict';
 
+/** @typedef {'compact' | 'van' | 'sedan' | 'shuttle'} TrafficVariant */
+/** @typedef {'green' | 'amber' | 'red'} SignalPhase */
+/**
+ * @typedef {object} TrafficVehicle
+ * @property {number} id
+ * @property {boolean} horizontal
+ * @property {1 | -1} dir
+ * @property {TrafficVariant} variant
+ * @property {number} color
+ * @property {number} road
+ * @property {number} lane
+ * @property {number} pos
+ * @property {number} speed
+ * @property {number} cruise
+ * @property {boolean} braking
+ * @property {number} x
+ * @property {number} z
+ * @property {number} heading Radians; assigned by placeVehicle before publication.
+ */
+/** @typedef {Omit<TrafficVehicle, 'x' | 'z' | 'heading'> & Partial<VehicleFootprint>} TrafficVehicleInit */
+/** @typedef {Pick<TrafficVehicle, 'horizontal' | 'road' | 'pos'> & {dir?: number}} TrafficNeighbor */
+/** @typedef {Pick<TrafficVehicle, 'horizontal' | 'road' | 'lane' | 'pos' | 'dir' | 'cruise'>} TrafficLaneVehicle */
+/** @typedef {{speed: number, clearance: number}} TrafficLimit */
+/** @typedef {{roadsX: readonly number[], roadsZ: readonly number[], ROAD: number, WORLD_W: number, WORLD_H: number, player: PointXZ}} TrafficOptions */
+/**
+ * @typedef {object} TrafficSimulation
+ * @property {TrafficVehicle[]} traffic
+ * @property {(x: number, z: number, horizontal: boolean, atTime?: number) => SignalPhase} signalPhase
+ * @property {(vehicle: TrafficLaneVehicle, vehicles?: readonly TrafficNeighbor[], atTime?: number) => TrafficLimit} trafficLimit
+ * @property {FrameUpdate} advanceTraffic
+ */
+/** @param {TrafficOptions} options @returns {Readonly<TrafficSimulation>} */
 globalThis.TBS.domain.createTrafficSimulation = function ({
   roadsX,
   roadsZ,
@@ -10,8 +42,10 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
 }) {
   let time = 0;
   const colors = [0xf4a063, 0xe2e7e8, 0x88bbcf, 0xd8eee8];
+  /** @type {TrafficVariant[]} */
   const variants = ['compact', 'van', 'sedan', 'shuttle'];
 
+  /** @param {number} x @param {number} z @param {boolean} horizontal @param {number} [atTime] @returns {SignalPhase} */
   function signalPhase(x, z, horizontal, atTime = time) {
     const phase = (((atTime + roadsX.indexOf(x) * 2 + roadsZ.indexOf(z) * 3) % 24) + 24) % 24;
     const local = (phase + (horizontal ? 0 : 12)) % 24;
@@ -19,6 +53,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     return local < 10 ? 'amber' : 'red';
   }
 
+  /** @param {TrafficVehicleInit} vehicle @returns {void} Assign all footprint fields in place. */
   function placeVehicle(vehicle) {
     vehicle.x = vehicle.horizontal ? vehicle.pos : vehicle.road + vehicle.lane;
     vehicle.z = vehicle.horizontal ? vehicle.road + vehicle.lane : vehicle.pos;
@@ -29,6 +64,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
         : 0;
   }
 
+  /** @param {number} index @returns {TrafficVehicle} */
   function createVehicle(index) {
     const horizontal = index % 2 === 0;
     const dir = index % 4 < 2 ? 1 : -1;
@@ -36,6 +72,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     const crosses = horizontal ? roadsX : roadsZ;
     const block = (Math.floor(index / 4) * 2 + (index % 4)) % (crosses.length - 1);
     const variant = variants[index % variants.length];
+    /** @type {TrafficVehicleInit} */
     const vehicle = {
       id: index,
       horizontal,
@@ -50,11 +87,12 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
       braking: true,
     };
     placeVehicle(vehicle);
-    return vehicle;
+    return /** @type {TrafficVehicle} */ (vehicle);
   }
 
   const traffic = Array.from({ length: 36 }, (_, index) => createVehicle(index));
 
+  /** @param {TrafficLaneVehicle} vehicle @param {number} cross @param {readonly TrafficNeighbor[]} vehicles @returns {boolean} */
   function crossingOccupied(vehicle, cross, vehicles) {
     return vehicles.some(
       (other) =>
@@ -64,6 +102,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     );
   }
 
+  /** @param {TrafficLaneVehicle} vehicle @param {readonly TrafficNeighbor[]} vehicles @param {number} atTime @returns {number} */
   function intersectionClearance(vehicle, vehicles, atTime) {
     let clearance = Infinity;
     for (const cross of vehicle.horizontal ? roadsX : roadsZ) {
@@ -79,6 +118,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     return clearance;
   }
 
+  /** @param {TrafficLaneVehicle} vehicle @param {readonly TrafficNeighbor[]} vehicles @returns {number} */
   function followingClearance(vehicle, vehicles) {
     let clearance = Infinity;
     for (const other of vehicles) {
@@ -94,6 +134,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     return clearance;
   }
 
+  /** @param {TrafficLaneVehicle} vehicle @returns {number} */
   function playerClearance(vehicle) {
     const along = vehicle.horizontal ? player.x : player.z;
     const across = vehicle.horizontal ? player.z : player.x;
@@ -103,6 +144,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     return Infinity;
   }
 
+  /** @param {TrafficLaneVehicle} vehicle @param {readonly TrafficNeighbor[]} [vehicles] @param {number} [atTime] @returns {TrafficLimit} */
   function trafficLimit(vehicle, vehicles = traffic, atTime = time) {
     const clearance = Math.min(
       intersectionClearance(vehicle, vehicles, atTime),
@@ -112,6 +154,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     return { speed: Math.min(vehicle.cruise, Math.sqrt(2 * 5 * clearance)), clearance };
   }
 
+  /** @param {TrafficVehicle} vehicle @param {TrafficLimit} limit @param {number} dt Elapsed seconds. @returns {void} */
   function advanceVehicle(vehicle, limit, dt) {
     const oldSpeed = vehicle.speed;
     vehicle.speed += Math.max(-5 * dt, Math.min(2.6 * dt, limit.speed - vehicle.speed));
@@ -126,6 +169,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     placeVehicle(vehicle);
   }
 
+  /** @type {FrameUpdate} */
   function advanceTraffic(dt) {
     time += dt;
     const limits = traffic.map((vehicle) => trafficLimit(vehicle));

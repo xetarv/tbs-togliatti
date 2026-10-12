@@ -11,6 +11,19 @@
     "moduleDetection": "legacy",
     "types": []
   },
-  "files": ["types/game-contracts.d.ts", "src/domain/state.js", "src/application/game.js"],
+  "files": [
+    "types/game-contracts.d.ts",
+    "src/domain/state.js",
+    "src/application/game.js",
+    "src/domain/math.js",
+    "src/domain/config.js",
+    "src/domain/collision.js",
+    "src/domain/road-network.js",
+    "src/domain/traffic.js",
+    "src/domain/player-physics.js",
+    "src/domain/missions.js",
+    "src/application/session.js",
+    "src/application/mission-controller.js"
+  ],
   "include": []
 }

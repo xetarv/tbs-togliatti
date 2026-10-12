@@ -1,5 +1,24 @@
 'use strict';
 
+/** @typedef {{status: 'pickup', point: Readonly<MissionPoint>}} MissionPickup */
+/** @typedef {{status: 'delivery', point: Readonly<MissionPoint>, reward: number}} MissionDelivery */
+/** @typedef {MissionPickup | MissionDelivery} MissionSuccess */
+/** @typedef {{status: 'inactive' | 'too-far' | 'too-fast'} | MissionSuccess} MissionInteractionResult */
+/**
+ * @typedef {object} MissionRoutes
+ * @property {() => Readonly<MissionDefinition>} currentMission
+ * @property {() => Readonly<MissionPoint>} target
+ * @property {() => MissionInteractionResult} tryInteract
+ */
+/**
+ * @typedef {object} MissionRoutesOptions
+ * @property {readonly Readonly<MissionDefinition>[]} missions Nonempty configured list.
+ * @property {GameState} state
+ * @property {PlayerState} player
+ * @property {GameMath['distance']} distance
+ * @property {Readonly<MissionRules>} missionRules
+ */
+/** @param {MissionRoutesOptions} options @returns {MissionRoutes} */
 globalThis.TBS.domain.createMissionRoutes = function ({
   missions,
   state,
@@ -7,9 +26,12 @@ globalThis.TBS.domain.createMissionRoutes = function ({
   distance,
   missionRules,
 }) {
+  /** @returns {Readonly<MissionDefinition>} */
   const currentMission = () => missions[state.missionIndex];
 
+  /** @returns {Readonly<MissionPoint>} */
   const target = () => (state.stage === 0 ? currentMission().from : currentMission().to);
+  /** @returns {MissionInteractionResult} */
   function tryInteract() {
     if (state.mode !== 'playing') return { status: 'inactive' };
     const point = target();
