@@ -1,9 +1,17 @@
 'use strict';
 
-window.TBS.createDroneModels = function ({ T, scene, dark, cyanMat, orangeMat, whiteMat, box }) {
-  function createDrone() {
+window.TBS.createDroneModels = function ({
+  T,
+  scene,
+  dark,
+  cyanMat,
+  orangeMat,
+  whiteMat,
+  box,
+}: DroneModelsOptions): DroneModels {
+  function createDrone(): DroneModel {
     const group = new T.Group(),
-      rotors = [];
+      rotors: DroneModel['rotors'] = [];
     box(group, 0, 0, 0, 2.2, 0.48, 1.7, whiteMat);
     box(group, 0, -0.4, 0, 1.3, 0.38, 1, orangeMat);
     for (const sx of [-1, 1])

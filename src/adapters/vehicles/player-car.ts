@@ -13,7 +13,7 @@ window.TBS.createPlayerCar = function ({
   unitPlane,
   scene,
   player,
-}) {
+}: PlayerCarOptions): PlayerCarPort {
   const car = createHeroCar();
 
   for (const parked of parkedCars) {
@@ -50,9 +50,9 @@ window.TBS.createPlayerCar = function ({
   scene.add(skidMarks);
 
   let skidCursor = 0,
-    previousSkid = null;
+    previousSkid: (PointXZ & { a: number }) | null = null;
 
-  function updateSkidMarks(active, braking, steer) {
+  function updateSkidMarks(active: boolean, braking: BrakingState, steer: number): void {
     if (!active) return;
     const speed = Math.abs(player.speed);
     if (speed < 5 || (!braking && !(Math.abs(steer) > 0.5 && speed > 12))) {
@@ -85,7 +85,7 @@ window.TBS.createPlayerCar = function ({
     }
     previousSkid = rear;
   }
-  function updatePlayerCar(dt, previousSpeed) {
+  function updatePlayerCar(dt: number, previousSpeed: number): BrakingState {
     car.position.set(player.x, 0.12, player.z);
     car.rotation.y = -player.heading;
     const active = state.mode === 'playing';
@@ -94,7 +94,8 @@ window.TBS.createPlayerCar = function ({
       (keys.handbrake || (keys.down && player.speed >= 0) || (keys.up && player.speed < 0));
     updateSkidMarks(active, braking, (keys.right ? 1 : 0) - (keys.left ? 1 : 0));
     for (const parked of parkedCars)
-      parked.mesh.visible =
+      // The creation loop above initialized every parked mesh before this callback is returned.
+      parked.mesh!.visible =
         Math.hypot(parked.x - player.x, parked.z - player.z) < getGraphics().distance;
     animateVehicle(
       car,

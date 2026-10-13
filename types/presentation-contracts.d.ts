@@ -14,6 +14,13 @@ interface ThreePositionedObjectHandle extends ThreeObjectHandle {
 interface ThreeGroupHandle extends ThreePositionedObjectHandle {
   readonly isGroup: true;
   add: (...objects: ThreeObjectHandle[]) => this;
+  visible: boolean;
+  name: string;
+  readonly children: ThreeFastbackChild[];
+  userData: Record<string, unknown>;
+  remove: (...objects: ThreeObjectHandle[]) => this;
+  readonly rotation: { x: number; y: number; z: number };
+  readonly scale: ThreeMarkerScale;
 }
 interface ThreeSpriteHandle extends ThreePositionedObjectHandle {
   readonly isSprite: true;
@@ -24,7 +31,7 @@ interface ThreePointLightHandle extends ThreePositionedObjectHandle {
 interface ThreeMarkerScale extends CameraVector3 {
   setScalar: (scalar: number) => this;
 }
-interface ThreeMarkerMeshHandle<M extends ThreeMaterialHandle>
+interface ThreeMarkerMeshHandle<M extends ThreeMaterialHandle | ThreeMaterialHandle[]>
   extends ThreeMeshHandle, ThreePositionedObjectHandle {
   material: M;
   readonly rotation: { x: number; y: number; z: number };
@@ -37,10 +44,13 @@ interface ThreeBasicMaterialParameters {
   opacity?: number;
   side?: 0 | 1 | 2;
   depthWrite?: boolean;
+  polygonOffset?: boolean;
+  polygonOffsetFactor?: number;
 }
 interface ThreeBasicMaterialHandle extends ThreeMaterialHandle {
   readonly isMeshBasicMaterial: true;
   opacity: number;
+  readonly color: ThreeColorHandle;
 }
 interface ThreeCameraHandle extends ThreeObjectHandle {
   readonly isPerspectiveCamera: true;
@@ -108,13 +118,23 @@ interface ThreeLibraryHandle {
     distance?: number,
     decay?: number,
   ) => ThreePointLightHandle;
+  InstancedMesh: new (
+    geometry: ThreeGeometryHandle,
+    material: ThreeMaterialHandle | ThreeMaterialHandle[],
+    count: number,
+  ) => ThreeFastbackInstancedMesh;
+  MeshPhysicalMaterial: new (
+    parameters?: ThreePhysicalMaterialParameters,
+  ) => ThreePhysicalMaterialHandle;
+  Object3D: new () => ThreeSkidTransform;
+  readonly DynamicDrawUsage: 35048;
 }
 
 interface ParkedPresentationCar extends PointXZ {
   a: number;
   seed: number;
   /** Assigned in place by createPlayerCar before its update callback can run. */
-  mesh?: ThreeObjectHandle;
+  mesh?: TrafficCar;
 }
 
 type BoxHelper = (
@@ -126,7 +146,13 @@ type BoxHelper = (
   h: number,
   d: number,
   material: ThreeMaterialHandle,
-) => ThreeMeshHandle;
+) => ThreeMarkerMeshHandle<ThreeMaterialHandle>;
+
+/** The actual group and four box-mesh rotors returned by createDroneModels. */
+interface DroneModel {
+  group: ThreeGroupHandle;
+  rotors: ThreeMarkerMeshHandle<ThreeMaterialHandle>[];
+}
 type TexturePainter = (context: CanvasRenderingContext2D, w: number, h: number) => void;
 type MakeTexture = (draw: TexturePainter, w?: number, h?: number) => ThreeTextureHandle;
 
@@ -218,7 +244,7 @@ interface PresentationWorldResources extends Pick<
     h: number,
     opacity?: number,
   ) => ThreeSpriteHandle;
-  createDrone: () => { group: ThreeObjectHandle; rotors: ThreeObjectHandle[] };
+  createDrone: () => DroneModel;
 }
 
 interface BootstrapWorld extends PresentationWorldResources {}
@@ -239,6 +265,13 @@ interface GraphicsPort {
 
 interface FastbackMeshData {
   stations: readonly (readonly number[])[];
+  panels: readonly {
+    name: string;
+    material: 'paint' | 'roof' | 'glass';
+    position: readonly number[];
+    uv: readonly number[];
+    index: readonly number[];
+  }[];
 }
 declare var TBS_FASTBACK_MESH: FastbackMeshData;
 interface FastbackOptions extends Pick<BootstrapWorld, 'T' | 'scene' | 'makeTexture'> {
@@ -248,10 +281,10 @@ interface FastbackOptions extends Pick<BootstrapWorld, 'T' | 'scene' | 'makeText
 }
 
 interface CarModels {
-  createHeroCar: () => ThreeObjectHandle;
-  createTrafficCar: (color: number, variant?: TrafficVariant) => ThreeObjectHandle;
+  createHeroCar: () => FastbackCar;
+  createTrafficCar: (color: number, variant?: TrafficVariant) => TrafficCar;
   animateVehicle: (
-    mesh: ThreeObjectHandle,
+    mesh: FastbackCar | TrafficCar,
     speed: number,
     steer: number,
     braking: BrakingState,
@@ -278,7 +311,7 @@ type CarModelsOptions = Pick<
   | 'tireMat'
   | 'unitBox'
 > & {
-  createFastback: (options: FastbackOptions) => ThreeObjectHandle;
+  createFastback: (options: FastbackOptions) => FastbackCar;
   meshData: FastbackMeshData;
 };
 interface VisualContext {
@@ -289,7 +322,7 @@ interface GraphicsAccess {
   getGraphics: () => GraphicsPort;
 }
 interface PlayerCarPort {
-  car: ThreeObjectHandle;
+  car: FastbackCar;
   updatePlayerCar: GameFramePorts['vehicle']['updatePlayerCar'];
 }
 type PlayerCarOptions = VisualContext &
@@ -461,7 +494,7 @@ type WorldAnimationOptions = Pick<
 };
 
 interface TbsRegistry {
-  createFastback: (options: FastbackOptions) => ThreeObjectHandle;
+  createFastback: (options: FastbackOptions) => FastbackCar;
   createCarModels: (options: CarModelsOptions) => CarModels;
   createPlayerCar: (options: PlayerCarOptions) => PlayerCarPort;
   createGraphics: (options: GraphicsOptions) => GraphicsPort;

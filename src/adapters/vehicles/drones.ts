@@ -1,6 +1,10 @@
 'use strict';
 
-window.TBS.createDrones = function ({ state, player, createDrone }) {
+window.TBS.createDrones = function ({
+  state,
+  player,
+  createDrone,
+}: DronesOptions): GameFramePorts['drones'] {
   const escortDrone = createDrone();
 
   const ambientDrones = Array.from({ length: 5 }, (_, i) => ({
@@ -9,7 +13,7 @@ window.TBS.createDrones = function ({ state, player, createDrone }) {
     baseZ: 21 + (i % 2) * 80,
     phase: i * 1.7,
   }));
-  function updateDrones() {
+  function updateDrones(): void {
     escortDrone.group.visible = state.stage === 1;
     if (state.stage === 1) {
       escortDrone.group.position.set(

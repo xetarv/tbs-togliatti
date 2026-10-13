@@ -18,7 +18,7 @@ window.TBS.createCarModels = function ({
   wedge,
   tireMat,
   unitBox,
-}) {
+}: CarModelsOptions): CarModels {
   const { coachwork, glazedQuad } = window.TBS.createTrafficCarGeometry({ T });
   const { createPassengerShell } = window.TBS.createPassengerBodyBuilder({
     T,
@@ -59,7 +59,7 @@ window.TBS.createCarModels = function ({
     128,
     128,
   );
-  function createHeroCar() {
+  function createHeroCar(): FastbackCar {
     return createFastback({
       meshData,
       T,
@@ -69,8 +69,8 @@ window.TBS.createCarModels = function ({
       shadowTexture: vehicleShadowTexture,
     });
   }
-  function createTrafficCar(color, variant = 'sedan') {
-    const group = new T.Group();
+  function createTrafficCar(color: number, variant: TrafficVariant = 'sedan'): TrafficCar {
+    const group: TrafficCarAssemblyGroup = new T.Group();
     const body = new T.MeshPhysicalMaterial({
       color,
       metalness: 0.65,
@@ -129,9 +129,16 @@ window.TBS.createCarModels = function ({
     }
     group.userData.wheelRadius = 0.5 * scale;
     scene.add(group);
-    return group;
+    // Existing branch-specific builders and assignments have now populated the completed data.
+    return group as TrafficCar;
   }
-  function animateVehicle(mesh, speed, steer, braking, dt) {
+  function animateVehicle(
+    mesh: FastbackCar | TrafficCar,
+    speed: number,
+    steer: number,
+    braking: BrakingState,
+    dt: number,
+  ): void {
     if (mesh.userData.steeringWheel) mesh.userData.steeringWheel.rotation.z = -steer * 0.65;
     for (const wheel of mesh.userData.wheels) {
       wheel.rolling.rotation.x =
