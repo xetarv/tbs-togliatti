@@ -17,10 +17,10 @@ window.TBS.createTrafficView = function ({
   animateVehicle,
   getGraphics,
   unitBox,
-}) {
-  const signalHeads = [];
-  const housingBatches = new Map();
-  const prepareHousing = [];
+}: TrafficViewOptions): GameFramePorts['traffic'] {
+  const signalHeads: TrafficSignalHead[] = [];
+  const housingBatches = new Map<string, TrafficHousingPart[]>();
+  const prepareHousing: ((camera: ThreeRenderCameraHandle) => void)[] = [];
   const projectionView = new T.Matrix4();
   const batchHousing = new URLSearchParams(location.search).get('signalHousingBatching') !== '0';
 
@@ -40,7 +40,7 @@ window.TBS.createTrafficView = function ({
           head.rotation.y = horizontal ? (-dir * Math.PI) / 2 : dir > 0 ? Math.PI : 0;
           box(head, 0, 2, 0, 0.12, 4, 0.12, trimMat);
           box(head, 0, 4.05, 0.03, 0.65, 1.85, 0.36, dark);
-          const lamps = [];
+          const lamps: TrafficSignalHead['lamps'] = [];
           for (let i = 0; i < 3; i++) {
             const lamp = new T.Mesh(new T.CircleGeometry(0.22, 16), signalOff);
             lamp.position.set(0, 4.62 - i * 0.55, 0.22);
@@ -50,12 +50,12 @@ window.TBS.createTrafficView = function ({
           }
           scene.add(head);
           if (batchHousing)
-            for (const part of head.children)
+            for (const part of head.children as TrafficHousingPart[])
               if (part.geometry === unitBox) {
                 const key =
                   part.material.uuid + ':' + Math.floor(x / 84) + ':' + Math.floor(z / 80);
                 if (!housingBatches.has(key)) housingBatches.set(key, []);
-                housingBatches.get(key).push(part);
+                housingBatches.get(key)!.push(part);
               }
           signalHeads.push({ x, z, horizontal, lamps });
           const lane = ((horizontal ? dir : -dir) * ROAD) / 4,
@@ -74,7 +74,7 @@ window.TBS.createTrafficView = function ({
 
   const culling = window.TBS.createVegetationCulling({ T });
   for (const parts of housingBatches.values()) {
-    const records = parts.map((part, index) => {
+    const records: TrafficHousingRecord[] = parts.map((part, index) => {
       part.parent.updateMatrix();
       part.updateMatrix();
       return {
@@ -108,7 +108,11 @@ window.TBS.createTrafficView = function ({
       geometry.setAttribute('signalNormal', normalView);
       const originalCompile = material.onBeforeCompile;
       const originalKey = material.customProgramCacheKey;
-      const compile = function (shader, renderer) {
+      const compile = function (
+        this: ThreeMaterialHandle,
+        shader: ThreeCompiledShader,
+        renderer: ThreeRendererHandle,
+      ): void {
         originalCompile.call(this, shader, renderer);
         shader.vertexShader =
           'attribute mat4 signalModelView;\nattribute mat3 signalNormal;\n' + shader.vertexShader;
@@ -164,14 +168,20 @@ window.TBS.createTrafficView = function ({
   housingBatches.clear();
   if (prepareHousing.length) {
     const original = scene.onBeforeRender;
-    scene.onBeforeRender = function (renderer, renderedScene, camera, ...args) {
+    scene.onBeforeRender = function (
+      this: ThreeSceneHandle,
+      renderer: ThreeRendererHandle,
+      renderedScene: ThreeSceneHandle,
+      camera: ThreeRenderCameraHandle,
+      ...args: [renderTarget?: ThreeRenderTargetHandle | null]
+    ): void {
       original.call(this, renderer, renderedScene, camera, ...args);
       projectionView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
       for (const prepare of prepareHousing) prepare(camera);
     };
   }
 
-  function updateSignals() {
+  function updateSignals(): void {
     for (const head of signalHeads) {
       const phase = signalPhase(head.x, head.z, head.horizontal),
         active = phase === 'red' ? 0 : phase === 'amber' ? 1 : 2;
@@ -183,12 +193,12 @@ window.TBS.createTrafficView = function ({
     }
   }
 
-  const meshes = new Map(
+  const meshes = new Map<number, TrafficCar>(
     traffic.map((vehicle) => [vehicle.id, createTrafficCar(vehicle.color, vehicle.variant)]),
   );
 
-  function placeTraffic(t) {
-    const mesh = meshes.get(t.id);
+  function placeTraffic(t: TrafficVehicle): void {
+    const mesh = meshes.get(t.id)!;
     mesh.position.set(
       t.horizontal ? t.pos : t.road + t.lane,
       0.08,
@@ -201,11 +211,11 @@ window.TBS.createTrafficView = function ({
 
   updateSignals();
 
-  function update(dt) {
+  function update(dt: number): void {
     updateSignals();
     for (const vehicle of traffic) {
       placeTraffic(vehicle);
-      const mesh = meshes.get(vehicle.id);
+      const mesh = meshes.get(vehicle.id)!;
       const distance = getGraphics().distance;
       mesh.visible = camera.position.distanceToSquared(mesh.position) < distance * distance;
       if (mesh.visible) animateVehicle(mesh, vehicle.speed, 0, vehicle.braking, dt);

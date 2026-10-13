@@ -15,7 +15,7 @@ function setup(enabled) {
   for (const file of [
     'assets/three.min.js',
     'src/adapters/rendering/vegetation-culling.js',
-    'src/adapters/simulation/traffic.js',
+    'dist/adapters/simulation/traffic.js',
   ])
     vm.runInContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), context);
   const T = context.THREE,

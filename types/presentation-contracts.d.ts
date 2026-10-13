@@ -21,6 +21,7 @@ interface ThreeGroupHandle extends ThreePositionedObjectHandle {
   remove: (...objects: ThreeObjectHandle[]) => this;
   readonly rotation: { x: number; y: number; z: number };
   readonly scale: ThreeMarkerScale;
+  traverse: (callback: (object: ThreeNonMeshChild | ThreeMeshHandle) => void) => void;
 }
 interface ThreeSpriteHandle extends ThreePositionedObjectHandle {
   readonly isSprite: true;
@@ -46,6 +47,8 @@ interface ThreeBasicMaterialParameters {
   depthWrite?: boolean;
   polygonOffset?: boolean;
   polygonOffsetFactor?: number;
+  map?: ThreeTextureHandle | null;
+  toneMapped?: boolean;
 }
 interface ThreeBasicMaterialHandle extends ThreeMaterialHandle {
   readonly isMeshBasicMaterial: true;
@@ -62,6 +65,7 @@ interface CameraVector3 extends DisplacementXYZ {
   set: (x: number, y: number, z: number) => this;
   copy: (vector: DisplacementXYZ) => this;
   lerp: (vector: DisplacementXYZ, alpha: number) => this;
+  distanceToSquared: (vector: DisplacementXYZ) => number;
 }
 /** createScene's actual mesh/shader resource; other mesh handles do not gain shader fields. */
 interface CameraSkyHandle extends ThreeMeshHandle {
@@ -70,6 +74,7 @@ interface CameraSkyHandle extends ThreeMeshHandle {
 }
 interface ThreeMeshHandle extends ThreeObjectHandle {
   readonly isMesh: true;
+  castShadow: boolean;
 }
 interface ThreeMaterialHandle {
   readonly isMaterial: true;
@@ -111,6 +116,27 @@ interface ThreeLibraryHandle {
     arc?: number,
   ) => ThreeGeometryHandle;
   OctahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
+  SphereGeometry: new (
+    radius?: number,
+    widthSegments?: number,
+    heightSegments?: number,
+    phiStart?: number,
+    phiLength?: number,
+    thetaStart?: number,
+    thetaLength?: number,
+  ) => ThreeGeometryHandle;
+  PlaneGeometry: new (
+    width?: number,
+    height?: number,
+    widthSegments?: number,
+    heightSegments?: number,
+  ) => ThreeGeometryHandle;
+  CircleGeometry: new (
+    radius?: number,
+    segments?: number,
+    thetaStart?: number,
+    thetaLength?: number,
+  ) => ThreeGeometryHandle;
   MeshBasicMaterial: new (parameters?: ThreeBasicMaterialParameters) => ThreeBasicMaterialHandle;
   PointLight: new (
     color?: number,

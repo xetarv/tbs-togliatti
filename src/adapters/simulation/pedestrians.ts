@@ -16,7 +16,7 @@ window.TBS.createPedestrians = function ({
   special,
   state,
   camera,
-}) {
+}: PedestriansOptions): GameFramePorts['pedestrians'] {
   const pedestrianJackets = [0xe88736, 0x367e9c, 0xac5464, 0xd3ccad, 0x435463, 0x5b8766].map((c) =>
     mat(c, 0, 0.9),
   );
@@ -37,7 +37,7 @@ window.TBS.createPedestrians = function ({
     depthWrite: false,
   });
 
-  function createPedestrian(seed) {
+  function createPedestrian(seed: number): PedestrianRoot {
     const root = new T.Group(),
       body = new T.Group();
     root.add(body);
@@ -50,7 +50,7 @@ window.TBS.createPedestrians = function ({
     body.add(head);
     box(body, 0, 1.84, 0.015, 0.36, 0.13, 0.31, pedestrianHair[seed % 3]);
     box(body, 0, 1.67, -0.217, 0.075, 0.075, 0.08, skin);
-    const limbs = [];
+    const limbs: PedestrianLimb[] = [];
     for (const side of [-1, 1]) {
       const leg = new T.Group();
       leg.position.set(side * 0.13, 0.83, 0);
@@ -87,10 +87,10 @@ window.TBS.createPedestrians = function ({
       if (mesh.isMesh && mesh !== shadow) mesh.castShadow = !lowPower;
     });
     scene.add(root);
-    return root;
+    return root as PedestrianRoot;
   }
 
-  const pedestrians = [];
+  const pedestrians: PedestrianState[] = [];
 
   for (let j = 0; j < roadsZ.length - 1; j++)
     for (let i = 0; i < roadsX.length - 1; i++) {
@@ -102,7 +102,7 @@ window.TBS.createPedestrians = function ({
       const isPark = isParkBlock(i, j) && !special.has(i + ',' + j),
         cx = (left + right) / 2,
         cz = (top + bottom) / 2;
-      const routes = [
+      const routes: PointXZ[][] = [
         [
           { x: left, z: top },
           { x: right, z: top },
@@ -150,7 +150,7 @@ window.TBS.createPedestrians = function ({
       }
     }
 
-  function updatePedestrians(dt) {
+  function updatePedestrians(dt: number): void {
     for (const person of pedestrians) {
       const mesh = person.mesh;
       mesh.visible = camera.position.distanceToSquared(mesh.position) < 110 * 110;

@@ -1,6 +1,10 @@
 # TypeScript: подготовка компиляции classic scripts
 
-Текущий статус после этапа №8: все 11 модулей ядра `domain/application` — `math`, `config`, `collision`, `road-network`, `missions`, `traffic`, `player-physics`, `state`, `mission-controller`, `session` и `game` — переведены
+Текущий статус после этапа №29: 34 производственных TS-модуля и технический `build-smoke.ts`.
+Миграции симуляционных адаптеров описаны в отчётах [этапа №28](typescript-pedestrians.md) и [этапа №29](typescript-traffic-view.md).
+Ниже сохранена историческая справка о ядре и первоначальной инфраструктуре.
+
+На этапе №8 все 11 модулей ядра `domain/application` — `math`, `config`, `collision`, `road-network`, `missions`, `traffic`, `player-physics`, `state`, `mission-controller`, `session` и `game` — переведены
 в `src/domain/*.ts` и `src/application/*.ts`; игра подключает соответствующие файлы в `dist/`.
 Адаптеры и bootstrap остаются JS. Подробности — в [отчёте миграции math](typescript-math-migration.md)
 и отчётах [этапа №4](typescript-domain-pair.md), [этапа №5](typescript-routes.md), [этапа №6](typescript-transport-physics.md), [этапа №7](typescript-state-controller.md) и [этапа №8](typescript-session-game.md).
