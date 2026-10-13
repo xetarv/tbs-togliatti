@@ -190,7 +190,7 @@ interface ReflectionBuilding extends PointXZ {
   color: number;
 }
 interface MooredBoat {
-  mesh: ThreeObjectHandle;
+  mesh: ThreeGroupHandle;
   phase: number;
 }
 /** Compatibility name for world construction data, not the visual or authoritative game state. */
@@ -228,9 +228,9 @@ interface PresentationWorldResources extends Pick<
   mooredBoats: readonly MooredBoat[];
   streetFixtures: readonly (PointXZ & { halo: ThreeObjectHandle; pool: ThreeObjectHandle })[];
   cityFacadeLights: readonly (PointXZ & { y: number; poolMaterial: ThreeMaterialHandle })[];
-  flags: readonly ThreeMeshHandle[];
-  fountainJets: readonly ThreeObjectHandle[];
-  districtLabels: readonly ThreeObjectHandle[];
+  flags: readonly WorldFlagMesh[];
+  fountainJets: readonly ThreeMarkerMeshHandle<ThreeMaterialHandle>[];
+  districtLabels: readonly ThreeSpriteHandle[];
   worldState: PresentationWorldState;
   visualAssets: { wind: { value: number } };
   special: { has: (key: string) => boolean };

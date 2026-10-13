@@ -12,8 +12,8 @@ window.TBS.createWorldAnimation = function ({
   districtLabels,
   worldState,
   WORLD_W,
-}) {
-  function updateWorld(animationDt) {
+}: WorldAnimationOptions): GameFramePorts['world'] {
+  function updateWorld(animationDt: number): void {
     visualAssets.wind.value = state.elapsed;
     for (const boat of mooredBoats) {
       boat.mesh.position.y = Math.sin(state.elapsed * 1.15 + boat.phase) * 0.055;
@@ -21,7 +21,7 @@ window.TBS.createWorldAnimation = function ({
       boat.mesh.rotation.x = Math.cos(state.elapsed * 0.65 + boat.phase) * 0.012;
     }
     waterTexture.offset.x = (state.elapsed * 0.012) % 1;
-    const waterShader = scene.userData.waterMaterial.userData.shader;
+    const waterShader = (scene.userData.waterMaterial as WorldWaterMaterial).userData.shader;
     if (waterShader) waterShader.uniforms.waveTime.value = state.elapsed;
     for (const flag of flags) {
       if (animationDt === 0 || camera.position.distanceToSquared(flag.position) > 110 * 110)
@@ -45,7 +45,7 @@ window.TBS.createWorldAnimation = function ({
       const range = camera.position.distanceTo(label.position);
       label.visible = range > 42 && range < 105;
     });
-    worldState.maglevTrain.position.x = 8 + ((state.elapsed * 9) % (WORLD_W - 16));
+    worldState.maglevTrain!.position.x = 8 + ((state.elapsed * 9) % (WORLD_W - 16));
   }
   return { updateWorld };
 };

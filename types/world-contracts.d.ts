@@ -1,6 +1,6 @@
 // Actual factory inputs/outputs used by world bootstrap; JS implementations remain unchecked.
 interface WorldConstructionState {
-  maglevTrain: ThreeObjectHandle | null;
+  maglevTrain: ThreeGroupHandle | null;
   centralSquare: PointXZ | null;
 }
 interface BuildWorldOptions {
@@ -106,6 +106,7 @@ interface WorldResources extends Pick<
   | 'streetFixtures'
 > {
   visualAssets: WorldVisualAssets;
+  nightWindows: ThreeMaterialHandle[];
   curbMat: ThreeMaterialHandle;
   glassMat: ThreeMaterialHandle;
   grassMat: ThreeMaterialHandle;
@@ -194,6 +195,8 @@ interface BuildingModels extends Pick<
   PresentationWorldResources,
   'reflectionBuildings' | 'cityFacadeLights'
 > {
+  reflectionBuildings: ReflectionBuilding[];
+  cityFacadeLights: PresentationWorldResources['cityFacadeLights'][number][];
   solarMat: ThreeMaterialHandle;
   addFacadeLighting: (x: number, z: number, w: number, d: number, h: number) => void;
   building: (specification: BuildingSpecification) => void;
@@ -215,7 +218,7 @@ interface WorldPopulation {
   parkedCars: ParkedPresentationCar[];
   parkingLots: ParkingLot[];
   special: Map<string, WorldLandmark>;
-  districtLabels: ThreeObjectHandle[];
+  districtLabels: ThreeSpriteHandle[];
 }
 /** The returned expression must satisfy both the generation outputs and the existing consumers. */
 type BuiltWorld = WorldContext & DroneModels & BuildingModels & WorldPopulation & BootstrapWorld;
