@@ -304,7 +304,8 @@ interface GameScenario {
   initialize: () => void;
 }
 
-declare var TBS: {
+/** Declaration merging adds only the adapter contracts used by checked bootstrap scripts. */
+interface TbsRegistry {
   domain: {
     math: Readonly<GameMath>;
     config: Readonly<GameConfig>;
@@ -321,4 +322,6 @@ declare var TBS: {
     createSession: (options: SessionOptions) => Readonly<GameSession>;
     createMissionController: (options: MissionControllerOptions) => Readonly<MissionController>;
   };
-};
+}
+
+declare var TBS: TbsRegistry;

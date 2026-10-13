@@ -8,11 +8,11 @@ window.TBS.buildPresentation = function ({
   missions,
   dom,
   resetControls,
-}) {
+}: BuildPresentationOptions): BootstrapPorts {
   const api = window.TBS;
   const context = { ...world, ...dom, state: presentation, player: state.player };
   const notifications = api.createToast(dom);
-  const getGraphics = () => display.graphics;
+  const getGraphics = (): GraphicsPort => display.graphics;
   const carModels = api.createCarModels({
     ...world,
     createFastback: api.createFastback,
@@ -65,10 +65,10 @@ window.TBS.buildPresentation = function ({
   const animation = api.createWorldAnimation(context);
   const overlay = api.createOverlay(dom);
   const timeline = {
-    advance(dt) {
+    advance(dt: number): void {
       presentation.elapsed += dt;
     },
-    daylight() {
+    daylight(): number {
       return presentation.lightValue;
     },
   };

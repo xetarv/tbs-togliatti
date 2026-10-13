@@ -1,6 +1,11 @@
 'use strict';
 
-window.TBS.buildGame = function ({ state, world, dom, presentation }) {
+window.TBS.buildGame = function ({
+  state,
+  world,
+  dom,
+  presentation,
+}: BuildGameOptions): BuildGameResult {
   const api = window.TBS;
   const { domain, application } = api;
   const { config, math, collision } = domain;

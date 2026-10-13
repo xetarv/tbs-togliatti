@@ -1,9 +1,9 @@
 'use strict';
 
-window.TBS.buildWorld = function ({ T, canvas, config }) {
+window.TBS.buildWorld = function ({ T, canvas, config }: BuildWorldOptions): BuiltWorld {
   const api = window.TBS;
   const { WORLD_W, WORLD_H, ROAD, roadsX, roadsZ, isParkBlock } = config;
-  const worldState = { maglevTrain: null, centralSquare: null };
+  const worldState: WorldConstructionState = { maglevTrain: null, centralSquare: null };
   const scene = api.createScene({ T, canvas });
   const geometry = api.createGeometryHelpers({ T });
   const vegetationCulling = api.createVegetationCulling({

@@ -265,7 +265,7 @@ test('non-instanced objects still use r149 culling and repeat installation does 
   assert.equal(T.Frustum.prototype.intersectsObject, hook);
   assert.ok(
     fs.readFileSync(path.join(root, 'index.html'), 'utf8').indexOf('vegetation-culling.js') <
-      fs.readFileSync(path.join(root, 'index.html'), 'utf8').indexOf('src/bootstrap/world.js'),
+      fs.readFileSync(path.join(root, 'index.html'), 'utf8').indexOf('dist/bootstrap/world.js'),
   );
 });
 
