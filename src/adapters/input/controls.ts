@@ -1,5 +1,7 @@
 'use strict';
 
+type MovementControl = Exclude<keyof ControlsState, 'action'>;
+
 window.TBS.createInput = function ({
   keys,
   resetControls,
@@ -12,8 +14,8 @@ window.TBS.createInput = function ({
   togglePause,
   interact,
   toggleMouseCamera,
-}) {
-  const controlsByCode = {
+}: InputOptions): void {
+  const controlsByCode: Partial<Record<string, MovementControl>> = {
     Space: 'handbrake',
     KeyW: 'up',
     ArrowUp: 'up',
@@ -25,7 +27,7 @@ window.TBS.createInput = function ({
     ArrowRight: 'right',
   };
 
-  const controlsByKey = {
+  const controlsByKey: Partial<Record<string, MovementControl>> = {
     w: 'up',
     ц: 'up',
     s: 'down',
@@ -36,11 +38,11 @@ window.TBS.createInput = function ({
     в: 'right',
   };
 
-  function movementKey(e) {
+  function movementKey(e: KeyboardEvent): MovementControl | undefined {
     return controlsByCode[e.code] || controlsByKey[String(e.key).toLowerCase()];
   }
 
-  addEventListener('keydown', (e) => {
+  addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.target instanceof HTMLElement && e.target.closest('select,input,textarea')) return;
     if (e.code === 'KeyC') {
       e.preventDefault();
@@ -74,7 +76,7 @@ window.TBS.createInput = function ({
     if (control && state.mode === 'playing') keys[control] = true;
   });
 
-  addEventListener('keyup', (e) => {
+  addEventListener('keyup', (e: KeyboardEvent) => {
     const control = movementKey(e);
     if (control) keys[control] = false;
   });
@@ -89,9 +91,10 @@ window.TBS.createInput = function ({
     resetFrameClock();
   });
 
-  document.querySelectorAll('.touch button').forEach((btn) => {
-    const k = btn.dataset.key;
-    btn.addEventListener('pointerdown', (e) => {
+  document.querySelectorAll<HTMLButtonElement>('.touch button').forEach((btn) => {
+    // Fixed index.html touch buttons all declare keys from ControlsState; verified with the markup.
+    const k = btn.dataset.key as keyof ControlsState;
+    btn.addEventListener('pointerdown', (e: PointerEvent) => {
       e.preventDefault();
       if (state.mode !== 'playing') return;
       btn.setPointerCapture(e.pointerId);

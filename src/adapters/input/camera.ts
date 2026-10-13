@@ -1,5 +1,11 @@
 'use strict';
 
+interface CameraDrag {
+  id: number;
+  x: number;
+  y: number;
+}
+
 window.TBS.createCameraControls = function ({
   camera,
   sky,
@@ -10,17 +16,17 @@ window.TBS.createCameraControls = function ({
   clamp,
   T,
   getElement,
-}) {
+}: CameraOptions): BootstrapPorts['camera'] {
   let mouseCamera = false,
     cameraYaw = 0,
     cameraPitch = 0.42,
-    cameraDrag = null,
+    cameraDrag: CameraDrag | null = null,
     cameraZoom = 1;
 
   const cameraButton = getElement('cameraBtn'),
     viewCanvas = renderer.domElement;
 
-  function toggleMouseCamera() {
+  function toggleMouseCamera(): void {
     mouseCamera = !mouseCamera;
     cameraDrag = null;
     cameraYaw = -player.heading;
@@ -38,7 +44,7 @@ window.TBS.createCameraControls = function ({
 
   viewCanvas.addEventListener(
     'wheel',
-    (e) => {
+    (e: WheelEvent) => {
       if (state.mode !== 'playing') return;
       e.preventDefault();
       const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
@@ -47,13 +53,13 @@ window.TBS.createCameraControls = function ({
     { passive: false },
   );
 
-  viewCanvas.addEventListener('pointerdown', (e) => {
+  viewCanvas.addEventListener('pointerdown', (e: PointerEvent) => {
     if (!mouseCamera || state.mode !== 'playing' || e.button !== 0) return;
     cameraDrag = { id: e.pointerId, x: e.clientX, y: e.clientY };
     viewCanvas.setPointerCapture(e.pointerId);
   });
 
-  viewCanvas.addEventListener('pointermove', (e) => {
+  viewCanvas.addEventListener('pointermove', (e: PointerEvent) => {
     if (!cameraDrag || cameraDrag.id !== e.pointerId || state.mode !== 'playing') return;
     // Mouse right turns the view right; mouse down looks down.
     cameraYaw -= (e.clientX - cameraDrag.x) * 0.005;
@@ -73,7 +79,7 @@ window.TBS.createCameraControls = function ({
 
   const cameraForward = new T.Vector3(),
     cameraWanted = new T.Vector3();
-  function updateCamera(dt) {
+  function updateCamera(dt: number): void {
     const forward = cameraForward.set(Math.sin(player.heading), 0, -Math.cos(player.heading));
     const wanted = cameraWanted.set(
       player.x - forward.x * 16 * cameraZoom,

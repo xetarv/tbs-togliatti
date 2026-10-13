@@ -1,6 +1,13 @@
 'use strict';
 
-window.TBS.createMissionMarkers = function ({ state, target, T, sprite, signTexture, scene }) {
+window.TBS.createMissionMarkers = function ({
+  state,
+  target,
+  T,
+  sprite,
+  signTexture,
+  scene,
+}: MarkersOptions): BootstrapPorts['markers'] {
   const beacon = new T.Group();
 
   const beaconColumn = new T.Mesh(
@@ -56,7 +63,7 @@ window.TBS.createMissionMarkers = function ({ state, target, T, sprite, signText
   pickupRing.rotation.x = Math.PI / 2;
 
   scene.add(pickupRing);
-  function updateMarkers(animationDt) {
+  function updateMarkers(animationDt: number): void {
     beacon.position.set(target().x, 0.1, target().z);
     ring.scale.setScalar(1 + Math.sin(state.elapsed * 3) * 0.1);
     gem.rotation.y = state.elapsed * 1.5;
@@ -70,7 +77,7 @@ window.TBS.createMissionMarkers = function ({ state, target, T, sprite, signText
       pickupRing.visible = true;
     } else pickupRing.visible = false;
   }
-  function launch(point) {
+  function launch(point: Readonly<PointXZ>): void {
     state.launchEffect = 1.3;
     pickupRing.position.set(point.x, 0.45, point.z);
   }

@@ -1,10 +1,16 @@
 'use strict';
 
-window.TBS.createSound = function ({ player, state, traffic, getElement, createAmbience }) {
-  let sound = null,
+window.TBS.createSound = function ({
+  player,
+  state,
+  traffic,
+  getElement,
+  createAmbience,
+}: SoundOptions): SoundPort {
+  let sound: SoundGraph | null = null,
     soundMuted = false;
 
-  function beginSound() {
+  function beginSound(): void {
     try {
       if (!sound) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -41,7 +47,7 @@ window.TBS.createSound = function ({ player, state, traffic, getElement, createA
     }
   }
 
-  function updateSound(braking) {
+  function updateSound(braking: BrakingState): void {
     if (!sound) return;
     const t = sound.context.currentTime,
       speed = Math.abs(player.speed);
@@ -52,7 +58,7 @@ window.TBS.createSound = function ({ player, state, traffic, getElement, createA
     sound.ambient.update(player, traffic, state.elapsed);
   }
 
-  function impact(speed) {
+  function impact(speed: number): void {
     if (state.impactCooldown > 0 || speed < 1) return;
     state.impactCooldown = 0.3;
     state.impactAmount = Math.min(speed / 22, 1);
@@ -76,7 +82,7 @@ window.TBS.createSound = function ({ player, state, traffic, getElement, createA
     };
   }
 
-  function toggleSound() {
+  function toggleSound(): void {
     soundMuted = !soundMuted;
     beginSound();
     updateSound(false);
@@ -85,7 +91,7 @@ window.TBS.createSound = function ({ player, state, traffic, getElement, createA
   }
 
   getElement('soundBtn').addEventListener('click', toggleSound);
-  function advance(dt) {
+  function advance(dt: number): void {
     state.impactCooldown = Math.max(0, state.impactCooldown - dt);
   }
 

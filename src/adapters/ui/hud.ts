@@ -1,16 +1,28 @@
 'use strict';
 
-window.TBS.createHud = function ({ getElement, player, state, distance, currentMission, target }) {
-  const hudCache = new Map();
+window.TBS.createHud = function ({
+  getElement,
+  player,
+  state,
+  distance,
+  currentMission,
+  target,
+}: HudOptions): GameFramePorts['hud'] {
+  const hudCache = new Map<string, string | number>();
 
-  function hudValue(id, value, property = 'textContent') {
+  function hudValue(
+    id: string,
+    value: string | number,
+    property: 'textContent' | 'innerHTML' = 'textContent',
+  ): void {
     const key = id + ':' + property;
     if (hudCache.get(key) === value) return;
     hudCache.set(key, value);
-    getElement(id)[property] = value;
+    // Browser DOM setters coerce numeric values; retain the original numeric delivery count.
+    getElement(id)[property] = value as string;
   }
 
-  function updateHud() {
+  function updateHud(): void {
     const m = currentMission();
     hudValue('missionNumber', String(state.missionIndex + 1).padStart(2, '0'));
     hudValue('missionTitle', m.title);

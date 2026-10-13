@@ -1,8 +1,10 @@
 'use strict';
 
-window.TBS.createToast = function ({ getElement }) {
+window.TBS.createToast = function ({
+  getElement,
+}: Pick<BootstrapDom, 'getElement'>): GameFramePorts['notifications'] {
   let toastTimer = 0;
-  function showToast(message) {
+  function showToast(message: string): void {
     const el = getElement('toast');
     el.textContent = message;
     el.classList.add('show');

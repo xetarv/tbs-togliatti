@@ -7,6 +7,7 @@ interface BootstrapWorld {
 }
 
 interface BootstrapDom {
+  canvas: HTMLCanvasElement;
   /** createDom throws for a missing element and caches the actual browser HTMLElement. */
   getElement: (id: string) => HTMLElement;
 }
@@ -90,8 +91,10 @@ interface BuildGameResult {
 }
 
 interface TbsRegistry {
+  createDom: (document: Document) => BootstrapDom;
   buildGame: (options: BuildGameOptions) => BuildGameResult;
   buildPresentation: (options: BuildPresentationOptions) => BootstrapPorts;
   createRuntime: (options: RuntimeOptions) => Readonly<GameRuntime>;
+  createPresentationState: (gameState: GameState) => PresentationState;
   createInput: (options: InputOptions) => void;
 }

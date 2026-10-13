@@ -1,7 +1,7 @@
 /* Procedural ambience: fixed audio-node pool, no downloads or autoplay. */
 'use strict';
 
-window.TBS.createAmbience = function (context, output) {
+window.TBS.createAmbience = function (context: AudioContext, output: AudioNode): AmbiencePort {
   const buffer = context.createBuffer(1, context.sampleRate * 8, context.sampleRate),
     samples = buffer.getChannelData(0);
   let smooth = 0;
@@ -9,7 +9,7 @@ window.TBS.createAmbience = function (context, output) {
     smooth = 0.96 * smooth + 0.04 * (Math.random() * 2 - 1);
     samples[i] = smooth * 2 + (Math.random() * 2 - 1) * 0.16;
   }
-  function noise(type, frequency, offset) {
+  function noise(type: BiquadFilterType, frequency: number, offset: number) {
     const source = context.createBufferSource(),
       filter = context.createBiquadFilter(),
       gain = context.createGain(),
@@ -27,7 +27,12 @@ window.TBS.createAmbience = function (context, output) {
   const water = noise('lowpass', 900, 0),
     foam = noise('bandpass', 1900, 2.3),
     city = noise('lowpass', 320, 4.7);
-  const voices = Array.from({ length: 4 }, (_, i) => {
+  const voices: {
+    road: ReturnType<typeof noise>;
+    motor: OscillatorNode;
+    gain: GainNode;
+    vehicle: TrafficVehicle | null;
+  }[] = Array.from({ length: 4 }, (_, i) => {
     const road = noise('lowpass', 1100, 0.9 + i * 1.5),
       motor = context.createOscillator(),
       gain = context.createGain();
@@ -38,7 +43,7 @@ window.TBS.createAmbience = function (context, output) {
     motor.start();
     return { road, motor, gain, vehicle: null };
   });
-  function spatial(player, x, z, radius) {
+  function spatial(player: PlayerState, x: number, z: number, radius: number) {
     const dx = x - player.x,
       dz = z - player.z,
       d = Math.hypot(dx, dz);
@@ -55,7 +60,7 @@ window.TBS.createAmbience = function (context, output) {
   }
   let lastSelection = -1;
   const levels = { water: 0, city: 0, traffic: 0 };
-  function update(player, traffic, time) {
+  function update(player: PlayerState, traffic: readonly TrafficVehicle[], time: number): void {
     const now = context.currentTime,
       shore = spatial(player, player.x, 18, 26);
     const swell = 0.7 + 0.2 * Math.sin(time * 0.65) + 0.1 * Math.sin(time * 1.17);
@@ -74,7 +79,8 @@ window.TBS.createAmbience = function (context, output) {
     city.pan.pan.setTargetAtTime(downtown.pan * 0.35, now, 0.3);
     if (now - lastSelection > 0.2 || lastSelection < 0) {
       lastSelection = now;
-      const nearest = traffic
+      // Membership is queried with nullable voice assignments; traffic entries themselves are cars.
+      const nearest: readonly (TrafficVehicle | null)[] = traffic
         .map((vehicle) => ({
           vehicle,
           d: Math.hypot(vehicle.x - player.x, vehicle.z - player.z),

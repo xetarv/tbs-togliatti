@@ -12,8 +12,8 @@ window.TBS.createMinimap = function ({
   parkingLots,
   worldState,
   target,
-}) {
-  function drawMini() {
+}: MinimapOptions): GameFramePorts['minimap'] {
+  function drawMini(): void {
     const w = mini.width,
       h = mini.height,
       sx = w / WORLD_W,

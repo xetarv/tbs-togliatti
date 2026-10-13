@@ -1,11 +1,13 @@
 'use strict';
 
-window.TBS.createOverlay = function ({ getElement }) {
-  function hide() {
+window.TBS.createOverlay = function ({
+  getElement,
+}: Pick<BootstrapDom, 'getElement'>): Readonly<SessionOptions['overlay']> {
+  function hide(): void {
     getElement('overlay').classList.add('hidden');
   }
 
-  function showPaused(missionTitle) {
+  function showPaused(missionTitle: string): void {
     getElement('overlayChapter').textContent = 'ТБС · Пауза';
     getElement('overlayTitle').innerHTML = 'ПАУЗА<br><span>НА МАРШРУТЕ</span>';
     getElement('overlaySub').textContent = 'Тольятти ждёт вашего возвращения';

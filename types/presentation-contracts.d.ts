@@ -5,9 +5,58 @@ interface ThreeObjectHandle {
 }
 interface ThreeSceneHandle extends ThreeObjectHandle {
   readonly isScene: true;
+  add: (...objects: ThreeObjectHandle[]) => this;
+}
+/** Actual r149 members consumed by mission markers; no general-purpose graph abstraction. */
+interface ThreePositionedObjectHandle extends ThreeObjectHandle {
+  readonly position: CameraVector3;
+}
+interface ThreeGroupHandle extends ThreePositionedObjectHandle {
+  readonly isGroup: true;
+  add: (...objects: ThreeObjectHandle[]) => this;
+}
+interface ThreeSpriteHandle extends ThreePositionedObjectHandle {
+  readonly isSprite: true;
+}
+interface ThreePointLightHandle extends ThreePositionedObjectHandle {
+  readonly isPointLight: true;
+}
+interface ThreeMarkerScale extends CameraVector3 {
+  setScalar: (scalar: number) => this;
+}
+interface ThreeMarkerMeshHandle<M extends ThreeMaterialHandle>
+  extends ThreeMeshHandle, ThreePositionedObjectHandle {
+  material: M;
+  readonly rotation: { x: number; y: number; z: number };
+  readonly scale: ThreeMarkerScale;
+  visible: boolean;
+}
+interface ThreeBasicMaterialParameters {
+  color?: number;
+  transparent?: boolean;
+  opacity?: number;
+  side?: 0 | 1 | 2;
+  depthWrite?: boolean;
+}
+interface ThreeBasicMaterialHandle extends ThreeMaterialHandle {
+  readonly isMeshBasicMaterial: true;
+  opacity: number;
 }
 interface ThreeCameraHandle extends ThreeObjectHandle {
   readonly isPerspectiveCamera: true;
+  readonly position: CameraVector3;
+  lookAt: (x: number, y: number, z: number) => void;
+}
+/** The exact Vector3 operations used by the typed camera adapter. */
+interface CameraVector3 extends DisplacementXYZ {
+  set: (x: number, y: number, z: number) => this;
+  copy: (vector: DisplacementXYZ) => this;
+  lerp: (vector: DisplacementXYZ, alpha: number) => this;
+}
+/** createScene's actual mesh/shader resource; other mesh handles do not gain shader fields. */
+interface CameraSkyHandle extends ThreeMeshHandle {
+  readonly position: CameraVector3;
+  material: { uniforms: { skyTime: { value: number } } };
 }
 interface ThreeMeshHandle extends ThreeObjectHandle {
   readonly isMesh: true;
@@ -24,9 +73,41 @@ interface ThreeGeometryHandle {
 interface ThreeRendererHandle {
   readonly domElement: HTMLCanvasElement;
 }
-/** Passed intact into JS adapters; constructor/member implementation typing is deferred. */
+/** Only consumed constructor signatures are described; other Three.js members remain deferred. */
 interface ThreeLibraryHandle {
   readonly REVISION: string;
+  Vector3: new (x?: number, y?: number, z?: number) => CameraVector3;
+  readonly DoubleSide: 2;
+  Group: new () => ThreeGroupHandle;
+  Mesh: new <M extends ThreeMaterialHandle>(
+    geometry: ThreeGeometryHandle,
+    material: M,
+  ) => ThreeMarkerMeshHandle<M>;
+  CylinderGeometry: new (
+    radiusTop?: number,
+    radiusBottom?: number,
+    height?: number,
+    radialSegments?: number,
+    heightSegments?: number,
+    openEnded?: boolean,
+    thetaStart?: number,
+    thetaLength?: number,
+  ) => ThreeGeometryHandle;
+  TorusGeometry: new (
+    radius?: number,
+    tube?: number,
+    radialSegments?: number,
+    tubularSegments?: number,
+    arc?: number,
+  ) => ThreeGeometryHandle;
+  OctahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
+  MeshBasicMaterial: new (parameters?: ThreeBasicMaterialParameters) => ThreeBasicMaterialHandle;
+  PointLight: new (
+    color?: number,
+    intensity?: number,
+    distance?: number,
+    decay?: number,
+  ) => ThreePointLightHandle;
 }
 
 interface ParkedPresentationCar extends PointXZ {
@@ -72,7 +153,7 @@ interface PresentationWorldResources extends Pick<
   scene: ThreeSceneHandle;
   renderer: ThreeRendererHandle;
   camera: ThreeCameraHandle;
-  sky: ThreeMeshHandle;
+  sky: CameraSkyHandle;
   duskSun: ThreeMeshHandle;
   ambientLight: ThreeObjectHandle;
   sun: ThreeObjectHandle;
@@ -136,7 +217,7 @@ interface PresentationWorldResources extends Pick<
     w: number,
     h: number,
     opacity?: number,
-  ) => ThreeObjectHandle;
+  ) => ThreeSpriteHandle;
   createDrone: () => { group: ThreeObjectHandle; rotors: ThreeObjectHandle[] };
 }
 
@@ -267,8 +348,34 @@ type TrafficViewOptions = Pick<
   Pick<TrafficSimulation, 'traffic' | 'signalPhase'>;
 interface AmbiencePort {
   update: (player: PlayerState, traffic: readonly TrafficVehicle[], elapsed: number) => void;
+  levels: { water: number; city: number; traffic: number };
+  voiceCount: number;
+  spatial: (
+    player: PlayerState,
+    x: number,
+    z: number,
+    radius: number,
+  ) => {
+    level: number;
+    pan: number;
+  };
 }
 type AmbienceFactory = (context: AudioContext, output: AudioNode) => AmbiencePort;
+
+interface SoundGraph {
+  context: AudioContext;
+  master: GainNode;
+  motor: OscillatorNode;
+  motorGain: GainNode;
+  tires: GainNode;
+  buffer: AudioBuffer;
+  ambient: AmbiencePort;
+}
+type SoundPort = BootstrapPorts['audio'] & { readonly sound: SoundGraph | null };
+
+interface Window {
+  webkitAudioContext?: typeof AudioContext;
+}
 type SoundOptions = VisualContext &
   Pick<BootstrapDom, 'getElement'> & {
     traffic: TrafficVehicle[];
@@ -361,7 +468,7 @@ interface TbsRegistry {
   createDisplay: (options: DisplayOptions) => { graphics: GraphicsPort };
   createTrafficView: (options: TrafficViewOptions) => GameFramePorts['traffic'];
   createAmbience: AmbienceFactory;
-  createSound: (options: SoundOptions) => BootstrapPorts['audio'];
+  createSound: (options: SoundOptions) => SoundPort;
   createHud: (options: HudOptions) => GameFramePorts['hud'];
   createMinimap: (options: MinimapOptions) => GameFramePorts['minimap'];
   createMissionMarkers: (options: MarkersOptions) => BootstrapPorts['markers'];

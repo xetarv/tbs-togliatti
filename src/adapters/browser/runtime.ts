@@ -1,15 +1,20 @@
 'use strict';
 
-window.TBS.createRuntime = function ({ game, scheduler, clock, isHidden }) {
+window.TBS.createRuntime = function ({
+  game,
+  scheduler,
+  clock,
+  isHidden,
+}: RuntimeOptions): Readonly<GameRuntime> {
   let previous = clock.now();
   let frameId = 0;
   let running = false;
 
-  function reset() {
+  function reset(): void {
     previous = clock.now();
   }
 
-  function frame(now) {
+  function frame(now: number): void {
     if (!running) return;
     const dt = Math.max(0, Math.min((now - previous) / 1000 || 0, 0.05));
     previous = now;
@@ -17,7 +22,7 @@ window.TBS.createRuntime = function ({ game, scheduler, clock, isHidden }) {
     frameId = scheduler.request(frame);
   }
 
-  function start() {
+  function start(): void {
     if (running) return;
     running = true;
     reset();
@@ -25,7 +30,7 @@ window.TBS.createRuntime = function ({ game, scheduler, clock, isHidden }) {
     frameId = scheduler.request(frame);
   }
 
-  function stop() {
+  function stop(): void {
     running = false;
     scheduler.cancel(frameId);
   }

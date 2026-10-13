@@ -10,7 +10,7 @@ test('the scheduler caps elapsed time, skips hidden tabs, resets and stops clean
   let hidden = false;
   let initialized = 0;
   const steps = [];
-  const { TBS } = loadModules(['adapters/browser/runtime.js']);
+  const { TBS } = loadModules(['dist/adapters/browser/runtime.js']);
   const runtime = TBS.createRuntime({
     game: { step: (dt) => steps.push(dt), initialize: () => initialized++ },
     scheduler: {

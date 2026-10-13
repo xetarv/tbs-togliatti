@@ -11,7 +11,12 @@ test('camera drag and zoom affect the live camera after toggling mouse control',
   };
   const button = { setAttribute() {}, addEventListener() {} };
   const { TBS } = loadModules(
-    ['dist/domain/math.js', 'dist/domain/state.js', 'adapters/input/camera.js'],
+    [
+      'dist/domain/math.js',
+      'dist/domain/state.js',
+      'dist/adapters/browser/presentation-state.js',
+      'dist/adapters/input/camera.js',
+    ],
     {
       addEventListener() {},
       innerHeight: 768,
@@ -24,7 +29,7 @@ test('camera drag and zoom affect the live camera after toggling mouse control',
   sky.material = { uniforms: { skyTime: { value: 0 } } };
   const controls = TBS.createCameraControls({
     T,
-    state,
+    state: TBS.createPresentationState(state),
     player: state.player,
     ...TBS.math,
     camera,
