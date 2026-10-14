@@ -34,64 +34,84 @@ function build() {
   // Types from the JSDoc modules are checked above. Emit only TS, never copies of JS.
   fs.mkdirSync(path.join(root, 'artifacts'), { recursive: true });
   const temporaryDir = fs.mkdtempSync(path.join(root, 'artifacts', 'typescript-build-'));
-  runCompiler(['--project', 'tsconfig.build.json', '--outDir', temporaryDir]);
+  let failed = false;
+  let cleanupFailure;
+  try {
+    runCompiler(['--project', 'tsconfig.build.json', '--outDir', temporaryDir]);
 
-  const linter = new Linter();
-  const outputs = sources.map((file) => {
-    const name = file.replace(/\.ts$/, '.js');
-    const content = fs.readFileSync(path.join(temporaryDir, name), 'utf8');
-    const errors = linter.verify(content, {
-      languageOptions: { ecmaVersion: 'latest', sourceType: 'script' },
-      rules: {
-        'no-restricted-syntax': [
-          'error',
-          'ImportExpression',
-          "CallExpression[callee.name='require']",
-          "MemberExpression[object.name='module'][property.name='exports']",
-          "MemberExpression[object.name='exports']",
-        ],
-      },
+    const linter = new Linter();
+    const outputs = sources.map((file) => {
+      const name = file.replace(/\.ts$/, '.js');
+      const content = fs.readFileSync(path.join(temporaryDir, name), 'utf8');
+      const errors = linter.verify(content, {
+        languageOptions: { ecmaVersion: 'latest', sourceType: 'script' },
+        rules: {
+          'no-restricted-syntax': [
+            'error',
+            'ImportExpression',
+            "CallExpression[callee.name='require']",
+            "MemberExpression[object.name='module'][property.name='exports']",
+            "MemberExpression[object.name='exports']",
+          ],
+        },
+      });
+      if (errors.length) {
+        throw new Error(`${name} is not a standalone classic script: ${errors[0].message}`);
+      }
+      return { name, content };
     });
-    if (errors.length) {
-      throw new Error(`${name} is not a standalone classic script: ${errors[0].message}`);
-    }
-    return { name, content };
-  });
 
-  const expected = new Set(outputs.map(({ name }) => name));
-  if (fs.existsSync(outputDir)) {
-    for (const file of fs.readdirSync(outputDir, { recursive: true })) {
-      if (file.endsWith('.js') && !expected.has(file)) {
-        throw new Error(`Unexpected dist file: ${file}. Resolve manually; no files were deleted.`);
+    const expected = new Set(outputs.map(({ name }) => name));
+    if (fs.existsSync(outputDir)) {
+      for (const file of fs.readdirSync(outputDir, { recursive: true })) {
+        if (file.endsWith('.js') && !expected.has(file)) {
+          throw new Error(
+            `Unexpected dist file: ${file}. Resolve manually; no files were deleted.`,
+          );
+        }
       }
+    }
+    if (mode === '--check') {
+      for (const { name, content } of outputs) {
+        const target = path.join(outputDir, name);
+        if (
+          !fs.existsSync(target) ||
+          fs.readFileSync(target, 'utf8').replace(/\r\n/g, '\n') !== content
+        ) {
+          throw new Error(
+            `${name} is missing or outdated. Run npm run build and include dist in Git.`,
+          );
+        }
+      }
+    } else {
+      for (const { name, content } of outputs) {
+        const target = path.join(outputDir, name);
+        if (
+          !fs.existsSync(target) ||
+          fs.readFileSync(target, 'utf8').replace(/\r\n/g, '\n') !== content
+        ) {
+          console.log(`Updating missing or outdated dist/${name.split(path.sep).join('/')}.`);
+        }
+        fs.mkdirSync(path.dirname(target), { recursive: true });
+        fs.writeFileSync(target, content);
+      }
+    }
+    console.log(
+      `${mode === '--check' ? 'Verified' : 'Built'} ${outputs.length} classic script(s).`,
+    );
+  } catch (error) {
+    failed = true;
+    throw error;
+  } finally {
+    try {
+      fs.rmSync(temporaryDir, { recursive: true, force: true });
+    } catch (error) {
+      const message = `Temporary build cleanup failed (${temporaryDir}): ${error.message}`;
+      cleanupFailure = new Error(message, { cause: error });
+      if (failed) console.error(message);
     }
   }
-  if (mode === '--check') {
-    for (const { name, content } of outputs) {
-      const target = path.join(outputDir, name);
-      if (
-        !fs.existsSync(target) ||
-        fs.readFileSync(target, 'utf8').replace(/\r\n/g, '\n') !== content
-      ) {
-        throw new Error(
-          `${name} is missing or outdated. Run npm run build and include dist in Git.`,
-        );
-      }
-    }
-  } else {
-    for (const { name, content } of outputs) {
-      const target = path.join(outputDir, name);
-      if (
-        !fs.existsSync(target) ||
-        fs.readFileSync(target, 'utf8').replace(/\r\n/g, '\n') !== content
-      ) {
-        console.log(`Updating missing or outdated dist/${name.split(path.sep).join('/')}.`);
-      }
-      fs.mkdirSync(path.dirname(target), { recursive: true });
-      fs.writeFileSync(target, content);
-    }
-  }
-  console.log(`${mode === '--check' ? 'Verified' : 'Built'} ${outputs.length} classic script(s).`);
+  if (cleanupFailure) throw cleanupFailure;
 }
 
 function attempt() {
