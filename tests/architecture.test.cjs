@@ -46,3 +46,73 @@ test('ESLint rejects browser and adapter dependencies inside the game layers', a
     assert.ok(rules.includes('no-restricted-syntax'));
   }
 });
+
+async function lintTypeScript(source, filePath) {
+  const [result] = await new ESLint().lintText(source, { filePath });
+  assert.ok(result, 'The virtual TypeScript file must be linted.');
+  assert.equal(result.fatalErrorCount, 0, 'TypeScript must parse successfully.');
+  assert.ok(
+    !result.messages.some((message) => message.ruleId === null),
+    'The virtual file must not be ignored or lack a matching configuration.',
+  );
+  return result;
+}
+
+test('ESLint accepts strict TypeScript annotations and own-layer registry access', async () => {
+  for (const layer of ['domain', 'application']) {
+    const result = await lintTypeScript(
+      `type Position = { x: number }; globalThis.TBS.${layer}.fixture = (value: Position): number => value.x;`,
+      `src/${layer}/valid-example.ts`,
+    );
+    assert.deepEqual(result.messages, []);
+  }
+});
+
+test('ESLint detects TypeScript unused variables using the TS rule', async () => {
+  const result = await lintTypeScript('const unused: number = 1;', 'src/domain/unused-example.ts');
+  assert.deepEqual(
+    result.messages.map((message) => message.ruleId),
+    ['@typescript-eslint/no-unused-vars'],
+  );
+});
+
+test('ESLint rejects bare and global-object browser dependencies in TypeScript layers', async () => {
+  for (const layer of ['domain', 'application']) {
+    for (const source of [
+      "document.createElement('canvas');",
+      "globalThis.document.createElement('canvas');",
+      "globalThis['document'].createElement('canvas');",
+      'window.alert(1);',
+      'THREE.Scene();',
+    ]) {
+      const result = await lintTypeScript(source, `src/${layer}/browser-example.ts`);
+      assert.ok(result.messages.some((message) => message.ruleId === 'no-restricted-globals'));
+    }
+  }
+});
+
+test('ESLint rejects foreign TBS registries and runtime imports in TypeScript layers', async () => {
+  for (const layer of ['domain', 'application']) {
+    const other = layer === 'domain' ? 'application' : 'domain';
+    for (const source of [
+      'globalThis.TBS.createGraphics({});',
+      `globalThis.TBS.${other}.fixture();`,
+      `globalThis['TBS']['${other}'].fixture();`,
+      "import '../adapters/ui/dom';",
+    ]) {
+      const result = await lintTypeScript(source, `src/${layer}/registry-example.ts`);
+      assert.ok(result.messages.some((message) => message.ruleId === 'no-restricted-syntax'));
+    }
+  }
+});
+
+test('ESLint accepts ambient declarations, type-only parameters and interface merging', async () => {
+  const result = await lintTypeScript(
+    `interface FixtureBase { x: number; }
+     interface FixtureHandle extends FixtureBase {}
+     interface FixtureHandle { move: (value: number) => void; }
+     declare var fixture: FixtureHandle;`,
+    'types/ambient-example.d.ts',
+  );
+  assert.deepEqual(result.messages, []);
+});

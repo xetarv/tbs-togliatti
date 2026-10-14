@@ -33,6 +33,12 @@ function fixture(t, options = {}) {
   fs.writeFileSync(source, content);
   fs.writeFileSync(target, options.outdated ? 'old output\n' : content);
   fs.writeFileSync(sentinel, 'preserve old diagnostics');
+  const compilerPackage = path.join(root, 'node_modules/@typescript/native/package.json');
+  fs.mkdirSync(path.dirname(compilerPackage), { recursive: true });
+  fs.writeFileSync(
+    compilerPackage,
+    JSON.stringify({ name: 'typescript', version: options.compilerVersion || '7.0.2' }),
+  );
   for (const name of ['tsconfig.contracts.json', 'tsconfig.build.json']) {
     fs.writeFileSync(path.join(root, name), '{}');
   }
@@ -86,7 +92,10 @@ function fixture(t, options = {}) {
     assert.ok(Object.hasOwn(dependencies, name), `Unexpected dependency: ${name}`);
     return dependencies[name];
   };
-  localRequire.resolve = () => path.join(root, 'node_modules/typescript/package.json');
+  localRequire.resolve = (name) => {
+    assert.equal(name, '@typescript/native/package.json');
+    return compilerPackage;
+  };
   const processState = {
     argv: ['node', 'builder', ...(options.mode ? [options.mode] : [])],
     execPath: process.execPath,
@@ -138,6 +147,20 @@ test('successful and repeated builds remove only their own temporary directories
   assert.ok(f.created.every((directory) => !fs.existsSync(directory)));
   assert.equal(fs.readFileSync(f.target, 'utf8'), content);
   f.preserved();
+});
+
+test('builder rejects a substituted compiler before touching dist', (t) => {
+  assert.throws(() => fixture(t, { compilerVersion: '6.0.2' }), /TypeScript 7\.0\.2/);
+});
+
+test('standalone typecheck uses the same native compiler without emitting files', (t) => {
+  const f = fixture(t, { mode: '--typecheck' });
+  assert.equal(f.processState.exitCode, 0);
+  assert.equal(f.compilers.length, 1);
+  assert.match(f.compilers[0][0], /node_modules[\\/]@typescript[\\/]native[\\/]bin[\\/]tsc$/);
+  assert.deepEqual(f.compilers[0].slice(1), ['--project', 'tsconfig.contracts.json']);
+  assert.deepEqual(f.created, []);
+  assert.deepEqual(f.writes, []);
 });
 
 test('failed emission and classic-script validation preserve errors and clean their directories', (t) => {

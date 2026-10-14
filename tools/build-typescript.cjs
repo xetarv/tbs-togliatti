@@ -6,10 +6,15 @@ const { Linter } = require('eslint');
 const root = path.resolve(__dirname, '..');
 const sourceDir = path.join(root, 'src');
 const outputDir = path.join(root, 'dist');
-const compiler = path.join(path.dirname(require.resolve('typescript/package.json')), 'bin', 'tsc');
+const compilerPackage = require.resolve('@typescript/native/package.json');
+const compilerInfo = JSON.parse(fs.readFileSync(compilerPackage, 'utf8'));
+if (compilerInfo.name !== 'typescript' || compilerInfo.version !== '7.0.2') {
+  throw new Error('Build and typecheck require @typescript/native aliasing TypeScript 7.0.2.');
+}
+const compiler = path.join(path.dirname(compilerPackage), 'bin', 'tsc');
 const mode = process.argv[2];
-if (process.argv.length > 3 || (mode && !['--check', '--watch'].includes(mode))) {
-  throw new Error('Usage: node tools/build-typescript.cjs [--check|--watch]');
+if (process.argv.length > 3 || (mode && !['--check', '--watch', '--typecheck'].includes(mode))) {
+  throw new Error('Usage: node tools/build-typescript.cjs [--check|--watch|--typecheck]');
 }
 
 function runCompiler(args) {
@@ -116,7 +121,8 @@ function build() {
 
 function attempt() {
   try {
-    build();
+    if (mode === '--typecheck') runCompiler(['--project', 'tsconfig.contracts.json']);
+    else build();
     process.exitCode = 0;
   } catch (error) {
     console.error(error.message);
