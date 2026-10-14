@@ -133,7 +133,7 @@ interface WorldResources extends Pick<
     d: number,
     material: ThreeMaterialHandle,
   ) => ThreeMeshHandle;
-  roadSurface: (w: number, d: number) => ThreeMaterialHandle;
+  roadSurface: (w: number, d: number) => ThreeStandardMaterialHandle;
   parkPaving: (w: number, d: number) => ThreeMaterialHandle;
   tree: (x: number, z: number, seed: number, planterBox?: boolean, natural?: boolean) => void;
   shrubBed: (x: number, y: number, z: number, w: number, d: number, seed: number) => void;
@@ -161,7 +161,7 @@ interface WorldResources extends Pick<
     photo: ThreeTextureHandle,
     title?: string,
     subtitle?: string,
-  ) => ThreeMeshHandle;
+  ) => ThreeGroupHandle;
   streetNameplate: (x: number, z: number, width: number, angle: number, title: string) => void;
   addFlag: (x: number, z: number) => void;
   streetLight: (x: number, z: number) => void;

@@ -8,7 +8,7 @@ interface ThreeTextureHandle {
 }
 
 interface ThreeSceneHandle {
-  userData: Record<string, unknown>;
+  userData: ThreeSceneUserData;
 }
 
 interface ThreeSpriteHandle {

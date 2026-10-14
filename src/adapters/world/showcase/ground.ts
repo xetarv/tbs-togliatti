@@ -18,7 +18,7 @@ window.TBS.buildQuarterGround = function ({
   bronze,
   glazing,
   plazaPaving,
-}) {
+}: QuarterGroundOptions): void {
   box(scene, x, 0.76, z + 4, 23.15, 0.78, 12.15, brick);
   for (const [px, pz, w, d] of [
     [x, 30, 22, ROAD],

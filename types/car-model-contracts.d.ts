@@ -2,6 +2,7 @@
 interface ThreeColorHandle {
   readonly isColor: true;
   setHex: (hex: number) => this;
+  setScalar: (scalar: number) => this;
 }
 interface ThreePhysicalMaterialParameters extends ThreeBasicMaterialParameters {
   metalness?: number;

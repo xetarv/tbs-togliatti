@@ -11,7 +11,7 @@ window.TBS.buildQuarterLighting = function ({
   glowTexture,
   glazing,
   bronze,
-}) {
+}: QuarterLightingOptions): void {
   const lightStripMaterial = new T.MeshStandardMaterial({
     color: 0xffe0b6,
     emissive: 0xffc887,

@@ -1,5 +1,12 @@
 'use strict';
-window.TBS.buildQuarterCladding = function ({ T, plaster, claddingPanels, scene, x, z }) {
+window.TBS.buildQuarterCladding = function ({
+  T,
+  plaster,
+  claddingPanels,
+  scene,
+  x,
+  z,
+}: QuarterCladdingOptions): void {
   const panelShape = new T.Shape();
   panelShape.moveTo(-0.48, -0.48);
   panelShape.lineTo(0.48, -0.48);

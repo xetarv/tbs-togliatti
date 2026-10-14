@@ -28,6 +28,10 @@ interface ThreeSpriteHandle extends ThreePositionedObjectHandle {
 }
 interface ThreePointLightHandle extends ThreePositionedObjectHandle {
   readonly isPointLight: true;
+  intensity: number;
+  distance: number;
+  decay: number;
+  readonly color: ThreeColorHandle;
 }
 interface ThreeMarkerScale extends CameraVector3 {
   setScalar: (scalar: number) => this;
@@ -49,9 +53,16 @@ interface ThreeBasicMaterialParameters {
   polygonOffsetFactor?: number;
   map?: ThreeTextureHandle | null;
   toneMapped?: boolean;
+  blending?: 0 | 1 | 2 | 3 | 4 | 5;
+}
+interface ThreeStandardMaterialParameters extends ThreeBasicMaterialParameters {
+  emissive?: number;
+  emissiveIntensity?: number;
+  roughness?: number;
 }
 interface ThreeBasicMaterialHandle extends ThreeMaterialHandle {
   readonly isMeshBasicMaterial: true;
+  clone: () => this;
   opacity: number;
   readonly color: ThreeColorHandle;
 }
@@ -81,9 +92,33 @@ interface ThreeMaterialHandle {
 }
 interface ThreeTextureHandle {
   readonly isTexture: true;
+  clone: () => this;
+  readonly repeat: ThreeTextureRepeatHandle;
+  set needsUpdate(value: boolean);
+}
+interface ThreeTextureRepeatHandle {
+  x: number;
+  y: number;
+  set: (x: number, y: number) => this;
 }
 interface ThreeGeometryHandle {
   readonly isBufferGeometry: true;
+}
+interface ThreeShapeHandle {
+  moveTo: (x: number, y: number) => this;
+  lineTo: (x: number, y: number) => this;
+  closePath: () => void;
+}
+interface ThreeExtrudeOptions {
+  depth?: number;
+  bevelEnabled?: boolean;
+  bevelSize?: number;
+  bevelThickness?: number;
+  bevelSegments?: number;
+  steps?: number;
+}
+interface ThreeExtrudedGeometryHandle extends ThreeGeometryHandle {
+  translate: (x: number, y: number, z: number) => this;
 }
 interface ThreeRendererHandle {
   readonly domElement: HTMLCanvasElement;
@@ -91,6 +126,12 @@ interface ThreeRendererHandle {
 /** Only consumed constructor signatures are described; other Three.js members remain deferred. */
 interface ThreeLibraryHandle {
   readonly REVISION: string;
+  Shape: new () => ThreeShapeHandle;
+  ExtrudeGeometry: new (
+    shape: ThreeShapeHandle,
+    options?: ThreeExtrudeOptions,
+  ) => ThreeExtrudedGeometryHandle;
+  Color: new (color?: number) => ThreeColorHandle;
   Vector3: new (x?: number, y?: number, z?: number) => CameraVector3;
   readonly DoubleSide: 2;
   Group: new () => ThreeGroupHandle;
@@ -138,6 +179,10 @@ interface ThreeLibraryHandle {
     thetaLength?: number,
   ) => ThreeGeometryHandle;
   MeshBasicMaterial: new (parameters?: ThreeBasicMaterialParameters) => ThreeBasicMaterialHandle;
+  MeshStandardMaterial: new (
+    parameters?: ThreeStandardMaterialParameters,
+  ) => ThreeStandardMaterialHandle;
+  readonly AdditiveBlending: 2;
   PointLight: new (
     color?: number,
     intensity?: number,

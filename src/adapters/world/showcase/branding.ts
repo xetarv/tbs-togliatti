@@ -11,7 +11,7 @@ window.TBS.buildQuarterBranding = function ({
   factoryTexture,
   droneTexture,
   bronze,
-}) {
+}: QuarterBrandingOptions): void {
   const title = new T.Mesh(
     new T.PlaneGeometry(8.8, 2.2),
     new T.MeshBasicMaterial({

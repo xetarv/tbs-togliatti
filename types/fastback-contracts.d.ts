@@ -17,13 +17,24 @@ interface ThreeNonMeshChild extends ThreeObjectHandle {
 }
 type ThreeFastbackChild = ThreeNonMeshChild | ThreeFastbackMesh;
 interface ThreeFastbackInstancedMesh extends ThreeFastbackMesh, InstancedMeshHandle {
+  name: string;
   setMatrixAt: (index: number, matrix: ThreeMatrix4Handle) => void;
+  setColorAt: (index: number, color: ThreeColorHandle) => void;
   count: number;
   frustumCulled: boolean;
   readonly instanceMatrix: ThreeInstanceMatrixHandle;
 }
 interface ThreeStandardMaterialHandle extends ThreeMaterialHandle {
   readonly isMeshStandardMaterial: true;
+  readonly emissive: ThreeColorHandle;
+  emissiveIntensity: number;
+  clone: () => this;
+  readonly color: ThreeColorHandle;
+  bumpMap: ThreeTextureHandle | null;
+  roughnessMap: ThreeTextureHandle | null;
+  bumpScale: number;
+  roughness: number;
+  metalness: number;
 }
 interface ThreePhysicalMaterialHandle extends ThreeStandardMaterialHandle {
   readonly isMeshPhysicalMaterial: true;

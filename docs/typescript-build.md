@@ -1,10 +1,13 @@
 # TypeScript: подготовка компиляции classic scripts
 
-Текущий статус после этапа №33: 37 производственных TS-модулей и технический `build-smoke.ts`.
+Текущий статус после этапа №37: 41 производственных TS-модуль и технический `build-smoke.ts`.
 Миграции симуляционных адаптеров описаны в отчётах [этапа №28](typescript-pedestrians.md) и [этапа №29](typescript-traffic-view.md).
 Миграция анимации мира описана в [отчёте этапа №31](typescript-world-animation.md).
 Миграция сборщика зданий описана в [отчёте этапа №32](typescript-world-buildings.md).
 Миграция квартала описана в [отчёте этапа №33](typescript-world-showcase.md).
+Миграции поверхности и оформления квартала описаны в отчётах [этапа №34](typescript-quarter-ground.md) и [этапа №35](typescript-quarter-branding.md).
+Миграция облицовки описана в [отчёте этапа №36](typescript-quarter-cladding.md).
+Миграция освещения квартала описана в [отчёте этапа №37](typescript-quarter-lighting.md).
 Ниже сохранена историческая справка о ядре и первоначальной инфраструктуре.
 
 На этапе №8 все 11 модулей ядра `domain/application` — `math`, `config`, `collision`, `road-network`, `missions`, `traffic`, `player-physics`, `state`, `mission-controller`, `session` и `game` — переведены

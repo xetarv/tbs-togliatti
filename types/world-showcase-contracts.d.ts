@@ -1,4 +1,32 @@
 // Confirmed JS outputs and consumed inputs; inner JS builders remain unchecked.
+interface ThreeSceneUserData extends Record<string, unknown> {
+  quarterLighting?: QuarterLighting;
+  showcaseQuarter?: {
+    x: number;
+    z: number;
+    trees: 3;
+    windowBays: 27;
+    claddingPanels: number;
+  };
+  quarterMaterials?: Pick<
+    QuarterMaterials,
+    'stone' | 'plaster' | 'bronze' | 'glazing' | 'brick' | 'plazaPaving'
+  >;
+}
+interface QuarterLighting {
+  x: number;
+  z: number;
+  entranceLight: ThreePointLightHandle;
+  windowLight: ThreePointLightHandle;
+  bounce: ThreePointLightHandle;
+  lightStripMaterial: ThreeStandardMaterialHandle;
+  poolMaterial: ThreeBasicMaterialHandle;
+  reflective: [
+    ThreePhysicalMaterialHandle,
+    ThreeStandardMaterialHandle,
+    ThreeStandardMaterialHandle,
+  ];
+}
 interface QuarterMaterials {
   stone: ThreeMaterialHandle;
   bronze: ThreeStandardMaterialHandle;
