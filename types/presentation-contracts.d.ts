@@ -86,6 +86,7 @@ interface CameraSkyHandle extends ThreeMeshHandle {
 interface ThreeMeshHandle extends ThreeObjectHandle {
   readonly isMesh: true;
   castShadow: boolean;
+  receiveShadow: boolean;
 }
 interface ThreeMaterialHandle {
   readonly isMaterial: true;

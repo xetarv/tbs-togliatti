@@ -25,6 +25,8 @@
     "types/world-buildings-contracts.d.ts",
     "src/adapters/world/buildings.ts",
     "types/world-showcase-contracts.d.ts",
+    "src/adapters/world/showcase/structure.ts",
+    "src/adapters/world/showcase/windows.ts",
     "src/adapters/world/showcase/lighting.ts",
     "src/adapters/world/showcase/cladding.ts",
     "src/adapters/world/showcase/branding.ts",

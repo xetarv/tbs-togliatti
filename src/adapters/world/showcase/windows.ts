@@ -14,8 +14,8 @@ window.TBS.buildQuarterWindows = function ({
   dark,
   x,
   z,
-}) {
-  function bay(px, py, pz, angle, w = 2.65, h = 2.35) {
+}: QuarterWindowsOptions): void {
+  function bay(px: number, py: number, pz: number, angle: number, w = 2.65, h = 2.35): void {
     const g = new T.Group();
     g.position.set(px, py, pz);
     g.rotation.y = angle;

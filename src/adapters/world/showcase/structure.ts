@@ -7,9 +7,17 @@ window.TBS.buildQuarterStructure = function ({
   x,
   plaster,
   reflectionBuildings,
-}) {
-  const claddingPanels = [];
-  function wall(px, py, pz, w, h, d, material = stone) {
+}: QuarterStructureOptions): QuarterStructure {
+  const claddingPanels: QuarterCladdingPanel[] = [];
+  function wall(
+    px: number,
+    py: number,
+    pz: number,
+    w: number,
+    h: number,
+    d: number,
+    material = stone,
+  ): ReturnType<BoxHelper> {
     const m = box(scene, px, py, pz, w, h, d, material);
     m.castShadow = true;
     m.receiveShadow = true;
