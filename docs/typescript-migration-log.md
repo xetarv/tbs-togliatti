@@ -107,3 +107,31 @@
 - Previous 47 dist outputs and older diagnostics are preserved; only materials.js is added to dist.
   Compact artifacts are in `artifacts/typescript-stage40-43e1ce27/` (including earlier failure logs).
   Stage 40 is local and not pushed. Stage 41 may proceed after its successful local commit.
+
+## Stage 41 — building detail components
+
+- Stage 40 is preserved as local commit `7038d42ade841ee0ff46d08840fb9003411a40a0`.
+  Migrated trim (30 original lines), windows (41), storefront (52) and building roof (54),
+  distinct from showcase roof. Old JS was replaced before build; four HTML paths changed in place.
+- Input projections reuse the actual block.js context after shell's style/body assignment.
+  Added only the genuine Object3D.add member missing from the base handle. Remaining block,
+  shell, office and entrance JS implementations are unchanged and not statically checked.
+- All four complete executable ASTs match. On actual r149, 16 controlled scenarios cover
+  residential/office/factory/campus, widths below/at/above 12, minimum window cells, the trim
+  height boundary, seeds 0–3, fractional far coordinates and scene/group parents.
+  Geometry/index bytes, matrices, material/texture sharing, transforms, shadow flags, call
+  and creation order match exactly; all results remain undefined. The real wedge helper is used.
+- Build/check pass with 64/64 tests. Actual ESLint coverage: 52 TS sources and 12 declarations;
+  production-module count is 51. No additional dependencies or lint changes in this stage.
+- One final existing Edge file:// smoke passed desktop/mobile driving, pause, camera, lighting,
+  quality presets and touch input without errors. A diagnostic baseline with the four original
+  JS components exactly matched the desktop pre-animation audit, including all 200 component
+  calls/contexts and quarter scene fingerprints. The scene contained 4623 objects in both runs.
+  This is not a full framebuffer pixel comparison or a performance measurement.
+- Only four new generated JS files were added; all previous 48 dist files are SHA-256 unchanged.
+  All prior diagnostics and the successful Stage 39/40 work are preserved. Artifacts:
+  `artifacts/typescript-stage41-2640d867/` (originals, exact comparison summary, coverage,
+  build/check logs and baseline/desktop/mobile audit with two final smoke images).
+- Stage 41 is complete locally, ready for its separately authorized local commit.
+  The package does not permit push or Stage 42. Building components remaining JS:
+  entrance.js, office.js and shell.js; all world/showcase modules are TS.

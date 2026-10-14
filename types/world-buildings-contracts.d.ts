@@ -64,3 +64,79 @@ interface TbsRegistry {
   createPavilionBuilder: (options: PavilionBuilderOptions) => PavilionBuilderModels;
   createIndustrialBuilder: (options: IndustrialBuilderOptions) => IndustrialBuilderModels;
 }
+
+// block.js spreads options and specification, then assigns shell's actual style/body result.
+type BuildingComponentContext = BuildingBuilderOptions &
+  BuildingSpecification & {
+    shopSigns: ThreeTextureHandle[];
+    solarMat: BuildingModels['solarMat'];
+    style: string;
+    body: ThreeStandardMaterialHandle;
+  };
+
+type BuildingTrimOptions = Pick<
+  BuildingComponentContext,
+  | 'parent'
+  | 'h'
+  | 'box'
+  | 'x'
+  | 'z'
+  | 'w'
+  | 'd'
+  | 'seed'
+  | 'trimMat'
+  | 'roofMat'
+  | 'style'
+  | 'glassMat'
+  | 'orangeMat'
+  | 'cyanMat'
+>;
+
+type BuildingWindowsOptions = Pick<
+  BuildingComponentContext,
+  'parent' | 'style' | 'w' | 'h' | 'x' | 'z' | 'd' | 'box' | 'whiteMat' | 'trimMat'
+>;
+
+type BuildingStorefrontOptions = Pick<
+  BuildingComponentContext,
+  | 'parent'
+  | 'w'
+  | 'style'
+  | 'z'
+  | 'd'
+  | 'box'
+  | 'x'
+  | 'glassMat'
+  | 'whiteMat'
+  | 'T'
+  | 'shopSigns'
+  | 'seed'
+  | 'trimMat'
+  | 'orangeMat'
+>;
+
+type BuildingRoofOptions = Pick<
+  BuildingComponentContext,
+  | 'parent'
+  | 'style'
+  | 'T'
+  | 'x'
+  | 'w'
+  | 'h'
+  | 'z'
+  | 'd'
+  | 'wedge'
+  | 'roofMat'
+  | 'box'
+  | 'glassMat'
+  | 'trimMat'
+  | 'whiteMat'
+  | 'solarMat'
+>;
+
+interface TbsRegistry {
+  buildBuildingTrim: (options: BuildingTrimOptions) => void;
+  buildBuildingWindows: (options: BuildingWindowsOptions) => void;
+  buildStorefront: (options: BuildingStorefrontOptions) => void;
+  buildBuildingRoof: (options: BuildingRoofOptions) => void;
+}

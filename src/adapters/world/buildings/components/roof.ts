@@ -15,7 +15,7 @@ window.TBS.buildBuildingRoof = function ({
   trimMat,
   whiteMat,
   solarMat,
-}) {
+}: BuildingRoofOptions): void {
   if (style === 'factory') {
     const monitors = new T.Group();
     monitors.position.set(x + w * 0.27, h + 0.25, z);

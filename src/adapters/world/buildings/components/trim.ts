@@ -14,7 +14,7 @@ window.TBS.buildBuildingTrim = function ({
   glassMat,
   orangeMat,
   cyanMat,
-}) {
+}: BuildingTrimOptions): void {
   for (let floor = 3.2; floor < h - 0.7; floor += 3.2) {
     box(parent, x, floor, z, w + 0.18, 0.12, d + 0.18, seed % 2 ? trimMat : roofMat);
   }

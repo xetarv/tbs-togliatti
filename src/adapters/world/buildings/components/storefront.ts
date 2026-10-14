@@ -14,7 +14,7 @@ window.TBS.buildStorefront = function ({
   seed,
   trimMat,
   orangeMat,
-}) {
+}: BuildingStorefrontOptions): void {
   if (w < 12 && style !== 'residential') {
     for (const side of [-1, 1]) {
       const front = z + side * (d / 2 + 0.22);

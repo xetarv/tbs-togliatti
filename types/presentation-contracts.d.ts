@@ -2,6 +2,7 @@
 // All discriminators below are actual r149 runtime properties, not synthetic brands.
 interface ThreeObjectHandle {
   readonly isObject3D: true;
+  add: (...objects: ThreeObjectHandle[]) => this;
 }
 interface ThreeSceneHandle extends ThreeObjectHandle {
   readonly isScene: true;

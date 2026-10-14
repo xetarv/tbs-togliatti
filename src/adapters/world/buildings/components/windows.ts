@@ -10,7 +10,7 @@ window.TBS.buildBuildingWindows = function ({
   box,
   whiteMat,
   trimMat,
-}) {
+}: BuildingWindowsOptions): void {
   if (style === 'residential' || style === 'office') {
     // Modelled reveals and projecting sills add depth on both street-facing walls.
     const columns = Math.max(1, Math.round((w - 0.55) / 2.8)),
