@@ -116,3 +116,18 @@ test('ESLint accepts ambient declarations, type-only parameters and interface me
   );
   assert.deepEqual(result.messages, []);
 });
+
+test('Canvas call ternaries are allowed only in showcase materials and still require effects', async () => {
+  const prefix = 'declare const py: number; declare const c: CanvasRenderingContext2D; ';
+  const calls = 'py ? c.lineTo(1, 2) : c.moveTo(1, 2);';
+  const file = 'src/adapters/world/showcase/materials.ts';
+  assert.deepEqual((await lintTypeScript(prefix + calls, file)).messages, []);
+  for (const [expression, target] of [
+    ['py ? 1 : 2;', file],
+    ['py ? c.lineTo(1, 2) : 2;', file],
+    [calls, 'src/adapters/world/showcase/roof.ts'],
+  ]) {
+    const result = await lintTypeScript(prefix + expression, target);
+    assert.ok(result.messages.some((m) => m.ruleId === '@typescript-eslint/no-unused-expressions'));
+  }
+});

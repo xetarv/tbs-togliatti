@@ -1,6 +1,17 @@
 // Confirmed outputs and consumed inputs; remaining JS materials factory is unchecked.
 interface ThreePhysicalMaterialHandle {
   opacity: number;
+  ior: number;
+}
+interface ThreeStandardMaterialHandle {
+  map: ThreeTextureHandle | null;
+  envMapIntensity: number;
+}
+interface ThreeTextureHandle {
+  encoding: number;
+}
+interface ThreeLibraryHandle {
+  readonly LinearEncoding: 3000;
 }
 interface ThreeColorHandle {
   setHSL: (h: number, s: number, l: number) => this;

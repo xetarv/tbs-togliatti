@@ -1,5 +1,11 @@
 'use strict';
-window.TBS.createQuarterMaterials = function ({ makeTexture, visualAssets, mat, T, nightWindows }) {
+window.TBS.createQuarterMaterials = function ({
+  makeTexture,
+  visualAssets,
+  mat,
+  T,
+  nightWindows,
+}: QuarterMaterialsOptions): QuarterMaterials {
   const stoneTexture = makeTexture(
     (c, w, h) => {
       c.fillStyle = '#b4afa3';
@@ -46,13 +52,13 @@ window.TBS.createQuarterMaterials = function ({ makeTexture, visualAssets, mat, 
     depthWrite: false,
     side: T.DoubleSide,
   });
-  function dataMap(draw, size = 256, rx = 1, ry = 1) {
+  function dataMap(draw: TexturePainter, size = 256, rx = 1, ry = 1): ThreeTextureHandle {
     const map = makeTexture(draw, size, size);
     map.encoding = T.LinearEncoding;
     map.repeat.set(rx, ry);
     return map;
   }
-  function grain(base, spread, seed) {
+  function grain(base: number, spread: number, seed: number): TexturePainter {
     return (c, w, h) => {
       c.fillStyle = `rgb(${base},${base},${base})`;
       c.fillRect(0, 0, w, h);

@@ -84,3 +84,26 @@
   Compact artifacts: `artifacts/typescript-stage39-dd891581/` (originals, comparison.json,
   toolchain/coverage, build/check logs, baseline/desktop/mobile audits and smoke images).
 - Stage 39 is local, ready for acceptance and separate publication. No commit/push or Stage 40.
+
+## Stage 40 — showcase materials
+
+- Stage 39 was retained as local commit `d8f10a4f3bdeb7f585cbf74e830f6e9bdd1bb499`.
+  No checks of that completed stage were repeated and no push was performed.
+- Migrated only materials.js to strict materials.ts; the whole world/showcase subdirectory
+  is now TS (other world subdirectories still contain JS). Total: 47 production modules,
+  48 classic outputs and 48 linted TS sources plus 12 declarations.
+- Real resource/visual-assets implementations confirm MeshStandardMaterial results.
+  Narrowed those return boundaries and added only consumed texture encoding and material fields.
+  Painter callbacks reuse TexturePainter. All constants, seeds, Canvas operations and references
+  remain unchanged; the complete executable AST is identical.
+- The initial lint block was resolved by explicit user authorization: only materials.ts enables
+  allowTernary under the error-level no-unused-expressions rule. One permanent test verifies
+  valid calls in both branches, invalid pure/mixed branches and rejection outside that exact file.
+- Build/check pass with 64/64 tests. Actual Edge Canvas/r149 comparisons include a stable
+  original control repeat: all 15 generated textures match byte-for-byte (5308416 RGBA bytes),
+  and 683157 recorded Canvas operations/arguments match. Material parameters, returned keys,
+  nightWindows, stone clone and shared texture references match. This is texture pixel equality,
+  not full-scene framebuffer identity. The final game smoke is deferred until Stage 41.
+- Previous 47 dist outputs and older diagnostics are preserved; only materials.js is added to dist.
+  Compact artifacts are in `artifacts/typescript-stage40-43e1ce27/` (including earlier failure logs).
+  Stage 40 is local and not pushed. Stage 41 may proceed after its successful local commit.

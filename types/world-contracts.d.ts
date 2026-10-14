@@ -50,7 +50,7 @@ interface WorldVisualAssets {
   wind: { value: number };
   leaf: ThreeGeometryHandle;
   foliage: ThreeMaterialHandle;
-  material: (kind: string, w?: number, h?: number) => ThreeMaterialHandle;
+  material: (kind: string, w?: number, h?: number) => ThreeStandardMaterialHandle;
   plant: (
     parent: ThreeObjectHandle,
     x: number,
@@ -106,6 +106,12 @@ interface WorldResources extends Pick<
   | 'streetFixtures'
 > {
   visualAssets: WorldVisualAssets;
+  mat: (
+    color: number,
+    metalness?: number,
+    roughness?: number,
+    emissive?: number,
+  ) => ThreeStandardMaterialHandle;
   nightWindows: ThreeMaterialHandle[];
   curbMat: ThreeMaterialHandle;
   glassMat: ThreeMaterialHandle;

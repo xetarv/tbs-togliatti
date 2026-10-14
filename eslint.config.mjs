@@ -46,6 +46,13 @@ export default [
       ],
     },
   },
+  {
+    files: ['src/adapters/world/showcase/materials.ts'],
+    rules: {
+      // Preserve the original Canvas call ternary; both branches must still have effects.
+      '@typescript-eslint/no-unused-expressions': ['error', { allowTernary: true }],
+    },
+  },
   ...['domain', 'application'].map((layer) => ({
     files: [`src/${layer}/**/*.{js,ts}`],
     languageOptions: {
