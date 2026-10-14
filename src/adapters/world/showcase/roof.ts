@@ -14,7 +14,7 @@ window.TBS.buildQuarterRoof = function ({
   room,
   T,
   bronze,
-}) {
+}: QuarterRoofOptions): QuarterRoof {
   box(scene, x, 11.37, z + 4, 23.5, 0.23, 12.5, plaster);
   for (const side of [-1, 1]) {
     box(scene, x + side * 11.5, 11.9, z + 4, 0.15, 0.95, 12.3, stone);

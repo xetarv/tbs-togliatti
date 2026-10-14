@@ -51,3 +51,36 @@
   One final A2+A3 check passed 63/63 tests; all 44 dist files and eight A2 files
   remain byte-identical to the state before A3.
 - Next game stage 39 has not started; its module selection is not approved.
+
+## Stage 39 — roof, pavilion and landscape — 14 October 2026
+
+- A2+A3 publication was verified by fetch: local main and origin/main both pointed to
+  `dfc26303dfd38f4749607fa80d3215fc6fc99e22`; the tracked tree was clean.
+- Migrated only roof (47 original lines), pavilion (95) and landscape (115): linked
+  construction steps with existing QuarterRoof/Pavilion/Landscape contracts.
+  The larger materials.js (220 lines) remains the sole JS module in world/showcase.
+  Old source JS files were removed before building; three HTML paths changed in place.
+- Added only actual consumed r149 declarations: physical-material opacity, Color.setHSL,
+  BoxGeometry and mutable BufferGeometry/Float32BufferAttribute construction.
+  No runtime casts, branches, allocations, algorithm changes or infrastructure upgrades.
+- Total: 46 production TS modules plus build-smoke, 47 classic outputs. ESLint actually
+  processed 47 TS sources and 12 declarations; TS7 7.0.2 builds/checks, TS6 6.0.3 is parser API.
+- All three complete executable ASTs match the originals. Three controlled-input scenarios
+  on actual bundled r149 cover normal coordinates, far fractional coordinates and zero/-0
+  with aliased stone/plaster. Exact bytes of geometry attributes/indices and instance buffers,
+  materials, matrices, transforms, creation order, calls, shared references and results match.
+  Real geometry helpers and vegetation culling are used; structure/windows and cladding
+  consume the same data. roofGlass remains a new clone, passed by identity to the canopy;
+  glazing is unchanged. Landscape submits 1100 planting and 480 grass instances as before.
+- One common build and check passed, including strict types, lint/format and 63/63 tests.
+  Existing Edge file:// smoke passed startup, driving, pause, quality presets and mobile input.
+  Its diagnostic wrapper also compared the actual pre-animation city against the original
+  three JS implementations: complete desktop audit matched, including quarter resource sharing,
+  geometry/instance byte fingerprints, material/texture parameters and canvas-pixel fingerprints.
+  Both desktop and mobile built 1483 quarter objects, 70 geometries and 304 cladding panels;
+  the whole scene had 4623 objects. These fingerprints are not framebuffer pixel identity.
+- Prior 44 dist files remain SHA-256 identical; only three new generated outputs were added.
+  Protected sources, A2+A3 configuration, assets and previous diagnostics are preserved.
+  Compact artifacts: `artifacts/typescript-stage39-dd891581/` (originals, comparison.json,
+  toolchain/coverage, build/check logs, baseline/desktop/mobile audits and smoke images).
+- Stage 39 is local, ready for acceptance and separate publication. No commit/push or Stage 40.

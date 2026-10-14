@@ -15,7 +15,7 @@ window.TBS.buildQuarterLandscape = function ({
   wood,
   contact,
   addFlag,
-}) {
+}: QuarterLandscapeOptions): void {
   flat(scene, x - 6, 0.405, z - 7.4, 10, 8, plazaPaving);
   flat(scene, x + 5.8, 0.415, z - 10.55, 10.8, 2.45, visualAssets.material('paving', 10.8, 2.45));
   for (let n = 0; n < 42; n++)

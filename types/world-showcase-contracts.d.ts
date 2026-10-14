@@ -1,4 +1,31 @@
-// Confirmed JS outputs and consumed inputs; inner JS builders remain unchecked.
+// Confirmed outputs and consumed inputs; remaining JS materials factory is unchecked.
+interface ThreePhysicalMaterialHandle {
+  opacity: number;
+}
+interface ThreeColorHandle {
+  setHSL: (h: number, s: number, l: number) => this;
+}
+interface QuarterMutableGeometry extends ThreeGeometryHandle {
+  setAttribute: (name: string, attribute: ThreeBufferAttributeHandle) => this;
+  setIndex: (index: number[] | ThreeBufferAttributeHandle | null) => this;
+  computeVertexNormals: () => void;
+}
+interface ThreeLibraryHandle {
+  BoxGeometry: new (
+    width?: number,
+    height?: number,
+    depth?: number,
+    widthSegments?: number,
+    heightSegments?: number,
+    depthSegments?: number,
+  ) => ThreeGeometryHandle;
+  BufferGeometry: new () => QuarterMutableGeometry;
+  Float32BufferAttribute: new (
+    array: ArrayLike<number>,
+    itemSize: number,
+    normalized?: boolean,
+  ) => ThreeBufferAttributeHandle;
+}
 interface ThreeSceneUserData extends Record<string, unknown> {
   quarterLighting?: QuarterLighting;
   showcaseQuarter?: {

@@ -16,7 +16,7 @@ window.TBS.buildQuarterPavilion = function ({
   warm,
   glazing,
   dark,
-}) {
+}: QuarterPavilionOptions): void {
   box(scene, x + 6, 0.8, z - 5.8, 9, 0.18, 5.9, room);
   box(scene, x + 6, 2.25, z - 2.95, 9, 3.75, 0.2, plaster);
   box(scene, x + 1.55, 2.25, z - 5.8, 0.18, 3.75, 5.9, stone);
