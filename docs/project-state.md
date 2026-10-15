@@ -1,5 +1,21 @@
 # Состояние TBS Togliatti 2040
 
+## R4 stage 55 - completed - 15 October 2026
+
+Graphics pipeline migrated: 88 production TS / 89 classic dist / one remaining JS.
+Full executable AST matches, including exact postprocessing and water shader strings.
+Eight native r149 old/new fixtures cover depth true/false, quarter present/absent,
+blocked storage, preset transitions, fallback, resize, update intervals/positions,
+original compile hook, uniforms/references, real CubeCamera passes using a controlled
+renderer double, and restoration of toneMapping/xr. Build/check: strict TS7, ESLint,
+64/64 tests. Targeted Edge file WebGL check passed actual high/medium/low/high, depth,
+water shader, car/quarter cube maps and restoration, without runtime/WebGL errors.
+An external observation script had a syntax typo before page launch; corrected retry
+passed. Game code was unchanged for it. Final complete desktop/mobile smoke after 56.
+Existing stage-53 TS implementations unchanged; shared r149 declarations extended
+for actual renderer/cameras/targets/materials. No dependency/lint relaxation.
+Historical diagnostics retained; separate evidence: ../tbs-r4-64a61b5f. No push/FPS test.
+
 ## R4 stage 54 - completed; identity pause resolved - 15 October 2026
 
 The user authorized one metadata-only amendment of stage 53:

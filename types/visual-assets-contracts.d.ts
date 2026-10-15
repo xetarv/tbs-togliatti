@@ -35,10 +35,10 @@ interface CameraVector3 {
   fromBufferAttribute: (attribute: ThreeNumericAttribute, index: number) => this;
 }
 interface ThreeMeshHandle {
-  readonly quaternion: { setFromUnitVectors: (from: CameraVector3, to: CameraVector3) => void };
+  readonly quaternion: ThreeQuaternionHandle;
 }
 interface ThreeRendererHandle {
-  readonly capabilities: { getMaxAnisotropy: () => number };
+  readonly capabilities: { getMaxAnisotropy: () => number; isWebGL2: boolean };
 }
 interface ThreeTextureHandle {
   wrapS: number;

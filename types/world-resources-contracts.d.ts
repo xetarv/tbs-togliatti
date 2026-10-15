@@ -69,7 +69,7 @@ interface ThreeMaterialHandle {
   userData: Record<string, unknown>;
 }
 interface ThreeSkidTransform {
-  readonly quaternion: { setFromUnitVectors: (from: CameraVector3, to: CameraVector3) => void };
+  readonly quaternion: ThreeQuaternionHandle;
 }
 interface ThreeStandardMaterialParameters {
   alphaTest?: number;

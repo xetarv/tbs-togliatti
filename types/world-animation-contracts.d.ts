@@ -34,9 +34,12 @@ interface WorldFlagMesh extends ThreeMeshHandle, ThreePositionedObjectHandle {
 
 /** terrain.onBeforeCompile installs waveTime before publishing this shader reference. */
 interface WorldWaterShader extends ThreeCompiledShader {
-  uniforms: Record<string, { value: unknown }> & { waveTime: { value: number } };
+  uniforms: Record<string, { value: unknown }> & {
+    waveTime: { value: number };
+    reflectionStrength?: { value: number };
+  };
 }
 
-interface WorldWaterMaterial extends ThreeMaterialHandle {
+interface WorldWaterMaterial extends ThreeStandardMaterialHandle {
   userData: Record<string, unknown> & { shader?: WorldWaterShader };
 }

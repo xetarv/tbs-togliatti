@@ -24,12 +24,7 @@ interface ThreeDirectionalLightHandle extends ThreePositionedObjectHandle {
   color: ThreeColorHandle;
   castShadow: boolean;
   target: ThreePositionedObjectHandle & { updateMatrixWorld: () => void };
-  shadow: {
-    mapSize: ThreeTextureRepeatHandle;
-    normalBias: number;
-    bias: number;
-    camera: { left: number; right: number; top: number; bottom: number; near: number; far: number };
-  };
+  shadow: ThreeDirectionalShadowHandle;
 }
 interface ThreeCameraHandle {
   aspect: number;
@@ -92,9 +87,6 @@ interface ThreeLibraryHandle {
   };
   readonly ACESFilmicToneMapping: 4;
   readonly PCFSoftShadowMap: 2;
-}
-interface ThreeMarkerMeshHandle<M extends ThreeMaterialHandle | ThreeMaterialHandle[]> {
-  clone: (recursive?: boolean) => this & { material: M };
 }
 interface ThreeSpotLightHandle {
   intensity: number;

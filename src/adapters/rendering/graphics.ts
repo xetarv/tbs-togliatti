@@ -13,7 +13,7 @@ window.TBS.createGraphics = function ({
   facades,
   reflectObjects = [],
   initialQuality,
-}) {
+}: GraphicsOptions): GraphicsPort {
   const presets = {
     low: { ratio: 1, shadow: 0, ao: 0, bloom: 0, reflection: 0, distance: 85 },
     medium: { ratio: 1.3, shadow: 1024, ao: 0.35, bloom: 0.09, reflection: 0, distance: 110 },
@@ -88,9 +88,9 @@ window.TBS.createGraphics = function ({
   const reflectionSun = new T.DirectionalLight(0xffdfbe, 2);
   reflectionSun.position.set(-35, 62, 40);
   reflectionScene.add(reflectionSun);
-  const proxies = [],
+  const proxies: ThreeMarkerMeshHandle<ThreeStandardMaterialHandle>[] = [],
     proxyGeometry = new T.BoxGeometry(1, 1, 1),
-    proxyMaterials = new Map();
+    proxyMaterials = new Map<string, ThreeStandardMaterialHandle>();
   const reflectionObjects = reflectObjects.map((source) => {
     const mesh = source.clone(true);
     reflectionScene.add(mesh);
@@ -107,7 +107,7 @@ window.TBS.createGraphics = function ({
           roughness: 0.65,
         }),
       );
-    const proxy = new T.Mesh(proxyGeometry, proxyMaterials.get(key));
+    const proxy = new T.Mesh(proxyGeometry, proxyMaterials.get(key)!);
     proxy.position.set(b.x, b.h / 2, b.z);
     proxy.scale.set(b.w, b.h, b.d);
     reflectionScene.add(proxy);
@@ -125,7 +125,7 @@ window.TBS.createGraphics = function ({
         minFilter: T.LinearMipmapLinearFilter,
       })
     : null;
-  const quarterCamera = quarter ? new T.CubeCamera(0.3, 120, quarterTarget) : null;
+  const quarterCamera = quarter ? new T.CubeCamera(0.3, 120, quarterTarget!) : null;
   let quarterDaylight = -1,
     quarterDue = -10;
   const waterTarget = new T.WebGLRenderTarget(512, 256, {
@@ -178,18 +178,18 @@ window.TBS.createGraphics = function ({
     waterReady = false;
     waterDue = -10;
   }
-  function setQuality(value) {
-    quality = presets[value] ? value : 'medium';
+  function setQuality(value: string) {
+    quality = presets[value as keyof typeof presets] ? (value as keyof typeof presets) : 'medium';
     settings = presets[quality];
     renderer.shadowMap.enabled = settings.shadow > 0;
     scene.traverse((o) => {
       if (o.isDirectionalLight && o.castShadow) {
-        o.shadow.mapSize.set(settings.shadow || 512, settings.shadow || 512);
-        if (o.shadow.map) {
-          o.shadow.map.dispose();
-          o.shadow.map = null;
+        o.shadow!.mapSize.set(settings.shadow || 512, settings.shadow || 512);
+        if (o.shadow!.map) {
+          o.shadow!.map.dispose();
+          o.shadow!.map = null;
         }
-        o.shadow.needsUpdate = true;
+        o.shadow!.needsUpdate = true;
       }
     });
     if (!settings.reflection) {
@@ -199,7 +199,7 @@ window.TBS.createGraphics = function ({
     if (quarter)
       for (const material of quarter.reflective) {
         material.envMap =
-          settings.reflection && quarterDaylight >= 0 ? quarterTarget.texture : null;
+          settings.reflection && quarterDaylight >= 0 ? quarterTarget!.texture : null;
         material.needsUpdate = true;
       }
     cubeDue = -10;
@@ -212,10 +212,10 @@ window.TBS.createGraphics = function ({
     }
     return quality;
   }
-  function updateReflections(dt, daylight) {
+  function updateReflections(dt: number, daylight: number) {
     clock += dt;
     if (!settings.reflection) {
-      if (water.userData.shader) water.userData.shader.uniforms.reflectionStrength.value = 0;
+      if (water.userData.shader) water.userData.shader.uniforms.reflectionStrength!.value = 0;
       return;
     }
     const refreshCube = clock - cubeDue > 0.85,
@@ -247,12 +247,12 @@ window.TBS.createGraphics = function ({
         proxy.visible =
           Math.abs(proxy.position.x - quarter.x) < 110 &&
           Math.abs(proxy.position.z - quarter.z) < 110;
-      quarterCamera.position.set(quarter.x + 12.5, 4, quarter.z - 5.8);
-      reflectionSky.position.copy(quarterCamera.position);
-      quarterCamera.update(renderer, reflectionScene);
-      quarterTarget.texture.needsPMREMUpdate = true;
+      quarterCamera!.position.set(quarter.x + 12.5, 4, quarter.z - 5.8);
+      reflectionSky.position.copy(quarterCamera!.position);
+      quarterCamera!.update(renderer, reflectionScene);
+      quarterTarget!.texture.needsPMREMUpdate = true;
       for (const material of quarter.reflective) {
-        material.envMap = quarterTarget.texture;
+        material.envMap = quarterTarget!.texture;
         material.needsUpdate = true;
       }
       for (const proxy of proxies)
@@ -298,11 +298,11 @@ window.TBS.createGraphics = function ({
       waterReady = true;
     }
     if (water.userData.shader)
-      water.userData.shader.uniforms.reflectionStrength.value =
+      water.userData.shader.uniforms.reflectionStrength!.value =
         waterReady && camera.position.z < 90 ? 1 : 0;
     renderer.toneMapping = previousToneMapping;
   }
-  function render(dt, daylight) {
+  function render(dt: number, daylight: number) {
     renderer.info.reset();
     updateReflections(dt, daylight);
     if (quality === 'low' || !depthSupported) {

@@ -71,7 +71,7 @@ interface ThreeBasicMaterialHandle extends ThreeMaterialHandle {
 interface ThreeCameraHandle extends ThreeObjectHandle {
   readonly isPerspectiveCamera: true;
   readonly position: CameraVector3;
-  lookAt: (x: number, y: number, z: number) => void;
+  lookAt: { (x: number, y: number, z: number): void; (vector: DisplacementXYZ): void };
 }
 /** The exact Vector3 operations used by the typed camera adapter. */
 interface CameraVector3 extends DisplacementXYZ {
@@ -419,8 +419,8 @@ interface GraphicsOptions extends Pick<
   BootstrapWorld,
   'T' | 'renderer' | 'scene' | 'camera' | 'sky'
 > {
-  car: ThreeObjectHandle;
-  water: ThreeMaterialHandle;
+  car: FastbackCar;
+  water: WorldWaterMaterial;
   buildings: readonly ReflectionBuilding[];
   facades: readonly ThreeTextureHandle[];
   reflectObjects?: readonly ThreeObjectHandle[];
@@ -440,7 +440,7 @@ type DisplayOptions = Pick<
 > &
   Pick<BootstrapDom, 'getElement'> &
   GameFramePorts['notifications'] & {
-    car: ThreeObjectHandle;
+    car: FastbackCar;
     createGraphics: (options: GraphicsOptions) => GraphicsPort;
     resetControls: () => void;
   };
