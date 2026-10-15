@@ -1,5 +1,34 @@
 # TypeScript migration log
 
+## R2 stage 49 - completed and boundary smoke passed - 15 October 2026
+
+- Migrated population only: 69 production TS / 70 classic outputs / 20 remaining JS.
+  Full executable AST matches Git, including placement, RNG and staticBatchCulling.
+- Native r149 comparisons use the complete 8-by-6 block grid and actual resource/road/
+  park/building/showcase factories, with a recorded visual-assets port. Both photographic
+  asphalt branches and the culling switch match; parked cars/lots/landmarks, scene order,
+  buffers, instance matrices/colors and material references match. Oversized and nested
+  objects remain excluded; three eligible boxes retain batching and shadow flags.
+- Existing static-batch-culling tests now execute dist, preserving all original cases.
+  The localized single-material box refinement follows the unchanged unitBox identity
+  guard; no universal claim about other scene meshes/material arrays was introduced.
+- Build/check passed (strict TS7, ESLint, 64/64 tests). One final existing Edge file smoke
+  passed: real running driving, pause, camera, lighting, audio, all graphics presets,
+  resizing and mobile touch. Desktop/mobile screenshots were reviewed.
+- The same browser run additionally rendered the real waterfront and central park,
+  compiled the actual water shader, checked its live waveTime and square/train references,
+  and verified four loaded images had natural dimensions and drained onReady queues.
+  The generated world has 16 parked cars and six parking lots; no FPS or full-game
+  framebuffer identity was measured. Native fixtures use recorded Canvas/visual-asset
+  ports; this smoke exercises the unmodified real browser adapters.
+- All six source JS files are removed, all 93 script paths exist, and index.html differs
+  from the R1 base only in the six approved paths. Actual counts are 69 TS / 70 dist /
+  20 JS. All 64 prior dist hashes match. The 90 previously recorded historical artifact
+  directories retain their timestamps; historical contents were not mass-rehashed.
+- New evidence is isolated in tbs-r2-20261015-bl0T7n, including two smoke screenshots.
+  No dependencies, visual parameters, algorithms or remaining JS implementations changed.
+  Four separate local stage commits; no push, history rewrite, R3 or stage 50.
+
 ## R2 stage 48 - completed - 15 October 2026
 
 - Migrated roads only: 68 production TS / 69 classic outputs / 21 remaining JS.

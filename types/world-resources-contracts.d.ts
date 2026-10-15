@@ -85,7 +85,7 @@ interface ThreeLibraryHandle {
   TextureLoader: new () => {
     load: (
       url: string,
-      onLoad: (texture: ThreeLoadedImageTexture) => void,
+      onLoad?: (texture: ThreeLoadedImageTexture) => void,
     ) => ThreeLoadedImageTexture;
   };
 }

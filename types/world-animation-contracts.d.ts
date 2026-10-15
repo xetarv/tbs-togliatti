@@ -24,7 +24,7 @@ interface WorldFlagPositionAttribute extends ThreeBufferAttributeHandle {
 
 /** PlaneGeometry creates the position attribute before addFlag publishes the Mesh. */
 interface WorldFlagGeometry extends ThreeGeometryHandle {
-  readonly attributes: { position: WorldFlagPositionAttribute };
+  readonly attributes: { position: WorldFlagPositionAttribute; uv: ThreeNumericAttribute };
   computeVertexNormals: () => void;
 }
 

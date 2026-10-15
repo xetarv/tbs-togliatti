@@ -4,11 +4,18 @@
 
 R1 published base: 7ea72ebdf63060ce4d12dc670f1d1c9c08eba6eb, main.
 Stage 46: 3db9f8dbfbd54165ee8830888cc7336c52da7e18.
-Stage 47: e0e05a5dedafcea2ab516808ad21d2b548f179eb. Stage 48 completed locally.
-68 production TS / 69 classic dist / 21 remaining JS. Build/check 64/64, exact roads
-AST and native r149 camera/stop/culling/shader/geometry comparisons passed.
-Stage 49 is next; one final desktop/mobile Edge smoke follows. No push, R3 or 50.
-Historical diagnostics retained; new compact evidence in tbs-r2-20261015-bl0T7n.
+Stage 47: e0e05a5dedafcea2ab516808ad21d2b548f179eb.
+Stage 48: 0e1966e5fc435749f8ddfe8760c27db62a8f69ae.
+Stage 49 completed in this checkpoint; 69 production TS / 70 classic dist / 20 remaining JS.
+Build/check 64/64, exact AST and native full-grid/material/placement/batching comparison
+passed. One final existing Edge desktop/mobile file smoke passed, including running
+transport, controls, camera, audio and graphics presets. Actual waterfront/park renders,
+water shader/waveTime and real image-ready queues passed in the same browser.
+All 93 script files exist; 64 prior dist byte hashes match. The 90 prior diagnostic
+folder timestamps are unchanged; historical file contents were not mass-rehashed.
+R2 is complete in four separate local commits; no full-scene pixel/FPS claim.
+No push, R3 or stage 50. Historical diagnostics retained; new compact evidence in
+tbs-r2-20261015-bl0T7n. Earlier preflight stops are historical.
 
 ## Текущая рабочая сессия — 15 октября 2026
 

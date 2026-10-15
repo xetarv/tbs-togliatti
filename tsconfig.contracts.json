@@ -24,6 +24,7 @@
     "types/world-resources-contracts.d.ts",
     "types/world-batching-contracts.d.ts",
     "src/adapters/world/roads.ts",
+    "src/adapters/world/population.ts",
     "src/adapters/world/resources.ts",
     "src/adapters/world/parks.ts",
     "src/adapters/world/terrain.ts",

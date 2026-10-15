@@ -46,7 +46,7 @@ window.TBS.populateWorld = function ({
   makeTexture,
   crosswalkMat,
   unitBox,
-}) {
+}: PopulationOptions): WorldPopulation {
   const landmarks = [
     { i: 0, j: 0, name: 'ЦЕНТР ТБС', sub: 'ТРАНСПОРТ БУДУЩЕГО САМАРА', photo: droneTexture, h: 10 },
     { i: 3, j: 0, name: 'НПЦ БАС', sub: 'САМАРА · ТОЛЬЯТТИ', photo: factoryTexture, h: 12 },
@@ -87,12 +87,12 @@ window.TBS.populateWorld = function ({
 
   landmarks.forEach((l) => (l.h += 4));
 
-  const districtLabels = [];
+  const districtLabels: ThreeSpriteHandle[] = [];
 
-  const parkingLots = [],
-    parkedCars = [];
+  const parkingLots: ParkingLot[] = [],
+    parkedCars: ParkedPresentationCar[] = [];
 
-  const residentialCourts = [];
+  const residentialCourts: (PointXZ & { parking: boolean })[] = [];
 
   const landingMat = new T.MeshBasicMaterial({
     color: 0x7ce5db,
@@ -338,9 +338,9 @@ window.TBS.populateWorld = function ({
     }
 
   if (asphaltMaps) {
-    const maps = {},
+    const maps: Partial<Record<keyof AsphaltMaps, ThreeLoadedImageTexture>> = {},
       loader = new T.TextureLoader();
-    for (const key of ['map', 'normalMap', 'roughnessMap']) {
+    for (const key of ['map', 'normalMap', 'roughnessMap'] as const) {
       const texture = loader.load(asphaltMaps[key]);
       texture.encoding = key === 'map' ? T.sRGBEncoding : T.LinearEncoding;
       texture.wrapS = texture.wrapT = T.RepeatWrapping;
@@ -418,7 +418,7 @@ window.TBS.populateWorld = function ({
     }
   }
 
-  const staticBatches = new Map();
+  const staticBatches = new Map<string, StaticBoxMesh[]>();
   // Reuse the tested r149 per-instance bounds adapter without vegetation wind
   // or spatial subdivision. This switch is independent of vegetation culling.
   const batchCulling = window.TBS.createVegetationCulling({
@@ -430,13 +430,13 @@ window.TBS.populateWorld = function ({
     if (child.isMesh && child.geometry === unitBox) {
       if (Math.max(child.scale.x, child.scale.z) > 84) continue;
       const key =
-        child.material.uuid +
+        (child.material as ThreeMaterialHandle).uuid +
         ':' +
         Math.floor(child.position.x / 84) +
         ':' +
         Math.floor(child.position.z / 80);
       if (!staticBatches.has(key)) staticBatches.set(key, []);
-      staticBatches.get(key).push(child);
+      staticBatches.get(key)!.push(child as StaticBoxMesh);
     }
 
   for (const meshes of staticBatches.values()) {

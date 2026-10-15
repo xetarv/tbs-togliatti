@@ -64,3 +64,28 @@ interface StopTrimBatch {
 interface ThreeFastbackInstancedMesh {
   readonly isInstancedMesh: true;
 }
+
+// Stage-49 root-scene collection; unitBox belongs to the single-material box helper.
+interface ThreeObjectHandle {
+  readonly position: CameraVector3;
+  remove: (...objects: ThreeObjectHandle[]) => this;
+}
+interface ThreeSceneHandle {
+  readonly children: ThreeFastbackChild[];
+}
+interface ThreeNonMeshChild {
+  material?: ThreeMaterialHandle | ThreeMaterialHandle[];
+}
+interface ThreeMaterialHandle {
+  name: string;
+}
+interface ThreeSpriteHandle {
+  material: ThreeSpriteMaterialHandle;
+}
+interface ThreeSpriteMaterialHandle {
+  toneMapped: boolean;
+  fog: boolean;
+}
+interface StaticBoxMesh extends ThreeFastbackMesh {
+  material: ThreeMaterialHandle;
+}

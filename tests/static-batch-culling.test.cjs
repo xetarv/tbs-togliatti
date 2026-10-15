@@ -11,7 +11,7 @@ function setup(search = '') {
   for (const file of [
     'assets/three.min.js',
     'src/adapters/rendering/vegetation-culling.js',
-    'src/adapters/world/population.js',
+    'dist/adapters/world/population.js',
   ])
     vm.runInContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), context);
   const T = context.THREE;
