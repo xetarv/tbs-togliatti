@@ -18,11 +18,18 @@
 
 Stage 42: f738a1863f6cf037ac19e25fe888bb83ec465df6.
 Stage 43: dcd9ced1e95124b7ef440c838656c8a624e97618.
-Stage 44: geometry and visual-assets migrated; 60 production TS, 61 classic outputs.
+Stage 44: 855bb62aa9e44e83d8be691b4e14b605cc1cb0fa.
+Stage 45: signs/facades/fixtures migrated; 63 production TS, 64 classic outputs.
 The user explicitly resolved the earlier lint conflict by authorizing call ternaries
 only for materials.ts and visual-assets.ts. The old stop is retained in the journal.
-Two exact ASTs and native r149/Canvas-command fixtures match; build/check passed
-64/64 tests, strict TS7 and ESLint. Stage 45 and final Edge check are next.
+Stages 44/45: five exact ASTs; native r149/Canvas-command fixtures match for 44.
+Build/check passed 64/64 tests, strict TS7 and ESLint at both resumed stages.
+Final existing desktop/mobile Edge file smoke passed, including driving and audio.
+Native comparisons: 64 Canvas pixel hashes, rendered leaf shader and two ready-state
+resource scenes match originals. All 93 script paths exist; 52 prior dist hashes match.
+The 90 historical artifact directories retain recorded timestamps; no mass file audit.
+The earlier stop was resolved; all four R1 stages are complete in separate local commits.
+New evidence is outside Git in tbs-r1-20261015. Full-scene pixel identity/FPS not measured.
 No push or stage 46; previous commits and historical diagnostic data retained.
 
 ## Исторический снимок домашней сессии

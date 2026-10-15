@@ -60,7 +60,7 @@ interface ThreeStandardMaterialHandle {
 interface ThreeLibraryHandle {
   readonly sRGBEncoding: 3001;
   readonly RepeatWrapping: 1000;
-  CanvasTexture: new (canvas: HTMLCanvasElement) => ThreeTextureHandle;
+  CanvasTexture: new (canvas: HTMLCanvasElement) => ThreeCanvasTexture;
   Vector2: new (x?: number, y?: number) => ThreeTextureRepeatHandle;
   BufferAttribute: new (array: Float32Array, itemSize: number) => ThreeNumericAttribute;
   CatmullRomCurve3: new (points: CameraVector3[]) => ThreeCurveHandle;

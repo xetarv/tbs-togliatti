@@ -1,5 +1,29 @@
 # TypeScript migration log
 
+## Stage 45 - resource adapters - 15 October 2026
+
+- Migrated signs, facades and fixtures: 63 production TS, 64 classic outputs.
+  Three complete executable ASTs match Git originals. The existing district texture cache
+  remains; no facade material cache was added. Sprite/geometry references are preserved.
+- Exact contracts distinguish makeTexture Canvas output from loaded images with onReady
+  queues; Mesh preserves its geometry reference. The sole material refinement for stone
+  follows materials.ts:40 (visualAssets.material(...).clone()), leaving the pre-existing
+  broader QuarterMaterials/default wall contract unchanged. Non-null access in synchronous
+  painters/cache lookups and ready callbacks describes existing preconditions only.
+- Build/check passed: strict TS7, ESLint and 64/64 tests. Existing Edge file smoke passed:
+  startup, driving, pause, camera, lighting, audio, resize/presets and mobile touch.
+- In the same final browser run, original/current r149 comparisons matched SHA-256 pixels
+  for 64 Canvas surfaces, a real rendered leaf-shader image, and two resource scenes.
+  Immediate and deferred fit/paintFlag, pre-existing callbacks, aspect 3.2, no-naturalWidth
+  early return, shared collections, facade texture-cache identity and new material per
+  facade all passed. Scene/geometry/material/matrix snapshots match; full-game framebuffer
+  identity and FPS were not measured. Desktop/mobile smoke screenshots were reviewed.
+- All 93 script paths exist; index.html differs from Git baseline only in the 12 approved
+  src-to-dist paths. The 52 pre-existing dist files retain their byte hashes. The 90 old
+  artifact directories remain present with unchanged recorded directory timestamps;
+  historical file contents were not mass-rehashed. New results are outside the repo in
+  tbs-r1-20261015 (two smoke screenshots plus compact evidence). No push or stage 46.
+
 ## Stage 44 - completed after explicit authorization - 15 October 2026
 
 - The earlier stop record below is historical. User authorized allowTernary only for

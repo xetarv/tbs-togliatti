@@ -1,8 +1,15 @@
 'use strict';
 
-window.TBS.createStreetFixtures = function ({ mat, T, scene, box, sprite, glowTexture }) {
-  const streetFixtures = [];
-  function streetLight(x, z) {
+window.TBS.createStreetFixtures = function ({
+  mat,
+  T,
+  scene,
+  box,
+  sprite,
+  glowTexture,
+}: StreetFixturesOptions): StreetFixturesModels {
+  const streetFixtures: WorldResources['streetFixtures'][number][] = [];
+  function streetLight(x: number, z: number) {
     const metal = mat(0x3b5965, 0.62, 0.32);
     const pole = new T.Mesh(new T.CylinderGeometry(0.07, 0.11, 5.5, 8), metal);
     pole.position.set(x, 2.9, z);

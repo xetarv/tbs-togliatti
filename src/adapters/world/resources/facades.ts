@@ -9,7 +9,7 @@ window.TBS.createFacadeResources = function ({
   trimMat,
   unitPlane,
   roofMat,
-}) {
+}: FacadeResourcesOptions): FacadeResourcesModels {
   const facadeMaterials = Array.from({ length: 6 }, (_, seed) => {
     const texture = makeTexture(
       (p, w, h) => {
@@ -45,7 +45,7 @@ window.TBS.createFacadeResources = function ({
     );
     return texture;
   });
-  const nightWindows = [];
+  const nightWindows: ThreeStandardMaterialHandle[] = [];
   const windowGlow = makeTexture(
     (p, w, h) => {
       p.fillStyle = '#000000';
@@ -63,7 +63,7 @@ window.TBS.createFacadeResources = function ({
     512,
     512,
   );
-  const districtFacadeTextures = new Map();
+  const districtFacadeTextures = new Map<string, ThreeCanvasTexture>();
   const facadeRelief = makeTexture(
     (c, w, h) => {
       c.fillStyle = '#c8c8c8';
@@ -100,7 +100,17 @@ window.TBS.createFacadeResources = function ({
     512,
   );
   facadeRoughness.encoding = T.LinearEncoding;
-  function facade(parent, x, y, z, width, height, angle, seed, style = 'office') {
+  function facade(
+    parent: ThreeObjectHandle,
+    x: number,
+    y: number,
+    z: number,
+    width: number,
+    height: number,
+    angle: number,
+    seed: number,
+    style = 'office',
+  ) {
     const upgraded = x < 240 && z < 200 && scene.userData.quarterMaterials;
     let source = facadeMaterials[seed % 6];
     if (upgraded) {
@@ -113,8 +123,8 @@ window.TBS.createFacadeResources = function ({
               const surface =
                 style === 'residential'
                   ? masonryTextures[seed % 3]
-                  : scene.userData.quarterMaterials.stone.map;
-              c.drawImage(surface.image, 0, 0, w, h);
+                  : (scene.userData.quarterMaterials!.stone as ThreeStandardMaterialHandle).map!;
+              c.drawImage(surface.image!, 0, 0, w, h);
               for (let y = 0; y < h; y += 128)
                 for (let x = 0; x < w; x += 128) {
                   c.drawImage(source.image, x + 15, y + 17, 98, 89, x + 15, y + 17, 98, 89);
@@ -128,7 +138,7 @@ window.TBS.createFacadeResources = function ({
             512,
           ),
         );
-      source = districtFacadeTextures.get(key);
+      source = districtFacadeTextures.get(key)!;
     }
     const tex = source.clone();
     tex.repeat.set(
@@ -168,8 +178,19 @@ window.TBS.createFacadeResources = function ({
     surface.receiveShadow = true;
     parent.add(surface);
   }
-  const photoPanels = [];
-  function architecturalPanel(parent, x, y, z, width, height, angle, photo, _title, _subtitle) {
+  const photoPanels: ThreeGroupHandle[] = [];
+  function architecturalPanel(
+    parent: ThreeObjectHandle,
+    x: number,
+    y: number,
+    z: number,
+    width: number,
+    height: number,
+    angle: number,
+    photo: ThreeReadyImageTexture,
+    _title?: string,
+    _subtitle?: string,
+  ) {
     const panel = new T.Group();
     panel.position.set(x, y, z);
     panel.rotation.y = angle;

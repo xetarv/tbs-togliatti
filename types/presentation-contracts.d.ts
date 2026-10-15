@@ -138,10 +138,10 @@ interface ThreeLibraryHandle {
   Vector3: new (x?: number, y?: number, z?: number) => CameraVector3;
   readonly DoubleSide: 2;
   Group: new () => ThreeGroupHandle;
-  Mesh: new <M extends ThreeMaterialHandle>(
-    geometry: ThreeGeometryHandle,
+  Mesh: new <M extends ThreeMaterialHandle, G extends ThreeGeometryHandle>(
+    geometry: G,
     material: M,
-  ) => ThreeMarkerMeshHandle<M>;
+  ) => ThreeMarkerMeshHandle<M> & { geometry: G };
   IcosahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
   ShapeGeometry: new (shape: ThreeShapeHandle) => ThreeGeometryHandle;
   CylinderGeometry: new (
@@ -176,7 +176,7 @@ interface ThreeLibraryHandle {
     height?: number,
     widthSegments?: number,
     heightSegments?: number,
-  ) => ThreeGeometryHandle;
+  ) => WorldFlagGeometry;
   CircleGeometry: new (
     radius?: number,
     segments?: number,
@@ -230,7 +230,7 @@ interface DroneModel {
   rotors: ThreeMarkerMeshHandle<ThreeMaterialHandle>[];
 }
 type TexturePainter = (context: CanvasRenderingContext2D, w: number, h: number) => void;
-type MakeTexture = (draw: TexturePainter, w?: number, h?: number) => ThreeTextureHandle;
+type MakeTexture = (draw: TexturePainter, w?: number, h?: number) => ThreeCanvasTexture;
 
 interface ReflectionBuilding extends PointXZ {
   w: number;

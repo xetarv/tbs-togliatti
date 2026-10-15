@@ -105,6 +105,7 @@ interface WorldResources extends Pick<
   | 'nightWindows'
   | 'streetFixtures'
 > {
+  markTexture: ThreeReadyImageTexture;
   visualAssets: WorldVisualAssets;
   mat: (
     color: number,
@@ -121,9 +122,9 @@ interface WorldResources extends Pick<
   crosswalkMat: ThreeMaterialHandle;
   roadMat: ThreeMaterialHandle;
   glowTexture: ThreeTextureHandle;
-  droneTexture: ThreeTextureHandle;
-  factoryTexture: ThreeTextureHandle;
-  hangarTexture: ThreeTextureHandle;
+  droneTexture: ThreeReadyImageTexture;
+  factoryTexture: ThreeReadyImageTexture;
+  hangarTexture: ThreeReadyImageTexture;
   waterfrontTerraces: PointXZ[];
   leafMats: ThreeMaterialHandle[];
   cityLeafMaterials: ThreeMaterialHandle[];
@@ -164,7 +165,7 @@ interface WorldResources extends Pick<
     width: number,
     height: number,
     angle: number,
-    photo: ThreeTextureHandle,
+    photo: ThreeReadyImageTexture,
     title?: string,
     subtitle?: string,
   ) => ThreeGroupHandle;

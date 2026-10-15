@@ -7,8 +7,8 @@ window.TBS.createWorldSigns = function ({
   whiteMat,
   box,
   orangeMat,
-}) {
-  const flags = [];
+}: WorldSignsOptions): WorldSignsModels {
+  const flags: WorldFlagMesh[] = [];
   const flagTexture = makeTexture(
     (p, w, h) => {
       p.fillStyle = '#e5e9e4';
@@ -20,13 +20,22 @@ window.TBS.createWorldSigns = function ({
     300,
   );
   function paintFlag() {
-    const p = flagTexture.image.getContext('2d');
-    p.drawImage(markTexture.image, 160, 40, 190, 190);
+    const p = flagTexture.image.getContext('2d')!;
+    p.drawImage(markTexture.image!, 160, 40, 190, 190);
     flagTexture.needsUpdate = true;
   }
   if (markTexture.image?.complete) paintFlag();
   else markTexture.userData.onReady.push(paintFlag);
-  function sprite(parent, texture, x, y, z, w, h, opacity = 1) {
+  function sprite(
+    parent: ThreeObjectHandle,
+    texture: ThreeTextureHandle,
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    h: number,
+    opacity = 1,
+  ) {
     const o = new T.Sprite(
       new T.SpriteMaterial({ map: texture, transparent: true, opacity, depthWrite: false }),
     );
@@ -35,11 +44,11 @@ window.TBS.createWorldSigns = function ({
     parent.add(o);
     return o;
   }
-  function signTexture(title, sub) {
+  function signTexture(title: string, sub: string) {
     const c = document.createElement('canvas');
     c.width = 1024;
     c.height = 256;
-    const p = c.getContext('2d');
+    const p = c.getContext('2d')!;
     p.fillStyle = '#071826';
     p.fillRect(0, 0, 1024, 256);
     p.strokeStyle = '#ff4808';
@@ -62,7 +71,7 @@ window.TBS.createWorldSigns = function ({
     t.encoding = T.sRGBEncoding;
     return t;
   }
-  function streetNameplate(x, z, width, angle, title) {
+  function streetNameplate(x: number, z: number, width: number, angle: number, title: string) {
     const texture = makeTexture(
       (p, w, h) => {
         p.fillStyle = '#09202a';
@@ -90,7 +99,7 @@ window.TBS.createWorldSigns = function ({
     sign.rotation.y = angle;
     scene.add(sign);
   }
-  function addFlag(x, z) {
+  function addFlag(x: number, z: number) {
     const pole = new T.Mesh(new T.CylinderGeometry(0.055, 0.065, 4.6, 8), whiteMat);
     pole.position.set(x, 2.5, z);
     scene.add(pole);
