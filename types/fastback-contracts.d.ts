@@ -189,3 +189,16 @@ interface ThreeGeometryHandle {
 interface CameraVector3 {
   addScaledVector: (vector: DisplacementXYZ, scalar: number) => this;
 }
+
+// Actual native constructors consumed by the wheel and light factories.
+interface ThreeLibraryHandle {
+  LatheGeometry: new (points: ThreeTextureRepeatHandle[], segments?: number) => ThreeGeometryHandle;
+  SpotLight: new (
+    color?: number,
+    intensity?: number,
+    distance?: number,
+    angle?: number,
+    penumbra?: number,
+    decay?: number,
+  ) => ThreeSpotLightHandle;
+}

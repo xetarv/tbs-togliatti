@@ -2,12 +2,13 @@
 
 ## Current R3 status - 15 October 2026
 
-Published R2 base: 9a207b70b84a81e096b98b3af187aab32f032070, main; fetch agrees.
-Stage 50 completed locally: 72 production TS / 73 classic dist / 17 remaining JS.
-Build/check 64/64, three exact ASTs and real r149 Fastback integration comparisons passed.
-Stage 51 is next; final desktop/mobile Edge smoke after 52. No push or stage 53.
-Previous sections are historical progress snapshots; R1/R2 are already published.
-New evidence: tbs-r3-5d686b5f. Historical diagnostics and existing commits retained.
+Published R2 base: 9a207b70b84a81e096b98b3af187aab32f032070, main.
+Stage 50: 7484f929ea9a9cd16bb9d29a96af9f955317cf58. Stage 51 completed locally.
+76 production TS / 77 classic dist / 13 remaining JS. Build/check 64/64,
+four exact ASTs and native r149 controls/lights/reference comparisons passed.
+Three native Canvas textures match pixel-for-pixel in a targeted Edge check.
+Stage 52 is next; one final desktop/mobile game smoke follows. No push or stage 53.
+Historical diagnostics retained; new evidence in tbs-r3-5d686b5f.
 
 ## Current R2 status - 15 October 2026
 

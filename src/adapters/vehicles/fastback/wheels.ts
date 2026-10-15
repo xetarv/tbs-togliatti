@@ -10,8 +10,8 @@ window.TBS.buildFastbackWheels = function ({
   orange,
   alloy,
   lens,
-}) {
-  const wheels = [];
+}: Parameters<TbsRegistry['buildFastbackWheels']>[0]): FastbackWheels {
+  const wheels: FastbackWheel[] = [];
   const tireProfile = [
     [0.345, -0.175],
     [0.45, -0.18],

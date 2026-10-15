@@ -8,7 +8,7 @@ window.TBS.buildFastbackBranding = function ({
   logo,
   rounded,
   graphite,
-}) {
+}: Parameters<TbsRegistry['buildFastbackBranding']>[0]): void {
   const label = makeTexture(
     (c, w, _h) => {
       c.fillStyle = '#eff4ed';
@@ -34,7 +34,14 @@ window.TBS.buildFastbackBranding = function ({
     256,
     80,
   );
-  function decal(texture, w, h, y, z, side) {
+  function decal(
+    texture: ThreeTextureHandle,
+    w: number,
+    h: number,
+    y: number,
+    z: number,
+    side: number,
+  ) {
     const positions = [],
       uv = [],
       indices = [],

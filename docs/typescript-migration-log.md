@@ -1,5 +1,18 @@
 # TypeScript migration log
 
+## R3 stage 51 - completed - 15 October 2026
+
+- Migrated Fastback interior/branding/wheels/lighting: 76 production TS / 77 classic
+  outputs / 13 remaining JS. Four complete executable ASTs match Git originals.
+- Native r149 integration compares geometry, matrices/treads, materials and shadow flags,
+  wheel/steering/headlight/brake/reverse identities and their animation through the
+  unchanged car-model API. Spotlight parameters, target parents/positions and car.userData
+  are preserved. No Fastback assembly operations or Object.assign stages changed.
+- A small Edge Canvas-only check (not a game smoke) compares all pixels of the dashboard,
+  Russian branding and plate textures: three textures exactly equal. No full-frame claim.
+- Build/check passed (strict TS7, ESLint, 64/64 tests). Final game smoke remains after 52.
+  Evidence is isolated in tbs-r3-5d686b5f; no additional lint exception or dependency.
+
 ## R3 stage 50 - completed - 15 October 2026
 
 - Started clean at published 9a207b70; fetch confirms no divergence. Migrated Fastback

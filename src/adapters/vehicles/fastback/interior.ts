@@ -13,7 +13,7 @@ window.TBS.buildFastbackInterior = function ({
   T,
   rubber,
   makeTexture,
-}) {
+}: Parameters<TbsRegistry['buildFastbackInterior']>[0]): FastbackInterior {
   rounded(body, 0, 1.13, 0.05, 2.12, 0.14, 2.68, 0.055, leather);
   rounded(body, 0, 1.4, -1.15, 2.05, 0.2, 0.45, 0.09, leather);
   for (const side of [-1, 1]) {
