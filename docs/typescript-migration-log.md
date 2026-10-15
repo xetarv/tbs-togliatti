@@ -1,5 +1,22 @@
 # TypeScript migration log
 
+## Stage 42 — remaining building components — 15 October 2026
+
+- Started from published 499b051 after explicitly authorized fast-forward; npm ci restored
+  locked dependencies. Prior stages and historical documentation are retained.
+- Migrated shell, office, entrance and block only: 55 production TS, 56 classic outputs.
+  Existing input projections are extended for those actual factories. A narrow Object.assign
+  assertion signature describes the real style/body mutation before component consumers;
+  no runtime assertions, operations or allocations were added.
+- Four complete executable ASTs match Git originals. Twenty actual r149 scenarios cover
+  residential/office/factory/campus, default styles, width below/at/above 12 and seeds 0–3.
+  Creation order, shared contexts/shopSigns/materials, geometry, matrices, shadows,
+  reflectionBuildings and Canvas painter calls match. Canvas calls here are recorded;
+  final native Canvas/shader/browser validation is reserved for the package boundary.
+- Build/check passed, including strict TS7, ESLint and 64/64 tests; no push permitted.
+- Compact originals and evidence are outside Git in tbs-r1-20261015. No FPS or full-scene
+  framebuffer identity claim; untouched JS factories still have partial structural contracts.
+
 ## Stage 38 — showcase structure and windows
 
 - Migrated only `structure.js` and `windows.js` to strict TypeScript, using existing

@@ -18,7 +18,7 @@ window.TBS.buildBuildingShell = function ({
   trimMat,
   dark,
   facade,
-}) {
+}: BuildingShellOptions): BuildingShellResult {
   const style = kind || (w < 12 ? (seed % 3 === 0 ? 'office' : 'residential') : 'campus');
   const color =
     style === 'residential'

@@ -15,7 +15,7 @@ window.TBS.buildOfficeDetails = function ({
   glassMat,
   parkWood,
   detailBar,
-}) {
+}: BuildingOfficeOptions): void {
   if (style === 'office') {
     const officeGlass = new T.MeshPhysicalMaterial({
       color: seed % 2 ? 0x7fa5b6 : 0x8ba9a0,

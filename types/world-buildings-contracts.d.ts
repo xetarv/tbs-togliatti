@@ -1,4 +1,4 @@
-// Actual stages of createBuildings. The four inner JS implementations remain unchecked.
+// Actual stages of createBuildings; remaining JS factory bodies are not statically checked.
 type BuildingReflectionResources = Pick<BuildingModels, 'reflectionBuildings'>;
 type FacadeLightingModels = Pick<BuildingModels, 'cityFacadeLights' | 'addFacadeLighting'>;
 type BuildingBuilderModels = Pick<BuildingModels, 'solarMat' | 'building'>;
@@ -59,11 +59,89 @@ type IndustrialBuilderOptions = Pick<
 >;
 
 interface TbsRegistry {
+  buildBuildingShell: (options: BuildingShellOptions) => BuildingShellResult;
+  buildOfficeDetails: (options: BuildingOfficeOptions) => void;
+  buildBuildingEntrance: (options: BuildingEntranceOptions) => void;
   createFacadeLighting: (options: FacadeLightingOptions) => FacadeLightingModels;
   createBuildingBuilder: (options: BuildingBuilderOptions) => BuildingBuilderModels;
   createPavilionBuilder: (options: PavilionBuilderOptions) => PavilionBuilderModels;
   createIndustrialBuilder: (options: IndustrialBuilderOptions) => IndustrialBuilderModels;
 }
+
+type BuildingShellResult = Pick<BuildingComponentContext, 'style' | 'body'>;
+// This exact mutation adds shell's fields before consumers. Its return is unused.
+// The narrow overload checks both assembly inputs and refines only this staged context.
+interface ObjectConstructor {
+  assign(
+    target: Omit<BuildingComponentContext, 'style' | 'body'>,
+    source: BuildingShellResult,
+  ): asserts target is BuildingComponentContext;
+}
+type BuildingShellOptions = Pick<
+  BuildingComponentContext,
+  | 'parent'
+  | 'kind'
+  | 'w'
+  | 'seed'
+  | 'buildingColors'
+  | 'reflectionBuildings'
+  | 'x'
+  | 'z'
+  | 'd'
+  | 'h'
+  | 'mat'
+  | 'masonryTextures'
+  | 'box'
+  | 'scene'
+  | 'roofMat'
+  | 'trimMat'
+  | 'dark'
+  | 'facade'
+>;
+type BuildingOfficeOptions = Pick<
+  BuildingComponentContext,
+  | 'parent'
+  | 'style'
+  | 'T'
+  | 'seed'
+  | 'box'
+  | 'x'
+  | 'h'
+  | 'z'
+  | 'd'
+  | 'w'
+  | 'trimMat'
+  | 'whiteMat'
+  | 'glassMat'
+  | 'parkWood'
+  | 'detailBar'
+>;
+type BuildingEntranceOptions = Pick<
+  BuildingComponentContext,
+  | 'parent'
+  | 'style'
+  | 'h'
+  | 'seed'
+  | 'w'
+  | 'x'
+  | 'box'
+  | 'z'
+  | 'd'
+  | 'trimMat'
+  | 'parkWood'
+  | 'glassMat'
+  | 'whiteMat'
+  | 'roofMat'
+  | 'leafMats'
+  | 'body'
+  | 'curbMat'
+  | 'makeTexture'
+  | 'T'
+  | 'flat'
+  | 'grassMat'
+  | 'facade'
+  | 'orangeMat'
+>;
 
 // block.js spreads options and specification, then assigns shell's actual style/body result.
 type BuildingComponentContext = BuildingBuilderOptions &

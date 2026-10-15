@@ -23,7 +23,7 @@ window.TBS.buildBuildingEntrance = function ({
   grassMat,
   facade,
   orangeMat,
-}) {
+}: BuildingEntranceOptions): void {
   if (style === 'residential') {
     // Actual projecting balconies, with slabs, glass balustrades and frames.
     for (let floor = 4; floor < h - 1; floor += 3.2) {

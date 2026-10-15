@@ -1,5 +1,7 @@
 'use strict';
-window.TBS.createBuildingBuilder = function (options) {
+window.TBS.createBuildingBuilder = function (
+  options: BuildingBuilderOptions,
+): BuildingBuilderModels {
   const { makeTexture, mat } = options;
   const shopSigns = ['КАФЕ', 'МАРКЕТ', 'СЕРВИС ТБС'].map((title) =>
     makeTexture(
@@ -19,7 +21,7 @@ window.TBS.createBuildingBuilder = function (options) {
     ),
   );
   const solarMat = mat(0x193b61, 0.65, 0.21);
-  function building(specification) {
+  function building(specification: BuildingSpecification): void {
     const context = { ...options, ...specification, shopSigns, solarMat };
     Object.assign(context, window.TBS.buildBuildingShell(context));
     window.TBS.buildBuildingWindows(context);
