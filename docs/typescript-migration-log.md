@@ -1,5 +1,19 @@
 # TypeScript migration log
 
+## R2 stage 48 - completed - 15 October 2026
+
+- Migrated roads only: 68 production TS / 69 classic outputs / 21 remaining JS.
+  Full executable AST, RNG and shader strings match the Git baseline.
+- Added only the explicitly authorized roads.ts allowTernary path; permanent tests
+  retain positive/effect-negative/other-file restrictions for all five approved paths.
+- Native r149 fixtures compare detailed/ordinary sidewalks, road buffers and instances,
+  stop material/reference preservation, three camera/parent/projection states, shader
+  restoration and model-view/normal bytes, frustum outcomes and trimStopBatching=0.
+- Existing trim-stops tests execute dist directly with all invariants retained. The
+  Mesh-result assertion follows the unchanged isMesh filter; optional depth/scratch
+  accesses are narrowed only after their existing initialization loops. No new checks.
+- Build/check passed: strict TS7, ESLint and 64/64 tests. No road or batching optimization.
+
 ## R2 stage 47 - completed - 15 October 2026
 
 - Migrated parks and terrain: 67 production TS / 68 classic outputs / 22 remaining JS.

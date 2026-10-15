@@ -125,6 +125,7 @@ test('Canvas call ternaries are restricted to authorized files and still require
     'src/adapters/world/visual-assets.ts',
     'src/adapters/world/resources.ts',
     'src/adapters/world/resources/landscape.ts',
+    'src/adapters/world/roads.ts',
   ]) {
     assert.deepEqual((await lintTypeScript(prefix + calls, file)).messages, []);
     for (const expression of [
@@ -142,7 +143,6 @@ test('Canvas call ternaries are restricted to authorized files and still require
     'src/adapters/world/showcase/roof.ts',
     'src/adapters/rendering/geometry.ts',
     'src/domain/state.ts',
-    'src/adapters/world/roads.ts',
   ]) {
     const result = await lintTypeScript(prefix + calls, file);
     assert.ok(result.messages.some((m) => m.ruleId === '@typescript-eslint/no-unused-expressions'));

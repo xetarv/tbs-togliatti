@@ -52,6 +52,7 @@ export default [
       'src/adapters/world/visual-assets.ts',
       'src/adapters/world/resources.ts',
       'src/adapters/world/resources/landscape.ts',
+      'src/adapters/world/roads.ts',
     ],
     rules: {
       // Preserve the original Canvas call ternary; both branches must still have effects.

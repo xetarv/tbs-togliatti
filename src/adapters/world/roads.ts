@@ -20,7 +20,7 @@ window.TBS.createRoads = function ({
   orangeMat,
   whiteMat,
   signTexture,
-}) {
+}: RoadsOptions): RoadModels {
   const wornPaint = makeTexture(
     (c, w, h) => {
       c.fillStyle = '#d9ded3';
@@ -111,9 +111,9 @@ window.TBS.createRoads = function ({
     128,
   );
 
-  const arrows = [],
-    covers = [],
-    repairs = [];
+  const arrows: [number, number, number][] = [],
+    covers: [number, number, number][] = [],
+    repairs: [number, number, number][] = [];
 
   for (const x of roadsX)
     for (let j = 0; j < roadsZ.length - 1; j++) {
@@ -133,7 +133,13 @@ window.TBS.createRoads = function ({
         box(scene, x + slot * 0.18, 0.155, z - 5.7, 0.08, 0.02, 0.7, dark);
     }
 
-  function roadInstances(points, geometry, texture, w, d) {
+  function roadInstances(
+    points: readonly (readonly [number, number, number])[],
+    geometry: ThreeGeometryHandle,
+    texture: ThreeTextureHandle,
+    w: number,
+    d: number,
+  ) {
     const mesh = new T.InstancedMesh(
         geometry,
         new T.MeshStandardMaterial({
@@ -189,10 +195,10 @@ window.TBS.createRoads = function ({
     256,
   );
 
-  const shoulderV = [],
-    shoulderH = [],
-    seamsV = [],
-    seamsH = [];
+  const shoulderV: [number, number, number][] = [],
+    shoulderH: [number, number, number][] = [],
+    seamsV: [number, number, number][] = [],
+    seamsH: [number, number, number][] = [];
 
   for (const x of roadsX)
     for (let j = 0; j < roadsZ.length - 1; j++) {
@@ -413,7 +419,7 @@ window.TBS.createRoads = function ({
     color: 0xd6d4c8,
   });
 
-  function kerbPiece(shape, x, z) {
+  function kerbPiece(shape: ThreeShapeHandle, x: number, z: number) {
     const geo = new T.ExtrudeGeometry(shape, {
       depth: 0.19,
       steps: 1,
@@ -431,7 +437,7 @@ window.TBS.createRoads = function ({
     scene.add(mesh);
   }
 
-  function roundedSidewalk(x, z, w, d, r) {
+  function roundedSidewalk(x: number, z: number, w: number, d: number, r: number) {
     const detailed = x < 70 && z < 71;
     const shape = new T.Shape(),
       a = -w / 2,
@@ -473,7 +479,7 @@ window.TBS.createRoads = function ({
     slab.position.set(x, 0.15, z);
     slab.receiveShadow = true;
     scene.add(slab);
-    function straightKerb(cx, cz, sw, sd) {
+    function straightKerb(cx: number, cz: number, sw: number, sd: number) {
       if (!detailed) {
         box(scene, cx, 0.36, cz, sw, 0.07, sd, trimMat);
         return;
@@ -612,8 +618,8 @@ window.TBS.createRoads = function ({
     metalness: 0.08,
   });
 
-  const trimStops = [];
-  function busStop(x, z) {
+  const trimStops: ThreeGroupHandle[] = [];
+  function busStop(x: number, z: number) {
     const shelter = new T.Group();
     shelter.position.set(x, 0, z);
     scene.add(shelter);
@@ -697,7 +703,7 @@ window.TBS.createRoads = function ({
   // Each stop remains a separate bounds group; its trim parts cast no shadows.
   if (new URLSearchParams(location.search).get('trimStopBatching') !== '0') {
     const original = scene.onBeforeRender;
-    let batches, scratch;
+    let batches: StopTrimBatch[] | undefined, scratch: StopTrimScratch | undefined;
     scene.onBeforeRender = function (renderer, renderedScene, camera, ...args) {
       original.call(this, renderer, renderedScene, camera, ...args);
       if (!batches) {
@@ -717,10 +723,10 @@ window.TBS.createRoads = function ({
               o.geometry.type === 'BoxGeometry' &&
               !o.castShadow &&
               !o.receiveShadow,
-          );
+          ) as ThreeFastbackMesh[];
           const geometry = parts[0].geometry.clone();
           const batch = new T.InstancedMesh(geometry, trimMat, parts.length);
-          const records = parts.map((part, index) => {
+          const records: StopTrimRecord[] = parts.map((part, index) => {
             part.updateMatrix();
             batch.setMatrixAt(index, part.matrix);
             part.removeFromParent();
@@ -735,7 +741,11 @@ window.TBS.createRoads = function ({
           const compile = trimMat.onBeforeCompile;
           const cacheKey = trimMat.customProgramCacheKey;
           const variant = cacheKey.call(trimMat) + ':stop-trim-exact-r149';
-          const compileTrim = function (shader, renderer) {
+          const compileTrim = function (
+            this: ThreeMaterialHandle,
+            shader: ThreeCompiledShader,
+            renderer: ThreeRendererHandle,
+          ) {
             compile.call(this, shader, renderer);
             shader.vertexShader =
               'attribute mat4 trimModelView;\nattribute mat3 trimNormal;\n' + shader.vertexShader;
@@ -774,7 +784,7 @@ window.TBS.createRoads = function ({
           };
         });
       }
-      const { world, normal, position, projectionView } = scratch;
+      const { world, normal, position, projectionView } = scratch!;
       projectionView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
       for (const entry of batches) {
         const {
@@ -802,7 +812,7 @@ window.TBS.createRoads = function ({
           record.view.multiplyMatrices(camera.matrixWorldInverse, world);
           record.depth = position.setFromMatrixPosition(world).applyMatrix4(projectionView).z;
         }
-        records.sort((a, b) => a.depth - b.depth || a.id - b.id);
+        records.sort((a, b) => a.depth! - b.depth! || a.id - b.id);
         records.forEach((record, index) => {
           normal.getNormalMatrix(record.view);
           record.view.toArray(modelView.array, index * 16);

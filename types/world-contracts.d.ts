@@ -107,6 +107,7 @@ interface WorldResources extends Pick<
 > {
   fountainJets: ThreeMarkerMeshHandle<ThreeMaterialHandle>[];
   mooredBoats: MooredBoat[];
+  laneMat: ThreeBasicMaterialHandle;
   markTexture: ThreeReadyImageTexture;
   visualAssets: WorldVisualAssets;
   mat: (
@@ -121,7 +122,7 @@ interface WorldResources extends Pick<
   grassMat: ThreeMaterialHandle;
   roofMat: ThreeMaterialHandle;
   pavingMat: ThreeMaterialHandle;
-  crosswalkMat: ThreeMaterialHandle;
+  crosswalkMat: ThreeBasicMaterialHandle;
   roadMat: ThreeMaterialHandle;
   glowTexture: ThreeTextureHandle;
   droneTexture: ThreeReadyImageTexture;

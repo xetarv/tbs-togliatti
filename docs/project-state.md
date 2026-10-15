@@ -3,12 +3,12 @@
 ## Current R2 status - 15 October 2026
 
 R1 published base: 7ea72ebdf63060ce4d12dc670f1d1c9c08eba6eb, main.
-Stage 46: 3db9f8dbfbd54165ee8830888cc7336c52da7e18. Stage 47 completed locally.
-67 production TS / 68 classic dist / 22 remaining JS. Build/check 64/64, two exact
-ASTs and r149 park/shore/reed/water/reference comparisons passed at stage 47.
-Stage 48 is next; its specific call-ternary exception has explicit user authorization.
-Final Edge smoke after 49. No push, R3 or stage 50. Historical diagnostics retained.
-New compact evidence in tbs-r2-20261015-bl0T7n; earlier stop records are historical.
+Stage 46: 3db9f8dbfbd54165ee8830888cc7336c52da7e18.
+Stage 47: e0e05a5dedafcea2ab516808ad21d2b548f179eb. Stage 48 completed locally.
+68 production TS / 69 classic dist / 21 remaining JS. Build/check 64/64, exact roads
+AST and native r149 camera/stop/culling/shader/geometry comparisons passed.
+Stage 49 is next; one final desktop/mobile Edge smoke follows. No push, R3 or 50.
+Historical diagnostics retained; new compact evidence in tbs-r2-20261015-bl0T7n.
 
 ## Текущая рабочая сессия — 15 октября 2026
 

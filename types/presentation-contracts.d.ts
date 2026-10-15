@@ -138,7 +138,7 @@ interface ThreeLibraryHandle {
   Vector3: new (x?: number, y?: number, z?: number) => CameraVector3;
   readonly DoubleSide: 2;
   Group: new () => ThreeGroupHandle;
-  Mesh: new <M extends ThreeMaterialHandle, G extends ThreeGeometryHandle>(
+  Mesh: new <M extends ThreeMaterialHandle | ThreeMaterialHandle[], G extends ThreeGeometryHandle>(
     geometry: G,
     material: M,
   ) => ThreeMarkerMeshHandle<M> & { geometry: G };
