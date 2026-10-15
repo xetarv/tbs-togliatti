@@ -2,14 +2,14 @@
 
 (() => {
   const api = window.TBS;
-  function reportError(error) {
+  function reportError(error: unknown) {
     console.error(error);
     const toast = document.getElementById('toast');
     if (toast) {
-      toast.textContent = 'Ошибка запуска 3D: ' + error.message;
+      toast.textContent = 'Ошибка запуска 3D: ' + (error as { message?: unknown }).message;
       toast.classList.add('show');
     }
-    const startButton = document.getElementById('startBtn');
+    const startButton = document.getElementById('startBtn') as HTMLButtonElement | null;
     if (startButton) startButton.disabled = true;
   }
   addEventListener('error', (event) => reportError(event.error || new Error(event.message)));
@@ -19,7 +19,7 @@
     if (!window.THREE) {
       dom.getElement('overlayCopy').textContent =
         'Не удалось загрузить локальную библиотеку 3D. Проверьте, что папка assets находится рядом с index.html.';
-      dom.getElement('startBtn').disabled = true;
+      (dom.getElement('startBtn') as HTMLButtonElement).disabled = true;
       return;
     }
     const T = window.THREE;

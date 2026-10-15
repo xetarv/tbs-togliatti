@@ -1,5 +1,53 @@
 # TypeScript migration log
 
+## R4 stage 56 - Production TypeScript migration complete - 15 October 2026
+
+All production JavaScript in src has been migrated: 89 production TS, 90 classic
+JS in dist (including build-smoke), zero production JS. Actual counts verified.
+Published baseline: f4e98593d7d320c93927f60a06d1b95731a95442.
+Local stage 53: 2b14be55b76d3038219d393a8b9d8d1a28f90145 (authorized metadata-only
+correction; historical pause and old SHA retained below).
+Local stage 54: 5f1fbd18cc6b6f56770cf04b896abcdb679386a6.
+Local stage 55: f65fe06885ced35dce6f241b7cc7e15552f534f2. Stage 56 closes this checkpoint.
+All author/committer identities use xetarv / GitHub noreply.
+
+App IIFE, startup order, runtime/session order, play query and error reporting retain
+their full executable AST. Unknown caught errors are only structurally annotated for
+the existing message read; no new runtime validation or recovery behavior was added.
+Eight old/new app startup/error scenarios pass; all six R4 ASTs match. All 84 earlier
+dist files retain byte hashes and stage-53 TS implementations are unchanged. Exactly
+six HTML paths changed in their original positions; all 93 external script paths
+exist, namespace precedes production registry consumers, app remains last.
+Two diagnostic tools had stale hashing paths for migrated vegetation/terrain/population;
+only these paths were updated to dist. No active loader references removed JS sources.
+The remaining architecture test JS path is a deliberate virtual lint fixture.
+
+Final build/check: strict TS7, ESLint, formatting, current dist, 64/64 tests.
+Final existing Edge file smoke passed desktop/mobile with separate new outputs:
+real 3D startup, player and all traffic variants, movement/steering/braking, traffic
+progress, pause, cameras, HUD/minimap, missions display, sound, lighting modes,
+all quality presets, resize, compiled water shader, high postprocessing and car/quarter
+reflections. Desktop runtime/WebGL errors and failed local requests: none.
+Actual registered scene groups: 840, with 783 outside the sampled camera frustum.
+The vegetation switch affects its 421 groups and preserves independent city/signal
+culling instances. Mobile lowPower, touch accelerator and camera switching pass.
+Compiled app also handles missing Three, window errors and caught startup errors in
+separate browser fixtures. Quarter, water day/night and mobile images were reviewed.
+No full-scene pixel identity or FPS/GPU performance claim is made.
+
+The initial final-smoke assertion incorrectly treated three culling API instances as
+one; corrected only the external observer to test the vegetation-owned group subset.
+Original failure log/snapshot and successful retry are retained separately. Earlier
+external fixture syntax/cross-realm/namespace-position issues were also harness-only.
+No game operations were modified for these test corrections.
+
+All 90 recorded historical artifact-directory timestamps remain unchanged; historical
+file contents were not mass-rehashed. New compact evidence resides outside Git:
+../tbs-r4-64a61b5f. Prior diagnostics and pause records are preserved.
+Four distinct local checkpoints complete R4. Push and FPS optimization were not run.
+Only the expressly authorized metadata correction rewrote stage 53; no other history
+was rewritten. No subsequent development stage was started.
+
 ## R4 stage 55 - completed - 15 October 2026
 
 Graphics pipeline migrated: 88 production TS / 89 classic dist / one remaining JS.

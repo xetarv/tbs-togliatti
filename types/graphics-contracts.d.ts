@@ -101,3 +101,9 @@ interface ThreeLibraryHandle {
   readonly UnsignedIntType: 1014;
   readonly NoToneMapping: 0;
 }
+interface Window {
+  THREE?: ThreeLibraryHandle;
+}
+interface ThreeLibraryHandle {
+  ColorManagement: { legacyMode: boolean };
+}

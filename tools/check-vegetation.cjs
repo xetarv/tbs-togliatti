@@ -41,7 +41,7 @@ async function main() {
     assert.equal(actual, expected, `Baseline differs from ${baselineCommit}: ${file}`);
   }
   const sourceHashes = Object.fromEntries(
-    ['src/adapters/rendering/vegetation-culling.js', 'src/adapters/world/terrain.js'].map(
+    ['dist/adapters/rendering/vegetation-culling.js', 'dist/adapters/world/terrain.js'].map(
       (file) => [
         file,
         crypto

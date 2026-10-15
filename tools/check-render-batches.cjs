@@ -21,7 +21,7 @@ async function main() {
     );
   const baselineCommit = 'working-tree-snapshot-with-verified-vegetation';
   const sourceHashes = {
-    population: hash(fs.readFileSync(path.join(root, 'src/adapters/world/population.js'))),
+    population: hash(fs.readFileSync(path.join(root, 'dist/adapters/world/population.js'))),
   };
   const executablePath =
     process.env.TBS_BROWSER ||
