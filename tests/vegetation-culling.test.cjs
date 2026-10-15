@@ -302,9 +302,9 @@ test('changed/replaced vertex buffers and geometries fail open until bounds are 
 test('actual shoreline reeds preserve matrix bytes and shared assets with a bounded group count', () => {
   const { T, api } = setup();
   const root = path.resolve(__dirname, '..');
-  const terrain = fs.readFileSync(path.join(root, 'src/adapters/world/terrain.js'), 'utf8');
-  const start = terrain.indexOf('    const reedGeometry =');
-  const end = terrain.indexOf('    vegetationCulling.add(scene, reeds, { cellSize: 32 });', start);
+  const terrain = fs.readFileSync(path.join(root, 'dist/adapters/world/terrain.js'), 'utf8');
+  const start = terrain.indexOf('const reedGeometry =');
+  const end = terrain.indexOf('vegetationCulling.add(scene, reeds, { cellSize: 32 });', start);
   assert.ok(start > 0 && end > start);
   const scene = new T.Scene();
   vm.runInNewContext(

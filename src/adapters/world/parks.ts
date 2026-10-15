@@ -30,8 +30,8 @@ window.TBS.createParks = function ({
   worldState,
   addFlag,
   createDrone,
-}) {
-  function park(x, z, w, d, seed) {
+}: ParksOptions): ParkModels {
+  function park(x: number, z: number, w: number, d: number, seed: number) {
     flat(scene, x, 0.4, z, w - 1, d - 1, mat(0x567749));
     flat(scene, x, 0.42, z, 3, d - 1, parkPaving(3, d - 1));
     flat(scene, x, 0.43, z, w - 1, 3, parkPaving(w - 1, 3));
@@ -76,7 +76,7 @@ window.TBS.createParks = function ({
       }
   }
 
-  function showcaseTree(x, z) {
+  function showcaseTree(x: number, z: number) {
     visualAssets.plant(scene, x, z, Math.round(x) % 3, 0.85);
     box(scene, x, 0.36, z, 2.6, 0.5, 1.6, visualAssets.material('stone', 2.6, 0.5));
     flat(scene, x, 0.62, z, 2.35, 1.35, grassMat);
@@ -86,7 +86,7 @@ window.TBS.createParks = function ({
   const flowerGeometry = new T.IcosahedronGeometry(0.1, 0),
     flowerMaterial = new T.MeshStandardMaterial({ roughness: 0.85 });
 
-  function flowerBed(x, z, w, d, seed) {
+  function flowerBed(x: number, z: number, w: number, d: number, seed: number) {
     box(scene, x, 0.63, z, w, 0.4, d, curbMat);
     flat(scene, x, 0.84, z, w - 0.2, d - 0.2, grassMat);
     const buds = new T.InstancedMesh(flowerGeometry, flowerMaterial, 48),
@@ -106,7 +106,7 @@ window.TBS.createParks = function ({
     vegetationCulling.add(scene, buds);
   }
 
-  function gazebo(x, z) {
+  function gazebo(x: number, z: number) {
     const timber = mat(0x987a52, 0, 0.84);
     box(scene, x, 0.55, z, 4.7, 0.26, 4.7, curbMat);
     for (const sx of [-1, 1])
@@ -125,7 +125,7 @@ window.TBS.createParks = function ({
     box(scene, x, 0.85, z, 0.2, 0.7, 0.2, trimMat);
   }
 
-  function playground(x, z) {
+  function playground(x: number, z: number) {
     const play = new T.Group();
     play.position.set(x, 0.4, z);
     scene.add(play);
@@ -161,7 +161,7 @@ window.TBS.createParks = function ({
     box(play, 2, 0.86, 0, 1, 0.12, 0.5, orangeMat);
   }
 
-  function square(x, z, w, d) {
+  function square(x: number, z: number, w: number, d: number) {
     worldState.centralSquare = { x, z };
     park(x, z, w, d, 12);
     flat(scene, x, 0.415, z, w - 1, d - 1, pavingMat);

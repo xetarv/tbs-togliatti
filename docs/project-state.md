@@ -3,11 +3,12 @@
 ## Current R2 status - 15 October 2026
 
 R1 published base: 7ea72ebdf63060ce4d12dc670f1d1c9c08eba6eb, main.
-Stage 46 completed locally: 65 production TS / 66 classic dist / 24 remaining JS.
-Build/check 64/64, two complete ASTs and native r149 resource/ready comparisons passed.
-The user authorized the two stage-46 call-ternary paths; the earlier stop is historical.
-Stage 47 is next; final Edge smoke after 49. No push, R3 or stage 50.
-Historical diagnostics retained; new compact evidence in tbs-r2-20261015-bl0T7n.
+Stage 46: 3db9f8dbfbd54165ee8830888cc7336c52da7e18. Stage 47 completed locally.
+67 production TS / 68 classic dist / 22 remaining JS. Build/check 64/64, two exact
+ASTs and r149 park/shore/reed/water/reference comparisons passed at stage 47.
+Stage 48 is next; its specific call-ternary exception has explicit user authorization.
+Final Edge smoke after 49. No push, R3 or stage 50. Historical diagnostics retained.
+New compact evidence in tbs-r2-20261015-bl0T7n; earlier stop records are historical.
 
 ## Текущая рабочая сессия — 15 октября 2026
 

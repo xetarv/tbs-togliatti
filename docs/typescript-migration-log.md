@@ -1,5 +1,18 @@
 # TypeScript migration log
 
+## R2 stage 47 - completed - 15 October 2026
+
+- Migrated parks and terrain: 67 production TS / 68 classic outputs / 22 remaining JS.
+  Both complete executable ASTs (including exact GLSL) match Git originals.
+- Native r149 comparisons cover all park builders, centralSquare and maglevTrain references,
+  six moored boats/three terraces, bank buffers, rocks/reed matrices and colors, the 1500
+  reeds registration with cellSize 32, and water shader assignment/uniform identity.
+- Construction-only boats/jets collections are typed mutable, retaining readonly views
+  for consumers. The existing reeds test now extracts the actual compiled dist code;
+  textual markers were adjusted only for compiler indentation, with all checks preserved.
+- Build/check passed (strict TS7, ESLint, 64/64 tests). No shader/culling/terrain changes.
+  Native Canvas/WebGL smoke remains scheduled at the R2 boundary after stage 49.
+
 ## R2 stage 46 - completed - 15 October 2026
 
 - Explicit authorization resolves the earlier stop (historical record retained).

@@ -23,6 +23,8 @@
     "types/visual-assets-contracts.d.ts",
     "types/world-resources-contracts.d.ts",
     "src/adapters/world/resources.ts",
+    "src/adapters/world/parks.ts",
+    "src/adapters/world/terrain.ts",
     "src/adapters/world/resources/landscape.ts",
     "src/adapters/world/resources/signs.ts",
     "src/adapters/world/resources/facades.ts",

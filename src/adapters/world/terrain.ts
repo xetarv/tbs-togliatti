@@ -39,7 +39,7 @@ window.TBS.createTerrain = function ({
   shrubBed,
   parkBench,
   signTexture,
-}) {
+}: TerrainOptions): void {
   function city() {
     flat(scene, WORLD_W / 2, -0.16, WORLD_H / 2, WORLD_W + 650, WORLD_H + 650, grassMat);
     // Distant architecture and the opposite bank give the city a horizon.
@@ -92,7 +92,7 @@ window.TBS.createTerrain = function ({
     hills.position.set(WORLD_W / 2, 0, -232);
     scene.add(hills);
     // Share the irregular bank contour between the terrain and water shader.
-    const bankZ = (x) => -62.5 + 2.2 * Math.sin(x * 0.036) + 1.1 * Math.sin(x * 0.113);
+    const bankZ = (x: number) => -62.5 + 2.2 * Math.sin(x * 0.036) + 1.1 * Math.sin(x * 0.113);
     const waterFunctions = `
       float bankEdge(float x){return -62.5+2.2*sin(x*.036)+1.1*sin(x*.113);}
       float riverHash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}

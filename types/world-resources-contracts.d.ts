@@ -140,3 +140,32 @@ interface ObjectConstructor {
 interface TbsRegistry {
   createLandscapeResources: (options: LandscapeResourcesOptions) => LandscapeResourcesModels;
 }
+
+// Stage-47 terrain and park operations on actual r149 objects.
+interface WorldFlagPositionAttribute extends ThreeNumericAttribute {}
+interface ThreeShapeHandle {
+  quadraticCurveTo: (cpx: number, cpy: number, x: number, y: number) => this;
+}
+interface ThreeColorHandle {
+  r: number;
+  g: number;
+  b: number;
+  clone: () => this;
+  multiplyScalar: (scalar: number) => this;
+}
+interface ThreeStandardMaterialParameters {
+  vertexColors?: boolean;
+  flatShading?: boolean;
+}
+interface ThreeLibraryHandle {
+  ConeGeometry: new (
+    radius?: number,
+    height?: number,
+    radialSegments?: number,
+  ) => ThreeGeometryHandle;
+  RingGeometry: new (
+    innerRadius?: number,
+    outerRadius?: number,
+    thetaSegments?: number,
+  ) => ThreeGeometryHandle;
+}

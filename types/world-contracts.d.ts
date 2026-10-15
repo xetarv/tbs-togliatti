@@ -105,6 +105,8 @@ interface WorldResources extends Pick<
   | 'nightWindows'
   | 'streetFixtures'
 > {
+  fountainJets: ThreeMarkerMeshHandle<ThreeMaterialHandle>[];
+  mooredBoats: MooredBoat[];
   markTexture: ThreeReadyImageTexture;
   visualAssets: WorldVisualAssets;
   mat: (

@@ -50,12 +50,8 @@ interface ThreeStandardMaterialParameters {
   roughnessMap?: ThreeTextureHandle;
   normalScale?: ThreeTextureRepeatHandle;
 }
-interface ThreeCompileShader {
-  uniforms: Record<string, { value: unknown }>;
-  vertexShader: string;
-}
 interface ThreeStandardMaterialHandle {
-  onBeforeCompile: (shader: ThreeCompileShader) => void;
+  onBeforeCompile: (shader: ThreeCompiledShader) => void;
 }
 interface ThreeLibraryHandle {
   readonly sRGBEncoding: 3001;
