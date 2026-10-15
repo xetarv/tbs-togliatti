@@ -2,13 +2,22 @@
 
 // r149 tests geometry.boundingSphere, which ignores instance transforms.
 // Keep per-object bounds and let every render/shadow camera use its own frustum.
-window.TBS.createVegetationCulling = function ({ T, enabled = true }) {
+window.TBS.createVegetationCulling = function ({
+  T,
+  enabled = true,
+}: {
+  T: ThreeLibraryHandle;
+  enabled?: boolean;
+}): VegetationCulling {
   if (T.REVISION !== '149') throw new Error('Vegetation culling requires Three.js r149.');
-  const key = Symbol.for('TBS.vegetationCulling.r149');
-  const prototype = T.Frustum.prototype;
+  const key: unique symbol = Symbol.for('TBS.vegetationCulling.r149');
+  // This symbol stores only this hook's entries on the native r149 prototype.
+  const prototype = T.Frustum.prototype as ThreeFrustumHandle & {
+    [key]?: { entries: WeakMap<ThreeFrustumMesh, VegetationBoundsEntry> };
+  };
   if (!prototype[key]) {
     const original = prototype.intersectsObject;
-    const entries = new WeakMap();
+    const entries = new WeakMap<ThreeFrustumMesh, VegetationBoundsEntry>();
     Object.defineProperty(prototype, key, { value: { entries } });
     prototype.intersectsObject = function (object) {
       const entry = entries.get(object);
@@ -45,13 +54,13 @@ window.TBS.createVegetationCulling = function ({ T, enabled = true }) {
       return this.intersectsBox(entry.world);
     };
   }
-  const registry = prototype[key].entries;
-  const geometryBounds = new WeakMap();
+  const registry = prototype[key]!.entries;
+  const geometryBounds = new WeakMap<ThreeGeometryHandle, VegetationGeometryBounds>();
   const matrix = new T.Matrix4();
   const transformed = new T.Box3();
   const position = new T.Vector3();
 
-  function bounds(mesh, displacement = new T.Vector3()) {
+  function bounds(mesh: InstancedMeshHandle, displacement: DisplacementXYZ = new T.Vector3()) {
     if (
       [displacement.x, displacement.y, displacement.z].some((v) => v < 0 || !Number.isFinite(v))
     ) {
@@ -62,7 +71,7 @@ window.TBS.createVegetationCulling = function ({ T, enabled = true }) {
     let cached = geometryBounds.get(geometry);
     if (!cached || cached.positions !== positions || cached.version !== positions.version) {
       geometry.computeBoundingBox();
-      cached = { box: geometry.boundingBox.clone(), positions, version: positions.version };
+      cached = { box: geometry.boundingBox!.clone(), positions, version: positions.version };
       geometryBounds.set(geometry, cached);
     }
     // Wind is applied before instanceMatrix: expand in vertex space first.
@@ -75,7 +84,7 @@ window.TBS.createVegetationCulling = function ({ T, enabled = true }) {
     return local;
   }
 
-  function register(mesh, displacement) {
+  function register<M extends InstancedMeshHandle>(mesh: M, displacement?: DisplacementXYZ) {
     if (!enabled) return mesh;
     const local = bounds(mesh, displacement);
     registry.set(mesh, {
@@ -95,21 +104,25 @@ window.TBS.createVegetationCulling = function ({ T, enabled = true }) {
     return mesh;
   }
 
-  function partition(mesh, cellSize = 32) {
+  function partition(mesh: InstancedMeshHandle, cellSize = 32) {
     if (!(cellSize > 0) || !Number.isFinite(cellSize))
       throw new Error('Invalid vegetation cell size.');
-    const cells = new Map();
+    const cells = new Map<string, number[]>();
     for (let i = 0; i < mesh.count; i++) {
       mesh.getMatrixAt(i, matrix);
       position.setFromMatrixPosition(matrix);
       const cell = Math.floor(position.x / cellSize) + ':' + Math.floor(position.z / cellSize);
       if (!cells.has(cell)) cells.set(cell, []);
-      cells.get(cell).push(i);
+      cells.get(cell)!.push(i);
     }
     return [...cells.values()];
   }
 
-  function add(parent, mesh, { displacement, cellSize } = {}) {
+  function add(
+    parent: ThreeObjectHandle,
+    mesh: InstancedMeshHandle,
+    { displacement, cellSize }: { displacement?: DisplacementXYZ; cellSize?: number } = {},
+  ) {
     const cells = enabled && cellSize ? partition(mesh, cellSize) : [];
     if (cells.length <= 1) {
       parent.add(register(mesh, displacement));

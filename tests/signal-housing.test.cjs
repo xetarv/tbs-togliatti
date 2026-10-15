@@ -14,7 +14,7 @@ function setup(enabled) {
   context.TBS = {};
   for (const file of [
     'assets/three.min.js',
-    'src/adapters/rendering/vegetation-culling.js',
+    'dist/adapters/rendering/vegetation-culling.js',
     'dist/adapters/simulation/traffic.js',
   ])
     vm.runInContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), context);

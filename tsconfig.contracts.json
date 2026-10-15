@@ -16,6 +16,7 @@
     "types/bootstrap-contracts.d.ts",
     "types/presentation-contracts.d.ts",
     "types/rendering-contracts.d.ts",
+    "types/vegetation-contracts.d.ts",
     "types/pedestrians-contracts.d.ts",
     "src/adapters/simulation/pedestrians.ts",
     "types/traffic-view-contracts.d.ts",

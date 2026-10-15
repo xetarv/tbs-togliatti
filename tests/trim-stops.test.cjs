@@ -10,7 +10,7 @@ function fixture(search = '') {
   context.TBS = {};
   for (const file of [
     'assets/three.min.js',
-    'src/adapters/rendering/vegetation-culling.js',
+    'dist/adapters/rendering/vegetation-culling.js',
     'dist/adapters/world/roads.js',
   ])
     vm.runInContext(

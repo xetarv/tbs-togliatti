@@ -9,7 +9,7 @@ function setup(enabled = true) {
   context.window = context;
   context.TBS = {};
   const root = path.resolve(__dirname, '..');
-  for (const file of ['assets/three.min.js', 'src/adapters/rendering/vegetation-culling.js']) {
+  for (const file of ['assets/three.min.js', 'dist/adapters/rendering/vegetation-culling.js']) {
     vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
   }
   const T = context.THREE;

@@ -1,5 +1,36 @@
 # TypeScript migration log
 
+## R4 stage 54 - completed; identity pause resolved - 15 October 2026
+
+The user authorized one metadata-only amendment of stage 53:
+old f684cb0bb17c34dd56acb41b2664cd74ccb98d49 ->
+new 2b14be55b76d3038219d393a8b9d8d1a28f90145. Author/committer are xetarv
+with GitHub noreply. Tree feb19476fc78754d945b8666a9e11994f0e9198e, parent,
+message and both unstaged pause documents were verified identical. Local repo
+identity is now explicit; no global/system config changed. Stage 53 was not retested.
+Vegetation culling migrated: 87 production TS / 88 classic outputs / two JS.
+Full executable AST matches. Existing four test loaders now use compiled culling.
+Build/check: strict TS7, ESLint, 64/64 tests including partition, wind, invalid inputs,
+clones/fail-open, buffer versions, parent transforms, shadows and reflection frusta.
+Native old/new r149 fixture also proves original this forwarding and patch-once,
+revision rejection, actual culling, live disable, movement and matrix/color integrity.
+A fixture-only cross-realm Array assertion was normalized; game code was unchanged.
+Historical pause entries above/below remain chronological records. Final Edge after 56.
+No push/FPS optimization. Evidence: ../tbs-r4-64a61b5f.
+
+## R4 paused after stage 53 - commit identity issue - 15 October 2026
+
+Stage 53 local commit: f684cb0bb17c34dd56acb41b2664cd74ccb98d49.
+Scene/lighting/display migrated: 86 production TS / 87 classic dist / three JS.
+Build/check passed strict TS7, ESLint and 64/64 tests; all three full executable
+ASTs and native r149/renderer/DOM fixtures match. Final Edge smoke is not yet run.
+Git automatically selected a corporate identity rather than R3's GitHub noreply.
+No commit was rewritten because R4 explicitly prohibits rewriting successful commits.
+Stages 54-56 have not started. Authorization to correct stage-53 author/committer
+metadata is needed before continuing; no Git identity configuration was changed.
+New evidence: ../tbs-r4-64a61b5f. No push, FPS changes or diagnostic deletion.
+This pause record is intentionally uncommitted.
+
 ## R4 stage 53 - completed - 15 October 2026
 
 Published R3 base: f4e98593d7d320c93927f60a06d1b95731a95442, clean main.
