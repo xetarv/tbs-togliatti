@@ -1,5 +1,36 @@
 # TypeScript migration log
 
+## R3 stage 52 - completed and final smoke passed - 15 October 2026
+
+- Migrated all seven traffic builders: 83 production TS / 84 classic outputs / six
+  remaining JS. Seven complete executable ASTs match the published baseline.
+- Native r149 comparisons exercise actual car-model and Fastback assemblers, sedan,
+  compact, van, shuttle and default sedan, buffers/materials/matrices/order, userData,
+  wheel/steering parents, brakes/reverse and animation at forward/reverse/zero speeds.
+- Isolated suspension cases verify the exact 2/3 batching threshold, source geometry/
+  material identities, float32 instance matrices, aggregate shadows, and exclusions
+  for shadow and steering objects. No helper/assembly/animation algorithm changed.
+- Mesh declarations now expose the actual geometry/matrix/updateMatrix of shadow meshes;
+  no unsafe cross-object comparison suppression is required. No active test had old
+  paths to these builders. Build/check passed strict TS7, ESLint and 64/64 tests.
+- Final existing Edge file smoke passed: desktop/mobile startup and movement, steering,
+  pause, camera, graphics presets, sound and resource/runtime checks. Extra checks inspect
+  a real Fastback (254 Mesh, four wheels, two lights), all four traffic variants, live
+  traffic progress, steering, brake/reverse lamps and increasing nighttime headlights.
+  Mobile camera switching passed; final screenshots were reviewed.
+- The first smoke attempt failed only in the added color assertion: with the app's
+  ColorManagement.legacyMode=false, r149 getHex round-trips ff3822 as fe3822. A native
+  probe confirmed this rounding. The harness now compares Color.equals(new Color(hex))
+  exactly in the same working color space. Retry passed; game code was not changed.
+  Both attempt logs and separate screenshot folders are retained; no full-frame claim.
+- Actual final counts: 83 TS / 84 dist / six JS. All 93 script paths exist and only the
+  14 approved paths differ from the R2 index. All 70 pre-existing dist hashes match.
+  The unchanged car-model/player-car/traffic/Fastback integrators, ESLint configuration
+  and dependencies were checked against Git. No tests were weakened or lint rules added.
+- Historical artifact directory timestamps (90 recorded) remain unchanged; old contents
+  were not mass-rehashed. New evidence is isolated in tbs-r3-5d686b5f. No FPS measurements,
+  push, history rewrite or stage 53. Three separate local checkpoints complete R3.
+
 ## R3 stage 51 - completed - 15 October 2026
 
 - Migrated Fastback interior/branding/wheels/lighting: 76 production TS / 77 classic

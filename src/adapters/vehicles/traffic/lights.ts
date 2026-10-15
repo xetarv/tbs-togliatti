@@ -1,5 +1,14 @@
 'use strict';
-window.TBS.buildTrafficCarLights = function ({ T, passenger, box, group, cyanMat, orangeMat }) {
+window.TBS.buildTrafficCarLights = function ({
+  T,
+  passenger,
+  box,
+  group,
+  cyanMat,
+  orangeMat,
+}: Parameters<TbsRegistry['buildTrafficCarLights']>[0]): ReturnType<
+  TbsRegistry['buildTrafficCarLights']
+> {
   const brakeMaterial = new T.MeshBasicMaterial({ color: 0x8c160d, toneMapped: false });
   const reverseMaterial = new T.MeshBasicMaterial({ color: 0x29313b, toneMapped: false });
   for (const side of [-1, 1]) {

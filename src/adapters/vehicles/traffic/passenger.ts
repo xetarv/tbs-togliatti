@@ -12,8 +12,14 @@ window.TBS.createPassengerBodyBuilder = function ({
   whiteMat,
   markTexture,
   makeTexture,
-}) {
-  function createPassengerShell(group, paint, variant = 'sedan') {
+}: Parameters<TbsRegistry['createPassengerBodyBuilder']>[0]): ReturnType<
+  TbsRegistry['createPassengerBodyBuilder']
+> {
+  function createPassengerShell(
+    group: TrafficCarAssemblyGroup,
+    paint: ThreePhysicalMaterialHandle,
+    variant: 'sedan' | 'compact' = 'sedan',
+  ) {
     const compact = variant === 'compact',
       roofRear = compact ? 1.03 : 0.73;
     // Continuous cross sections give the hood, shoulders and wheel arches a shaped silhouette.
@@ -131,10 +137,10 @@ window.TBS.createPassengerBodyBuilder = function ({
       glazing,
     );
     for (const side of [-1, 1]) {
-      const bottomFront = [side * 1.12, 1.39, -1.45],
-        topFront = [side * 0.94, 2.1, -0.9],
-        topBack = [side * 0.94, 2.1, roofRear - 0.02],
-        bottomBack = [side * 1.13, 1.39, 1.38];
+      const bottomFront: [number, number, number] = [side * 1.12, 1.39, -1.45],
+        topFront: [number, number, number] = [side * 0.94, 2.1, -0.9],
+        topBack: [number, number, number] = [side * 0.94, 2.1, roofRear - 0.02],
+        bottomBack: [number, number, number] = [side * 1.13, 1.39, 1.38];
       glazedQuad(group, [bottomFront, topFront, topBack, bottomBack], glazing);
       detailBar(group, bottomFront, topFront, 0.055, paint);
       detailBar(group, topFront, topBack, 0.05, paint);

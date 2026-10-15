@@ -202,3 +202,10 @@ interface ThreeLibraryHandle {
     decay?: number,
   ) => ThreeSpotLightHandle;
 }
+
+// Every native Mesh exposes these Object3D/geometry members, including the shadow mesh.
+interface ThreeMeshHandle {
+  geometry: ThreeGeometryHandle;
+  readonly matrix: ThreeMatrix4Handle;
+  updateMatrix: () => void;
+}

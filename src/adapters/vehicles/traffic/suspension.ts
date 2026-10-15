@@ -1,13 +1,21 @@
 'use strict';
-window.TBS.buildTrafficCarSuspension = function ({ T, group, shadow, wheels, unitBox }) {
+window.TBS.buildTrafficCarSuspension = function ({
+  T,
+  group,
+  shadow,
+  wheels,
+  unitBox,
+}: Parameters<TbsRegistry['buildTrafficCarSuspension']>[0]): ReturnType<
+  TbsRegistry['buildTrafficCarSuspension']
+> {
   const suspension = new T.Group();
   for (const part of [...group.children])
     if (part !== shadow && !wheels.some((w) => w.steering === part)) suspension.add(part);
-  const fittings = new Map();
+  const fittings = new Map<ThreeMaterialHandle | ThreeMaterialHandle[], ThreeFastbackMesh[]>();
   for (const part of suspension.children)
     if (part.isMesh && part.geometry === unitBox) {
       if (!fittings.has(part.material)) fittings.set(part.material, []);
-      fittings.get(part.material).push(part);
+      fittings.get(part.material)!.push(part);
     }
   for (const [material, parts] of fittings)
     if (parts.length >= 3) {

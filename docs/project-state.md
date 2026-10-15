@@ -3,12 +3,20 @@
 ## Current R3 status - 15 October 2026
 
 Published R2 base: 9a207b70b84a81e096b98b3af187aab32f032070, main.
-Stage 50: 7484f929ea9a9cd16bb9d29a96af9f955317cf58. Stage 51 completed locally.
-76 production TS / 77 classic dist / 13 remaining JS. Build/check 64/64,
-four exact ASTs and native r149 controls/lights/reference comparisons passed.
-Three native Canvas textures match pixel-for-pixel in a targeted Edge check.
-Stage 52 is next; one final desktop/mobile game smoke follows. No push or stage 53.
-Historical diagnostics retained; new evidence in tbs-r3-5d686b5f.
+Stage 50: 7484f929ea9a9cd16bb9d29a96af9f955317cf58.
+Stage 51: 0fa399d03a0c27eb711356233e1658d97d4053dd. Stage 52 completed in this checkpoint.
+83 production TS / 84 classic dist / six remaining JS. Build/check 64/64,
+seven exact ASTs and all traffic variants/control/batching r149 comparisons passed.
+Final desktop/mobile Edge file smoke passed, including actual Fastback/all traffic
+variants, steering, brakes/reverse lights, nighttime lights, sound and mobile camera.
+An initial added getHex assertion rounded differently under the game's color management;
+its exact Color.equals replacement passed. Both attempts are retained; game code unchanged.
+All 14 ASTs and r149 scenarios passed across the three stages. Three Canvas textures
+were pixel-identical in the stage-51 targeted browser check; no full-game/FPS claim.
+All 70 prior dist hashes match; 93 script paths exist. Protected integration modules,
+ESLint and dependencies are unchanged. Historical diagnostic folder timestamps retained.
+R3 is complete in three separate local checkpoints.
+No push or stage 53. Historical diagnostics retained; new evidence in tbs-r3-5d686b5f.
 
 ## Current R2 status - 15 October 2026
 

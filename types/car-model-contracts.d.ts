@@ -1,4 +1,4 @@
-// Actual boundaries read by car-model; traffic factory bodies remain JavaScript.
+// Real factory boundaries and implementations are checked together after R3.
 interface ThreeColorHandle {
   readonly isColor: true;
   setHex: (hex: number) => this;

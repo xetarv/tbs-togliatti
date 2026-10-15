@@ -1,5 +1,11 @@
 'use strict';
-window.TBS.buildTrafficCarShadow = function ({ T, vehicleShadowTexture, group }) {
+window.TBS.buildTrafficCarShadow = function ({
+  T,
+  vehicleShadowTexture,
+  group,
+}: Parameters<TbsRegistry['buildTrafficCarShadow']>[0]): ReturnType<
+  TbsRegistry['buildTrafficCarShadow']
+> {
   const shadow = new T.Mesh(
     new T.CircleGeometry(2.35, 24),
     new T.MeshBasicMaterial({

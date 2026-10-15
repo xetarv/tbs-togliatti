@@ -11,8 +11,14 @@ window.TBS.createCommercialBodyBuilder = function ({
   trimMat,
   markTexture,
   signTexture,
-}) {
-  function createCommercialBody(group, paint, variant) {
+}: Parameters<TbsRegistry['createCommercialBodyBuilder']>[0]): ReturnType<
+  TbsRegistry['createCommercialBodyBuilder']
+> {
+  function createCommercialBody(
+    group: TrafficCarAssemblyGroup,
+    paint: ThreePhysicalMaterialHandle,
+    variant: 'van' | 'shuttle',
+  ) {
     const shuttle = variant === 'shuttle',
       top = shuttle ? 3.08 : 2.78;
     const cabinGlass = new T.MeshPhysicalMaterial({

@@ -1,6 +1,16 @@
 'use strict';
-window.TBS.buildTrafficCarWheels = function ({ T, group, tireMat, trimMat, body, box, whiteMat }) {
-  const wheels = [];
+window.TBS.buildTrafficCarWheels = function ({
+  T,
+  group,
+  tireMat,
+  trimMat,
+  body,
+  box,
+  whiteMat,
+}: Parameters<TbsRegistry['buildTrafficCarWheels']>[0]): ReturnType<
+  TbsRegistry['buildTrafficCarWheels']
+> {
+  const wheels: FastbackWheel[] = [];
   for (const side of [-1, 1])
     for (const z of [-1.75, 1.75]) {
       const steering = new T.Group(),
@@ -8,7 +18,7 @@ window.TBS.buildTrafficCarWheels = function ({ T, group, tireMat, trimMat, body,
       steering.position.set(side * 1.45, 0.52, z);
       group.add(steering);
       steering.add(rolling);
-      const mount = (mesh) => {
+      const mount = (mesh: ThreePositionedObjectHandle) => {
         mesh.position.sub(steering.position);
         rolling.add(mesh);
       };

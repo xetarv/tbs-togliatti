@@ -1,6 +1,17 @@
 'use strict';
-window.TBS.createTrafficCarGeometry = function ({ T }) {
-  function coachwork(parent, w, length, height, y, material) {
+window.TBS.createTrafficCarGeometry = function ({
+  T,
+}: Parameters<TbsRegistry['createTrafficCarGeometry']>[0]): ReturnType<
+  TbsRegistry['createTrafficCarGeometry']
+> {
+  function coachwork(
+    parent: ThreeObjectHandle,
+    w: number,
+    length: number,
+    height: number,
+    y: number,
+    material: ThreeMaterialHandle,
+  ) {
     const r = Math.min(0.24, w * 0.42, length * 0.42),
       x = -w / 2,
       z = -length / 2,
@@ -32,7 +43,11 @@ window.TBS.createTrafficCarGeometry = function ({ T }) {
     parent.add(mesh);
     return mesh;
   }
-  function glazedQuad(parent, points, material) {
+  function glazedQuad(
+    parent: ThreeObjectHandle,
+    points: readonly (readonly [number, number, number])[],
+    material: ThreeMaterialHandle,
+  ) {
     const geometry = new T.BufferGeometry();
     geometry.setAttribute('position', new T.Float32BufferAttribute(points.flat(), 3));
     geometry.setIndex([0, 1, 2, 0, 2, 3]);
