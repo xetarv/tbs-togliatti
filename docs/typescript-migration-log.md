@@ -1,5 +1,16 @@
 # TypeScript migration log
 
+## R4 stage 53 - completed - 15 October 2026
+
+Published R3 base: f4e98593d7d320c93927f60a06d1b95731a95442, clean main.
+Migrated scene/lighting/display only: 86 production TS / 87 classic dist / three JS.
+Three full executable ASTs match. Native r149 fixtures compare camera, lights, sky
+GLSL, PMREM order, renderer parameters, all lighting modes, paused updates, nearest
+lights, quality changes, resize and blocked localStorage (renderer/DOM test doubles).
+Build/check passed strict TS7, ESLint and 64/64 tests; Node test runner required
+permitted execution after sandbox EPERM. Final real-WebGL smoke remains after 56.
+Prior diagnostics retained; new evidence: tbs-r4-64a61b5f. No push or FPS changes.
+
 ## R3 stage 52 - completed and final smoke passed - 15 October 2026
 
 - Migrated all seven traffic builders: 83 production TS / 84 classic outputs / six

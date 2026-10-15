@@ -1,6 +1,6 @@
 'use strict';
 
-window.TBS.createScene = function ({ canvas, T }) {
+window.TBS.createScene = function ({ canvas, T }: Pick<BuildWorldOptions, 'canvas' | 'T'>) {
   const renderer = new T.WebGLRenderer({
     canvas,
     antialias: true,

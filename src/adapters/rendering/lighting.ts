@@ -19,7 +19,7 @@ window.TBS.createLighting = function ({
   cityFacadeLights,
   car,
   getGraphics,
-}) {
+}: LightingOptions) {
   let lightMode = 0;
 
   const lightModes = ['День', 'Вечер', 'Ночь', 'Авто'];
@@ -30,11 +30,11 @@ window.TBS.createLighting = function ({
   const sunlightDay = new T.Color(0xffd4a6),
     sunlightDusk = new T.Color(0xff9561);
 
-  const reflectionMaterials = new Map();
+  const reflectionMaterials = new Map<ThreeMaterialHandle, number>();
 
   scene.traverse((object) => {
     if (object.material && !Array.isArray(object.material) && 'envMapIntensity' in object.material)
-      reflectionMaterials.set(object.material, object.material.envMapIntensity);
+      reflectionMaterials.set(object.material, object.material.envMapIntensity!);
   });
 
   const nearbyStreetLights = Array.from({ length: lowPower ? 1 : 3 }, () => {
@@ -74,7 +74,7 @@ window.TBS.createLighting = function ({
 
   getElement('daylightBtn').addEventListener('click', toggleDaylight);
 
-  function updateLighting(dt) {
+  function updateLighting(dt: number) {
     sun.position.set(player.x - 35, 26 + 36 * state.lightValue, player.z + 40);
     sun.target.position.set(player.x, 0, player.z);
     sun.target.updateMatrixWorld();

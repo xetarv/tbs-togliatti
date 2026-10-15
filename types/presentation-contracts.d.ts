@@ -83,7 +83,10 @@ interface CameraVector3 extends DisplacementXYZ {
 /** createScene's actual mesh/shader resource; other mesh handles do not gain shader fields. */
 interface CameraSkyHandle extends ThreeMeshHandle {
   readonly position: CameraVector3;
-  material: { uniforms: { skyTime: { value: number } } };
+  material: ThreeShaderMaterialHandle & {
+    uniforms: { skyTime: { value: number }; daylight: { value: number } };
+  };
+  clone: () => this;
 }
 interface ThreeMeshHandle extends ThreeObjectHandle {
   readonly isMesh: true;
@@ -256,10 +259,10 @@ interface PresentationWorldResources extends Pick<
   renderer: ThreeRendererHandle;
   camera: ThreeCameraHandle;
   sky: CameraSkyHandle;
-  duskSun: ThreeMeshHandle;
-  ambientLight: ThreeObjectHandle;
-  sun: ThreeObjectHandle;
-  blueLight: ThreeObjectHandle;
+  duskSun: ThreeMarkerMeshHandle<ThreeBasicMaterialHandle>;
+  ambientLight: ThreeHemisphereLightHandle;
+  sun: ThreeDirectionalLightHandle;
+  blueLight: ThreeDirectionalLightHandle;
   dark: ThreeMaterialHandle;
   cyanMat: ThreeMaterialHandle;
   orangeMat: ThreeMaterialHandle;
@@ -273,11 +276,14 @@ interface PresentationWorldResources extends Pick<
   waterTexture: ThreeTextureHandle;
   /** Despite its name, createFacadeResources returns canvas textures here. */
   facadeMaterials: readonly ThreeTextureHandle[];
-  nightWindows: readonly ThreeMaterialHandle[];
+  nightWindows: readonly ThreeStandardMaterialHandle[];
   reflectionBuildings: readonly ReflectionBuilding[];
   mooredBoats: readonly MooredBoat[];
-  streetFixtures: readonly (PointXZ & { halo: ThreeObjectHandle; pool: ThreeObjectHandle })[];
-  cityFacadeLights: readonly (PointXZ & { y: number; poolMaterial: ThreeMaterialHandle })[];
+  streetFixtures: readonly (PointXZ & {
+    halo: ThreeSpriteHandle;
+    pool: ThreeMarkerMeshHandle<ThreeBasicMaterialHandle>;
+  })[];
+  cityFacadeLights: readonly (PointXZ & { y: number; poolMaterial: ThreeBasicMaterialHandle })[];
   flags: readonly WorldFlagMesh[];
   fountainJets: readonly ThreeMarkerMeshHandle<ThreeMaterialHandle>[];
   districtLabels: readonly ThreeSpriteHandle[];
@@ -532,7 +538,7 @@ type LightingOptions = Pick<
   Pick<BootstrapDom, 'getElement'> &
   VisualContext &
   GraphicsAccess &
-  GameFramePorts['notifications'] & { car: ThreeObjectHandle };
+  GameFramePorts['notifications'] & { car: FastbackCar };
 type PedestriansOptions = Pick<
   BootstrapWorld,
   | 'mat'

@@ -116,7 +116,7 @@ interface WorldResources extends Pick<
     roughness?: number,
     emissive?: number,
   ) => ThreeStandardMaterialHandle;
-  nightWindows: ThreeMaterialHandle[];
+  nightWindows: ThreeStandardMaterialHandle[];
   curbMat: ThreeMaterialHandle;
   glassMat: ThreeMaterialHandle;
   grassMat: ThreeMaterialHandle;

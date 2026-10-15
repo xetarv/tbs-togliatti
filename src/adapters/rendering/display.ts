@@ -15,12 +15,12 @@ window.TBS.createDisplay = function ({
   getElement,
   resetControls,
   showToast,
-}) {
-  let savedQuality = lowPower ? 'low' : 'high';
+}: DisplayOptions) {
+  let savedQuality: GraphicsPort['quality'] = lowPower ? 'low' : 'high';
 
   try {
     const saved = localStorage.getItem('tbs.graphicsQuality');
-    if (['low', 'medium', 'high'].includes(saved)) savedQuality = saved;
+    if (['low', 'medium', 'high'].includes(saved!)) savedQuality = saved as GraphicsPort['quality'];
   } catch {
     // Some browsers block localStorage for file:// pages; keep the device default.
   }
@@ -32,23 +32,30 @@ window.TBS.createDisplay = function ({
     camera,
     sky,
     car,
-    water: scene.userData.waterMaterial,
+    water: scene.userData.waterMaterial!,
     buildings: reflectionBuildings,
     facades: facadeMaterials,
     reflectObjects: mooredBoats.map((boat) => boat.mesh),
     initialQuality: savedQuality,
   });
 
-  getElement('qualitySelect').value = graphics.quality;
+  (getElement('qualitySelect') as HTMLSelectElement).value = graphics.quality;
 
   getElement('qualitySelect').addEventListener('focus', () => {
     resetControls();
   });
 
-  getElement('qualitySelect').addEventListener('change', (e) => {
-    graphics.setQuality(e.target.value);
-    showToast('Качество графики: ' + e.target.options[e.target.selectedIndex].text);
-  });
+  getElement('qualitySelect').addEventListener(
+    'change',
+    (e: Event & { target: EventTarget | null }) => {
+      graphics.setQuality((e.target as HTMLSelectElement).value);
+      showToast(
+        'Качество графики: ' +
+          (e.target as HTMLSelectElement).options[(e.target as HTMLSelectElement).selectedIndex]
+            .text,
+      );
+    },
+  );
 
   function resize() {
     camera.aspect = innerWidth / innerHeight;
