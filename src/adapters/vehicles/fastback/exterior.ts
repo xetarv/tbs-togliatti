@@ -21,7 +21,7 @@ window.TBS.buildFastbackExterior = function ({
   brake,
   reverse,
   bodyWidth,
-}) {
+}: Parameters<TbsRegistry['buildFastbackExterior']>[0]): void {
   for (const panel of meshData.panels) {
     const g = new T.BufferGeometry();
     g.setAttribute('position', new T.Float32BufferAttribute(panel.position, 3));
@@ -209,7 +209,7 @@ window.TBS.buildFastbackExterior = function ({
     );
     rounded(body, side * 0.7, 0.76, 2.94, 0.27, 0.07, 0.035, 0.016, reverse);
     for (const axle of [-1.75, 1.75]) {
-      const points = [];
+      const points: [number, number, number][] = [];
       for (let n = 0; n <= 32; n++) {
         const a = (n * Math.PI) / 32,
           z = axle + Math.cos(a) * 0.635;

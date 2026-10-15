@@ -1,5 +1,17 @@
 # TypeScript migration log
 
+## R3 stage 50 - completed - 15 October 2026
+
+- Started clean at published 9a207b70; fetch confirms no divergence. Migrated Fastback
+  materials/geometry/exterior only: 72 production TS / 73 classic dist / 17 remaining JS.
+- Three complete executable ASTs match Git. Actual r149 fixture uses the real mesh asset
+  and unchanged Fastback/car-model assemblers: PBR scalar fields, all vertex/index/UV/normal
+  buffers, transforms, shadow flags, object order, shared references and rounded cache match.
+  Station interpolation is compared at interior/end/outside sample coordinates.
+- setIndex accepts readonly arrays because r149 copies input; no mutation or geometry change.
+- Build/check passed: strict TS7, ESLint and 64/64 tests. No rule exception added.
+  New evidence is isolated in tbs-r3-5d686b5f; final native Canvas/Edge smoke after 52.
+
 ## R2 stage 49 - completed and boundary smoke passed - 15 October 2026
 
 - Migrated population only: 69 production TS / 70 classic outputs / 20 remaining JS.

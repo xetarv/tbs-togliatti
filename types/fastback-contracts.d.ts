@@ -181,3 +181,11 @@ interface TbsRegistry {
     options: Pick<FastbackOptions, 'T' | 'shadowTexture'> & FastbackBaseParts,
   ) => FastbackLighting;
 }
+
+// Native BufferGeometry/Vector3 operations consumed by the real Fastback builders.
+interface ThreeGeometryHandle {
+  readonly attributes: Record<string, ThreeNumericAttribute>;
+}
+interface CameraVector3 {
+  addScaledVector: (vector: DisplacementXYZ, scalar: number) => this;
+}

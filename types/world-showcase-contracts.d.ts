@@ -18,7 +18,7 @@ interface ThreeColorHandle {
 }
 interface QuarterMutableGeometry extends ThreeGeometryHandle {
   setAttribute: (name: string, attribute: ThreeBufferAttributeHandle) => this;
-  setIndex: (index: number[] | ThreeBufferAttributeHandle | null) => this;
+  setIndex: (index: readonly number[] | ThreeBufferAttributeHandle | null) => this;
   computeVertexNormals: () => void;
 }
 interface ThreeLibraryHandle {

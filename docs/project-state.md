@@ -1,5 +1,14 @@
 # Состояние TBS Togliatti 2040
 
+## Current R3 status - 15 October 2026
+
+Published R2 base: 9a207b70b84a81e096b98b3af187aab32f032070, main; fetch agrees.
+Stage 50 completed locally: 72 production TS / 73 classic dist / 17 remaining JS.
+Build/check 64/64, three exact ASTs and real r149 Fastback integration comparisons passed.
+Stage 51 is next; final desktop/mobile Edge smoke after 52. No push or stage 53.
+Previous sections are historical progress snapshots; R1/R2 are already published.
+New evidence: tbs-r3-5d686b5f. Historical diagnostics and existing commits retained.
+
 ## Current R2 status - 15 October 2026
 
 R1 published base: 7ea72ebdf63060ce4d12dc670f1d1c9c08eba6eb, main.

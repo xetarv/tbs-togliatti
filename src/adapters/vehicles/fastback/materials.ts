@@ -1,6 +1,8 @@
 'use strict';
 
-window.TBS.createFastbackMaterials = function ({ T }) {
+window.TBS.createFastbackMaterials = function ({
+  T,
+}: Parameters<TbsRegistry['createFastbackMaterials']>[0]): FastbackMaterials {
   const paint = new T.MeshPhysicalMaterial({
     color: 0x87b5bf,
     metalness: 0.4,
