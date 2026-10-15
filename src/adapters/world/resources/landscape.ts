@@ -15,7 +15,7 @@ window.TBS.createLandscapeResources = function ({
   unitPlane,
   curbMat,
   trimMat,
-}) {
+}: LandscapeResourcesOptions): LandscapeResourcesModels {
   const leafMats = [mat(0x47784c), mat(0x567e50), mat(0x6b884c)];
   const cityLeafTexture = makeTexture(
     (p, w, h) => {
@@ -54,7 +54,7 @@ window.TBS.createLandscapeResources = function ({
   );
   const barkMaterials = [mat(0x77604a), mat(0xb3afa0), mat(0x5e5943)];
   const branchGeometry = new T.CylinderGeometry(0.75, 1, 1, 7);
-  function tree(x, z, seed, planterBox = true, natural = false) {
+  function tree(x: number, z: number, seed: number, planterBox = true, natural = false) {
     if (x > 0 && x < WORLD_W && z > 19 && (z < 24 || (x < 160 && z < 112))) {
       visualAssets.plant(scene, x, z, seed, 0.88);
       if (planterBox) {
@@ -190,10 +190,10 @@ window.TBS.createLandscapeResources = function ({
     256,
   );
   parkStoneHeight.encoding = T.LinearEncoding;
-  const parkPavingCache = new Map();
-  function parkPaving(w, d) {
+  const parkPavingCache = new Map<string, ThreeStandardMaterialHandle>();
+  function parkPaving(w: number, d: number) {
     const key = w + ':' + d;
-    if (parkPavingCache.has(key)) return parkPavingCache.get(key);
+    if (parkPavingCache.has(key)) return parkPavingCache.get(key)!;
     const map = parkStoneTexture.clone(),
       bump = parkStoneHeight.clone();
     for (const t of [map, bump]) {
@@ -209,7 +209,7 @@ window.TBS.createLandscapeResources = function ({
     parkPavingCache.set(key, material);
     return material;
   }
-  function shrubBed(x, y, z, w, d, seed) {
+  function shrubBed(x: number, y: number, z: number, w: number, d: number, seed: number) {
     const detailed = x < 160 && z < 160,
       count = detailed ? 1400 : 360;
     const leaves = new T.InstancedMesh(
@@ -242,7 +242,7 @@ window.TBS.createLandscapeResources = function ({
     });
     scene.userData.newShrubBeds = (scene.userData.newShrubBeds || 0) + 1;
   }
-  function parkBench(x, y, z, width = 2.7) {
+  function parkBench(x: number, y: number, z: number, width = 2.7) {
     for (let slat = 0; slat < 5; slat++)
       box(scene, x, y, z + slat * 0.145, width, 0.1, 0.115, parkWood).castShadow = true;
     for (let slat = 0; slat < 3; slat++)
@@ -254,7 +254,7 @@ window.TBS.createLandscapeResources = function ({
       box(scene, x + side * (width / 2 - 0.12), y + 0.52, z + 0.28, 0.1, 0.08, 0.68, trimMat);
     }
   }
-  function gardenBed(x, z, w, d, seed) {
+  function gardenBed(x: number, z: number, w: number, d: number, seed: number) {
     flat(scene, x, 0.41, z, w, d, grassMat);
     const count = lowPower ? 35 : 65,
       tufts = new T.InstancedMesh(unitPlane, cityLeafMaterials[seed % 3], count),

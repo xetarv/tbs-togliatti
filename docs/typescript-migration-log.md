@@ -1,5 +1,33 @@
 # TypeScript migration log
 
+## R2 stage 46 - completed - 15 October 2026
+
+- Explicit authorization resolves the earlier stop (historical record retained).
+  Only resources.ts and resources/landscape.ts were added to allowTernary at this stage;
+  the permanent test covers all four allowed files, rejects pure/mixed branches, and
+  still rejects call ternaries in roads.ts and other TS files.
+- Migrated both resource modules: 65 production TS, 66 classic outputs. Both complete
+  executable ASTs match Git. Native r149 fixtures cover immediate/deferred image readiness,
+  callback queue replacement, four factory calls in order, shared unit meshes/materials,
+  visual assets, tree/shrub/garden culling, instance matrices/colors and Canvas commands.
+- A constrained Object.assign assertion signature reflects only staged resource assembly.
+  imageTexture refines the real onReady array after initialization; no runtime checks added.
+- Build/check passed (strict TS7, ESLint, 64/64 tests). Evidence is outside Git in
+  tbs-r2-20261015-bl0T7n; native Canvas/browser boundary remains scheduled after 49.
+
+## R2 stage 46 - preflight stop - 15 October 2026
+
+- Fresh fetch confirms main/origin/main at 7ea72ebdf63060ce4d12dc670f1d1c9c08eba6eb;
+  the starting working tree was clean. Counts remain 63 production TS / 64 dist / 26 JS.
+- Before source edits, actual ESLint lintText under each prospective TS path rejects
+  resources.js:64 and resources/landscape.js:148 (no-unused-expressions).
+  Both are existing Canvas lineTo/moveTo call ternaries with effects in both branches.
+- The R2 instructions explicitly require stopping for this conflict: no extra allowTernary
+  files or executable-AST rewrites were applied. Stages 46-49 remain uncompleted.
+- No build/check/Edge rerun or commit; only the two status documents were updated.
+  One compact new probe report is outside Git in tbs-r2-20261015-bl0T7n;
+  historical diagnostics, source, dist, dependencies and existing commits were untouched.
+
 ## Stage 45 - resource adapters - 15 October 2026
 
 - Migrated signs, facades and fixtures: 63 production TS, 64 classic outputs.

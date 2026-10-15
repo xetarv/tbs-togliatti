@@ -1,8 +1,8 @@
 'use strict';
 
-window.TBS.createWorldResources = function (options) {
+window.TBS.createWorldResources = function (options: WorldOptions): WorldResources {
   const { T, renderer, createVisualAssets, embeddedAssets, vegetationCulling } = options;
-  const mat = (color, metalness = 0, roughness = 0.8, emissive = 0x000000) =>
+  const mat = (color: number, metalness = 0, roughness = 0.8, emissive = 0x000000) =>
     new T.MeshStandardMaterial({ color, metalness, roughness, emissive, envMapIntensity: 0.45 });
   const dark = mat(0x142733, 0.22, 0.72),
     roadMat = mat(0x192b34, 0.08, 0.93),
@@ -18,14 +18,31 @@ window.TBS.createWorldResources = function (options) {
   const trimMat = mat(0x5d7e87, 0.48, 0.35);
   const unitBox = new T.BoxGeometry(1, 1, 1);
   const unitPlane = new T.PlaneGeometry(1, 1);
-  function box(parent, x, y, z, w, h, d, material) {
+  function box(
+    parent: ThreeObjectHandle,
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    h: number,
+    d: number,
+    material: ThreeMaterialHandle,
+  ) {
     const o = new T.Mesh(unitBox, material);
     o.position.set(x, y, z);
     o.scale.set(w, h, d);
     parent.add(o);
     return o;
   }
-  function flat(parent, x, y, z, w, d, material) {
+  function flat(
+    parent: ThreeObjectHandle,
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+    d: number,
+    material: ThreeMaterialHandle,
+  ) {
     if (material.userData.paving) material = pavingSurface(w, d);
     const o = new T.Mesh(unitPlane, material);
     o.rotation.x = -Math.PI / 2;
@@ -35,11 +52,11 @@ window.TBS.createWorldResources = function (options) {
     parent.add(o);
     return o;
   }
-  function makeTexture(draw, w = 256, h = 256) {
+  function makeTexture(draw: TexturePainter, w = 256, h = 256) {
     const c = document.createElement('canvas');
     c.width = w;
     c.height = h;
-    draw(c.getContext('2d'), w, h);
+    draw(c.getContext('2d')!, w, h);
     const t = new T.CanvasTexture(c);
     t.encoding = T.sRGBEncoding;
     t.wrapS = t.wrapT = T.RepeatWrapping;
@@ -47,7 +64,7 @@ window.TBS.createWorldResources = function (options) {
     return t;
   }
   const visualAssets = createVisualAssets(T, renderer, vegetationCulling);
-  function roadSurface(w, d) {
+  function roadSurface(w: number, d: number) {
     return visualAssets.material('asphalt', w, d);
   }
   const waterTexture = makeTexture(
@@ -70,7 +87,7 @@ window.TBS.createWorldResources = function (options) {
     128,
   );
   waterTexture.repeat.set(7, 1);
-  function imageTexture(file) {
+  function imageTexture(file: string): ThreeReadyImageTexture {
     const source = embeddedAssets[file] || 'assets/' + file;
     const tex = new T.TextureLoader().load(source, (t) => {
       for (const callback of t.userData.onReady || []) callback();
@@ -79,7 +96,7 @@ window.TBS.createWorldResources = function (options) {
     tex.userData.onReady = [];
     tex.encoding = T.sRGBEncoding;
     tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-    return tex;
+    return tex as ThreeReadyImageTexture;
   }
   const markTexture = imageTexture('cropped-fav-tb_drone-192x192.png');
   const droneTexture = imageTexture('home-sec3-img__1-768x597.webp');
@@ -105,10 +122,10 @@ window.TBS.createWorldResources = function (options) {
     roughness: 0.92,
   });
   pavingMat.userData.paving = true;
-  const pavingSurfaces = new Map();
-  function pavingSurface(w, d) {
+  const pavingSurfaces = new Map<string, ThreeStandardMaterialHandle>();
+  function pavingSurface(w: number, d: number) {
     const key = w.toFixed(2) + ':' + d.toFixed(2);
-    if (pavingSurfaces.has(key)) return pavingSurfaces.get(key);
+    if (pavingSurfaces.has(key)) return pavingSurfaces.get(key)!;
     const texture = pavingTexture.clone();
     texture.repeat.set(w / 8, d / 8);
     texture.needsUpdate = true;
@@ -141,9 +158,9 @@ window.TBS.createWorldResources = function (options) {
     opacity: 0.58,
     depthWrite: false,
   });
-  const mooredBoats = [],
-    waterfrontTerraces = [];
-  const fountainJets = [];
+  const mooredBoats: MooredBoat[] = [],
+    waterfrontTerraces: PointXZ[] = [];
+  const fountainJets: ThreeMarkerMeshHandle<ThreeMaterialHandle>[] = [];
   const resources = {
     dark,
     cyanMat,

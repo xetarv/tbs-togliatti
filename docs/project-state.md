@@ -1,5 +1,14 @@
 # Состояние TBS Togliatti 2040
 
+## Current R2 status - 15 October 2026
+
+R1 published base: 7ea72ebdf63060ce4d12dc670f1d1c9c08eba6eb, main.
+Stage 46 completed locally: 65 production TS / 66 classic dist / 24 remaining JS.
+Build/check 64/64, two complete ASTs and native r149 resource/ready comparisons passed.
+The user authorized the two stage-46 call-ternary paths; the earlier stop is historical.
+Stage 47 is next; final Edge smoke after 49. No push, R3 or stage 50.
+Historical diagnostics retained; new compact evidence in tbs-r2-20261015-bl0T7n.
+
 ## Текущая рабочая сессия — 15 октября 2026
 
 Рабочий ноутбук: `C:\Users\s.nikushkin\Documents\tbs-togliatti`, ветка main.

@@ -117,12 +117,14 @@ test('ESLint accepts ambient declarations, type-only parameters and interface me
   assert.deepEqual(result.messages, []);
 });
 
-test('Canvas call ternaries are restricted to two files and still require effects', async () => {
+test('Canvas call ternaries are restricted to authorized files and still require effects', async () => {
   const prefix = 'declare const py: number; declare const c: CanvasRenderingContext2D; ';
   const calls = 'py ? c.lineTo(1, 2) : c.moveTo(1, 2);';
   for (const file of [
     'src/adapters/world/showcase/materials.ts',
     'src/adapters/world/visual-assets.ts',
+    'src/adapters/world/resources.ts',
+    'src/adapters/world/resources/landscape.ts',
   ]) {
     assert.deepEqual((await lintTypeScript(prefix + calls, file)).messages, []);
     for (const expression of [
@@ -140,6 +142,7 @@ test('Canvas call ternaries are restricted to two files and still require effect
     'src/adapters/world/showcase/roof.ts',
     'src/adapters/rendering/geometry.ts',
     'src/domain/state.ts',
+    'src/adapters/world/roads.ts',
   ]) {
     const result = await lintTypeScript(prefix + calls, file);
     assert.ok(result.messages.some((m) => m.ruleId === '@typescript-eslint/no-unused-expressions'));

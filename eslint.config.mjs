@@ -47,7 +47,12 @@ export default [
     },
   },
   {
-    files: ['src/adapters/world/showcase/materials.ts', 'src/adapters/world/visual-assets.ts'],
+    files: [
+      'src/adapters/world/showcase/materials.ts',
+      'src/adapters/world/visual-assets.ts',
+      'src/adapters/world/resources.ts',
+      'src/adapters/world/resources/landscape.ts',
+    ],
     rules: {
       // Preserve the original Canvas call ternary; both branches must still have effects.
       '@typescript-eslint/no-unused-expressions': ['error', { allowTernary: true }],

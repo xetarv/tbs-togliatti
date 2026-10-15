@@ -63,3 +63,80 @@ interface TbsRegistry {
   createFacadeResources: (options: FacadeResourcesOptions) => FacadeResourcesModels;
   createStreetFixtures: (options: StreetFixturesOptions) => StreetFixturesModels;
 }
+
+// Exact stage-46 resource assembly and fields assigned before publication.
+interface ThreeMaterialHandle {
+  userData: Record<string, unknown>;
+}
+interface ThreeSkidTransform {
+  readonly quaternion: { setFromUnitVectors: (from: CameraVector3, to: CameraVector3) => void };
+}
+interface ThreeStandardMaterialParameters {
+  alphaTest?: number;
+  bumpMap?: ThreeTextureHandle;
+  bumpScale?: number;
+}
+interface ThreeLoadedImageTexture extends ThreeTextureHandle {
+  image?: HTMLImageElement;
+  userData: Record<string, unknown> & { onReady?: (() => void)[] };
+}
+interface ThreeLibraryHandle {
+  readonly ClampToEdgeWrapping: 1001;
+  TextureLoader: new () => {
+    load: (
+      url: string,
+      onLoad: (texture: ThreeLoadedImageTexture) => void,
+    ) => ThreeLoadedImageTexture;
+  };
+}
+interface ThreeSceneUserData {
+  newShrubBeds?: number;
+}
+type LandscapeResourcesOptions = Pick<
+  WorldOptions & WorldResources,
+  | 'mat'
+  | 'makeTexture'
+  | 'T'
+  | 'WORLD_W'
+  | 'visualAssets'
+  | 'vegetationCulling'
+  | 'scene'
+  | 'box'
+  | 'flat'
+  | 'grassMat'
+  | 'lowPower'
+  | 'unitPlane'
+  | 'curbMat'
+  | 'trimMat'
+>;
+type LandscapeResourcesModels = Pick<
+  WorldResources,
+  | 'leafMats'
+  | 'cityLeafMaterials'
+  | 'tree'
+  | 'parkWood'
+  | 'parkPaving'
+  | 'shrubBed'
+  | 'parkBench'
+  | 'gardenBed'
+>;
+type WorldResourceBase = Omit<
+  WorldResources,
+  | keyof WorldSignsModels
+  | keyof FacadeResourcesModels
+  | keyof LandscapeResourcesModels
+  | keyof StreetFixturesModels
+>;
+interface ObjectConstructor {
+  assign<
+    T extends WorldResourceBase,
+    U extends
+      WorldSignsModels | FacadeResourcesModels | LandscapeResourcesModels | StreetFixturesModels,
+  >(
+    target: T,
+    source: U,
+  ): asserts target is T & U;
+}
+interface TbsRegistry {
+  createLandscapeResources: (options: LandscapeResourcesOptions) => LandscapeResourcesModels;
+}

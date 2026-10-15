@@ -22,6 +22,8 @@
     "types/world-contracts.d.ts",
     "types/visual-assets-contracts.d.ts",
     "types/world-resources-contracts.d.ts",
+    "src/adapters/world/resources.ts",
+    "src/adapters/world/resources/landscape.ts",
     "src/adapters/world/resources/signs.ts",
     "src/adapters/world/resources/facades.ts",
     "src/adapters/world/resources/fixtures.ts",
