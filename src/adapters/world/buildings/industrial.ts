@@ -20,9 +20,9 @@ window.TBS.createIndustrialBuilder = function ({
   roofMat,
   createDrone,
   addFlag,
-}) {
-  const industrialSites = [];
-  function industrialYard(x, z, w, d, logistics) {
+}: IndustrialBuilderOptions): IndustrialBuilderModels {
+  const industrialSites: { x: number; z: number; logistics: boolean }[] = [];
+  function industrialYard(x: number, z: number, w: number, d: number, logistics: boolean) {
     industrialSites.push({ x, z, logistics });
     const steel = mat(logistics ? 0x577985 : 0x8a9595, 0.45, 0.52),
       hazard = mat(0xe1a23c),

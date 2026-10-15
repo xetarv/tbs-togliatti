@@ -1,5 +1,17 @@
 # TypeScript migration log
 
+## Stage 43 ? remaining buildings ? 15 October 2026
+
+- Migrated lighting, pavilion and industrial; 58 production TS, 59 classic outputs.
+  No production JS remains under world/buildings. Existing exact factory projections reused;
+  declarations add real CylinderGeometry transforms, ShapeGeometry, IcosahedronGeometry
+  and standard material metalness. No implementation or rendering changes.
+- Three executable ASTs match Git originals. Actual r149 comparisons cover facade lighting,
+  pavilion and both logistics branches: scene order, geometry, materials, matrices,
+  reflection records, painter calls and shared cityFacadeLights references match.
+- Build/check passed (64/64 tests, strict TS7); native fixtures use recorded Canvas calls,
+  not full-scene pixel comparison. Prior outputs and diagnostics are retained.
+
 ## Stage 42 — remaining building components — 15 October 2026
 
 - Started from published 499b051 after explicitly authorized fast-forward; npm ci restored

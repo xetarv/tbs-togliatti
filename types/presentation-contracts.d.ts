@@ -57,6 +57,7 @@ interface ThreeBasicMaterialParameters {
   blending?: 0 | 1 | 2 | 3 | 4 | 5;
 }
 interface ThreeStandardMaterialParameters extends ThreeBasicMaterialParameters {
+  metalness?: number;
   emissive?: number;
   emissiveIntensity?: number;
   roughness?: number;
@@ -141,6 +142,8 @@ interface ThreeLibraryHandle {
     geometry: ThreeGeometryHandle,
     material: M,
   ) => ThreeMarkerMeshHandle<M>;
+  IcosahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
+  ShapeGeometry: new (shape: ThreeShapeHandle) => ThreeGeometryHandle;
   CylinderGeometry: new (
     radiusTop?: number,
     radiusBottom?: number,
@@ -150,14 +153,14 @@ interface ThreeLibraryHandle {
     openEnded?: boolean,
     thetaStart?: number,
     thetaLength?: number,
-  ) => ThreeGeometryHandle;
+  ) => ThreeTransformableGeometry;
   TorusGeometry: new (
     radius?: number,
     tube?: number,
     radialSegments?: number,
     tubularSegments?: number,
     arc?: number,
-  ) => ThreeGeometryHandle;
+  ) => ThreeTransformableGeometry;
   OctahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
   SphereGeometry: new (
     radius?: number,
@@ -585,4 +588,9 @@ interface TbsRegistry {
   createWorldAnimation: (options: WorldAnimationOptions) => GameFramePorts['world'];
   createOverlay: (options: Pick<BootstrapDom, 'getElement'>) => SessionOptions['overlay'];
   createToast: (options: Pick<BootstrapDom, 'getElement'>) => GameFramePorts['notifications'];
+}
+
+interface ThreeTransformableGeometry extends ThreeGeometryHandle {
+  rotateX: (angle: number) => this;
+  scale: (x: number, y: number, z: number) => this;
 }

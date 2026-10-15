@@ -16,8 +16,8 @@ window.TBS.createPavilionBuilder = function ({
   grassMat,
   leafMats,
   showcaseTree,
-}) {
-  function showcasePavilion(x, z, w, d) {
+}: PavilionBuilderOptions): PavilionBuilderModels {
+  function showcasePavilion(x: number, z: number, w: number, d: number) {
     reflectionBuildings.push({ x, z, w, d, h: 7.7, seed: 2, color: 0xd1cbb6 });
     const stoneTexture = makeTexture(
       (c, tw, th) => {

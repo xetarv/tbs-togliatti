@@ -7,8 +7,8 @@ window.TBS.createFacadeLighting = function ({
   dark,
   glowTexture,
   flat,
-}) {
-  const cityFacadeLights = [];
+}: FacadeLightingOptions): FacadeLightingModels {
+  const cityFacadeLights: BuildingModels['cityFacadeLights'] = [];
   const facadeLampMaterial = new T.MeshStandardMaterial({
     color: 0xffe0ad,
     emissive: 0xffc482,
@@ -16,7 +16,7 @@ window.TBS.createFacadeLighting = function ({
     roughness: 0.5,
   });
   nightWindows.push(facadeLampMaterial);
-  function addFacadeLighting(x, z, w, d, h) {
+  function addFacadeLighting(x: number, z: number, w: number, d: number, h: number) {
     const front = z - d / 2 - 0.32;
     for (const side of [-1, 1]) {
       const px = x + side * Math.min(w * 0.32, 7.5);
