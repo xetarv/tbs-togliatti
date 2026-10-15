@@ -1,0 +1,74 @@
+﻿// Actual operations consumed by geometry.ts and visual-assets.ts on bundled r149.
+type VisualSurfaceKind = 'asphalt' | 'stone' | 'paving' | 'brick';
+interface VisualSurfaceMaps {
+  map: ThreeTextureHandle;
+  normalMap: ThreeTextureHandle;
+  roughnessMap: ThreeTextureHandle;
+}
+interface ThreeNumericAttribute extends ThreeBufferAttributeHandle {
+  readonly array: ArrayLike<number> & Iterable<number>;
+  readonly count: number;
+  getX: (index: number) => number;
+  getY: (index: number) => number;
+  setX: (index: number, x: number) => this;
+  setXYZ: (index: number, x: number, y: number, z: number) => this;
+}
+interface QuarterMutableGeometry {
+  clone: () => this;
+  scale: (x: number, y: number, z: number) => this;
+  readonly attributes: Record<string, ThreeNumericAttribute>;
+  dispose: () => void;
+}
+interface ThreeTubeGeometry extends QuarterMutableGeometry {
+  readonly index: ThreeNumericAttribute;
+}
+interface ThreeCurveHandle {
+  getPointAt: (u: number) => CameraVector3;
+}
+interface CameraVector3 {
+  clone: () => this;
+  sub: (vector: DisplacementXYZ) => this;
+  add: (vector: DisplacementXYZ) => this;
+  length: () => number;
+  normalize: () => this;
+  multiplyScalar: (scalar: number) => this;
+  fromBufferAttribute: (attribute: ThreeNumericAttribute, index: number) => this;
+}
+interface ThreeMeshHandle {
+  readonly quaternion: { setFromUnitVectors: (from: CameraVector3, to: CameraVector3) => void };
+}
+interface ThreeRendererHandle {
+  readonly capabilities: { getMaxAnisotropy: () => number };
+}
+interface ThreeTextureHandle {
+  wrapS: number;
+  wrapT: number;
+  anisotropy: number;
+}
+interface ThreeStandardMaterialParameters {
+  normalMap?: ThreeTextureHandle;
+  roughnessMap?: ThreeTextureHandle;
+  normalScale?: ThreeTextureRepeatHandle;
+}
+interface ThreeCompileShader {
+  uniforms: Record<string, { value: unknown }>;
+  vertexShader: string;
+}
+interface ThreeStandardMaterialHandle {
+  onBeforeCompile: (shader: ThreeCompileShader) => void;
+}
+interface ThreeLibraryHandle {
+  readonly sRGBEncoding: 3001;
+  readonly RepeatWrapping: 1000;
+  CanvasTexture: new (canvas: HTMLCanvasElement) => ThreeTextureHandle;
+  Vector2: new (x?: number, y?: number) => ThreeTextureRepeatHandle;
+  BufferAttribute: new (array: Float32Array, itemSize: number) => ThreeNumericAttribute;
+  CatmullRomCurve3: new (points: CameraVector3[]) => ThreeCurveHandle;
+  TubeGeometry: new (
+    path: ThreeCurveHandle,
+    tubularSegments?: number,
+    radius?: number,
+    radialSegments?: number,
+    closed?: boolean,
+  ) => ThreeTubeGeometry;
+}

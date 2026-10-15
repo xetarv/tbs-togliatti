@@ -14,6 +14,17 @@
 Разрешён автономный пакет №42–45 с отдельными локальными коммитами; push и №46 запрещены.
 Итоги следующих ступеней добавляются в эту текущую запись и журнал.
 
+## R1 current result - 15 October 2026
+
+Stage 42: f738a1863f6cf037ac19e25fe888bb83ec465df6.
+Stage 43: dcd9ced1e95124b7ef440c838656c8a624e97618.
+Stage 44: geometry and visual-assets migrated; 60 production TS, 61 classic outputs.
+The user explicitly resolved the earlier lint conflict by authorizing call ternaries
+only for materials.ts and visual-assets.ts. The old stop is retained in the journal.
+Two exact ASTs and native r149/Canvas-command fixtures match; build/check passed
+64/64 tests, strict TS7 and ESLint. Stage 45 and final Edge check are next.
+No push or stage 46; previous commits and historical diagnostic data retained.
+
 ## Исторический снимок домашней сессии
 
 Снимок домашней сессии от **14 октября 2026**. Это контрольная справка для продолжения

@@ -47,7 +47,7 @@ export default [
     },
   },
   {
-    files: ['src/adapters/world/showcase/materials.ts'],
+    files: ['src/adapters/world/showcase/materials.ts', 'src/adapters/world/visual-assets.ts'],
     rules: {
       // Preserve the original Canvas call ternary; both branches must still have effects.
       '@typescript-eslint/no-unused-expressions': ['error', { allowTernary: true }],

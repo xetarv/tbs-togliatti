@@ -50,7 +50,7 @@ interface WorldVisualAssets {
   wind: { value: number };
   leaf: ThreeGeometryHandle;
   foliage: ThreeMaterialHandle;
-  material: (kind: string, w?: number, h?: number) => ThreeStandardMaterialHandle;
+  material: (kind: VisualSurfaceKind, w?: number, h?: number) => ThreeStandardMaterialHandle;
   plant: (
     parent: ThreeObjectHandle,
     x: number,

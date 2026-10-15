@@ -1,5 +1,34 @@
 # TypeScript migration log
 
+## Stage 44 - completed after explicit authorization - 15 October 2026
+
+- The earlier stop record below is historical. User authorized allowTernary only for
+  materials.ts and visual-assets.ts; the permanent lint test checks both allowed files,
+  pure/mixed branches rejected, and three other TS files still rejecting call ternaries.
+- Migrated rendering/geometry and world/visual-assets: 60 production TS, 61 classic outputs.
+  Two complete executable ASTs match Git originals, including all GLSL strings and RNG calls.
+- Actual r149 fixtures match wedge/detailBar (including zero length), four plant variants,
+  vertex/index buffers, instance matrices/colors, material cache identities and maps,
+  shader/wind identity, displacement registration and streamed Canvas command hashes.
+- Context non-null assertions preserve the original browser Canvas-2D precondition;
+  cache lookups are guarded by has, and Object.entries keys come from exactly three maps.
+  Native Canvas pixels and shader/browser validation remain scheduled for stage 45.
+- Build/check passed: strict TS7, ESLint and 64/64 tests. No dependencies or algorithms changed.
+
+## Stage 44 ? stopped at validation conflict ? 15 October 2026
+
+- No stage-44 game/type/index changes were made; stage 45 was not started.
+- Two isolated checks used the actual ESLint configuration: the unchanged bark Canvas
+  conditional in visual-assets.js (line 207) preserves the full executable AST but fails
+  @typescript-eslint/no-unused-expressions when treated as TS. An equivalent if/else
+  passes lint but changes the executable AST. Neither candidate was applied.
+- A new lint exception or runtime syntax rewrite needs resolution of the package constraints
+  (unchanged executable expressions and no ESLint weakening). Existing materials.ts has
+  its own explicit allowTernary exception; it was not broadened.
+- Successful stages 42 and 43 remain separate local commits; 58 production TS and 59
+  classic outputs. Final boundary Edge/Canvas/shader/ready validation was not reached.
+- Evidence is limited to a small external 44-blocker.json; no historical artifacts changed.
+
 ## Stage 43 ? remaining buildings ? 15 October 2026
 
 - Migrated lighting, pavilion and industrial; 58 production TS, 59 classic outputs.

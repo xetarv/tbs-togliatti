@@ -35,7 +35,7 @@ interface ThreeLibraryHandle {
     array: ArrayLike<number>,
     itemSize: number,
     normalized?: boolean,
-  ) => ThreeBufferAttributeHandle;
+  ) => ThreeNumericAttribute;
 }
 interface ThreeSceneUserData extends Record<string, unknown> {
   quarterLighting?: QuarterLighting;

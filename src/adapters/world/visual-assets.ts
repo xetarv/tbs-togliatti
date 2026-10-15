@@ -1,9 +1,13 @@
 /* Authored surface and planting library. All assets are local and deterministic. */
 'use strict';
 
-window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
+window.TBS.createVisualAssets = function (
+  T: ThreeLibraryHandle,
+  renderer: ThreeRendererHandle,
+  vegetationCulling: VegetationCulling,
+): WorldVisualAssets {
   const size = 512,
-    cache = new Map(),
+    cache = new Map<string, ThreeStandardMaterialHandle>(),
     wind = { value: 0 };
   let seed = 81231;
   const random = () => {
@@ -15,20 +19,20 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
     c.width = c.height = size;
     return c;
   }
-  function texture(c, data = false) {
+  function texture(c: HTMLCanvasElement, data = false) {
     const t = new T.CanvasTexture(c);
     t.encoding = data ? T.LinearEncoding : T.sRGBEncoding;
     t.wrapS = t.wrapT = T.RepeatWrapping;
     t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     return t;
   }
-  function surface(kind) {
+  function surface(kind: VisualSurfaceKind) {
     const color = canvas(),
       height = canvas(),
       rough = canvas(),
-      c = color.getContext('2d'),
-      h = height.getContext('2d'),
-      r = rough.getContext('2d');
+      c = color.getContext('2d')!,
+      h = height.getContext('2d')!,
+      r = rough.getContext('2d')!;
     const asphalt = kind === 'asphalt',
       brick = kind === 'brick',
       paving = kind === 'paving';
@@ -77,13 +81,13 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
         }
     }
     const normal = canvas(),
-      nc = normal.getContext('2d'),
+      nc = normal.getContext('2d')!,
       source = h.getImageData(0, 0, size, size).data,
       out = nc.createImageData(size, size);
     for (let y = 0; y < size; y++)
       for (let x = 0; x < size; x++) {
         const i = (y * size + x) * 4,
-          sample = (px, py) =>
+          sample = (px: number, py: number) =>
             source[(((py + size) % size) * size + ((px + size) % size)) * 4] / 255;
         const nx = (sample(x - 1, y) - sample(x + 1, y)) * (asphalt ? 0.85 : 1.6),
           ny = (sample(x, y - 1) - sample(x, y + 1)) * (asphalt ? 0.85 : 1.6),
@@ -106,15 +110,15 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
     paving: surface('paving'),
     brick: surface('brick'),
   };
-  function material(kind, w = 4, h = 4) {
+  function material(kind: VisualSurfaceKind, w = 4, h = 4) {
     const key = kind + ':' + w + ':' + h;
-    if (cache.has(key)) return cache.get(key);
-    const maps = {};
+    if (cache.has(key)) return cache.get(key)!;
+    const maps: Partial<Record<keyof VisualSurfaceMaps, ThreeTextureHandle>> = {};
     for (const [name, source] of Object.entries(sources[kind])) {
       const map = source.clone();
       map.repeat.set(w / 4, h / 4);
       map.needsUpdate = true;
-      maps[name] = map;
+      maps[name as keyof VisualSurfaceMaps] = map;
     }
     const m = new T.MeshStandardMaterial({
       ...maps,
@@ -157,7 +161,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
   leaf.setIndex(ix);
   leaf.computeVertexNormals();
   const leafCanvas = canvas(),
-    lc = leafCanvas.getContext('2d');
+    lc = leafCanvas.getContext('2d')!;
   lc.fillStyle = '#a5bb76';
   lc.fillRect(0, 0, size, size);
   const gradient = lc.createLinearGradient(0, 0, size, 0);
@@ -194,7 +198,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
     );
   };
   const barkCanvas = canvas(),
-    bc = barkCanvas.getContext('2d');
+    bc = barkCanvas.getContext('2d')!;
   bc.fillStyle = '#625b4e';
   bc.fillRect(0, 0, size, size);
   for (let n = 0; n < 500; n++) {
@@ -211,7 +215,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
   const barkMap = texture(barkCanvas),
     bark = new T.MeshStandardMaterial({ map: barkMap, color: 0xb3a990, roughness: 1 });
   const birchCanvas = canvas(),
-    birchContext = birchCanvas.getContext('2d');
+    birchContext = birchCanvas.getContext('2d')!;
   birchContext.fillStyle = '#d9d6c4';
   birchContext.fillRect(0, 0, size, size);
   for (let n = 0; n < 240; n++) {
@@ -229,7 +233,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
   }
   speciesLeaves[0].computeVertexNormals();
   const soilCanvas = canvas(),
-    soilContext = soilCanvas.getContext('2d');
+    soilContext = soilCanvas.getContext('2d')!;
   soilContext.fillStyle = '#494333';
   soilContext.fillRect(0, 0, size, size);
   for (let n = 0; n < 18000; n++) {
@@ -251,7 +255,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
   );
   grassGeometry.setIndex([0, 1, 2, 1, 3, 2, 2, 3, 4]);
   grassGeometry.computeVertexNormals();
-  function plant(parent, x, z, variant = 0, scale = 1) {
+  function plant(parent: ThreeObjectHandle, x: number, z: number, variant = 0, scale = 1) {
     const species = ((variant % 3) + 3) % 3,
       birch = species === 1,
       poplar = species === 2;
@@ -262,9 +266,9 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
     group.position.set(x, 0, z);
     group.scale.setScalar(scale);
     parent.add(group);
-    const tips = [],
-      branchParts = [];
-    function branch(points, r) {
+    const tips: [number, number, number][] = [],
+      branchParts: ThreeTubeGeometry[] = [];
+    function branch(points: readonly (readonly [number, number, number])[], r: number) {
       const path = new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p))),
         g = new T.TubeGeometry(path, 10, r, 7, false),
         p = g.attributes.position;
@@ -307,7 +311,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
         0.044 - t * 0.022,
       );
       for (const side of [-1, 1]) {
-        const tip = [
+        const tip: [number, number, number] = [
           ex + Math.cos(a + side * 0.75) * radius * 0.32,
           ey + (birch ? -0.25 : 0.2),
           ez + Math.sin(a + side * 0.75) * radius * 0.32,

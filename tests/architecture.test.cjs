@@ -117,17 +117,31 @@ test('ESLint accepts ambient declarations, type-only parameters and interface me
   assert.deepEqual(result.messages, []);
 });
 
-test('Canvas call ternaries are allowed only in showcase materials and still require effects', async () => {
+test('Canvas call ternaries are restricted to two files and still require effects', async () => {
   const prefix = 'declare const py: number; declare const c: CanvasRenderingContext2D; ';
   const calls = 'py ? c.lineTo(1, 2) : c.moveTo(1, 2);';
-  const file = 'src/adapters/world/showcase/materials.ts';
-  assert.deepEqual((await lintTypeScript(prefix + calls, file)).messages, []);
-  for (const [expression, target] of [
-    ['py ? 1 : 2;', file],
-    ['py ? c.lineTo(1, 2) : 2;', file],
-    [calls, 'src/adapters/world/showcase/roof.ts'],
+  for (const file of [
+    'src/adapters/world/showcase/materials.ts',
+    'src/adapters/world/visual-assets.ts',
   ]) {
-    const result = await lintTypeScript(prefix + expression, target);
+    assert.deepEqual((await lintTypeScript(prefix + calls, file)).messages, []);
+    for (const expression of [
+      'py ? 1 : 2;',
+      'py ? c.lineTo(1, 2) : 2;',
+      'py ? 1 : c.moveTo(1, 2);',
+    ]) {
+      const result = await lintTypeScript(prefix + expression, file);
+      assert.ok(
+        result.messages.some((m) => m.ruleId === '@typescript-eslint/no-unused-expressions'),
+      );
+    }
+  }
+  for (const file of [
+    'src/adapters/world/showcase/roof.ts',
+    'src/adapters/rendering/geometry.ts',
+    'src/domain/state.ts',
+  ]) {
+    const result = await lintTypeScript(prefix + calls, file);
     assert.ok(result.messages.some((m) => m.ruleId === '@typescript-eslint/no-unused-expressions'));
   }
 });

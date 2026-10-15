@@ -1,7 +1,16 @@
 'use strict';
 
-window.TBS.createGeometryHelpers = function ({ T }) {
-  function wedge(parent, width, zFront, zBack, bottom, frontHeight, backHeight, material) {
+window.TBS.createGeometryHelpers = function ({ T }: Pick<BuildWorldOptions, 'T'>): GeometryHelpers {
+  function wedge(
+    parent: ThreeObjectHandle,
+    width: number,
+    zFront: number,
+    zBack: number,
+    bottom: number,
+    frontHeight: number,
+    backHeight: number,
+    material: ThreeMaterialHandle,
+  ) {
     const a = -width / 2,
       b = width / 2;
     const vertices = new Float32Array([
@@ -43,7 +52,13 @@ window.TBS.createGeometryHelpers = function ({ T }) {
     return mesh;
   }
 
-  function detailBar(parent, a, b, r, material) {
+  function detailBar(
+    parent: ThreeObjectHandle,
+    a: readonly [number, number, number],
+    b: readonly [number, number, number],
+    r: number,
+    material: ThreeMaterialHandle,
+  ) {
     const start = new T.Vector3(...a),
       end = new T.Vector3(...b),
       delta = end.clone().sub(start);
