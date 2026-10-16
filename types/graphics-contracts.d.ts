@@ -50,10 +50,19 @@ interface ThreeRendererHandle {
   info: { autoReset: boolean; reset: () => void };
   extensions: { has: (name: string) => boolean };
   getDrawingBufferSize: (target: ThreeTextureRepeatHandle) => ThreeTextureRepeatHandle;
-  setRenderTarget: (target: ThreePipelineRenderTarget | null) => void;
+  getRenderTarget: () => ThreePipelineRenderTarget | null;
+  getActiveCubeFace: () => number;
+  getActiveMipmapLevel: () => number;
+  xr: { enabled: boolean };
+  setRenderTarget: (
+    target: ThreePipelineRenderTarget | null,
+    activeCubeFace?: number,
+    activeMipmapLevel?: number,
+  ) => void;
   render: (scene: ThreeSceneHandle, camera: ThreeRenderCameraHandle) => void;
 }
 interface ThreeTextureHandle {
+  generateMipmaps: boolean;
   needsPMREMUpdate: boolean;
 }
 interface ThreeStandardMaterialHandle {

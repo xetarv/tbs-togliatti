@@ -6,7 +6,7 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         medium: { ratio: 1.3, shadow: 1024, ao: 0.35, bloom: 0.09, reflection: 0, distance: 110 },
         high: { ratio: 1.75, shadow: 2048, ao: 0.55, bloom: 0.15, reflection: 1, distance: 135 },
     };
-    let quality = initialQuality, settings = presets[quality], clock = 0, cubeDue = -10, waterDue = -10;
+    let quality = Object.hasOwn(presets, initialQuality) ? initialQuality : 'medium', settings = presets[quality], clock = 0, cubeDue = -10, waterDue = -10;
     renderer.info.autoReset = false;
     const depthSupported = renderer.capabilities.isWebGL2 || renderer.extensions.has('WEBGL_depth_texture');
     const sceneTarget = new T.WebGLRenderTarget(1, 1, {
@@ -141,7 +141,7 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         waterDue = -10;
     }
     function setQuality(value) {
-        quality = presets[value] ? value : 'medium';
+        quality = Object.hasOwn(presets, value) ? value : 'medium';
         settings = presets[quality];
         renderer.shadowMap.enabled = settings.shadow > 0;
         scene.traverse((o) => {
@@ -174,6 +174,16 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
             // Graphics settings still work when the browser disables persistent storage.
         }
         return quality;
+    }
+    function updateCube(camera, target) {
+        const generateMipmaps = target.texture.generateMipmaps;
+        try {
+            camera.update(renderer, reflectionScene);
+        }
+        finally {
+            // r149 CubeCamera changes this flag before rendering its six faces.
+            target.texture.generateMipmaps = generateMipmaps;
+        }
     }
     function updateReflections(dt, daylight) {
         clock += dt;
@@ -212,7 +222,7 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
                         Math.abs(proxy.position.z - quarter.z) < 110;
             quarterCamera.position.set(quarter.x + 12.5, 4, quarter.z - 5.8);
             reflectionSky.position.copy(quarterCamera.position);
-            quarterCamera.update(renderer, reflectionScene);
+            updateCube(quarterCamera, quarterTarget);
             quarterTarget.texture.needsPMREMUpdate = true;
             for (const material of quarter.reflective) {
                 material.envMap = quarterTarget.texture;
@@ -228,7 +238,7 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
             cubeCamera.position.copy(car.position);
             cubeCamera.position.y = 2;
             reflectionSky.position.copy(cubeCamera.position);
-            cubeCamera.update(renderer, reflectionScene);
+            updateCube(cubeCamera, cubeTarget);
             cubeTarget.texture.needsPMREMUpdate = true;
             if (!cubeReady) {
                 car.userData.paint.envMap = cubeTarget.texture;
@@ -263,6 +273,25 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         renderer.toneMapping = previousToneMapping;
     }
     function render(dt, daylight) {
+        const previousTarget = renderer.getRenderTarget();
+        const previousFace = renderer.getActiveCubeFace();
+        const previousMipmap = renderer.getActiveMipmapLevel();
+        const previousToneMapping = renderer.toneMapping;
+        const previousXr = renderer.xr.enabled;
+        let completed = false;
+        try {
+            renderFrame(dt, daylight);
+            completed = true;
+        }
+        finally {
+            if (!completed) {
+                renderer.toneMapping = previousToneMapping;
+                renderer.xr.enabled = previousXr;
+                renderer.setRenderTarget(previousTarget, previousFace, previousMipmap);
+            }
+        }
+    }
+    function renderFrame(dt, daylight) {
         renderer.info.reset();
         updateReflections(dt, daylight);
         if (quality === 'low' || !depthSupported) {

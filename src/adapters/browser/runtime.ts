@@ -18,16 +18,28 @@ window.TBS.createRuntime = function ({
     if (!running) return;
     const dt = Math.max(0, Math.min((now - previous) / 1000 || 0, 0.05));
     previous = now;
-    if (!isHidden()) game.step(dt);
-    frameId = scheduler.request(frame);
+    try {
+      if (!isHidden()) game.step(dt);
+      frameId = scheduler.request(frame);
+    } catch (error) {
+      running = false;
+      frameId = 0;
+      throw error;
+    }
   }
 
   function start(): void {
     if (running) return;
     running = true;
-    reset();
-    game.initialize();
-    frameId = scheduler.request(frame);
+    try {
+      reset();
+      game.initialize();
+      frameId = scheduler.request(frame);
+    } catch (error) {
+      running = false;
+      frameId = 0;
+      throw error;
+    }
   }
 
   function stop(): void {

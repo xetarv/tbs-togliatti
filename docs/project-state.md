@@ -1,5 +1,36 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 57 - targeted reliability fixes - 16 October 2026
+
+Started clean at published b8cc9fb7ca430eda6ca6a505504a205004d7d642; fetch confirmed
+main/origin/main equality. All four Astra findings were still applicable.
+
+- Graphics preset lookup now requires own properties at initialization and in
+  setQuality; inherited/invalid keys fall back to medium. Valid presets are unchanged.
+- App error reporting logs the original thrown value and formats primitives/null/
+  undefined safely, including a fallback for hostile message getters/coercion.
+- Failed render passes restore prior target, cube face, mip level, toneMapping and
+  XR enabled state in finally. CubeCamera mipmap flags are also restored. Successful
+  render order, shader strings, materials and all quality values are unchanged.
+- Runtime frame/start failures clear running/frameId and rethrow the original error;
+  explicit restart is possible without duplicate live scheduling.
+
+Permanent tests cover inherited profiles, arbitrary exceptions, seven render-failure
+paths (quarter/car cube, water, main, post, low, no-depth), successful render routes,
+and initialize/step/hidden/scheduler failures plus restart. Addressed first against
+TS sources using Node's erased annotations without modifying dist. Eight existing
+r149 old/new successful-path fixtures also match. One final build/check passed
+strict TS7, ESLint, formatting, current dist and 69/69 tests; diff --check passed.
+Limited Edge file:// check passed real valid/invalid profiles, renderer-failure
+restoration, subsequent high water/car/quarter reflections, runtime restart and
+throw-null startup reporting. No unintentional runtime/WebGL/resource errors.
+
+Only app/runtime/graphics production code, three generated outputs, minimal consumed
+r149 declarations, regression tests and these status records changed. No dependency,
+architecture, gameplay or rendering-quality change. Historical diagnostics untouched;
+new compact evidence: ../tbs-reliability-stage57-20261016. No full audit, benchmark,
+push or stage 58. One local stage-57 checkpoint; xetarv/GitHub noreply identity.
+
 ## R4 stage 56 - Production TypeScript migration complete - 15 October 2026
 
 All production JavaScript in src has been migrated: 89 production TS, 90 classic

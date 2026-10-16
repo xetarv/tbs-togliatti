@@ -4,9 +4,21 @@
   const api = window.TBS;
   function reportError(error: unknown) {
     console.error(error);
+    let message: string;
+    try {
+      message =
+        error !== null &&
+        (typeof error === 'object' || typeof error === 'function') &&
+        'message' in error
+          ? String(error.message)
+          : String(error);
+    } catch {
+      // Keep the original value in the console even if its getters/coercion fail.
+      message = 'Не удалось получить описание ошибки';
+    }
     const toast = document.getElementById('toast');
     if (toast) {
-      toast.textContent = 'Ошибка запуска 3D: ' + (error as { message?: unknown }).message;
+      toast.textContent = 'Ошибка запуска 3D: ' + message;
       toast.classList.add('show');
     }
     const startButton = document.getElementById('startBtn') as HTMLButtonElement | null;
