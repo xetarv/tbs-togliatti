@@ -6,24 +6,47 @@
 
 ## Найти систему
 
-| Задача / слой                                   | Начать с исходников                                                                                                                                                                                                                                                                                                                                    | Контракты и ближайшие проверки                                                                                                                                                                                                                                                                                          |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Правила, данные, движение (`domain`)            | [config.ts](../src/domain/config.ts), [state.ts](../src/domain/state.ts), [player-physics.ts](../src/domain/player-physics.ts), [road-network.ts](../src/domain/road-network.ts), [traffic.ts](../src/domain/traffic.ts)                                                                                                                               | [game-contracts.d.ts](../types/game-contracts.d.ts): `GameState`, `PlayerState`, `GameConfig`, `TrafficVehicle`; [physics.test.cjs](../tests/physics.test.cjs), [traffic.test.cjs](../tests/traffic.test.cjs)                                                                                                           |
-| Сценарий кадра, сессия, задания (`application`) | [game.ts](../src/application/game.ts), [session.ts](../src/application/session.ts), [mission-controller.ts](../src/application/mission-controller.ts), [missions.ts](../src/domain/missions.ts)                                                                                                                                                        | `GameDependencies`, `GameFramePorts`, `MissionRoutes` в game-contracts; [application.test.cjs](../tests/application.test.cjs), [missions.test.cjs](../tests/missions.test.cjs)                                                                                                                                          |
-| Сборка приложения (`bootstrap`)                 | [game.ts](../src/bootstrap/game.ts), [presentation.ts](../src/bootstrap/presentation.ts), [world.ts](../src/bootstrap/world.ts)                                                                                                                                                                                                                        | [bootstrap-contracts.d.ts](../types/bootstrap-contracts.d.ts): `BuildGameOptions`, `BootstrapPorts`, `PresentationState`; [presentation-contracts.d.ts](../types/presentation-contracts.d.ts)                                                                                                                           |
-| Цикл, ввод, UI и звук (`adapters`)              | [runtime.ts](../src/adapters/browser/runtime.ts), [controls.ts](../src/adapters/input/controls.ts), [camera.ts](../src/adapters/input/camera.ts), [ui/](../src/adapters/ui/), [audio/](../src/adapters/audio/)                                                                                                                                         | `RuntimeOptions`, `GameRuntime`, `InputOptions` в bootstrap-contracts; UI/audio/camera в presentation-contracts; [runtime.test.cjs](../tests/runtime.test.cjs), [input.test.cjs](../tests/input.test.cjs)                                                                                                               |
-| Модели и отображение транспорта                 | [car-model.ts](../src/adapters/vehicles/car-model.ts), [player-car.ts](../src/adapters/vehicles/player-car.ts), [fastback.ts](../src/adapters/vehicles/fastback.ts), [simulation/traffic.ts](../src/adapters/simulation/traffic.ts)                                                                                                                    | `CarModels`, `CarModelsOptions` в presentation-contracts; [car-model-contracts.d.ts](../types/car-model-contracts.d.ts), [fastback-contracts.d.ts](../types/fastback-contracts.d.ts), [traffic-view-contracts.d.ts](../types/traffic-view-contracts.d.ts)                                                               |
-| Строительство мира                              | [resources.ts](../src/adapters/world/resources.ts), [terrain.ts](../src/adapters/world/terrain.ts), [roads.ts](../src/adapters/world/roads.ts), [parks.ts](../src/adapters/world/parks.ts), [buildings.ts](../src/adapters/world/buildings.ts), [showcase.ts](../src/adapters/world/showcase.ts), [population.ts](../src/adapters/world/population.ts) | [world-contracts.d.ts](../types/world-contracts.d.ts): `WorldOptions`, `WorldResources`, `WorldConstructionState`; [world-showcase-contracts.d.ts](../types/world-showcase-contracts.d.ts), [world-resources-contracts.d.ts](../types/world-resources-contracts.d.ts)                                                   |
-| Рендер, освещение, отсечение                    | [scene.ts](../src/adapters/rendering/scene.ts), [lighting.ts](../src/adapters/rendering/lighting.ts), [display.ts](../src/adapters/rendering/display.ts), [graphics.ts](../src/adapters/rendering/graphics.ts), [vegetation-culling.ts](../src/adapters/rendering/vegetation-culling.ts)                                                               | [rendering-contracts.d.ts](../types/rendering-contracts.d.ts), [graphics-contracts.d.ts](../types/graphics-contracts.d.ts), [vegetation-contracts.d.ts](../types/vegetation-contracts.d.ts); [reliability.test.cjs](../tests/reliability.test.cjs), [vegetation-culling.test.cjs](../tests/vegetation-culling.test.cjs) |
+### Правила, данные, движение (`domain`)
 
-Для обычного изменения: строка таблицы → нужная фабрика → её аргументы/результат в
-`types/` → непосредственный вызывающий код → ближайший тест. Не читай весь слой.
+[config.ts](../src/domain/config.ts), [state.ts](../src/domain/state.ts), [player-physics.ts](../src/domain/player-physics.ts), [road-network.ts](../src/domain/road-network.ts), [traffic.ts](../src/domain/traffic.ts)
 
-```sh
-rg -n 'createTrafficCar|TrafficVariant' src types tests
-rg -n 'window\.TBS|globalThis\.TBS' src/bootstrap src/adapters/vehicles
-rg --files src/adapters/world types tests
-```
+[game-contracts.d.ts](../types/game-contracts.d.ts): `GameState`, `PlayerState`, `GameConfig`, `TrafficVehicle`; [physics.test.cjs](../tests/physics.test.cjs), [traffic.test.cjs](../tests/traffic.test.cjs)
+
+### Сценарий кадра, сессия, задания (`application`)
+
+[game.ts](../src/application/game.ts), [session.ts](../src/application/session.ts), [mission-controller.ts](../src/application/mission-controller.ts), [missions.ts](../src/domain/missions.ts)
+
+`GameDependencies`, `GameFramePorts`, `MissionRoutes` в game-contracts; [application.test.cjs](../tests/application.test.cjs), [missions.test.cjs](../tests/missions.test.cjs)
+
+### Сборка приложения (`bootstrap`)
+
+[game.ts](../src/bootstrap/game.ts), [presentation.ts](../src/bootstrap/presentation.ts), [world.ts](../src/bootstrap/world.ts)
+
+[bootstrap-contracts.d.ts](../types/bootstrap-contracts.d.ts): `BuildGameOptions`, `BootstrapPorts`, `PresentationState`; [presentation-contracts.d.ts](../types/presentation-contracts.d.ts)
+
+### Цикл, ввод, UI и звук (`adapters`)
+
+[runtime.ts](../src/adapters/browser/runtime.ts), [controls.ts](../src/adapters/input/controls.ts), [camera.ts](../src/adapters/input/camera.ts), [ui/](../src/adapters/ui/), [audio/](../src/adapters/audio/)
+
+`RuntimeOptions`, `GameRuntime`, `InputOptions` в bootstrap-contracts; UI/audio/camera в presentation-contracts; [runtime.test.cjs](../tests/runtime.test.cjs), [input.test.cjs](../tests/input.test.cjs)
+
+### Модели и отображение транспорта
+
+[car-model.ts](../src/adapters/vehicles/car-model.ts), [player-car.ts](../src/adapters/vehicles/player-car.ts), [fastback.ts](../src/adapters/vehicles/fastback.ts), [simulation/traffic.ts](../src/adapters/simulation/traffic.ts)
+
+`CarModels`, `CarModelsOptions` в presentation-contracts; [car-model-contracts.d.ts](../types/car-model-contracts.d.ts), [fastback-contracts.d.ts](../types/fastback-contracts.d.ts), [traffic-view-contracts.d.ts](../types/traffic-view-contracts.d.ts)
+
+### Строительство мира
+
+[resources.ts](../src/adapters/world/resources.ts), [terrain.ts](../src/adapters/world/terrain.ts), [roads.ts](../src/adapters/world/roads.ts), [parks.ts](../src/adapters/world/parks.ts), [buildings.ts](../src/adapters/world/buildings.ts), [showcase.ts](../src/adapters/world/showcase.ts), [population.ts](../src/adapters/world/population.ts)
+
+[world-contracts.d.ts](../types/world-contracts.d.ts): `WorldOptions`, `WorldResources`, `WorldConstructionState`; [world-showcase-contracts.d.ts](../types/world-showcase-contracts.d.ts), [world-resources-contracts.d.ts](../types/world-resources-contracts.d.ts)
+
+### Рендер, освещение, отсечение
+
+[scene.ts](../src/adapters/rendering/scene.ts), [lighting.ts](../src/adapters/rendering/lighting.ts), [display.ts](../src/adapters/rendering/display.ts), [graphics.ts](../src/adapters/rendering/graphics.ts), [vegetation-culling.ts](../src/adapters/rendering/vegetation-culling.ts)
+
+[rendering-contracts.d.ts](../types/rendering-contracts.d.ts), [graphics-contracts.d.ts](../types/graphics-contracts.d.ts), [vegetation-contracts.d.ts](../types/vegetation-contracts.d.ts); [reliability.test.cjs](../tests/reliability.test.cjs), [vegetation-culling.test.cjs](../tests/vegetation-culling.test.cjs)
 
 ## Запуск, реестр и реальные зависимости
 
@@ -164,7 +187,24 @@ renderer на уровне приложения. Статическая карт
 Правила выбора проверок — [AGENTS.md](../AGENTS.md). Команды определены в
 [package.json](../package.json): build → classic dist, check → lint/format/build:check/test.
 Число тестов смотри в результате конкретной проверки, не в этой карте.
-Для запуска/DOM/WebGL используй [check-browser.cjs](../tools/check-browser.cjs), сохраняя старые снимки.
 Для глубокой работы с типами — [typescript-build.md](typescript-build.md), с оптимизациями —
 [vegetation-culling.md](vegetation-culling.md), [signal-housing-batching.md](signal-housing-batching.md),
 [driving-performance.md](driving-performance.md). Читать их нужно по задаче, не перед каждым изменением.
+
+## Компактный шаблон задания Codex
+
+Постоянные правила — в AGENTS.md; в задании достаточно специфики задачи:
+
+```text
+Цель: конкретный результат и критерий приёмки.
+Область: целевые модули/контракты; что вне задачи; ожидаемая Git-основа.
+Инварианты: соблюдать AGENTS.md; дополнительные ограничения этой задачи.
+Проверки: адресные сценарии; итоговые проверки по AGENTS.md.
+Остановка: после результата либо при конфликте/риске/необходимости выйти за область.
+Git: разрешён ли один локальный коммит; разрешён ли push (по умолчанию — нет).
+```
+
+Для оценки следующей задачи фиксируй число прочитанных файлов и повторных чтений,
+повторных полных проверок и усечённых выводов; сопоставляй только задачи близкого объёма
+с одинаковыми критериями приёмки. Токены сравнивай лишь при наличии фактической
+статистики среды с указанием источника; размер документов не равен расходу токенов.
