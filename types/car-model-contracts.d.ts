@@ -1,4 +1,10 @@
 // Real factory boundaries and implementations are checked together after R3.
+interface ThreeObjectHandle {
+  removeFromParent: () => this;
+}
+interface ThreeFastbackInstancedMesh {
+  dispose: () => void;
+}
 interface ThreeColorHandle {
   readonly isColor: true;
   setHex: (hex: number) => this;

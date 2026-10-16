@@ -1,4 +1,6 @@
 // Exact consumed r149 operations; these merge with existing structural handles.
+type TrafficViewPort = GameFramePorts['traffic'] & { readonly version: number };
+
 interface ThreeMatrix4Handle {
   clone: () => ThreeMatrix4Handle;
   multiplyMatrices: (a: ThreeMatrix4Handle, b: ThreeMatrix4Handle) => this;

@@ -166,7 +166,7 @@ type TrafficVariant = 'compact' | 'van' | 'sedan' | 'shuttle';
 type SignalPhase = 'green' | 'amber' | 'red';
 
 interface TrafficVehicle extends VehicleFootprint {
-  id: number;
+  readonly id: number;
   horizontal: boolean;
   dir: 1 | -1;
   variant: TrafficVariant;
@@ -199,7 +199,11 @@ interface TrafficOptions extends Pick<
 }
 
 interface TrafficSimulation {
-  traffic: TrafficVehicle[];
+  readonly traffic: TrafficVehicle[];
+  /** Mutate membership only through these methods; the shared array identity is stable. */
+  addVehicle: (variant?: TrafficVariant) => TrafficVehicle;
+  removeVehicle: (id: number) => boolean;
+  readonly version: number;
   signalPhase: (x: number, z: number, horizontal: boolean, atTime?: number) => SignalPhase;
   trafficLimit: (
     vehicle: TrafficLaneVehicle,

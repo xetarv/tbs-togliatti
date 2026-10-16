@@ -19,6 +19,7 @@ window.TBS.createLighting = function ({
   cityFacadeLights,
   car,
   getGraphics,
+  getTrafficVersion = () => 0,
 }: LightingOptions) {
   let lightMode = 0;
 
@@ -31,11 +32,24 @@ window.TBS.createLighting = function ({
     sunlightDusk = new T.Color(0xff9561);
 
   const reflectionMaterials = new Map<ThreeMaterialHandle, number>();
-
-  scene.traverse((object) => {
-    if (object.material && !Array.isArray(object.material) && 'envMapIntensity' in object.material)
-      reflectionMaterials.set(object.material, object.material.envMapIntensity!);
-  });
+  let trafficVersion = getTrafficVersion();
+  function refreshReflectionMaterials(): void {
+    const present = new Set<ThreeMaterialHandle>();
+    scene.traverse((object) => {
+      if (
+        object.material &&
+        !Array.isArray(object.material) &&
+        'envMapIntensity' in object.material
+      ) {
+        present.add(object.material);
+        if (!reflectionMaterials.has(object.material))
+          reflectionMaterials.set(object.material, object.material.envMapIntensity!);
+      }
+    });
+    for (const material of reflectionMaterials.keys())
+      if (!present.has(material)) reflectionMaterials.delete(material);
+  }
+  refreshReflectionMaterials();
 
   const nearbyStreetLights = Array.from({ length: lowPower ? 1 : 3 }, () => {
     const lamp = new T.PointLight(0xffe1b3, 0, 18, 2);
@@ -112,7 +126,13 @@ window.TBS.createLighting = function ({
       quarter.poolMaterial.opacity = night * 0.16;
     }
     for (const lamp of car.userData.headlights) lamp.intensity = 2.6 + night * 48;
-    if (Math.abs(appliedLight - state.lightValue) > 0.0001) {
+    const version = getTrafficVersion();
+    const membershipChanged = trafficVersion !== version;
+    if (membershipChanged) {
+      refreshReflectionMaterials();
+      trafficVersion = version;
+    }
+    if (membershipChanged || Math.abs(appliedLight - state.lightValue) > 0.0001) {
       appliedLight = state.lightValue;
       sky.material.uniforms.daylight.value = state.lightValue;
       const fog = scene.fog;

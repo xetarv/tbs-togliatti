@@ -3,6 +3,8 @@
 window.TBS.createTrafficView = function ({
   traffic,
   signalPhase,
+  getTrafficVersion,
+  removeVehicle,
   T,
   roadsX,
   roadsZ,
@@ -13,11 +15,12 @@ window.TBS.createTrafficView = function ({
   trimMat,
   box,
   createTrafficCar,
+  disposeTrafficCar,
   camera,
   animateVehicle,
   getGraphics,
   unitBox,
-}: TrafficViewOptions): GameFramePorts['traffic'] {
+}: TrafficViewOptions): TrafficViewPort {
   const signalHeads: TrafficSignalHead[] = [];
   const housingBatches = new Map<string, TrafficHousingPart[]>();
   const prepareHousing: ((camera: ThreeRenderCameraHandle) => void)[] = [];
@@ -193,9 +196,38 @@ window.TBS.createTrafficView = function ({
     }
   }
 
-  const meshes = new Map<number, TrafficCar>(
-    traffic.map((vehicle) => [vehicle.id, createTrafficCar(vehicle.color, vehicle.variant)]),
-  );
+  const meshes = new Map<number, TrafficCar>();
+  let appliedVersion = -1;
+
+  function synchronize(): void {
+    if (appliedVersion === getTrafficVersion()) return;
+    const ids = new Set(traffic.map((vehicle) => vehicle.id));
+    const errors: unknown[] = [];
+    for (const [id, mesh] of meshes) {
+      if (ids.has(id)) continue;
+      meshes.delete(id);
+      try {
+        disposeTrafficCar(mesh);
+      } catch (error) {
+        errors.push(error);
+      }
+    }
+    for (const vehicle of [...traffic]) {
+      if (meshes.has(vehicle.id)) continue;
+      try {
+        meshes.set(vehicle.id, createTrafficCar(vehicle.color, vehicle.variant));
+      } catch (error) {
+        // The factory rolls back its own allocations; remove the unrenderable source too.
+        removeVehicle(vehicle.id);
+        errors.push(error);
+      }
+    }
+    appliedVersion = getTrafficVersion();
+    if (errors.length) {
+      traffic.forEach(placeTraffic);
+      throw new AggregateError(errors, 'Traffic model synchronization failed');
+    }
+  }
 
   function placeTraffic(t: TrafficVehicle): void {
     const mesh = meshes.get(t.id)!;
@@ -207,11 +239,26 @@ window.TBS.createTrafficView = function ({
     mesh.rotation.y = -t.heading;
   }
 
+  try {
+    synchronize();
+  } catch (error) {
+    const errors = [error];
+    for (const mesh of meshes.values()) {
+      try {
+        disposeTrafficCar(mesh);
+      } catch (cleanupError) {
+        errors.push(cleanupError);
+      }
+    }
+    meshes.clear();
+    throw new AggregateError(errors, 'Initial traffic model construction failed', { cause: error });
+  }
   traffic.forEach(placeTraffic);
 
   updateSignals();
 
   function update(dt: number): void {
+    synchronize();
     updateSignals();
     for (const vehicle of traffic) {
       placeTraffic(vehicle);
@@ -221,5 +268,10 @@ window.TBS.createTrafficView = function ({
       if (mesh.visible) animateVehicle(mesh, vehicle.speed, 0, vehicle.braking, dt);
     }
   }
-  return Object.freeze({ update });
+  return Object.freeze({
+    update,
+    get version() {
+      return appliedVersion;
+    },
+  });
 };

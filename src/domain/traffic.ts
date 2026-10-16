@@ -59,6 +59,32 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
   }
 
   const traffic = Array.from({ length: 36 }, (_, index) => createVehicle(index));
+  let nextId = traffic.length,
+    version = 0;
+
+  function addVehicle(variant?: TrafficVariant): TrafficVehicle {
+    if (variant !== undefined && !variants.includes(variant))
+      throw new RangeError('Unknown traffic variant');
+    if (!Number.isSafeInteger(nextId)) throw new RangeError('Traffic IDs exhausted');
+    const vehicle = createVehicle(nextId);
+    if (variant !== undefined) {
+      vehicle.variant = variant;
+      vehicle.cruise = (variant === 'shuttle' ? 6.5 : 7) + ((nextId * 1.37) % 3);
+    }
+    nextId++;
+    traffic.push(vehicle);
+    version++;
+    return vehicle;
+  }
+
+  function removeVehicle(id: number): boolean {
+    if (!Number.isSafeInteger(id) || id < 0) return false;
+    const index = traffic.findIndex((vehicle) => vehicle.id === id);
+    if (index < 0) return false;
+    traffic.splice(index, 1);
+    version++;
+    return true;
+  }
 
   function crossingOccupied(
     vehicle: TrafficLaneVehicle,
@@ -152,5 +178,15 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     traffic.forEach((vehicle, index) => advanceVehicle(vehicle, limits[index], dt));
   }
 
-  return Object.freeze({ traffic, signalPhase, trafficLimit, advanceTraffic });
+  return Object.freeze({
+    traffic,
+    signalPhase,
+    trafficLimit,
+    advanceTraffic,
+    addVehicle,
+    removeVehicle,
+    get version() {
+      return version;
+    },
+  });
 };

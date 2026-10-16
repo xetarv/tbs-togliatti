@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.createTrafficView = function ({ traffic, signalPhase, T, roadsX, roadsZ, ROAD, scene, dark, laneMat, trimMat, box, createTrafficCar, camera, animateVehicle, getGraphics, unitBox, }) {
+window.TBS.createTrafficView = function ({ traffic, signalPhase, getTrafficVersion, removeVehicle, T, roadsX, roadsZ, ROAD, scene, dark, laneMat, trimMat, box, createTrafficCar, disposeTrafficCar, camera, animateVehicle, getGraphics, unitBox, }) {
     const signalHeads = [];
     const housingBatches = new Map();
     const prepareHousing = [];
@@ -141,15 +141,67 @@ window.TBS.createTrafficView = function ({ traffic, signalPhase, T, roadsX, road
             });
         }
     }
-    const meshes = new Map(traffic.map((vehicle) => [vehicle.id, createTrafficCar(vehicle.color, vehicle.variant)]));
+    const meshes = new Map();
+    let appliedVersion = -1;
+    function synchronize() {
+        if (appliedVersion === getTrafficVersion())
+            return;
+        const ids = new Set(traffic.map((vehicle) => vehicle.id));
+        const errors = [];
+        for (const [id, mesh] of meshes) {
+            if (ids.has(id))
+                continue;
+            meshes.delete(id);
+            try {
+                disposeTrafficCar(mesh);
+            }
+            catch (error) {
+                errors.push(error);
+            }
+        }
+        for (const vehicle of [...traffic]) {
+            if (meshes.has(vehicle.id))
+                continue;
+            try {
+                meshes.set(vehicle.id, createTrafficCar(vehicle.color, vehicle.variant));
+            }
+            catch (error) {
+                // The factory rolls back its own allocations; remove the unrenderable source too.
+                removeVehicle(vehicle.id);
+                errors.push(error);
+            }
+        }
+        appliedVersion = getTrafficVersion();
+        if (errors.length) {
+            traffic.forEach(placeTraffic);
+            throw new AggregateError(errors, 'Traffic model synchronization failed');
+        }
+    }
     function placeTraffic(t) {
         const mesh = meshes.get(t.id);
         mesh.position.set(t.horizontal ? t.pos : t.road + t.lane, 0.08, t.horizontal ? t.road + t.lane : t.pos);
         mesh.rotation.y = -t.heading;
     }
+    try {
+        synchronize();
+    }
+    catch (error) {
+        const errors = [error];
+        for (const mesh of meshes.values()) {
+            try {
+                disposeTrafficCar(mesh);
+            }
+            catch (cleanupError) {
+                errors.push(cleanupError);
+            }
+        }
+        meshes.clear();
+        throw new AggregateError(errors, 'Initial traffic model construction failed', { cause: error });
+    }
     traffic.forEach(placeTraffic);
     updateSignals();
     function update(dt) {
+        synchronize();
         updateSignals();
         for (const vehicle of traffic) {
             placeTraffic(vehicle);
@@ -160,5 +212,10 @@ window.TBS.createTrafficView = function ({ traffic, signalPhase, T, roadsX, road
                 animateVehicle(mesh, vehicle.speed, 0, vehicle.braking, dt);
         }
     }
-    return Object.freeze({ update });
+    return Object.freeze({
+        update,
+        get version() {
+            return appliedVersion;
+        },
+    });
 };

@@ -42,6 +42,8 @@ function setup(enabled) {
     laneMat,
     box,
     traffic: [],
+    getTrafficVersion: () => 0,
+    removeVehicle: () => false,
     roadsX: [26, 110],
     roadsZ: [30, 110],
     ROAD: 12.4,

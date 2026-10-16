@@ -1,5 +1,55 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 63 - dynamic road traffic membership - 16 October 2026
+
+Started clean on main at published 5fbdec1ea9de30b6406f12eca0695240efd6304f;
+local origin/main matched, xetarv/GitHub noreply author and committer confirmed.
+TrafficSimulation adds addVehicle(variant?), removeVehicle(id) and a membership version.
+IDs start after the unchanged initial 0..35 and are never reused; invalid variants
+throw RangeError, missing/invalid removals return false without changing version.
+The original array is mutated in place, preserving physics/audio consumers.
+TrafficView reconciles ID membership only on version changes, retains existing models,
+and exposes its applied version. Pending changes take effect on the next traffic
+update (playing, before player physics). Factory failures clean up their own allocations
+and remove unrenderable sources before propagating the error; surviving models and
+simulation membership stay aligned. Failed initial view construction releases completed
+traffic models too. Ordinary per-frame positioning/visibility/animation is unchanged.
+
+CarModels now owns per-car allocations explicitly: scoped native constructor tracking
+plus local wrappers around verified allocating geometry/material/texture helpers.
+disposeTrafficCar is idempotent and ignores foreign models. Shared box geometry,
+materials, logo and the factory-wide shadow texture survive removals; individual
+geometry/material/texture allocations and InstancedMesh buffers are released.
+Original helpers/builders, model-selection map, Fastback and parked vehicles remain.
+One necessary consumer adjustment: lighting's material list refreshes by the applied
+visual version, not the pending simulation version, avoiding stale references, incorrect
+night intensity and missed changes across pause/resume. No new world lifecycle system.
+
+Seven addressed regressions cover membership, IDs, native r149 resource ownership and
+construction failure, repeated view reconciliation, real physics collision inputs,
+night lighting across pending updates, and cleanup after failed initial construction.
+Native baseline comparison matched all 36 records through 300 simulation steps and
+all four model hierarchies, geometry buffers, material values/sharing, transforms,
+instance matrices and animation. Node Canvas is stubbed; this is not a pixel claim.
+Final build/check passed strict TS7, ESLint, formatting, 90 classic outputs and 91/91
+tests; diff --check passed. Real Edge file smoke passed startup/driving/pause, camera,
+lighting/audio, quality presets, resize and mobile touch. Its dynamic check exercised
+three add/remove cycles (compact/van/shuttle) and one intentionally failed sedan build:
+initial 36 and array identity retained, no duplicate models, failed source rolled back,
+127 individual native geometry/InstancedMesh resources disposed once, shared resources
+untouched. Renderer geometry count was 808 before and after the cycles. A premature
+memory assertion in the diagnostic hook was corrected to run after removal; the first
+check stopped at ESLint's preserve-caught-error rule, fixed without suppressing it.
+No FPS benchmark or full-frame pixel claim. Only the final successful check ran the
+full 91-test suite; addressed tests were repeated for relevant changes.
+Compact comparison/browser helpers and baseline sources are outside the repository
+in ../tbs-traffic-stage63-20261016. Historical diagnostics are untouched.
+
+Direct membership mutation, arbitrary IDs and automatic district streaming are not
+supported. Removing a model alone does not remove its simulation source: use the domain
+API. The shared factory shadow texture lives with the factory; world/app teardown and
+arbitrary new-quarter lighting remain outside scope. Local commit only; no push/№64.
+
 ## Stage 62 - explicit reflection source snapshots - 16 October 2026
 
 Started clean at published fdbf2562d0b7b28a9b348bd76226c6a354160703; fetch confirmed

@@ -382,6 +382,8 @@ interface FastbackOptions extends Pick<BootstrapWorld, 'T' | 'scene' | 'makeText
 interface CarModels {
   createHeroCar: () => FastbackCar;
   createTrafficCar: (color: number, variant?: TrafficVariant) => TrafficCar;
+  /** Detach and release only this factory's individually owned allocations, once. */
+  disposeTrafficCar: (car: TrafficCar) => boolean;
   animateVehicle: (
     mesh: FastbackCar | TrafficCar,
     speed: number,
@@ -476,8 +478,10 @@ type TrafficViewOptions = Pick<
   | 'unitBox'
 > &
   GraphicsAccess &
-  Pick<CarModels, 'createTrafficCar' | 'animateVehicle'> &
-  Pick<TrafficSimulation, 'traffic' | 'signalPhase'>;
+  Pick<CarModels, 'createTrafficCar' | 'disposeTrafficCar' | 'animateVehicle'> &
+  Pick<TrafficSimulation, 'traffic' | 'signalPhase' | 'removeVehicle'> & {
+    getTrafficVersion: () => number;
+  };
 interface AmbiencePort {
   update: (player: PlayerState, traffic: readonly TrafficVehicle[], elapsed: number) => void;
   levels: { water: number; city: number; traffic: number };
@@ -555,7 +559,7 @@ type LightingOptions = Pick<
   Pick<BootstrapDom, 'getElement'> &
   VisualContext &
   GraphicsAccess &
-  GameFramePorts['notifications'] & { car: FastbackCar };
+  GameFramePorts['notifications'] & { car: FastbackCar; getTrafficVersion?: () => number };
 type PedestriansOptions = Pick<
   BootstrapWorld,
   | 'mat'
@@ -598,7 +602,7 @@ interface TbsRegistry {
   createPlayerCar: (options: PlayerCarOptions) => PlayerCarPort;
   createGraphics: (options: GraphicsOptions) => GraphicsPort;
   createDisplay: (options: DisplayOptions) => { graphics: GraphicsPort };
-  createTrafficView: (options: TrafficViewOptions) => GameFramePorts['traffic'];
+  createTrafficView: (options: TrafficViewOptions) => TrafficViewPort;
   createAmbience: AmbienceFactory;
   createSound: (options: SoundOptions) => SoundPort;
   createHud: (options: HudOptions) => GameFramePorts['hud'];

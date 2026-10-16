@@ -1,14 +1,27 @@
 'use strict';
-window.TBS.createLighting = function ({ T, scene, lowPower, getElement, showToast, player, state, camera, ambientLight, sun, blueLight, sky, duskSun, nightWindows, streetFixtures, cityFacadeLights, car, getGraphics, }) {
+window.TBS.createLighting = function ({ T, scene, lowPower, getElement, showToast, player, state, camera, ambientLight, sun, blueLight, sky, duskSun, nightWindows, streetFixtures, cityFacadeLights, car, getGraphics, getTrafficVersion = () => 0, }) {
     let lightMode = 0;
     const lightModes = ['День', 'Вечер', 'Ночь', 'Авто'];
     const fogDay = new T.Color(0x91abb9), fogNight = new T.Color(0x142638);
     const sunlightDay = new T.Color(0xffd4a6), sunlightDusk = new T.Color(0xff9561);
     const reflectionMaterials = new Map();
-    scene.traverse((object) => {
-        if (object.material && !Array.isArray(object.material) && 'envMapIntensity' in object.material)
-            reflectionMaterials.set(object.material, object.material.envMapIntensity);
-    });
+    let trafficVersion = getTrafficVersion();
+    function refreshReflectionMaterials() {
+        const present = new Set();
+        scene.traverse((object) => {
+            if (object.material &&
+                !Array.isArray(object.material) &&
+                'envMapIntensity' in object.material) {
+                present.add(object.material);
+                if (!reflectionMaterials.has(object.material))
+                    reflectionMaterials.set(object.material, object.material.envMapIntensity);
+            }
+        });
+        for (const material of reflectionMaterials.keys())
+            if (!present.has(material))
+                reflectionMaterials.delete(material);
+    }
+    refreshReflectionMaterials();
     const nearbyStreetLights = Array.from({ length: lowPower ? 1 : 3 }, () => {
         const lamp = new T.PointLight(0xffe1b3, 0, 18, 2);
         scene.add(lamp);
@@ -69,7 +82,13 @@ window.TBS.createLighting = function ({ T, scene, lowPower, getElement, showToas
         }
         for (const lamp of car.userData.headlights)
             lamp.intensity = 2.6 + night * 48;
-        if (Math.abs(appliedLight - state.lightValue) > 0.0001) {
+        const version = getTrafficVersion();
+        const membershipChanged = trafficVersion !== version;
+        if (membershipChanged) {
+            refreshReflectionMaterials();
+            trafficVersion = version;
+        }
+        if (membershipChanged || Math.abs(appliedLight - state.lightValue) > 0.0001) {
             appliedLight = state.lightValue;
             sky.material.uniforms.daylight.value = state.lightValue;
             const fog = scene.fog;

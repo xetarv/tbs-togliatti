@@ -27,6 +27,8 @@ window.TBS.buildPresentation = function ({ world, state, presentation, traffic, 
         ...shared,
         traffic: traffic.traffic,
         signalPhase: traffic.signalPhase,
+        removeVehicle: traffic.removeVehicle,
+        getTrafficVersion: () => traffic.version,
     });
     const audio = api.createSound({
         state: presentation,
@@ -50,7 +52,7 @@ window.TBS.buildPresentation = function ({ world, state, presentation, traffic, 
     });
     const markers = api.createMissionMarkers({ ...context, target: missions.target });
     const camera = api.createCameraControls(shared);
-    const lighting = api.createLighting(shared);
+    const lighting = api.createLighting({ ...shared, getTrafficVersion: () => trafficView.version });
     const pedestrians = api.createPedestrians(shared);
     const drones = api.createDrones(context);
     const animation = api.createWorldAnimation(context);
