@@ -3,11 +3,15 @@ const assert = require('node:assert/strict');
 const T = require('../assets/three.min.js');
 const { loadModules } = require('./helpers.cjs');
 
-function simulationFixture() {
+function simulationFixture(options = {}) {
   const { TBS } = loadModules(['dist/domain/config.js', 'dist/domain/traffic.js']);
   return {
     TBS,
-    simulation: TBS.createTrafficSimulation({ ...TBS.config, player: { x: -100, z: -100 } }),
+    simulation: TBS.createTrafficSimulation({
+      ...TBS.config,
+      player: { x: -100, z: -100 },
+      ...options,
+    }),
   };
 }
 
@@ -391,4 +395,58 @@ test('failed initial view creation releases previously completed traffic models'
     assert.equal(car.parent, null);
     assert.equal(f.models.disposeTrafficCar(car), false, 'Already released');
   }
+});
+
+test('adaptive cycles keep native views within budget and release all individual resources', () => {
+  const player = { x: 68, z: 30, speed: 0 };
+  const { simulation: s } = simulationFixture({ player, dynamicTraffic: true });
+  const f = modelFixture();
+  const owned = new Set();
+  let created = 0,
+    maxPerCar = 0;
+  const view = f.TBS.createTrafficView({
+    T: f.library,
+    scene: f.scene,
+    unitBox: f.unitBox,
+    box: f.box,
+    dark: f.sharedMaterial,
+    trimMat: f.sharedMaterial,
+    laneMat: f.sharedMaterial,
+    roadsX: [],
+    roadsZ: [],
+    ROAD: 12.4,
+    traffic: s.traffic,
+    signalPhase: s.signalPhase,
+    getTrafficVersion: () => s.version,
+    removeVehicle: s.removeVehicle,
+    camera: new T.PerspectiveCamera(),
+    getGraphics: () => ({ distance: 135 }),
+    ...f.models,
+    createTrafficCar(color, variant) {
+      const before = new Set(f.resources.keys());
+      const model = f.models.createTrafficCar(color, variant);
+      const allocated = [...f.resources.keys()].filter((resource) => !before.has(resource));
+      for (const resource of allocated) owned.add(resource);
+      maxPerCar = Math.max(maxPerCar, allocated.length);
+      created++;
+      return model;
+    },
+  });
+  for (let tick = 0; tick < 1200; tick++) {
+    if (tick === 600) Object.assign(player, { x: 362, z: 270 });
+    s.advanceTraffic(0.05);
+    view.update(0);
+    assert.equal(f.scene.children.length, s.traffic.length);
+    assert.equal(new Set(f.scene.children).size, s.traffic.length);
+    assert.ok(s.traffic.length <= 36);
+  }
+  assert.ok(created > 36, 'Actual native replacement models were built');
+  const liveOwned = [...owned].filter((resource) => f.resources.get(resource) === 0).length;
+  assert.ok(liveOwned <= 36 * maxPerCar);
+  for (const vehicle of [...s.traffic]) s.removeVehicle(vehicle.id);
+  view.update(0);
+  assert.equal(f.scene.children.length, 0);
+  for (const resource of owned) assert.equal(f.resources.get(resource), 1, resource.type);
+  for (const resource of f.shared)
+    assert.equal(f.resources.get(resource), 0, 'Shared ' + resource.type);
 });

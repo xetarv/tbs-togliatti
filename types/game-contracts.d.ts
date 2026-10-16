@@ -180,6 +180,13 @@ interface TrafficVehicle extends VehicleFootprint {
 }
 
 type TrafficVehicleInit = Omit<TrafficVehicle, 'x' | 'z' | 'heading'> & Partial<VehicleFootprint>;
+/** Existing road axis and lane direction; lane offset/heading are derived by the simulation. */
+interface TrafficPlacement {
+  horizontal: boolean;
+  road: number;
+  dir: 1 | -1;
+  pos: number;
+}
 type TrafficNeighbor = Pick<TrafficVehicle, 'horizontal' | 'road' | 'pos'> & { dir?: number };
 type TrafficLaneVehicle = Pick<
   TrafficVehicle,
@@ -195,13 +202,16 @@ interface TrafficOptions extends Pick<
   GameConfig,
   'roadsX' | 'roadsZ' | 'ROAD' | 'WORLD_W' | 'WORLD_H'
 > {
-  player: PointXZ;
+  player: PointXZ & Partial<Pick<PlayerState, 'speed'>>;
+  parkedVehicles?: readonly VehicleFootprint[];
+  /** Bootstrap enables this by default; omitted for legacy standalone simulation callers. */
+  dynamicTraffic?: boolean;
 }
 
 interface TrafficSimulation {
   readonly traffic: TrafficVehicle[];
   /** Mutate membership only through these methods; the shared array identity is stable. */
-  addVehicle: (variant?: TrafficVariant) => TrafficVehicle;
+  addVehicle: (variant?: TrafficVariant, placement?: TrafficPlacement) => TrafficVehicle;
   removeVehicle: (id: number) => boolean;
   readonly version: number;
   signalPhase: (x: number, z: number, horizontal: boolean, atTime?: number) => SignalPhase;

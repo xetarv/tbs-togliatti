@@ -7,6 +7,8 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
   WORLD_W,
   WORLD_H,
   player,
+  parkedVehicles = [],
+  dynamicTraffic = false,
 }: TrafficOptions): Readonly<TrafficSimulation> {
   let time = 0;
   const colors = [0xf4a063, 0xe2e7e8, 0x88bbcf, 0xd8eee8];
@@ -60,19 +62,45 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
 
   const traffic = Array.from({ length: 36 }, (_, index) => createVehicle(index));
   let nextId = traffic.length,
-    version = 0;
+    version = 0,
+    densityElapsed = 0;
+  const born = new Map(traffic.map((vehicle) => [vehicle.id, time]));
 
-  function addVehicle(variant?: TrafficVariant): TrafficVehicle {
+  function validatePlacement(placement: TrafficPlacement | undefined): void {
+    if (
+      placement !== undefined &&
+      (!placement ||
+        typeof placement.horizontal !== 'boolean' ||
+        ![1, -1].includes(placement.dir) ||
+        !(placement.horizontal ? roadsZ : roadsX).includes(placement.road) ||
+        !Number.isFinite(placement.pos) ||
+        placement.pos < (placement.horizontal ? -8 : 19) ||
+        placement.pos > (placement.horizontal ? WORLD_W : WORLD_H) + 8)
+    )
+      throw new RangeError('Invalid traffic placement');
+  }
+
+  function addVehicle(variant?: TrafficVariant, placement?: TrafficPlacement): TrafficVehicle {
     if (variant !== undefined && !variants.includes(variant))
       throw new RangeError('Unknown traffic variant');
     if (!Number.isSafeInteger(nextId)) throw new RangeError('Traffic IDs exhausted');
+    validatePlacement(placement);
     const vehicle = createVehicle(nextId);
     if (variant !== undefined) {
       vehicle.variant = variant;
       vehicle.cruise = (variant === 'shuttle' ? 6.5 : 7) + ((nextId * 1.37) % 3);
     }
+    if (placement) {
+      vehicle.horizontal = placement.horizontal;
+      vehicle.road = placement.road;
+      vehicle.dir = placement.dir;
+      vehicle.pos = placement.pos;
+      vehicle.lane = (vehicle.horizontal ? vehicle.dir : -vehicle.dir) * 2.7;
+      placeVehicle(vehicle);
+    }
     nextId++;
     traffic.push(vehicle);
+    born.set(vehicle.id, time);
     version++;
     return vehicle;
   }
@@ -82,8 +110,86 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     const index = traffic.findIndex((vehicle) => vehicle.id === id);
     if (index < 0) return false;
     traffic.splice(index, 1);
+    born.delete(id);
     version++;
     return true;
+  }
+
+  // Road geometry is fixed by configuration; enumerate eligible block midpoints once.
+  function placementsFor(horizontal: boolean): TrafficPlacement[] {
+    const placements: TrafficPlacement[] = [];
+    const roads = horizontal ? roadsZ : roadsX;
+    const crosses = horizontal ? roadsX : roadsZ;
+    for (const road of roads) {
+      for (let i = 0; i < crosses.length - 1; i++) {
+        const pos = (crosses[i] + crosses[i + 1]) / 2;
+        if (
+          !Number.isFinite(pos) ||
+          pos < (horizontal ? 4 : 23) ||
+          pos > (horizontal ? WORLD_W : WORLD_H) - 4 ||
+          crosses.some((cross) => Math.abs(cross - pos) < ROAD / 2 + 8)
+        )
+          continue;
+        placements.push({ horizontal, road, dir: 1, pos }, { horizontal, road, dir: -1, pos });
+      }
+    }
+    return placements;
+  }
+  const placements = dynamicTraffic ? [...placementsFor(true), ...placementsFor(false)] : [];
+
+  // Event-sized work, never a scene scan. Spawn outside the current 135-unit view
+  // budget plus the normal chase/orbit-camera offset; keep a wider retirement band.
+  function findPlacement(minDistance: number): TrafficPlacement | undefined {
+    let best: TrafficPlacement | undefined,
+      bestDistance = Infinity;
+    for (const placement of placements) {
+      const { horizontal, road, dir, pos } = placement;
+      if (
+        Math.abs(road - (horizontal ? player.z : player.x)) > 70 ||
+        ((horizontal ? player.x : player.z) - pos) * dir <= 0
+      )
+        continue;
+      const lane = (horizontal ? dir : -dir) * 2.7;
+      const x = horizontal ? pos : road + lane,
+        z = horizontal ? road + lane : pos;
+      const distance = Math.hypot(x - player.x, z - player.z);
+      if (distance < minDistance || distance > 230 || distance >= bestDistance) continue;
+      if (
+        traffic.some((vehicle) => Math.hypot(x - vehicle.x, z - vehicle.z) < 14) ||
+        parkedVehicles.some((vehicle) => Math.hypot(x - vehicle.x, z - vehicle.z) < 14)
+      )
+        continue;
+      best = placement;
+      bestDistance = distance;
+    }
+    return best;
+  }
+
+  function updateDensity(dt: number): void {
+    if (!dynamicTraffic) return;
+    densityElapsed += dt;
+    if (densityElapsed < 3) return;
+    densityElapsed %= 3; // One bounded cycle even after an unusually long caller step.
+    if (!Number.isFinite(player.x) || !Number.isFinite(player.z)) return;
+    const speed = Math.abs(player.speed ?? 0);
+    if (!Number.isFinite(speed)) return;
+    const minDistance = Math.max(190, speed * 3 + 20);
+    const retireDistance = Math.max(270, minDistance + 40);
+    let distant: TrafficVehicle | undefined,
+      farthest = retireDistance;
+    for (const vehicle of traffic) {
+      if (time - (born.get(vehicle.id) ?? time) < 15) continue;
+      const distance = Math.hypot(vehicle.x - player.x, vehicle.z - player.z);
+      if (distance > farthest) {
+        distant = vehicle;
+        farthest = distance;
+      }
+    }
+    if (distant) removeVehicle(distant.id);
+    if (traffic.length < 36) {
+      const placement = findPlacement(minDistance);
+      if (placement) addVehicle(undefined, placement);
+    }
   }
 
   function crossingOccupied(
@@ -176,6 +282,7 @@ globalThis.TBS.domain.createTrafficSimulation = function ({
     time += dt;
     const limits = traffic.map((vehicle) => trafficLimit(vehicle));
     traffic.forEach((vehicle, index) => advanceVehicle(vehicle, limits[index], dt));
+    updateDensity(dt);
   }
 
   return Object.freeze({

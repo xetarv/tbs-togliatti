@@ -4,6 +4,7 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
     const { domain, application } = api;
     const { config, math, collision } = domain;
     const controls = { reset: () => domain.resetControls(state.keys) };
+    const parkedVehicles = world.parkedCars.map((car) => ({ x: car.x, z: car.z, heading: car.a }));
     const traffic = domain.createTrafficSimulation({
         roadsX: config.roadsX,
         roadsZ: config.roadsZ,
@@ -11,6 +12,8 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
         WORLD_W: config.WORLD_W,
         WORLD_H: config.WORLD_H,
         player: state.player,
+        parkedVehicles,
+        dynamicTraffic: new URLSearchParams(location.search).get('dynamicTraffic') !== '0',
     });
     const roadNetwork = domain.createRoadNetwork({
         roadsX: config.roadsX,
@@ -25,7 +28,7 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
         bounds: config.bounds,
         roadNetwork,
         movingVehicles: traffic.traffic,
-        parkedVehicles: world.parkedCars.map((car) => ({ x: car.x, z: car.z, heading: car.a })),
+        parkedVehicles,
         clamp: math.clamp,
         vehicleContact: collision.vehicleContact,
     });

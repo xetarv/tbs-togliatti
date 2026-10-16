@@ -1,5 +1,57 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 64 - bounded adaptive road traffic - 16 October 2026
+
+Started clean at 08ff500314a2bb9890e540317ed78221374eba78, matching local origin/main;
+xetarv/GitHub noreply author/committer confirmed. No history synchronization or push.
+The original 36 and their generation are unchanged. Bootstrap enables adaptive density
+by default and parses dynamicTraffic=0/1; standalone domain callers retain legacy mode
+unless they opt in. The parked-vehicle snapshot is shared with physics. No DOM/Three
+dependency was added to domain, no new production module or script order change.
+
+Density runs only via active advanceTraffic, after existing movement and before view
+reconciliation/player physics. One cycle per 3 active seconds, at most one retirement
+and one spawn (including large dt: no catch-up loop). The controller never spawns above
+36; near cars are never evicted to fill a quota. Residence before retirement is at
+least 15 active seconds; born-ID entries are deleted with sources. Retirement radius
+is at least 270, spawning 190..230, separation at least 14 from traffic and parked cars.
+Speed adds a conservative three-second safety horizon. Candidates are finite road-block
+midpoints outside junctions, on the existing +/-2.7 lanes, directed into the player's
+neighborhood; perpendicular road offset is at most 70. No safe candidate means no spawn
+and no consumed ID. New placement is a small typed extension to addVehicle; invalid
+roads/directions/positions throw RangeError before mutation. Shared-array, ID/version,
+model-disposal and lighting synchronization from stage 63 are reused unchanged.
+Road candidates are cached once for the existing fixed configuration; future road
+editing would need an explicit rebuild contract. Existing ESLint complexity/depth
+limits were preserved by separating validation/static candidates from live selection.
+
+Seven added regressions and all existing checks passed: build/check, strict TS7,
+ESLint/formatting, 90 classic scripts and 98/98 tests. Disabled mode matches the
+published stage-63 baseline for the initial 36 and every vehicle state/signal phase
+over 3600 steps (180 active seconds). Native r149 repeated adaptive cycles kept views
+aligned, IDs unique, population <=36 and individual resources disposable exactly once.
+Both Edge file smoke modes passed startup, driving, pause/resume, camera, lighting,
+sound, presets and mobile touch. Enabled desktop used the default (no query), mobile
+used explicit dynamicTraffic=1; the other run used 0. Each addressed run advanced 72
+controlled simulation seconds at two road locations, reconciling native views and
+periodically rendering. This is not a timed GPU/FPS benchmark or natural-route replay.
+
+Observed mode 0: 36 final/peak cars, 36 total models, no retirements; 1710 live observed
+owned geometry/paint/instance resources. Mode 1: 14 additions, 20 removals, 30 final/36
+peak cars, 50 total models; 1348 live and 1026 individually disposed observed resources.
+Every retired observed resource emitted disposal once, with no duplicate models.
+Renderer memory counters: both started at 802 geometries/75 textures; finished at
+1021/82 (off), 881/79 (on). Uploads vary as cars move into view: these counters are not
+byte totals, an identical-image comparison or a proof of FPS improvement.
+
+Limits: distant appearance is conservative for the current 135-unit traffic visibility
+and normal chase/orbit offset, not arbitrary camera teleports or future view-distance
+changes. Some central positions have no eligible out-of-view midpoint; population may
+remain below budget. Manual external additions are not forcibly capped/evicted.
+No new models/UI, physics/rules changes, renderer changes or FPS claim. Existing
+diagnostics are preserved; compact new helpers/baseline evidence and browser results
+are isolated in ../tbs-adaptive-stage64-20261016. Local commit only; no push or stage 65.
+
 ## Stage 63 - dynamic road traffic membership - 16 October 2026
 
 Started clean on main at published 5fbdec1ea9de30b6406f12eca0695240efd6304f;
