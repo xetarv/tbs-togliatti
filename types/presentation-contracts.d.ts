@@ -344,11 +344,14 @@ interface BootstrapDom {
   mctx: CanvasRenderingContext2D;
 }
 
+/** After disposal render/resize are no-ops; quality setters/getters retain the last preset. */
 interface GraphicsPort {
+  /** Releases only this adapter's resources; repeated calls are safe. */
+  dispose: () => void;
   render: GameFramePorts['graphics']['render'];
   resize: () => void;
   /** The adapter accepts arbitrary strings and falls back to medium for an unknown preset. */
-  setQuality: (quality: string) => void;
+  setQuality: (quality: string) => GraphicsPort['quality'];
   readonly quality: 'low' | 'medium' | 'high';
   readonly distance: number;
   readonly depthSupported: boolean;

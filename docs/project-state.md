@@ -1,5 +1,43 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 61 - owned graphics resource disposal - 16 October 2026
+
+Started clean at published a89b693ee16764a7263308fd53ce11bd9e831cd5; fetch confirmed
+main/origin/main equality. GraphicsPort now exposes idempotent dispose. Ownership is
+limited to the adapter's scene/depth/cube/optional-quarter/water targets, fullscreen
+geometry/material, shared proxy geometry and deduplicated proxy materials. Cloned
+boats/sky share world resources and are detached without recursive GPU disposal.
+Native r149 target deallocation disposes uploaded depth through the renderer listener;
+a temporary depth-dispose observer supplies cleanup only if that listener did not run
+(e.g. target never rendered), avoiding duplicate depth disposal.
+
+Only still-owned environment-map bindings and water uniforms/hooks are restored or
+removed. Superseding external replacements are preserved, terrain wave data remains,
+and a retained disposed shader wrapper cannot reattach freed reflection targets.
+Renderer autoReset is restored when still owned; an own bound target is detached,
+foreign bindings preserved. No renderer/world/foreign material/texture disposal.
+Renderer-owned caches, including PMREM, remain its owner's responsibility.
+After disposal render/resize are no-op, setQuality returns the last quality and getters
+remain readable. Neither ordinary quality/resize nor disposal stops the runtime.
+Native RenderTarget.setSize disposal events remain the original r149 resize behavior.
+
+Display owns its quality/resize listeners; input/audio/other adapters retain theirs.
+Bootstrap presentation still composes those ports. Full app teardown, world recreation,
+event removal and renderer destruction are outside this stage. No new manager/layer.
+
+Four new native lifecycle regression tests and existing reliability tests passed first
+against erased TS sources. Eight old/new active pipeline fixtures also match shader
+strings, uniforms, passes, quality/depth/quarter/storage scenarios and transforms.
+Final build/check passed strict TS7, ESLint and 80/80 tests; diff --check passed.
+Real Edge file test passed startup and all presets, then observed 38 own resources
+disposed exactly once, including actually uploaded r149 depth. Foreign resources and
+renderer stayed usable, repeated disposal/post-dispose no-ops passed and direct world
+render after cleanup used the restored terrain water shader without errors.
+No FPS/full-frame pixel claim; prior diagnostics untouched. Compact new evidence:
+../tbs-gpu-stage61-20261016. Changes are confined to graphics TS/dist, consumed types,
+one regression test and existing docs. One local checkpoint; xetarv/GitHub noreply.
+No push or stage 62.
+
 ## Stage 60 - exhaustive static traffic model selection - 16 October 2026
 
 Started clean at published cf618d44b6830a512ea747bcc7a93c56f70a8145; fetch confirmed

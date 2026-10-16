@@ -1,6 +1,10 @@
 /* Local graphics pipeline for the bundled Three.js r149. No external assets. */
 'use strict';
 window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, water, buildings, facades, reflectObjects = [], initialQuality, }) {
+    let disposed = false;
+    const waterBindings = new Map();
+    const environmentMaps = new Map();
+    const originalAutoReset = renderer.info.autoReset;
     const presets = {
         low: { ratio: 1, shadow: 0, ao: 0, bloom: 0, reflection: 0, distance: 85 },
         medium: { ratio: 1.3, shadow: 1024, ao: 0.35, bloom: 0.09, reflection: 0, distance: 110 },
@@ -57,7 +61,8 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         #include <encodings_fragment>
       }`,
     });
-    postScene.add(new T.Mesh(new T.PlaneGeometry(2, 2), postMaterial));
+    const postGeometry = new T.PlaneGeometry(2, 2);
+    postScene.add(new T.Mesh(postGeometry, postMaterial));
     // A small reflection scene reproduces nearby building volumes and facades.
     const reflectionScene = new T.Scene();
     reflectionScene.environment = scene.environment;
@@ -109,11 +114,26 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
     const mirrorCamera = new T.PerspectiveCamera(), mirrorDirection = new T.Vector3(), reflectionMatrix = new T.Matrix4();
     let cubeReady = false, waterReady = false;
     const originalCompile = water.onBeforeCompile;
-    water.onBeforeCompile = (shader) => {
+    const compileWater = (shader) => {
         originalCompile(shader);
+        if (disposed)
+            return;
+        const previous = waterBindings.get(shader)?.previous || {
+            waterReflection: shader.uniforms.waterReflection,
+            waterReflectionMatrix: shader.uniforms.waterReflectionMatrix,
+            reflectionStrength: shader.uniforms.reflectionStrength,
+        };
         shader.uniforms.waterReflection = { value: waterTarget.texture };
         shader.uniforms.waterReflectionMatrix = { value: reflectionMatrix };
         shader.uniforms.reflectionStrength = { value: 0 };
+        waterBindings.set(shader, {
+            previous,
+            installed: {
+                waterReflection: shader.uniforms.waterReflection,
+                waterReflectionMatrix: shader.uniforms.waterReflectionMatrix,
+                reflectionStrength: shader.uniforms.reflectionStrength,
+            },
+        });
         shader.vertexShader =
             'uniform mat4 waterReflectionMatrix;varying vec4 vWaterReflection;\n' + shader.vertexShader;
         shader.vertexShader = shader.vertexShader.replace('#include <project_vertex>', 'vWaterReflection=waterReflectionMatrix*modelMatrix*vec4(transformed,1.0);\n#include <project_vertex>');
@@ -129,8 +149,17 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
       outgoingLight=mix(outgoingLight,reflected,inFrame*reflectionStrength*(.1+.38*fresnel));
       #include <output_fragment>`);
     };
+    water.onBeforeCompile = compileWater;
     water.needsUpdate = true;
+    function setEnvironmentMap(material, map) {
+        if (!environmentMaps.has(material))
+            environmentMaps.set(material, material.envMap);
+        material.envMap = map;
+        material.needsUpdate = true;
+    }
     function resize() {
+        if (disposed)
+            return;
         renderer.setPixelRatio(Math.min(devicePixelRatio || 1, settings.ratio));
         renderer.setSize(innerWidth, innerHeight, false);
         const size = renderer.getDrawingBufferSize(new T.Vector2());
@@ -141,6 +170,8 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         waterDue = -10;
     }
     function setQuality(value) {
+        if (disposed)
+            return quality;
         quality = Object.hasOwn(presets, value) ? value : 'medium';
         settings = presets[quality];
         renderer.shadowMap.enabled = settings.shadow > 0;
@@ -155,14 +186,11 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
             }
         });
         if (!settings.reflection) {
-            car.userData.paint.envMap = null;
-            car.userData.paint.needsUpdate = true;
+            setEnvironmentMap(car.userData.paint, null);
         }
         if (quarter)
             for (const material of quarter.reflective) {
-                material.envMap =
-                    settings.reflection && quarterDaylight >= 0 ? quarterTarget.texture : null;
-                material.needsUpdate = true;
+                setEnvironmentMap(material, settings.reflection && quarterDaylight >= 0 ? quarterTarget.texture : null);
             }
         cubeDue = -10;
         waterDue = -10;
@@ -225,8 +253,7 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
             updateCube(quarterCamera, quarterTarget);
             quarterTarget.texture.needsPMREMUpdate = true;
             for (const material of quarter.reflective) {
-                material.envMap = quarterTarget.texture;
-                material.needsUpdate = true;
+                setEnvironmentMap(material, quarterTarget.texture);
             }
             for (const proxy of proxies)
                 proxy.visible =
@@ -241,14 +268,12 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
             updateCube(cubeCamera, cubeTarget);
             cubeTarget.texture.needsPMREMUpdate = true;
             if (!cubeReady) {
-                car.userData.paint.envMap = cubeTarget.texture;
-                car.userData.paint.needsUpdate = true;
+                setEnvironmentMap(car.userData.paint, cubeTarget.texture);
                 cubeReady = true;
             }
             // Switching back from a cheaper preset restores the same reusable target.
             if (car.userData.paint.envMap !== cubeTarget.texture) {
-                car.userData.paint.envMap = cubeTarget.texture;
-                car.userData.paint.needsUpdate = true;
+                setEnvironmentMap(car.userData.paint, cubeTarget.texture);
             }
         }
         if (refreshWater) {
@@ -273,6 +298,8 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         renderer.toneMapping = previousToneMapping;
     }
     function render(dt, daylight) {
+        if (disposed)
+            return;
         const previousTarget = renderer.getRenderTarget();
         const previousFace = renderer.getActiveCubeFace();
         const previousMipmap = renderer.getActiveMipmapLevel();
@@ -307,8 +334,85 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
         renderer.setRenderTarget(null);
         renderer.render(postScene, postCamera);
     }
+    function dispose() {
+        if (disposed)
+            return;
+        disposed = true;
+        const targets = [sceneTarget, cubeTarget, quarterTarget, waterTarget];
+        if (targets.some((target) => target !== null && renderer.getRenderTarget() === target))
+            renderer.setRenderTarget(null);
+        for (const [material, original] of environmentMaps) {
+            if (material.envMap === cubeTarget.texture ||
+                (quarterTarget && material.envMap === quarterTarget.texture)) {
+                material.envMap = original;
+                material.needsUpdate = true;
+            }
+        }
+        environmentMaps.clear();
+        let recompileWater = false;
+        for (const [shader, binding] of waterBindings) {
+            for (const name of [
+                'waterReflection',
+                'waterReflectionMatrix',
+                'reflectionStrength',
+            ]) {
+                if (shader.uniforms[name] !== binding.installed[name])
+                    continue;
+                const previous = binding.previous[name];
+                if (previous)
+                    shader.uniforms[name] = previous;
+                else
+                    delete shader.uniforms[name];
+                recompileWater = true;
+            }
+        }
+        waterBindings.clear();
+        if (water.onBeforeCompile === compileWater) {
+            water.onBeforeCompile = originalCompile;
+            recompileWater = true;
+        }
+        if (recompileWater)
+            water.needsUpdate = true;
+        // Native Mesh.clone shares materials/geometries: detach clones, never dispose them.
+        reflectionScene.remove(...reflectionScene.children);
+        reflectionScene.environment = null;
+        postScene.remove(...postScene.children);
+        reflectionObjects.length = 0;
+        proxies.length = 0;
+        postGeometry.dispose();
+        postMaterial.dispose();
+        proxyGeometry.dispose();
+        for (const material of proxyMaterials.values())
+            material.dispose();
+        proxyMaterials.clear();
+        // r149's renderer disposes an initialized target's depth texture via its listener.
+        // A never-rendered target has no such listener, so dispose that texture explicitly.
+        const depth = sceneTarget.depthTexture;
+        let depthDisposed = false;
+        const onDepthDispose = () => {
+            depthDisposed = true;
+        };
+        if (depth)
+            depth.addEventListener('dispose', onDepthDispose);
+        try {
+            sceneTarget.dispose();
+            if (depth && !depthDisposed)
+                depth.dispose();
+        }
+        finally {
+            if (depth)
+                depth.removeEventListener('dispose', onDepthDispose);
+        }
+        cubeTarget.dispose();
+        if (quarterTarget)
+            quarterTarget.dispose();
+        waterTarget.dispose();
+        if (renderer.info.autoReset === false)
+            renderer.info.autoReset = originalAutoReset;
+    }
     setQuality(quality);
     return {
+        dispose,
         render,
         resize,
         setQuality,

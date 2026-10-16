@@ -62,8 +62,17 @@ interface ThreeRendererHandle {
   render: (scene: ThreeSceneHandle, camera: ThreeRenderCameraHandle) => void;
 }
 interface ThreeTextureHandle {
+  dispose: () => void;
+  addEventListener: (type: 'dispose', listener: () => void) => void;
+  removeEventListener: (type: 'dispose', listener: () => void) => void;
   generateMipmaps: boolean;
   needsPMREMUpdate: boolean;
+}
+interface ThreeGeometryHandle {
+  dispose: () => void;
+}
+interface ThreeMaterialHandle {
+  dispose: () => void;
 }
 interface ThreeStandardMaterialHandle {
   envMap: ThreeTextureHandle | null;
