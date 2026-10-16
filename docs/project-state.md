@@ -1,5 +1,46 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 62 - explicit reflection source snapshots - 16 October 2026
+
+Started clean at published fdbf2562d0b7b28a9b348bd76226c6a354160703; fetch confirmed
+main/origin/main equality and xetarv/GitHub noreply author/committer identity.
+GraphicsPort now accepts ordered snapshots through setReflectionObjects and
+setReflectionBuildings. Maps reconcile by source/descriptor identity, deduplicate
+inputs, retain existing clones/proxies and forget removed entries. Building changes
+are applied when descriptors are explicitly resubmitted. Unused owned proxy materials
+are disposed; shared proxy geometry lives until graphics disposal. Native clones borrow
+world resources, which are never recursively disposed. Identical snapshots do not
+invalidate quarter reflections; changed snapshots refresh quarter even at unchanged
+daylight, subject to the original proximity and time gates. Cube/water schedules and
+position/quaternion/distance visibility semantics remain unchanged. No per-frame scan
+of world membership, target recreation or new global registry. After dispose both
+snapshot methods are no-ops; existing cleanup remains idempotent.
+
+Four added native r149 regression tests cover identity/order, duplicates, transforms,
+removal, changing building descriptors/material sharing, repeated churn/disposal and
+all 13 cube/water/quarter passes with existing throttling, unchanged snapshots and
+fully empty sets without invalid native add calls. Addressed lifecycle checks used
+erased TS during development. Eight old/new native pipeline
+fixtures match unchanged shader strings/uniforms, pass order, presets, transforms,
+resize and refresh intervals (controlled renderer, not a pixel comparison).
+Final build/check passed strict TS7, ESLint, formatting, 90 classic scripts and 84/84
+tests; git diff --check passed. Only the classic graphics JS output changed. Real Edge file smoke
+passed startup, driving/pause, camera/lighting/audio, resize, presets and mobile touch.
+Its addressed native WebGL check exercised three add/remove cycles: new clone present
+in all 13 reflection passes, removed clone absent, duplicate registration retained
+identity, removed proxy material disposed once, world resources untouched. Geometry
+count was 801 before and 802 after: one reusable test-source geometry, not per-cycle
+growth. The test then disposed its own geometry/material. Two new screenshots and
+compact verification scripts are outside the repository in
+../tbs-reflections-stage62-20261016; historical artifacts were not overwritten.
+
+Limitations: quarterLighting/reflective, facade textures and lighting.ts material
+collection remain initialization-time contracts; no automatic new-quarter lighting.
+Retained source clones do not automatically rebuild changed nested topology/materials;
+explicit removal and re-addition rebuilds them. No FPS or full-frame pixel claim.
+No streaming/editor/renderer redesign, dependency changes or next stage. One local
+stage checkpoint is authorized; push is not authorized.
+
 ## Stage 61 - owned graphics resource disposal - 16 October 2026
 
 Started clean at published a89b693ee16764a7263308fd53ce11bd9e831cd5; fetch confirmed

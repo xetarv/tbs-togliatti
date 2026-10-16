@@ -104,28 +104,94 @@ window.TBS.createGraphics = function ({
   const proxies: ThreeMarkerMeshHandle<ThreeStandardMaterialHandle>[] = [],
     proxyGeometry = new T.BoxGeometry(1, 1, 1),
     proxyMaterials = new Map<string, ThreeStandardMaterialHandle>();
-  const reflectionObjects = reflectObjects.map((source) => {
-    const mesh = source.clone(true);
-    reflectionScene.add(mesh);
-    return { source, mesh };
-  });
-  for (const b of buildings) {
-    const key = b.color + ':' + (b.seed % facades.length);
-    if (!proxyMaterials.has(key))
-      proxyMaterials.set(
-        key,
-        new T.MeshStandardMaterial({
-          color: b.color,
-          map: facades[b.seed % facades.length],
-          roughness: 0.65,
-        }),
-      );
-    const proxy = new T.Mesh(proxyGeometry, proxyMaterials.get(key)!);
-    proxy.position.set(b.x, b.h / 2, b.z);
-    proxy.scale.set(b.w, b.h, b.d);
-    reflectionScene.add(proxy);
-    proxies.push(proxy);
+  const reflectionObjects = new Map<ThreeObjectHandle, ThreeObjectHandle>();
+  const buildingProxies = new Map<
+    ReflectionBuilding,
+    ThreeMarkerMeshHandle<ThreeStandardMaterialHandle>
+  >();
+  let quarterDirty = false;
+  // Reconcile only on explicit world changes. Native clones borrow world resources.
+  function orderReflections() {
+    const objects = [...reflectionObjects.values(), ...proxies];
+    reflectionScene.remove(...objects);
+    for (const object of objects) reflectionScene.add(object);
   }
+  function setReflectionObjects(sources: readonly ThreeObjectHandle[]): void {
+    if (disposed) return;
+    const next = new Map<ThreeObjectHandle, ThreeObjectHandle>();
+    const previous = [...reflectionObjects.keys()];
+    for (const source of sources) {
+      if (!next.has(source)) next.set(source, reflectionObjects.get(source) || source.clone(true));
+    }
+    if (
+      next.size === previous.length &&
+      [...next.keys()].every((source, i) => source === previous[i])
+    )
+      return;
+    for (const [source, mesh] of reflectionObjects) {
+      if (!next.has(source)) reflectionScene.remove(mesh);
+    }
+    reflectionObjects.clear();
+    for (const [source, mesh] of next) reflectionObjects.set(source, mesh);
+    orderReflections();
+    quarterDirty = true;
+  }
+  function setReflectionBuildings(sources: readonly ReflectionBuilding[]): void {
+    if (disposed) return;
+    const next = new Map<ReflectionBuilding, ThreeMarkerMeshHandle<ThreeStandardMaterialHandle>>();
+    const usedMaterials = new Set<string>();
+    let changed = false;
+    for (const b of sources) {
+      if (next.has(b)) continue;
+      const key = b.color + ':' + (b.seed % facades.length);
+      if (!proxyMaterials.has(key))
+        proxyMaterials.set(
+          key,
+          new T.MeshStandardMaterial({
+            color: b.color,
+            map: facades[b.seed % facades.length],
+            roughness: 0.65,
+          }),
+        );
+      const proxy = buildingProxies.get(b) || new T.Mesh(proxyGeometry, proxyMaterials.get(key)!);
+      if (
+        proxies[next.size] !== proxy ||
+        proxy.material !== proxyMaterials.get(key) ||
+        proxy.position.x !== b.x ||
+        proxy.position.y !== b.h / 2 ||
+        proxy.position.z !== b.z ||
+        proxy.scale.x !== b.w ||
+        proxy.scale.y !== b.h ||
+        proxy.scale.z !== b.d
+      )
+        changed = true;
+      proxy.material = proxyMaterials.get(key)!;
+      proxy.position.set(b.x, b.h / 2, b.z);
+      proxy.scale.set(b.w, b.h, b.d);
+      next.set(b, proxy);
+      usedMaterials.add(key);
+    }
+    if (!changed && next.size === buildingProxies.size) return;
+    for (const [source, proxy] of buildingProxies) {
+      if (!next.has(source)) reflectionScene.remove(proxy);
+    }
+    buildingProxies.clear();
+    proxies.length = 0;
+    for (const [source, proxy] of next) {
+      buildingProxies.set(source, proxy);
+      proxies.push(proxy);
+    }
+    orderReflections();
+    for (const [key, material] of proxyMaterials) {
+      if (usedMaterials.has(key)) continue;
+      material.dispose();
+      proxyMaterials.delete(key);
+    }
+    quarterDirty = true;
+  }
+  setReflectionObjects(reflectObjects);
+  setReflectionBuildings(buildings);
+  quarterDirty = false;
   const cubeTarget = new T.WebGLCubeRenderTarget(128, {
     generateMipmaps: true,
     minFilter: T.LinearMipmapLinearFilter,
@@ -270,12 +336,12 @@ window.TBS.createGraphics = function ({
     const refreshQuarter =
       quarter &&
       Math.hypot(camera.position.x - quarter.x, camera.position.z - quarter.z) < 90 &&
-      Math.abs(daylight - quarterDaylight) > 0.12 &&
+      (quarterDirty || Math.abs(daylight - quarterDaylight) > 0.12) &&
       clock - quarterDue > 1;
     if (refreshCube || refreshWater || refreshQuarter) {
       ambient.intensity = 0.55 + 1.45 * daylight;
       reflectionSun.intensity = 0.1 + 1.9 * daylight;
-      for (const { source, mesh } of reflectionObjects) {
+      for (const [source, mesh] of reflectionObjects) {
         mesh.position.copy(source.position);
         mesh.quaternion.copy(source.quaternion);
         mesh.visible = source.position.distanceToSquared(car.position) < 120 * 120;
@@ -297,6 +363,7 @@ window.TBS.createGraphics = function ({
       quarterCamera!.position.set(quarter.x + 12.5, 4, quarter.z - 5.8);
       reflectionSky.position.copy(quarterCamera!.position);
       updateCube(quarterCamera!, quarterTarget!);
+      quarterDirty = false;
       quarterTarget!.texture.needsPMREMUpdate = true;
       for (const material of quarter.reflective) {
         setEnvironmentMap(material, quarterTarget!.texture);
@@ -421,7 +488,8 @@ window.TBS.createGraphics = function ({
     reflectionScene.remove(...reflectionScene.children);
     reflectionScene.environment = null;
     postScene.remove(...postScene.children);
-    reflectionObjects.length = 0;
+    reflectionObjects.clear();
+    buildingProxies.clear();
     proxies.length = 0;
     postGeometry.dispose();
     postMaterial.dispose();
@@ -450,6 +518,8 @@ window.TBS.createGraphics = function ({
   setQuality(quality);
   return {
     dispose,
+    setReflectionObjects,
+    setReflectionBuildings,
     render,
     resize,
     setQuality,

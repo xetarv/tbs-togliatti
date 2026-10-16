@@ -139,6 +139,10 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     localStorage: { setItem() {} },
   });
   const external = [...counts.keys()];
+  const buildings = [
+    { x: 0, z: 0, w: 10, h: 20, d: 10, color: 0x123456, seed: 0 },
+    { x: 25, z: 0, w: 8, h: 10, d: 8, color: 0x123456, seed: 0 },
+  ];
   const graphics = TBS.createGraphics({
     T: library,
     renderer,
@@ -147,10 +151,7 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     sky,
     car,
     water,
-    buildings: [
-      { x: 0, z: 0, w: 10, h: 20, d: 10, color: 0x123456, seed: 0 },
-      { x: 25, z: 0, w: 8, h: 10, d: 8, color: 0x123456, seed: 0 },
-    ],
+    buildings,
     facades: [facade],
     reflectObjects: [boat],
     initialQuality: quality,
@@ -182,6 +183,8 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     compile,
     sky,
     boat,
+    buildings,
+    car,
     touches: () => touches,
     rendererDisposals: () => rendererDisposals,
     compileCalls: () => compileCalls,
@@ -299,4 +302,141 @@ test('r149 render-target disposal disposes depth exactly once with or without a 
     f.graphics.dispose();
     assert.equal(f.counts.get(depth), 1);
   }
+});
+
+test('reflection snapshots retain native clones, ordering, shared resources and transform semantics', () => {
+  const f = fixture({ quality: 'high' });
+  const reflection = f.scenes[1];
+  const initial = [...reflection.children];
+  const clone = initial[3];
+  f.graphics.setReflectionObjects([f.boat, f.boat]);
+  f.graphics.setReflectionBuildings([...f.buildings, f.buildings[0]]);
+  assert.deepEqual(
+    reflection.children,
+    initial,
+    'Unchanged sources keep exact initial order and identity',
+  );
+  const added = new T.Mesh(f.boat.children[0].geometry, f.boat.children[0].material);
+  added.position.set(3, 4, 5);
+  added.rotation.y = 0.7;
+  added.scale.set(2, 3, 4);
+  added.visible = false;
+  f.graphics.setReflectionObjects([added, f.boat, added]);
+  const addedClone = reflection.children[3];
+  assert.equal(reflection.children[4], clone);
+  assert.notEqual(addedClone, added);
+  assert.equal(addedClone.material, added.material);
+  assert.equal(addedClone.geometry, added.geometry);
+  f.graphics.render(0.01, 0.5);
+  assert.deepEqual(addedClone.position.toArray(), added.position.toArray());
+  assert.deepEqual(addedClone.quaternion.toArray(), added.quaternion.toArray());
+  assert.deepEqual(addedClone.scale.toArray(), [2, 3, 4]);
+  assert.equal(
+    addedClone.visible,
+    true,
+    'Preserve original distance-based visibility, not source.visible',
+  );
+  added.position.x = 200;
+  f.graphics.render(0.9, 0.5);
+  assert.equal(addedClone.visible, false);
+  f.graphics.setReflectionObjects([f.boat]);
+  assert.equal(addedClone.parent, null);
+  assert.equal(reflection.children[3], clone);
+  assert.ok(!reflection.children.includes(addedClone));
+  for (const resource of f.external) assert.equal(f.counts.get(resource), 0);
+  f.graphics.dispose();
+});
+
+test('building snapshots update retained proxies and retire only unused owned materials', () => {
+  const f = fixture();
+  const reflection = f.scenes[1];
+  const original = reflection.children.slice(4);
+  const sharedMaterial = original[0].material;
+  const added = { x: 30, z: -8, w: 5, d: 6, h: 7, seed: 0, color: 0xabcdef };
+  f.buildings[0].x = 9;
+  f.buildings[0].w = 15;
+  f.graphics.setReflectionBuildings([added, f.buildings[0]]);
+  const addedProxy = reflection.children[4];
+  assert.equal(reflection.children[5], original[0]);
+  assert.equal(original[1].parent, null);
+  assert.deepEqual(original[0].position.toArray(), [9, 10, 0]);
+  assert.deepEqual(original[0].scale.toArray(), [15, 20, 10]);
+  assert.deepEqual(addedProxy.position.toArray(), [30, 3.5, -8]);
+  assert.equal(addedProxy.geometry, original[0].geometry);
+  assert.equal(f.counts.get(sharedMaterial), 0, 'Still used by one retained proxy');
+  const firstMaterial = addedProxy.material;
+  added.color = 0xfedcba;
+  f.graphics.setReflectionBuildings([added]);
+  assert.equal(reflection.children[4], addedProxy);
+  assert.equal(addedProxy.material.color.getHex(), added.color);
+  assert.equal(f.counts.get(firstMaterial), 1);
+  assert.equal(f.counts.get(sharedMaterial), 1);
+  for (let i = 0; i < 4; i++) {
+    f.graphics.setReflectionBuildings([]);
+    f.graphics.setReflectionBuildings([added, added]);
+    assert.equal(reflection.children.length, 5);
+  }
+  f.graphics.setReflectionBuildings([]);
+  assert.equal(reflection.children.length, 4);
+  assert.equal(f.counts.get(original[0].geometry), 0, 'Shared owned geometry remains reusable');
+  f.graphics.dispose();
+  for (const material of f.materials) assert.equal(f.counts.get(material), 1);
+  for (const geometry of f.geometries) assert.equal(f.counts.get(geometry), 1);
+  for (const resource of f.external) assert.equal(f.counts.get(resource), 0);
+  const allocated = f.counts.size;
+  f.graphics.setReflectionObjects([f.boat]);
+  f.graphics.setReflectionBuildings([added]);
+  f.graphics.dispose();
+  assert.equal(f.counts.size, allocated);
+  assert.equal(reflection.children.length, 0);
+});
+
+test('dynamic snapshots reach cube/water/quarter passes at existing refresh intervals', () => {
+  const f = fixture({ quality: 'high' });
+  const reflection = f.scenes[1];
+  const passes = [];
+  f.renderer.render = (scene, camera) => {
+    if (scene === reflection) passes.push({ camera, children: [...scene.children] });
+  };
+  f.graphics.render(0.01, 0.5);
+  assert.equal(passes.length, 13, 'Two six-face cubes and one water pass');
+  passes.length = 0;
+  const added = new T.Group();
+  f.graphics.setReflectionObjects([added]);
+  const clone = reflection.children[3];
+  f.graphics.render(0.01, 0.5);
+  assert.equal(passes.length, 0, 'Composition changes do not bypass throttling');
+  f.graphics.render(1.01, 0.5);
+  assert.equal(passes.length, 13, 'Dirty quarter updates even with unchanged daylight');
+  assert.ok(passes.every((pass) => pass.children.includes(clone)));
+  passes.length = 0;
+  f.graphics.setReflectionObjects([]);
+  assert.equal(clone.parent, null);
+  f.graphics.render(1.01, 0.5);
+  assert.equal(passes.length, 13);
+  assert.ok(passes.every((pass) => !pass.children.includes(clone)));
+  passes.length = 0;
+  f.graphics.setReflectionObjects([]);
+  f.graphics.setReflectionBuildings(f.buildings);
+  f.graphics.render(1.01, 0.5);
+  assert.equal(passes.length, 7, 'Unchanged quarter retains its daylight-based cache');
+  f.graphics.dispose();
+});
+
+test('empty reflection sets keep lights/sky without invalid native add calls', () => {
+  const f = fixture();
+  const reflection = f.scenes[1];
+  const add = reflection.add;
+  reflection.add = function (...objects) {
+    assert.ok(objects.length > 0 && objects.every((object) => object.isObject3D));
+    return add.apply(this, objects);
+  };
+  f.graphics.setReflectionObjects([]);
+  f.graphics.setReflectionBuildings([]);
+  assert.equal(reflection.children.length, 3);
+  f.graphics.setReflectionObjects([]);
+  f.graphics.setReflectionBuildings([]);
+  f.graphics.setReflectionObjects([f.boat]);
+  assert.equal(reflection.children.length, 4);
+  f.graphics.dispose();
 });

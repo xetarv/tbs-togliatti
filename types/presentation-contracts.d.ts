@@ -348,6 +348,11 @@ interface BootstrapDom {
 interface GraphicsPort {
   /** Releases only this adapter's resources; repeated calls are safe. */
   dispose: () => void;
+  /** Ordered snapshots, reconciled by source identity; removed sources are released.
+   * Source clones borrow geometry/materials. Building descriptors can be edited then resubmitted.
+   * Reflections refresh on their existing schedule. Calls after disposal are no-ops. */
+  setReflectionObjects: (sources: readonly ThreeObjectHandle[]) => void;
+  setReflectionBuildings: (sources: readonly ReflectionBuilding[]) => void;
   render: GameFramePorts['graphics']['render'];
   resize: () => void;
   /** The adapter accepts arbitrary strings and falls back to medium for an unknown preset. */
