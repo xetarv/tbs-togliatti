@@ -1,87 +1,138 @@
-# Архитектура и правила разработки
+# Карта архитектуры TBS Togliatti 2040
 
-Игровые правила, сценарии и браузерные реализации имеют отдельные обязанности. Игра сохраняет запуск двойным щелчком по `index.html`: для обычных скриптов используется небольшой реестр фабрик `TBS`. Сборка модулей находится в `src/bootstrap/`.
+Короткий справочник по коду, проверенный на этапе №59. Состояние сессии и результаты
+проверок — только верхняя запись [project-state.md](project-state.md); история работ —
+[typescript-migration-log.md](typescript-migration-log.md). Архивы не нужны для обычной навигации.
 
-```mermaid
-flowchart TD
-    Bootstrap[bootstrap: сборка приложения] --> Domain[domain: игровые правила]
-    Bootstrap --> Application[application: игровые сценарии]
-    Bootstrap --> Adapters[adapters: браузер, Three.js, звук и интерфейс]
-    Application --> Domain
-    Application --> Ports[Переданные интерфейсы адаптеров]
-    Adapters --> Ports
-```
+## Найти систему
 
-Внутренние слои не импортируют браузерные реализации. Сценарий кадра получает интерфейсы через аргументы; `bootstrap` передаёт ему конкретные адаптеры. Тесты выполняют те же сценарии с простыми заменами этих интерфейсов.
+| Задача / слой                                   | Начать с исходников                                                                                                                                                                                                                                                                                                                                    | Контракты и ближайшие проверки                                                                                                                                                                                                                                                                                          |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Правила, данные, движение (`domain`)            | [config.ts](../src/domain/config.ts), [state.ts](../src/domain/state.ts), [player-physics.ts](../src/domain/player-physics.ts), [road-network.ts](../src/domain/road-network.ts), [traffic.ts](../src/domain/traffic.ts)                                                                                                                               | [game-contracts.d.ts](../types/game-contracts.d.ts): `GameState`, `PlayerState`, `GameConfig`, `TrafficVehicle`; [physics.test.cjs](../tests/physics.test.cjs), [traffic.test.cjs](../tests/traffic.test.cjs)                                                                                                           |
+| Сценарий кадра, сессия, задания (`application`) | [game.ts](../src/application/game.ts), [session.ts](../src/application/session.ts), [mission-controller.ts](../src/application/mission-controller.ts), [missions.ts](../src/domain/missions.ts)                                                                                                                                                        | `GameDependencies`, `GameFramePorts`, `MissionRoutes` в game-contracts; [application.test.cjs](../tests/application.test.cjs), [missions.test.cjs](../tests/missions.test.cjs)                                                                                                                                          |
+| Сборка приложения (`bootstrap`)                 | [game.ts](../src/bootstrap/game.ts), [presentation.ts](../src/bootstrap/presentation.ts), [world.ts](../src/bootstrap/world.ts)                                                                                                                                                                                                                        | [bootstrap-contracts.d.ts](../types/bootstrap-contracts.d.ts): `BuildGameOptions`, `BootstrapPorts`, `PresentationState`; [presentation-contracts.d.ts](../types/presentation-contracts.d.ts)                                                                                                                           |
+| Цикл, ввод, UI и звук (`adapters`)              | [runtime.ts](../src/adapters/browser/runtime.ts), [controls.ts](../src/adapters/input/controls.ts), [camera.ts](../src/adapters/input/camera.ts), [ui/](../src/adapters/ui/), [audio/](../src/adapters/audio/)                                                                                                                                         | `RuntimeOptions`, `GameRuntime`, `InputOptions` в bootstrap-contracts; UI/audio/camera в presentation-contracts; [runtime.test.cjs](../tests/runtime.test.cjs), [input.test.cjs](../tests/input.test.cjs)                                                                                                               |
+| Модели и отображение транспорта                 | [car-model.ts](../src/adapters/vehicles/car-model.ts), [player-car.ts](../src/adapters/vehicles/player-car.ts), [fastback.ts](../src/adapters/vehicles/fastback.ts), [simulation/traffic.ts](../src/adapters/simulation/traffic.ts)                                                                                                                    | `CarModels`, `CarModelsOptions` в presentation-contracts; [car-model-contracts.d.ts](../types/car-model-contracts.d.ts), [fastback-contracts.d.ts](../types/fastback-contracts.d.ts), [traffic-view-contracts.d.ts](../types/traffic-view-contracts.d.ts)                                                               |
+| Строительство мира                              | [resources.ts](../src/adapters/world/resources.ts), [terrain.ts](../src/adapters/world/terrain.ts), [roads.ts](../src/adapters/world/roads.ts), [parks.ts](../src/adapters/world/parks.ts), [buildings.ts](../src/adapters/world/buildings.ts), [showcase.ts](../src/adapters/world/showcase.ts), [population.ts](../src/adapters/world/population.ts) | [world-contracts.d.ts](../types/world-contracts.d.ts): `WorldOptions`, `WorldResources`, `WorldConstructionState`; [world-showcase-contracts.d.ts](../types/world-showcase-contracts.d.ts), [world-resources-contracts.d.ts](../types/world-resources-contracts.d.ts)                                                   |
+| Рендер, освещение, отсечение                    | [scene.ts](../src/adapters/rendering/scene.ts), [lighting.ts](../src/adapters/rendering/lighting.ts), [display.ts](../src/adapters/rendering/display.ts), [graphics.ts](../src/adapters/rendering/graphics.ts), [vegetation-culling.ts](../src/adapters/rendering/vegetation-culling.ts)                                                               | [rendering-contracts.d.ts](../types/rendering-contracts.d.ts), [graphics-contracts.d.ts](../types/graphics-contracts.d.ts), [vegetation-contracts.d.ts](../types/vegetation-contracts.d.ts); [reliability.test.cjs](../tests/reliability.test.cjs), [vegetation-culling.test.cjs](../tests/vegetation-culling.test.cjs) |
 
-## Игровые правила
-
-`src/domain/` содержит состояние смены, неизменяемые настройки, дорожную сеть, физику игрока, столкновения, транспорт и задания. В этих файлах нет `window`, DOM, Three.js, аудио или таймеров браузера. ESLint проверяет это ограничение, а тест загружает все внутренние модули в среде без браузерных глобальных объектов.
-
-Физика принимает координаты других автомобилей и возвращает события `impact` и `recharged`. Она не создаёт 3D-объекты и не показывает сообщения. Транспорт рассчитывает собственные координаты, скорости и фазу светофоров; адаптер связывает идентификаторы автомобилей с их моделями. Правила заданий меняют прогресс и возвращают результат взаимодействия с грузом.
-
-Состояние игры содержит режим, прогресс заданий, игрока и управление. Время визуальных эффектов, освещение, сила удара и анимация запуска дрона находятся в отдельном состоянии представления. Настройки карты и заданий рекурсивно защищены от изменения.
-
-## Сценарии и интерфейсы
-
-`src/application/` отвечает за старт и паузу смены, последовательность обновления кадра и взаимодействие с заданием. Эти модули получают только необходимые данные и интерфейсы.
-
-| Интерфейс          | Методы                                                                 | Ответственность                                |
-| ------------------ | ---------------------------------------------------------------------- | ---------------------------------------------- |
-| Физика             | `updatePhysics(dt)`                                                    | Движение игрока и события столкновения/зарядки |
-| Транспорт          | `advanceTraffic(dt)`                                                   | Расчёт движения других машин                   |
-| Звук               | `beginSound()`, `advance(dt)`, `impact(speed)`, `updateSound(braking)` | Воспроизведение и обновление звука             |
-| Маяки              | `launch(point)`, `updateMarkers(dt)`                                   | Отображение целей и эффекта взаимодействия     |
-| Уведомления        | `showToast(message)`                                                   | Сообщение игроку                               |
-| Экран паузы        | `hide()`, `showPaused(title)`                                          | Представление состояния смены                  |
-| Графика            | `render(dt, daylight)`                                                 | Отображение кадра                              |
-| Часы и планировщик | `now()`, `request(callback)`, `cancel(id)`                             | Измерение времени и запуск следующего кадра    |
-
-Браузерный планировщик ограничивает шаг до 50 мс, пропускает скрытую вкладку и сбрасывает время при продолжении игры. Игровой сценарий замораживает физику и движение трафика на паузе. Нажатые клавиши сбрасываются при потере фокуса и переходе на паузу.
-
-## Графика и сборка города
-
-Адаптеры находятся в `src/adapters/`. Геометрические координаты и размеры являются данными моделей. Сложные объекты строятся из отдельных частей: материалы, форма, внешние детали, салон, колёса, свет и оформление. Здания разделены на оболочку, окна, крышу, вход, витрины и детали назначения. Центральный квартал собирается из основания, стен, окон, крыши, павильона, озеленения и освещения.
-
-Машина игрока и обычный транспорт имеют отдельные конструкторы `createHeroCar()` и `createTrafficCar(color, variant)`. Недостижимые ветки старой машины удалены. Совпадение геометрии, материалов и положения всех 11 877 объектов сцены проверено сравнением с сохранённой версией до изменения архитектуры.
-
-## Применение принципов
-
-| Принцип                       | Как применяется в проекте                                                                                                  |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Code Style и Coding Standards | Prettier, EditorConfig, правила ESLint и общая команда проверки                                                            |
-| Чистый код                    | Именованные зависимости, явные результаты действий, небольшие игровые операции и удаление неиспользуемых веток             |
-| Разделение ответственности    | Движение не воспроизводит звук, задания не создают DOM, транспорт не хранит 3D-модели                                      |
-| Архитектура                   | `domain`, `application`, `adapters` и отдельная сборка `bootstrap`                                                         |
-| SOLID                         | Одна обязанность модулей, небольшие интерфейсы и передача реализаций через аргументы; замена адаптеров проверяется тестами |
-| Clean Architecture            | Независимые игровые правила и сценарии, внешние реализации графики/звука/браузера                                          |
-| Паттерны                      | Фабрики модулей, адаптеры, внедрение зависимостей и результаты событий физики                                              |
-
-Проект использует функции и фабрики. Принципы наследования применимы при появлении иерархий классов. Новый паттерн добавляется для конкретной задачи; простая функция не требует дополнительной иерархии или слоя.
-
-## Стиль и проверки
-
-Используйте `camelCase` для функций и переменных, `const` для неизменяемых ссылок, `let` для переназначаемых значений и строгие сравнения. Передавайте зависимости именованными свойствами. Называйте игровые действия по их назначению. Локальные геометрические координаты `x`, `y`, `z`, ширина `w` и глубина `d` допустимы внутри построения моделей. Комментарии объясняют причину решения или единицы измерения.
-
-Prettier отвечает за отступы, переносы, кавычки и оформление JS, HTML, CSS, JSON и Markdown. ESLint отвечает за ошибки JavaScript, неиспользуемые аргументы, небезопасные конструкции, сложность игровых операций и границы слоёв. Правила форматирования не дублируются в ESLint.
+Для обычного изменения: строка таблицы → нужная фабрика → её аргументы/результат в
+`types/` → непосредственный вызывающий код → ближайший тест. Не читай весь слой.
 
 ```sh
-npm run format
-npm run lint
-npm run check
-npm run test:browser
+rg -n 'createTrafficCar|TrafficVariant' src types tests
+rg -n 'window\.TBS|globalThis\.TBS' src/bootstrap src/adapters/vehicles
+rg --files src/adapters/world types tests
 ```
 
-ESLint запускается с нулевым допуском предупреждений. Во внутренних слоях ограничены вложенность, количество инструкций в функции и сложность ветвления. Сгенерированные данные, сторонний Three.js, зависимости и результаты проверок исключены из анализа и форматирования.
+## Запуск, реестр и реальные зависимости
 
-`npm run check` включает анализ, проверку форматирования и 23 теста. Они проверяют доставку, награды, паузу, физику, зарядку, дорожный трафик, светофоры, управление, камеру, планировщик и архитектурные ограничения. Браузерная проверка охватывает автономный запуск, движение, настройки, изменение размера экрана и сенсорное управление. GitHub Actions запускает `npm run check` для push и pull request после публикации изменений в репозитории.
+- [index.html](../index.html) — источник порядка загрузки. Сначала локальные assets
+  Three.js/бренда/асфальта/Fastback, затем [namespace.ts](../src/bootstrap/namespace.ts)
+  через dist; он создаёт `globalThis.TBS`, `.domain`, `.application` с `Object.create(null)`.
+  Остальные classic scripts регистрируют фабрики; последним запускается [app.ts](../src/app.ts).
+- В браузере `window.TBS` и `globalThis.TBS` — тот же реестр. `TbsRegistry` расширяется
+  объявлениями из `types/`; это проверка контрактов, а не загрузчик или DI-контейнер.
+  Объявление типа не гарантирует, что соответствующий скрипт уже загружен.
+- `app.ts`: DOM → `GameState` → `PresentationState` → `buildWorld` → `buildGame` →
+  `runtime.start()`, затем `session.start()` только при `?play`. Обычный старт — кнопкой.
+- `buildWorld`: scene → geometry helpers → vegetation culling → world resources →
+  drone models → terrain → roads → parks → buildings → showcase → population.
+  Возвращаются общие ресурсы и ссылки, а не копия всей сцены.
+- `buildGame`: domain traffic → road network → player physics → mission routes →
+  `buildPresentation` → application game → runtime → session → mission controller → input.
+  Presentation создаёт модели/игрока, display/graphics и остальные адаптеры, возвращая порты.
+- В кадре `application/game.ts` вызывает переданные порты: симуляция (только playing),
+  представление автомобиля/мира/дронов/маяков/камеры/света, затем render и HUD/minimap.
+  Время анимации равно нулю при паузе; не заменяй его общим dt без проверки сценария.
 
-## Добавление функциональности
+`domain` и `application` не знают Three.js/DOM. Данные физики и миссий идут внутрь через
+аргументы, результаты событий — наружу через порты. `GameState` владеет правилами смены;
+`PresentationState` хранит визуальное время/эффекты и геттеры mode/stage;
+`WorldConstructionState` содержит ссылки построения мира. Не объединяй эти состояния.
+Границы защищены [eslint.config.mjs](../eslint.config.mjs) и [architecture.test.cjs](../tests/architecture.test.cjs).
 
-1. Поместите правило, которое можно проверить по обычным данным, в `domain`.
-2. Координацию нескольких действий поместите в `application` и передайте нужные интерфейсы через аргументы.
-3. Работу с браузером, аудио или Three.js реализуйте в адаптере.
-4. Подключите модуль в `index.html` и передайте реализации в `bootstrap`.
-5. При изменении правил добавьте проверку ожидаемого поведения и выполните `npm run check`. При изменении взаимодействия с браузером или графики выполните также `npm run test:browser`.
+## Проверенные маршруты расширения
 
-Новая реализация адаптера должна сохранять контракт его методов. Для проверки правил используйте простые заменяемые интерфейсы без создания браузера или 3D-сцены.
+### A. Новый автомобиль
+
+- Игрок: `createCarModels().createHeroCar()` вызывает `createFastback`; сборка частей —
+  [vehicles/fastback/](../src/adapters/vehicles/fastback/). `createPlayerCar` создаёт игрока,
+  припаркованный транспорт и его визуальное обновление. `animateVehicle` использует
+  реальные wheel/body/light ссылки из userData; смотри `FastbackCar` и контракты traffic.
+- Дорожные модели: `createTrafficCar(color, variant)` и [vehicles/traffic/](../src/adapters/vehicles/traffic/).
+  Варианты фиксированы `TrafficVariant` и массивом в domain/traffic.ts; адаптер
+  simulation/traffic.ts связывает записи `TrafficVehicle` с моделями.
+- Для новой фабрики нужны запись в `TbsRegistry`, скомпилированный скрипт в index.html
+  и явная передача в bootstrap/сборщик. Общего реестра типов автомобилей сейчас нет.
+  Визуальная модель относится к adapters; новое поведение движения — к domain и его тестам.
+  Новая форма кузова сама по себе не меняет размеры коллизии: проверь параметры физики отдельно.
+
+### B. Механика или миссия
+
+- Дополнительная доставка существующего вида — данные в domain/config.ts по
+  `MissionDefinition`/`MissionPoint`. Список должен быть непустым: `MissionRoutes`
+  выбирает текущую запись по missionIndex, а цель — from/to по двум стадиям груза.
+- Новое правило — domain; координация — application. Интеграция взаимодействия уже
+  существует через `MissionRoutes.tryInteract()` → `createMissionController().interact()` →
+  markers/HUD/notifications. Отображение: [markers.ts](../src/adapters/missions/markers.ts),
+  UI и minimap из таблицы; ввод подключается в bootstrap/game.ts.
+- Для самостоятельной механики используй именованные зависимости и при необходимости
+  согласованно дополни `GameFramePorts`/`BootstrapPorts`. Универсального mission-plugin API,
+  интерфейсов инвентаря, оружия или персонажа вне машины нет. Их нельзя считать готовыми.
+  Не добавляй window/THREE/DOM или вызовы адаптеров в domain/application.
+
+### C. Мир и кварталы
+
+- Статическое размещение — terrain/roads/parks/population; фасады и типы зданий —
+  [world/buildings/](../src/adapters/world/buildings/); показательный квартал —
+  [world/showcase/](../src/adapters/world/showcase/). `createShowcase` последовательно
+  дополняет context через `Object.assign`; не переставляй structure/roof/cladding.
+- Текстуры/материалы: resources.ts и [world/resources/](../src/adapters/world/resources/),
+  [visual-assets.ts](../src/adapters/world/visual-assets.ts). Данные размещения и дороги
+  связаны с config, дорожной сетью и границами физики, а не только с размером ground.
+- Для instancing учитывай локальные/мировые трансформации и ветер до instanceMatrix.
+  `VegetationCulling` из world-contracts предоставляет add/register/bounds/partition/setEnabled.
+  После изменения буферов требуется обновить bounds; fail-open не заменяет их пересчёт.
+- Разбиение растительности, статические группы population и корпуса светофоров имеют
+  отдельные экземпляры culling. Один setEnabled не отключает их все. Сохраняй видимые
+  тени и независимость камер. Проверки: [static-batch-culling.test.cjs](../tests/static-batch-culling.test.cjs),
+  [signal-housing.test.cjs](../tests/signal-housing.test.cjs), [trim-stops.test.cjs](../tests/trim-stops.test.cjs).
+- Сначала подготовь scene.userData.waterMaterial (terrain) и quarterLighting (showcase),
+  затем создавай presentation/graphics. Graphics расширяет terrain.onBeforeCompile,
+  использует исходные ссылки материалов/текстур и свои render targets: не заменяй
+  shader hooks, envMap или материалы вне этого контракта.
+
+## Практические ограничения и следующие решения
+
+Это выборочная проверка компоновщиков/потребителей, не полный анализ всех циклов.
+Прямых runtime-зависимостей domain/application от рендеринга в просмотренном коде нет.
+Подтверждены следующие ограничения:
+
+1. **Статическая сборка отражений.** graphics.ts создаёт proxies по buildings и читает
+   quarterLighting при создании; lighting.ts один раз собирает reflectionMaterials.
+   Добавление квартала после запуска автоматически не обновит эти коллекции.
+2. **Нет общего завершения ресурсов.** Публичный `GraphicsPort` (presentation-contracts)
+   и результат createGraphics не имеют dispose; runtime.stop останавливает кадры,
+   но не освобождает GPU-ресурсы и обработчики адаптеров. Пересоздание мира требует
+   отдельного согласованного жизненного цикла, а не повторного запуска app.ts.
+3. **Неявные связи через реестр/userData.** car-model.ts, fastback.ts и world/buildings.ts
+   вызывают дочерние фабрики через TBS; terrain/showcase передают ресурсы graphics через
+   `ThreeSceneUserData` (world-showcase/rendering/world-animation контракты).
+   Нельзя переставлять создание или повторно инициализировать namespace произвольно.
+   В bootstrap/presentation.ts `getGraphics` замыкается на display, создаваемый позднее:
+   он предназначен для последующих обновлений, не для раннего вызова в фабрике игрока.
+
+Возможные отдельные изменения кода (сейчас не реализованы): явное обновление ресурсов
+отражений для динамического мира; ограниченный контракт освобождения созданных ресурсов;
+единая карта выбора существующих моделей транспорта. Каждое требует своего объёма и тестов.
+
+## Проверки и подробности
+
+Правила выбора проверок — [AGENTS.md](../AGENTS.md). Команды определены в
+[package.json](../package.json): build → classic dist, check → lint/format/build:check/test.
+Число тестов смотри в результате конкретной проверки, не в этой карте.
+Для запуска/DOM/WebGL используй [check-browser.cjs](../tools/check-browser.cjs), сохраняя старые снимки.
+Для глубокой работы с типами — [typescript-build.md](typescript-build.md), с оптимизациями —
+[vegetation-culling.md](vegetation-culling.md), [signal-housing-batching.md](signal-housing-batching.md),
+[driving-performance.md](driving-performance.md). Читать их нужно по задаче, не перед каждым изменением.

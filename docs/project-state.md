@@ -1,5 +1,18 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 59 - architecture navigation and Codex guidance - 16 October 2026
+
+Started clean at published e92ded22e3b548f234377d9080fe303d2a3fc52f; fetch confirmed
+main/origin/main equality. AGENTS.md now routes tasks to the existing compact
+docs/refactoring.md map and only the relevant sources/contracts. The map records
+actual startup/TBS wiring, layer boundaries, vehicle/mission/world extension routes
+and selected limits: static reflection collections, missing resource-disposal API,
+and implicit registry/userData/late graphics references. Recommendations are deferred.
+Local links, named contracts/integration functions, documentation formatting and
+diff --check verified. Production files/dist/tests/dependencies and diagnostics
+unchanged. No build/check/browser/FPS audit needed or run for documentation only.
+One local documentation checkpoint; no push, code changes or stage 60.
+
 ## Stage 58 - scene/geometry state contracts - 16 October 2026
 
 Started clean at published 31602a7e0e5e64e40491bca76c01e194d6196d0c; fetch
