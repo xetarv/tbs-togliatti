@@ -16,10 +16,11 @@ interface ThreeNumericAttribute extends ThreeBufferAttributeHandle {
 interface QuarterMutableGeometry {
   clone: () => this;
   scale: (x: number, y: number, z: number) => this;
-  readonly attributes: Record<string, ThreeNumericAttribute>;
+  readonly attributes: Record<string, ThreeNumericAttribute | undefined>;
   dispose: () => void;
 }
 interface ThreeTubeGeometry extends QuarterMutableGeometry {
+  readonly attributes: ThreeSurfaceGeometry['attributes'];
   readonly index: ThreeNumericAttribute;
 }
 interface ThreeCurveHandle {

@@ -29,7 +29,7 @@ interface ThreeLibraryHandle {
     widthSegments?: number,
     heightSegments?: number,
     depthSegments?: number,
-  ) => ThreeGeometryHandle;
+  ) => ThreeSurfaceGeometry;
   BufferGeometry: new () => QuarterMutableGeometry;
   Float32BufferAttribute: new (
     array: ArrayLike<number>,

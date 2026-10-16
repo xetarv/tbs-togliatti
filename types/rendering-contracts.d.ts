@@ -12,7 +12,7 @@ interface ThreeFogHandle {
 }
 interface ThreeSceneHandle {
   background: ThreeColorHandle | null;
-  fog: ThreeFogHandle;
+  fog: ThreeFogHandle | null;
   environment: ThreeTextureHandle | null;
   traverse: (callback: (object: ThreeFastbackChild) => void) => void;
 }

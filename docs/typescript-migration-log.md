@@ -1,5 +1,36 @@
 # TypeScript migration log
 
+## Stage 58 - scene/geometry state contracts - 16 October 2026
+
+Started clean at published 31602a7e0e5e64e40491bca76c01e194d6196d0c; fetch
+confirmed main/origin/main equality. Both overstatements were still present.
+Scene.fog now allows null, matching native Scene before setup; lighting captures and
+narrows the actual fog before updating it. createScene still assigns the exact same
+FogExp2/color/density. Generic BufferGeometry/QuarterMutableGeometry attributes now
+allow undefined, including unknown names on prepared primitives. A small surface
+geometry contract records only native constructors' actual position/normal/uv outputs.
+Extrude/Tube and primitive/clone declarations use these verified attributes; the
+Fastback rounded-box cache retains its real primitive type without runtime changes.
+Manual leaf positions and vegetation bounds now reject missing position explicitly;
+registered groups continue to fail open if their positions are removed. No new as/!
+was used to hide absence, no compiler/lint relaxation and no state-machine layer.
+
+Addressed tests first: isolated strict TS7 rejects three unsafe reads, accepts narrowed
+reads and known primitive attributes; native r149 verifies empty Scene/BufferGeometry,
+primitive attributes/clones, fog/no-fog lighting and removed-position culling behavior.
+One final build/check passed strict TS7, ESLint, formatting, classic output validation
+and 73/73 tests. diff --check passed. Prepared-scene and culling old/new native
+fixtures also match. The negative type fixture initially assumed TS7 exit 2; it was
+corrected to require failure plus exactly the three intended diagnostics (TS7 exits 1).
+
+Runtime JS is intentionally changed in exactly lighting, vegetation-culling and
+visual-assets for those absent-data guards; all 87 other dist files are byte-identical.
+No geometry values, material, generation order, shader, graphics-quality or successful
+render algorithm changed. Full executable AST equality is not claimed for new guards.
+No browser/FPS audit was run; native/addressed tests cover the changed states.
+Existing diagnostics untouched; compact new evidence: ../tbs-contracts-stage58-20261016.
+One local stage-58 checkpoint, xetarv/GitHub noreply. No push or stage 59.
+
 ## Stage 57 - targeted reliability fixes - 16 October 2026
 
 Started clean at published b8cc9fb7ca430eda6ca6a505504a205004d7d642; fetch confirmed

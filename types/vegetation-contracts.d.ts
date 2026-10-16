@@ -10,7 +10,7 @@ interface BoundsBoxHandle {
   expandByVector: (vector: DisplacementXYZ) => this;
 }
 interface ThreeGeometryHandle {
-  readonly attributes: Record<string, ThreeNumericAttribute>;
+  readonly attributes: Record<string, ThreeNumericAttribute | undefined>;
   boundingBox: BoundsBoxHandle | null;
   computeBoundingBox: () => void;
 }

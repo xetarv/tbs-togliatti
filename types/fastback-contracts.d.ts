@@ -184,7 +184,7 @@ interface TbsRegistry {
 
 // Native BufferGeometry/Vector3 operations consumed by the real Fastback builders.
 interface ThreeGeometryHandle {
-  readonly attributes: Record<string, ThreeNumericAttribute>;
+  readonly attributes: Record<string, ThreeNumericAttribute | undefined>;
 }
 interface CameraVector3 {
   addScaledVector: (vector: DisplacementXYZ, scalar: number) => this;
@@ -192,7 +192,10 @@ interface CameraVector3 {
 
 // Actual native constructors consumed by the wheel and light factories.
 interface ThreeLibraryHandle {
-  LatheGeometry: new (points: ThreeTextureRepeatHandle[], segments?: number) => ThreeGeometryHandle;
+  LatheGeometry: new (
+    points: ThreeTextureRepeatHandle[],
+    segments?: number,
+  ) => ThreeSurfaceGeometry;
   SpotLight: new (
     color?: number,
     intensity?: number,

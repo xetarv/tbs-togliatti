@@ -29,7 +29,7 @@ window.TBS.createFastbackGeometry = function ({
     return bodyWidth(z) - (0.11 - 0.085 * arch) * (1 - u) ** 2 + 0.017 * Math.sin(u * Math.PI);
   }
   const boxGeometry = new T.BoxGeometry(1, 1, 1),
-    roundedCache = new Map<string, ThreeGeometryHandle>();
+    roundedCache = new Map<string, ThreeSurfaceGeometry>();
   function box(
     parent: ThreeObjectHandle,
     x: number,

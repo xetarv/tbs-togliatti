@@ -36,6 +36,18 @@ function view(T, x = 0) {
   );
 }
 
+test('missing positions are rejected for bounds and fail open after registration', () => {
+  const { T, api } = setup();
+  const mesh = meshAt(T, [[100, 0, 0]]);
+  api.register(mesh);
+  mesh.updateMatrixWorld();
+  assert.equal(view(T).intersectsObject(mesh), false);
+  mesh.geometry.deleteAttribute('position');
+  assert.equal(view(T).intersectsObject(mesh), true);
+  assert.throws(() => api.bounds(mesh), /requires a position attribute/);
+  assert.throws(() => api.register(mesh), /requires a position attribute/);
+});
+
 test('partition handles negative coordinates, cell boundaries, empty and single-cell meshes', () => {
   const { T, api } = setup();
   const mesh = meshAt(T, [

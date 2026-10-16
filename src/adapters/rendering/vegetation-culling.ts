@@ -60,6 +60,12 @@ window.TBS.createVegetationCulling = function ({
   const transformed = new T.Box3();
   const position = new T.Vector3();
 
+  function positionAttribute(geometry: ThreeGeometryHandle): ThreeNumericAttribute {
+    const positions = geometry.attributes.position;
+    if (!positions) throw new Error('Vegetation geometry requires a position attribute.');
+    return positions;
+  }
+
   function bounds(mesh: InstancedMeshHandle, displacement: DisplacementXYZ = new T.Vector3()) {
     if (
       [displacement.x, displacement.y, displacement.z].some((v) => v < 0 || !Number.isFinite(v))
@@ -67,7 +73,7 @@ window.TBS.createVegetationCulling = function ({
       throw new Error('Invalid vegetation displacement.');
     }
     const geometry = mesh.geometry;
-    const positions = geometry.attributes.position;
+    const positions = positionAttribute(geometry);
     let cached = geometryBounds.get(geometry);
     if (!cached || cached.positions !== positions || cached.version !== positions.version) {
       geometry.computeBoundingBox();
@@ -87,6 +93,7 @@ window.TBS.createVegetationCulling = function ({
   function register<M extends InstancedMeshHandle>(mesh: M, displacement?: DisplacementXYZ) {
     if (!enabled) return mesh;
     const local = bounds(mesh, displacement);
+    const positions = positionAttribute(mesh.geometry);
     registry.set(mesh, {
       local,
       world: local.clone(),
@@ -95,8 +102,8 @@ window.TBS.createVegetationCulling = function ({
       attribute: mesh.instanceMatrix,
       version: mesh.instanceMatrix.version,
       geometry: mesh.geometry,
-      positions: mesh.geometry.attributes.position,
-      positionVersion: mesh.geometry.attributes.position.version,
+      positions,
+      positionVersion: positions.version,
       active: () => enabled,
     });
     mesh.userData.TBS_vegetationCullingR149 = true;

@@ -227,6 +227,7 @@ window.TBS.createVisualAssets = function (
   speciesLeaves[1].scale(0.75, 0.82, 0.8);
   speciesLeaves[2].scale(0.72, 1.08, 0.8);
   const maplePositions = speciesLeaves[0].attributes.position;
+  if (!maplePositions) throw new Error('Leaf geometry requires a position attribute.');
   for (let i = 0; i < maplePositions.count; i++) {
     const t = maplePositions.getY(i) / 0.37;
     maplePositions.setX(i, maplePositions.getX(i) * (1.08 + 0.32 * Math.sin(t * Math.PI * 5)));

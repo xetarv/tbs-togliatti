@@ -12,7 +12,7 @@ interface ThreeGeometryHandle {
   readonly type: string;
 }
 interface ThreeExtrudedGeometryHandle {
-  readonly attributes: Record<string, ThreeNumericAttribute>;
+  readonly attributes: ThreeSurfaceGeometry['attributes'];
 }
 interface ThreeNumericAttribute {
   setXY: (index: number, x: number, y: number) => this;

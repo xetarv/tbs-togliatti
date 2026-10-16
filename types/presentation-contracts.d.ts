@@ -110,6 +110,15 @@ interface ThreeTextureRepeatHandle {
 interface ThreeGeometryHandle {
   readonly isBufferGeometry: true;
 }
+/** Native mesh primitives construct these three attributes, not arbitrary names. */
+interface ThreeSurfaceGeometry extends ThreeGeometryHandle {
+  readonly attributes: Record<string, ThreeNumericAttribute | undefined> & {
+    position: ThreeNumericAttribute;
+    normal: ThreeNumericAttribute;
+    uv: ThreeNumericAttribute;
+  };
+  clone: () => this;
+}
 interface ThreeShapeHandle {
   moveTo: (x: number, y: number) => this;
   lineTo: (x: number, y: number) => this;
@@ -145,8 +154,8 @@ interface ThreeLibraryHandle {
     geometry: G,
     material: M,
   ) => ThreeMarkerMeshHandle<M> & { geometry: G };
-  IcosahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
-  ShapeGeometry: new (shape: ThreeShapeHandle) => ThreeGeometryHandle;
+  IcosahedronGeometry: new (radius?: number, detail?: number) => ThreeSurfaceGeometry;
+  ShapeGeometry: new (shape: ThreeShapeHandle) => ThreeSurfaceGeometry;
   CylinderGeometry: new (
     radiusTop?: number,
     radiusBottom?: number,
@@ -164,7 +173,7 @@ interface ThreeLibraryHandle {
     tubularSegments?: number,
     arc?: number,
   ) => ThreeTransformableGeometry;
-  OctahedronGeometry: new (radius?: number, detail?: number) => ThreeGeometryHandle;
+  OctahedronGeometry: new (radius?: number, detail?: number) => ThreeSurfaceGeometry;
   SphereGeometry: new (
     radius?: number,
     widthSegments?: number,
@@ -173,7 +182,7 @@ interface ThreeLibraryHandle {
     phiLength?: number,
     thetaStart?: number,
     thetaLength?: number,
-  ) => ThreeGeometryHandle;
+  ) => ThreeSurfaceGeometry;
   PlaneGeometry: new (
     width?: number,
     height?: number,
@@ -185,7 +194,7 @@ interface ThreeLibraryHandle {
     segments?: number,
     thetaStart?: number,
     thetaLength?: number,
-  ) => ThreeGeometryHandle;
+  ) => ThreeSurfaceGeometry;
   MeshBasicMaterial: new (parameters?: ThreeBasicMaterialParameters) => ThreeBasicMaterialHandle;
   MeshStandardMaterial: new (
     parameters?: ThreeStandardMaterialParameters,
@@ -596,7 +605,7 @@ interface TbsRegistry {
   createToast: (options: Pick<BootstrapDom, 'getElement'>) => GameFramePorts['notifications'];
 }
 
-interface ThreeTransformableGeometry extends ThreeGeometryHandle {
+interface ThreeTransformableGeometry extends ThreeSurfaceGeometry {
   rotateX: (angle: number) => this;
   scale: (x: number, y: number, z: number) => this;
 }

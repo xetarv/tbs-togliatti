@@ -115,7 +115,8 @@ window.TBS.createLighting = function ({
     if (Math.abs(appliedLight - state.lightValue) > 0.0001) {
       appliedLight = state.lightValue;
       sky.material.uniforms.daylight.value = state.lightValue;
-      scene.fog.color.copy(fogNight).lerp(fogDay, state.lightValue);
+      const fog = scene.fog;
+      if (fog) fog.color.copy(fogNight).lerp(fogDay, state.lightValue);
       ambientLight.intensity = 0.65 + 0.95 * state.lightValue;
       sun.intensity = 0.12 + 2.48 * state.lightValue;
       sun.color.copy(sunlightDusk).lerp(sunlightDay, state.lightValue);
