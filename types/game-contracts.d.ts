@@ -204,7 +204,7 @@ interface TrafficOptions extends Pick<
 > {
   player: PointXZ & Partial<Pick<PlayerState, 'speed'>>;
   parkedVehicles?: readonly VehicleFootprint[];
-  /** Bootstrap enables this by default; omitted for legacy standalone simulation callers. */
+  /** Bootstrap enables this only for dynamicTraffic=1; standalone callers default to legacy mode. */
   dynamicTraffic?: boolean;
 }
 

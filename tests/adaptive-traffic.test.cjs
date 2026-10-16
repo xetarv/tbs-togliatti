@@ -2,6 +2,43 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { loadModules } = require('./helpers.cjs');
 
+test('bootstrap enables adaptive traffic only for the exact decoded query value 1', () => {
+  for (const [search, expected] of [
+    ['', false],
+    ['?', false],
+    ['?dynamicTraffic=0', false],
+    ['?dynamicTraffic=1', true],
+    ['?dynamicTraffic', false],
+    ['?dynamicTraffic=', false],
+    ['?dynamicTraffic=2', false],
+    ['?dynamicTraffic=true', false],
+    ['?dynamicTraffic=false', false],
+    ['?dynamicTraffic=01', false],
+    ['?dynamicTraffic=1.0', false],
+    ['?dynamicTraffic=%201', false],
+    ['?dynamicTraffic=1%20', false],
+    ['?dynamicTraffic=constructor', false],
+    ['?DynamicTraffic=1', false],
+    ['?dynamicTraffic=%31', true],
+  ]) {
+    const { TBS, context } = loadModules(['dist/domain/config.js', 'dist/bootstrap/game.js'], {
+      URLSearchParams,
+      location: { search },
+    });
+    const sentinel = new Error('Captured bootstrap dependency');
+    let enabled;
+    context.TBS.domain.createTrafficSimulation = (options) => {
+      enabled = options.dynamicTraffic;
+      throw sentinel;
+    };
+    assert.throws(
+      () => TBS.buildGame({ state: { keys: {}, player: {} }, world: { parkedCars: [] } }),
+      (error) => error === sentinel,
+    );
+    assert.equal(enabled, expected, 'query: ' + search);
+  }
+});
+
 function fixture(options = {}) {
   const { TBS } = loadModules([
     'dist/domain/config.js',

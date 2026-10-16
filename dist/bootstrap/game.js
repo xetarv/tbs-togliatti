@@ -13,7 +13,7 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
         WORLD_H: config.WORLD_H,
         player: state.player,
         parkedVehicles,
-        dynamicTraffic: new URLSearchParams(location.search).get('dynamicTraffic') !== '0',
+        dynamicTraffic: new URLSearchParams(location.search).get('dynamicTraffic') === '1',
     });
     const roadNetwork = domain.createRoadNetwork({
         roadsX: config.roadsX,

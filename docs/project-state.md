@@ -4,10 +4,22 @@
 
 Started clean at 08ff500314a2bb9890e540317ed78221374eba78, matching local origin/main;
 xetarv/GitHub noreply author/committer confirmed. No history synchronization or push.
-The original 36 and their generation are unchanged. Bootstrap enables adaptive density
-by default and parses dynamicTraffic=0/1; standalone domain callers retain legacy mode
+The original 36 and their generation are unchanged. Bootstrap now enables adaptive density
+only for dynamicTraffic=1; missing/0/other values are static. The initial local checkpoint
+912a30943446f16fc3a40233d9b4d657b33e3005 enabled it by default; a separate opt-in correction
+preserves that commit. Standalone domain callers retain legacy mode
 unless they opt in. The parked-vehicle snapshot is shared with physics. No DOM/Three
 dependency was added to domain, no new production module or script order change.
+
+Opt-in follow-up: 16 query cases checked through the actual bootstrap call; only the
+decoded value 1 enables adaptation. One final build/check passed strict TS7, ESLint,
+formatting and 99/99 tests; diff --check passed. Short Edge file cold starts without
+a parameter (false) and with dynamicTraffic=1 (true) both passed with 36 initial cars,
+version 0, successful session start and no console/resource errors. Other driving and
+resource scenarios were not repeated outside the required full check. Only the flag
+expression, its generated bootstrap JS, one test, a type comment and two docs changed;
+controller algorithms/distances/budget/physics/graphics are untouched. Separate local
+commit; no amend or push. Earlier checkpoint verification below is historical.
 
 Density runs only via active advanceTraffic, after existing movement and before view
 reconciliation/player physics. One cycle per 3 active seconds, at most one retirement
@@ -25,12 +37,12 @@ Road candidates are cached once for the existing fixed configuration; future roa
 editing would need an explicit rebuild contract. Existing ESLint complexity/depth
 limits were preserved by separating validation/static candidates from live selection.
 
-Seven added regressions and all existing checks passed: build/check, strict TS7,
+Original checkpoint: seven added regressions and all existing checks passed: build/check, strict TS7,
 ESLint/formatting, 90 classic scripts and 98/98 tests. Disabled mode matches the
 published stage-63 baseline for the initial 36 and every vehicle state/signal phase
 over 3600 steps (180 active seconds). Native r149 repeated adaptive cycles kept views
 aligned, IDs unique, population <=36 and individual resources disposable exactly once.
-Both Edge file smoke modes passed startup, driving, pause/resume, camera, lighting,
+At the original checkpoint, both Edge file smoke modes passed startup, driving, pause/resume, camera, lighting,
 sound, presets and mobile touch. Enabled desktop used the default (no query), mobile
 used explicit dynamicTraffic=1; the other run used 0. Each addressed run advanced 72
 controlled simulation seconds at two road locations, reconciling native views and
