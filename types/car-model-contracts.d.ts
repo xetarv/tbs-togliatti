@@ -43,6 +43,13 @@ interface TrafficCommercialCar extends ThreeGroupHandle {
     };
 }
 type TrafficCar = TrafficPassengerCar | TrafficCommercialCar;
+/** Static adapter-only selection; domain variants contain no rendering dependencies. */
+interface TrafficModelDefinition {
+  buildBody: (group: TrafficCarAssemblyGroup, paint: ThreePhysicalMaterialHandle) => void;
+  passenger: boolean;
+  scale: number;
+  proportions?: { z: number; y: number };
+}
 interface TrafficCarGeometry {
   coachwork: (
     parent: ThreeObjectHandle,

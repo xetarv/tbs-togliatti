@@ -36,6 +36,42 @@ window.TBS.createCarModels = function ({ T, box, dark, mat, cyanMat, detailBar, 
         c.fillStyle = gradient;
         c.fillRect(0, 0, w, h);
     }, 128, 128);
+    function buildPassengerModel(group, paint, variant) {
+        createPassengerShell(group, paint, variant);
+        box(group, 0, 0.78, -2.875, 1.3, 0.13, 0.045, dark);
+    }
+    function buildCommercialModel(group, paint, variant) {
+        coachwork(group, 2.65, 5.15, 0.63, 0.65, paint);
+        wedge(group, 2.76, -2.82, -1.1, 0.67, 1.02, 1.61, paint);
+        wedge(group, 2.76, 1.05, 2.78, 0.67, 1.63, 1.04, paint);
+        box(group, 0, 0.55, 0, 2.33, 0.22, 4.98, dark);
+        createCommercialBody(group, paint, variant);
+        box(group, 0, 1.11, -2.82, 2.38, 0.22, 0.1, dark);
+        box(group, 0, 1.01, 2.81, 2.35, 0.22, 0.1, dark);
+    }
+    const trafficModels = {
+        compact: {
+            buildBody: (group, paint) => buildPassengerModel(group, paint, 'compact'),
+            passenger: true,
+            scale: 0.9,
+            proportions: { z: 0.87, y: 1.06 },
+        },
+        sedan: {
+            buildBody: (group, paint) => buildPassengerModel(group, paint, 'sedan'),
+            passenger: true,
+            scale: 1,
+        },
+        van: {
+            buildBody: (group, paint) => buildCommercialModel(group, paint, 'van'),
+            passenger: false,
+            scale: 1,
+        },
+        shuttle: {
+            buildBody: (group, paint) => buildCommercialModel(group, paint, 'shuttle'),
+            passenger: false,
+            scale: 1,
+        },
+    };
     function createHeroCar() {
         return createFastback({
             meshData,
@@ -56,23 +92,12 @@ window.TBS.createCarModels = function ({ T, box, dark, mat, cyanMat, detailBar, 
             clearcoatRoughness: 0.12,
             envMapIntensity: 1.3,
         });
-        const passenger = variant !== 'van' && variant !== 'shuttle';
-        if (passenger)
-            createPassengerShell(group, body, variant);
-        else {
-            coachwork(group, 2.65, 5.15, 0.63, 0.65, body);
-            wedge(group, 2.76, -2.82, -1.1, 0.67, 1.02, 1.61, body);
-            wedge(group, 2.76, 1.05, 2.78, 0.67, 1.63, 1.04, body);
-            box(group, 0, 0.55, 0, 2.33, 0.22, 4.98, dark);
-        }
-        if (!passenger)
-            createCommercialBody(group, body, variant);
-        if (!passenger) {
-            box(group, 0, 1.11, -2.82, 2.38, 0.22, 0.1, dark);
-            box(group, 0, 1.01, 2.81, 2.35, 0.22, 0.1, dark);
-        }
-        else
-            box(group, 0, 0.78, -2.875, 1.3, 0.13, 0.045, dark);
+        // Keep the former sedan-like fallback for untyped callers, excluding prototype keys.
+        const model = Object.hasOwn(trafficModels, variant)
+            ? trafficModels[variant]
+            : trafficModels.sedan;
+        const passenger = model.passenger;
+        model.buildBody(group, body);
         const { wheels } = window.TBS.buildTrafficCarWheels({
             T,
             group,
@@ -97,11 +122,11 @@ window.TBS.createCarModels = function ({ T, box, dark, mat, cyanMat, detailBar, 
         window.TBS.buildTrafficCarSuspension({ T, group, shadow, wheels, unitBox });
         group.userData.variant = variant;
         group.userData.paint = body;
-        const scale = variant === 'compact' ? 0.9 : 1;
+        const scale = model.scale;
         group.scale.setScalar(scale);
-        if (variant === 'compact') {
-            group.scale.z *= 0.87;
-            group.scale.y *= 1.06;
+        if (model.proportions) {
+            group.scale.z *= model.proportions.z;
+            group.scale.y *= model.proportions.y;
         }
         group.userData.wheelRadius = 0.5 * scale;
         scene.add(group);

@@ -1,5 +1,32 @@
 # Состояние TBS Togliatti 2040
 
+## Stage 60 - exhaustive static traffic model selection - 16 October 2026
+
+Started clean at published cf618d44b6830a512ea747bcc7a93c56f70a8145; fetch confirmed
+main/origin/main equality. createCarModels now owns a private exhaustive
+Record<TrafficVariant, TrafficModelDefinition>: body callback, passenger lighting,
+scale and optional proportions. Two small family helpers retain the original
+passenger/commercial factories and operation order. The public createTrafficCar API,
+default sedan, untyped sedan-like fallback/metadata and animateVehicle are unchanged.
+No domain/traffic distribution, physics, Fastback builder, world or GPU code changed.
+Adding a fifth variant requires its type/family contracts, a map entry and tests;
+opt-in spawning still belongs to domain/traffic.ts. No registration/plugin system.
+
+Three targeted regression tests verify all four body choices, assembly order/data,
+scales, animation, default/prototype-key fallback and strict rejection of an incomplete
+map. Existing real-r149 fixtures compare complete before/after geometry buffers,
+materials, transforms, Canvas records, object/reference order, userData, animation and
+suspension batching for all four cars, default sedan and the untouched Fastback.
+The comparisons match. Final build/check passed strict TS7, ESLint and 76/76 tests;
+diff --check passed. Short existing Edge file smoke confirms all four variants,
+original scales/userData, player Fastback and motion of the same 36 traffic vehicles,
+without runtime/WebGL/resource errors. No full-frame pixel or FPS claim.
+
+Only car-model TS/dist, its minimal definition contract, one regression test and
+existing navigation/status docs changed. Prior diagnostics untouched; new compact
+evidence: ../tbs-models-stage60-20261016. One local checkpoint, xetarv/GitHub noreply.
+No push or subsequent stage.
+
 ## Stage 59 - architecture navigation and Codex guidance - 16 October 2026
 
 Started clean at published e92ded22e3b548f234377d9080fe303d2a3fc52f; fetch confirmed
