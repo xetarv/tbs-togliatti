@@ -78,8 +78,22 @@ type ThreeMeshRenderCallback = (
 ) => void;
 
 interface ThreeMeshHandle {
+  readonly id: number;
+  readonly matrix: ThreeMatrix4Handle;
+  updateMatrix: () => void;
   onBeforeRender: ThreeMeshRenderCallback;
   onAfterRender: ThreeMeshRenderCallback;
+}
+
+/** Static source transforms and logical phase references; batches are per junction. */
+interface TrafficLampRecord {
+  head: ThreeGroupHandle;
+  lamp: ThreeMarkerMeshHandle<ThreeBasicMaterialHandle>;
+  local: ThreeMatrix4Handle;
+  instance: ThreeMatrix4Handle;
+  view: ThreeMatrix4Handle;
+  id: number;
+  depth: number;
 }
 
 interface ThreeGroupHandle {

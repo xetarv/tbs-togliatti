@@ -8,7 +8,9 @@ function setup(enabled) {
   const context = vm.createContext({
     console,
     URLSearchParams,
-    location: { search: enabled ? '' : '?signalHousingBatching=0' },
+    location: {
+      search: enabled ? '?signalLampBatching=0' : '?signalHousingBatching=0&signalLampBatching=0',
+    },
   });
   context.window = context;
   context.TBS = {};

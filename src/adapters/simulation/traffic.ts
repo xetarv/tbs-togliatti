@@ -23,9 +23,13 @@ window.TBS.createTrafficView = function ({
 }: TrafficViewOptions): TrafficViewPort {
   const signalHeads: TrafficSignalHead[] = [];
   const housingBatches = new Map<string, TrafficHousingPart[]>();
-  const prepareHousing: ((camera: ThreeRenderCameraHandle) => void)[] = [];
+  const prepareSignals: ((camera: ThreeRenderCameraHandle) => void)[] = [];
   const projectionView = new T.Matrix4();
   const batchHousing = new URLSearchParams(location.search).get('signalHousingBatching') !== '0';
+  const batchLamps = new URLSearchParams(location.search).get('signalLampBatching') !== '0';
+  const lampGroups = new Map<string, TrafficLampRecord[]>();
+  const synchronizeLamps: (() => void)[] = [];
+  let lampGeometry: ThreeSurfaceGeometry | undefined;
 
   const signalMaterials = [0xff4030, 0xffbd35, 0x55ff98].map(
     (color) => new T.MeshBasicMaterial({ color, toneMapped: false }),
@@ -45,10 +49,32 @@ window.TBS.createTrafficView = function ({
           box(head, 0, 4.05, 0.03, 0.65, 1.85, 0.36, dark);
           const lamps: TrafficSignalHead['lamps'] = [];
           for (let i = 0; i < 3; i++) {
-            const lamp = new T.Mesh(new T.CircleGeometry(0.22, 16), signalOff);
+            const lamp = new T.Mesh(
+              batchLamps
+                ? (lampGeometry ??= new T.CircleGeometry(0.22, 16))
+                : new T.CircleGeometry(0.22, 16),
+              signalOff,
+            );
             lamp.position.set(0, 4.62 - i * 0.55, 0.22);
             head.add(lamp);
             lamps.push(lamp);
+            if (batchLamps) {
+              head.updateMatrix();
+              lamp.updateMatrix();
+              const key = x + ':' + z;
+              let records = lampGroups.get(key);
+              if (!records) lampGroups.set(key, (records = []));
+              records.push({
+                head,
+                lamp,
+                local: lamp.matrix.clone(),
+                instance: new T.Matrix4().multiplyMatrices(head.matrix, lamp.matrix),
+                view: new T.Matrix4(),
+                id: lamp.id,
+                depth: 0,
+              });
+              head.remove(lamp);
+            }
             box(head, 0, 4.89 - i * 0.55, 0.27, 0.62, 0.07, 0.6, dark);
           }
           scene.add(head);
@@ -131,7 +157,7 @@ window.TBS.createTrafficView = function ({
       const variantKey = originalKey.call(material) + ':signal-exact-r149';
       const key = () => variantKey;
       const order = records.map((record) => record.index);
-      prepareHousing.push((camera) => {
+      prepareSignals.push((camera) => {
         for (const record of records) {
           world.multiplyMatrices(record.head.matrixWorld, record.local);
           record.view.multiplyMatrices(camera.matrixWorldInverse, world);
@@ -169,7 +195,78 @@ window.TBS.createTrafficView = function ({
     scene.add(culling.register(batch));
   }
   housingBatches.clear();
-  if (prepareHousing.length) {
+  if (lampGeometry) {
+    for (const material of [...signalMaterials, signalOff]) {
+      const originalCompile = material.onBeforeCompile;
+      const variantKey = material.customProgramCacheKey() + ':signal-lamp-exact-r149';
+      // These four private materials are used only by lamps, so one stable hook
+      // preserves their identity/sort order without swapping programs per draw.
+      material.onBeforeCompile = function (shader, renderer): void {
+        originalCompile.call(this, shader, renderer);
+        shader.vertexShader = 'attribute mat4 signalLampModelView;\n' + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          '#include <project_vertex>',
+          'vec4 mvPosition = signalLampModelView * vec4(transformed, 1.0);\ngl_Position = projectionMatrix * mvPosition;',
+        );
+      };
+      material.customProgramCacheKey = () => variantKey;
+    }
+    for (const records of lampGroups.values())
+      for (const material of [...signalMaterials, signalOff]) {
+        const geometry = lampGeometry.clone();
+        const modelView = new T.InstancedBufferAttribute(new Float32Array(records.length * 16), 16);
+        modelView.setUsage(T.DynamicDrawUsage);
+        geometry.setAttribute('signalLampModelView', modelView);
+        const batch = new T.InstancedMesh(geometry, material, records.length);
+        batch.instanceMatrix.setUsage(T.DynamicDrawUsage);
+        let members: TrafficLampRecord[] = [];
+        let prepared = false;
+        const lastCamera = new T.Matrix4(),
+          lastProjection = new T.Matrix4(),
+          lastWorld = new T.Matrix4(),
+          world = new T.Matrix4(),
+          position = new T.Vector3();
+        synchronizeLamps.push(() => {
+          const next = records.filter((record) => record.lamp.material === material);
+          if (next.length === members.length && next.every((record) => members.includes(record)))
+            return;
+          members = next;
+          batch.count = members.length;
+          batch.visible = members.length > 0;
+          members.forEach((record, i) => batch.setMatrixAt(i, record.instance));
+          batch.instanceMatrix.needsUpdate = true;
+          culling.register(batch);
+          prepared = false;
+        });
+        batch.count = 0;
+        batch.visible = false;
+        prepareSignals.push((camera) => {
+          if (!batch.visible) return;
+          if (
+            prepared &&
+            lastCamera.equals(camera.matrixWorldInverse) &&
+            lastProjection.equals(camera.projectionMatrix) &&
+            lastWorld.equals(scene.matrixWorld)
+          )
+            return;
+          for (const record of members) {
+            world.multiplyMatrices(record.head.matrixWorld, record.local);
+            record.view.multiplyMatrices(camera.matrixWorldInverse, world);
+            record.depth = position.setFromMatrixPosition(world).applyMatrix4(projectionView).z;
+          }
+          members.sort((a, b) => a.depth - b.depth || a.id - b.id);
+          members.forEach((record, i) => record.view.toArray(modelView.array, i * 16));
+          modelView.needsUpdate = true;
+          lastCamera.copy(camera.matrixWorldInverse);
+          lastProjection.copy(camera.projectionMatrix);
+          lastWorld.copy(scene.matrixWorld);
+          prepared = true;
+        });
+        scene.add(batch);
+      }
+    lampGroups.clear();
+  }
+  if (prepareSignals.length) {
     const original = scene.onBeforeRender;
     scene.onBeforeRender = function (
       this: ThreeSceneHandle,
@@ -180,20 +277,23 @@ window.TBS.createTrafficView = function ({
     ): void {
       original.call(this, renderer, renderedScene, camera, ...args);
       projectionView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-      for (const prepare of prepareHousing) prepare(camera);
+      for (const prepare of prepareSignals) prepare(camera);
     };
   }
 
   function updateSignals(): void {
+    let changed = false;
     for (const head of signalHeads) {
       const phase = signalPhase(head.x, head.z, head.horizontal),
         active = phase === 'red' ? 0 : phase === 'amber' ? 1 : 2;
       if (head.active === active) continue;
       head.active = active;
+      changed = true;
       head.lamps.forEach((lamp, i) => {
         lamp.material = i === active ? signalMaterials[i] : signalOff;
       });
     }
+    if (changed) for (const synchronize of synchronizeLamps) synchronize();
   }
 
   const meshes = new Map<number, TrafficCar>();
