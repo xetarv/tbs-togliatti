@@ -1,0 +1,1266 @@
+{
+  "units": "milliseconds from navigation timeOrigin unless duration/queue/handler; first observed compositor frame is an upper bound",
+  "runs": [
+    {
+      "name": "final-1-fresh",
+      "kind": "fresh",
+      "stats": {
+        "dom": 53.09999990463257,
+        "firstPaint": 528,
+        "menuImage": 532.53076171875,
+        "startRegistered": 2846.5,
+        "wheelRequested": 616.3999998569489,
+        "wheelHandled": 15530,
+        "wheelQueue": 14913.600000143051,
+        "scrollEvent": 15556.899999856949,
+        "buttonImage": 15687.5458984375,
+        "clickDispatched": 15864.5,
+        "clickHandled": 15872.899999856949,
+        "startSuccess": 16146.299999952316,
+        "startHandler": 273.40000009536743,
+        "overlayHiddenImage": 16177.2939453125,
+        "firstRenderStart": 2970.5,
+        "firstRenderEnd": 15303.299999952316,
+        "firstRenderDuration": 12332.799999952316,
+        "gpuFence": 15354.5,
+        "motion": 16199.099999904633,
+        "world": 2500.7999999523163,
+        "buildGame": 177.5,
+        "shaderReadiness": 12093.099999666214,
+        "longestTask": 12337.692,
+        "firstPlayingRenderEnd": 16169.599999904633,
+        "maxTaskBeforeMenu": 366.74276185035706
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "oneAttempt": true,
+        "trustedWheel": true,
+        "trustedClick": true,
+        "trustedW": true,
+        "successfulStart": true,
+        "positiveSpeedAfterW": true,
+        "errors": 0,
+        "glError": 0,
+        "visible": true,
+        "focused": true,
+        "shaderChecks": true,
+        "high": true,
+        "gpu": true
+      },
+      "browser": "155.0.4283.62",
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "player": {
+        "x": 54.26890393742272,
+        "z": 30,
+        "speed": 0.3041503625498549
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "topTasks": [
+        {
+          "start": 2968.8869998455048,
+          "ms": 12337.692
+        },
+        {
+          "start": 165.78799986839294,
+          "ms": 2718.45
+        },
+        {
+          "start": 15871.412999868393,
+          "ms": 276.668
+        },
+        {
+          "start": 15354.305999994278,
+          "ms": 133.32
+        },
+        {
+          "start": 61.40400004386902,
+          "ms": 78.65
+        }
+      ],
+      "longtasks": [
+        {
+          "s": 61.299999952316284,
+          "ms": 78
+        },
+        {
+          "s": 165.79999995231628,
+          "ms": 2718
+        },
+        {
+          "s": 2968.899999856949,
+          "ms": 12337
+        },
+        {
+          "s": 15354.299999952316,
+          "ms": 133
+        },
+        {
+          "s": 15594.899999856949,
+          "ms": 55
+        },
+        {
+          "s": 15871.399999856949,
+          "ms": 276
+        }
+      ],
+      "shaderCalls": {
+        "count": 69,
+        "max": 385.2999999523163
+      },
+      "worldRows": [
+        {
+          "n": "buildWorld",
+          "s": 168.20000004768372,
+          "ms": 2500.7999999523163,
+          "self": 0.20000004768371582
+        },
+        {
+          "n": "createVisualAssets",
+          "s": 664.2000000476837,
+          "ms": 953,
+          "self": 953
+        },
+        {
+          "n": "buildGame",
+          "s": 2669,
+          "ms": 177.5,
+          "self": 0.7000000476837158
+        },
+        {
+          "n": "createPlayerCar",
+          "s": 2670.2000000476837,
+          "ms": 74.19999980926514,
+          "self": 0.4999995231628418
+        },
+        {
+          "n": "createRuntime",
+          "s": 2846.0999999046326,
+          "ms": 0.10000014305114746,
+          "self": 0.10000014305114746
+        }
+      ]
+    },
+    {
+      "name": "final-1-warm",
+      "kind": "warm",
+      "stats": {
+        "dom": 104.09999990463257,
+        "firstPaint": 240,
+        "menuImage": 240.875,
+        "startRegistered": 2459.5,
+        "wheelRequested": 299,
+        "wheelHandled": 3669.5999999046326,
+        "wheelQueue": 3370.5999999046326,
+        "scrollEvent": 3710.4000000953674,
+        "buttonImage": 3778.52294921875,
+        "clickDispatched": 3902.0999999046326,
+        "clickHandled": 3953.5,
+        "startSuccess": 4012.2000000476837,
+        "startHandler": 58.700000047683716,
+        "overlayHiddenImage": 4043.467041015625,
+        "firstRenderStart": 2588.0999999046326,
+        "firstRenderEnd": 3470.7000000476837,
+        "firstRenderDuration": 882.6000001430511,
+        "gpuFence": 3498.7000000476837,
+        "motion": 4064.9000000953674,
+        "world": 2088.2999999523163,
+        "buildGame": 175.5,
+        "shaderReadiness": 678.9999990463257,
+        "longestTask": 2307.898,
+        "firstPlayingRenderEnd": 4035.2999999523163,
+        "maxTaskBeforeMenu": 58.52699999999999
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "oneAttempt": true,
+        "trustedWheel": true,
+        "trustedClick": true,
+        "trustedW": true,
+        "successfulStart": true,
+        "positiveSpeedAfterW": true,
+        "errors": 0,
+        "glError": 0,
+        "visible": true,
+        "focused": true,
+        "shaderChecks": true,
+        "high": true,
+        "gpu": true
+      },
+      "browser": "155.0.4283.62",
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "player": {
+        "x": 54.282715158,
+        "z": 30,
+        "speed": 0
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "topTasks": [
+        {
+          "start": 189.5420000553131,
+          "ms": 2307.898
+        },
+        {
+          "start": 2582.531000137329,
+          "ms": 888.818
+        },
+        {
+          "start": 3498.3700001239777,
+          "ms": 127.152
+        },
+        {
+          "start": 3952.0190000534058,
+          "ms": 62.106
+        },
+        {
+          "start": 107.4300000667572,
+          "ms": 58.527
+        }
+      ],
+      "longtasks": [
+        {
+          "s": 107.5,
+          "ms": 58
+        },
+        {
+          "s": 189.59999990463257,
+          "ms": 2307
+        },
+        {
+          "s": 2497.5,
+          "ms": 973
+        },
+        {
+          "s": 3498.4000000953674,
+          "ms": 127
+        },
+        {
+          "s": 3952.0999999046326,
+          "ms": 62
+        }
+      ],
+      "shaderCalls": {
+        "count": 69,
+        "max": 90.10000014305115
+      },
+      "worldRows": [
+        {
+          "n": "buildWorld",
+          "s": 195.79999995231628,
+          "ms": 2088.2999999523163,
+          "self": 0.20000028610229492
+        },
+        {
+          "n": "createVisualAssets",
+          "s": 273.5,
+          "ms": 939.9000000953674,
+          "self": 939.9000000953674
+        },
+        {
+          "n": "buildGame",
+          "s": 2284.0999999046326,
+          "ms": 175.5,
+          "self": 0.7000000476837158
+        },
+        {
+          "n": "createPlayerCar",
+          "s": 2285.2999999523163,
+          "ms": 73.60000014305115,
+          "self": 0.10000014305114746
+        },
+        {
+          "n": "createRuntime",
+          "s": 2459.2000000476837,
+          "ms": 0.09999990463256836,
+          "self": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "name": "final-2-fresh",
+      "kind": "fresh",
+      "stats": {
+        "dom": 55.59999990463257,
+        "firstPaint": 512,
+        "menuImage": 515.77099609375,
+        "startRegistered": 2720.199999809265,
+        "wheelRequested": 574.5999999046326,
+        "wheelHandled": 15617.5,
+        "wheelQueue": 15042.900000095367,
+        "scrollEvent": 15644.399999856949,
+        "buttonImage": 15801.594970703125,
+        "clickDispatched": 15927.599999904633,
+        "clickHandled": 15962.599999904633,
+        "startSuccess": 16244.399999856949,
+        "startHandler": 281.7999999523163,
+        "overlayHiddenImage": 16278.963134765625,
+        "firstRenderStart": 2849.899999856949,
+        "firstRenderEnd": 15396.899999856949,
+        "firstRenderDuration": 12547,
+        "gpuFence": 15441.899999856949,
+        "motion": 16299,
+        "world": 2386.600000143051,
+        "buildGame": 176.39999985694885,
+        "shaderReadiness": 12308.89999961853,
+        "longestTask": 12551.606,
+        "firstPlayingRenderEnd": 16271,
+        "maxTaskBeforeMenu": 361.0079960823059
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "oneAttempt": true,
+        "trustedWheel": true,
+        "trustedClick": true,
+        "trustedW": true,
+        "successfulStart": true,
+        "positiveSpeedAfterW": true,
+        "errors": 0,
+        "glError": 0,
+        "visible": true,
+        "focused": true,
+        "shaderChecks": true,
+        "high": true,
+        "gpu": true
+      },
+      "browser": "155.0.4283.62",
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "player": {
+        "x": 54.246519667871034,
+        "z": 30,
+        "speed": 0.46492872349738074
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "topTasks": [
+        {
+          "start": 2848.3509998321533,
+          "ms": 12551.606
+        },
+        {
+          "start": 154.7630000114441,
+          "ms": 2600.629
+        },
+        {
+          "start": 15961.066999912262,
+          "ms": 286.381
+        },
+        {
+          "start": 15441.59399986267,
+          "ms": 135.874
+        },
+        {
+          "start": 62.30299997329712,
+          "ms": 67.968
+        }
+      ],
+      "longtasks": [
+        {
+          "s": 62.39999985694885,
+          "ms": 67
+        },
+        {
+          "s": 154.79999995231628,
+          "ms": 2600
+        },
+        {
+          "s": 2848.399999856949,
+          "ms": 12551
+        },
+        {
+          "s": 15441.699999809265,
+          "ms": 135
+        },
+        {
+          "s": 15644.099999904633,
+          "ms": 59
+        },
+        {
+          "s": 15705.5,
+          "ms": 50
+        },
+        {
+          "s": 15961.099999904633,
+          "ms": 286
+        }
+      ],
+      "shaderCalls": {
+        "count": 69,
+        "max": 399.90000009536743
+      },
+      "worldRows": [
+        {
+          "n": "buildWorld",
+          "s": 157.19999980926514,
+          "ms": 2386.600000143051,
+          "self": 0.3000001907348633
+        },
+        {
+          "n": "createVisualAssets",
+          "s": 624.8999998569489,
+          "ms": 974.4000000953674,
+          "self": 974.4000000953674
+        },
+        {
+          "n": "buildGame",
+          "s": 2543.7999999523163,
+          "ms": 176.39999985694885,
+          "self": 0.8000001907348633
+        },
+        {
+          "n": "createPlayerCar",
+          "s": 2545.0999999046326,
+          "ms": 72.79999995231628,
+          "self": 0.4999997615814209
+        },
+        {
+          "n": "createRuntime",
+          "s": 2719.7999999523163,
+          "ms": 0.09999990463256836,
+          "self": 0.09999990463256836
+        }
+      ]
+    },
+    {
+      "name": "final-2-warm",
+      "kind": "warm",
+      "stats": {
+        "dom": 55.40000009536743,
+        "firstPaint": 212,
+        "menuImage": 214.463134765625,
+        "startRegistered": 2598.5,
+        "wheelRequested": 275.10000014305115,
+        "wheelHandled": 3830.5,
+        "wheelQueue": 3555.399999856949,
+        "scrollEvent": 3879.100000143051,
+        "buttonImage": 3955.104248046875,
+        "clickDispatched": 4057.100000143051,
+        "clickHandled": 4101.799999952316,
+        "startSuccess": 4159.100000143051,
+        "startHandler": 57.30000019073486,
+        "overlayHiddenImage": 4193.258056640625,
+        "firstRenderStart": 2736.100000143051,
+        "firstRenderEnd": 3619.4000000953674,
+        "firstRenderDuration": 883.2999999523163,
+        "gpuFence": 3648,
+        "motion": 4213.400000095367,
+        "world": 2248.7999999523163,
+        "buildGame": 183.70000004768372,
+        "shaderReadiness": 681.599999666214,
+        "longestTask": 2471.794,
+        "firstPlayingRenderEnd": 4183.400000095367,
+        "maxTaskBeforeMenu": 67.816
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "oneAttempt": true,
+        "trustedWheel": true,
+        "trustedClick": true,
+        "trustedW": true,
+        "successfulStart": true,
+        "positiveSpeedAfterW": true,
+        "errors": 0,
+        "glError": 0,
+        "visible": true,
+        "focused": true,
+        "shaderChecks": true,
+        "high": true,
+        "gpu": true
+      },
+      "browser": "155.0.4283.62",
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "player": {
+        "x": 54.27840199000001,
+        "z": 30,
+        "speed": 0
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "topTasks": [
+        {
+          "start": 163.625,
+          "ms": 2471.794
+        },
+        {
+          "start": 2734.3730001449585,
+          "ms": 887.945
+        },
+        {
+          "start": 3647.7640001773834,
+          "ms": 132.11
+        },
+        {
+          "start": 56.16300010681152,
+          "ms": 67.816
+        },
+        {
+          "start": 4099.901999950409,
+          "ms": 61.269
+        }
+      ],
+      "longtasks": [
+        {
+          "s": 56.10000014305115,
+          "ms": 67
+        },
+        {
+          "s": 163.70000004768372,
+          "ms": 2471
+        },
+        {
+          "s": 2734.2999999523163,
+          "ms": 888
+        },
+        {
+          "s": 3647.7999999523163,
+          "ms": 132
+        },
+        {
+          "s": 4099.900000095367,
+          "ms": 61
+        }
+      ],
+      "shaderCalls": {
+        "count": 69,
+        "max": 81
+      },
+      "worldRows": [
+        {
+          "n": "buildWorld",
+          "s": 166,
+          "ms": 2248.7999999523163,
+          "self": 0.20000004768371582
+        },
+        {
+          "n": "createVisualAssets",
+          "s": 268,
+          "ms": 988.1000001430511,
+          "self": 988.1000001430511
+        },
+        {
+          "n": "buildGame",
+          "s": 2414.7999999523163,
+          "ms": 183.70000004768372,
+          "self": 0.6999998092651367
+        },
+        {
+          "n": "createPlayerCar",
+          "s": 2416,
+          "ms": 77.60000014305115,
+          "self": 0.10000014305114746
+        },
+        {
+          "n": "createRuntime",
+          "s": 2598,
+          "ms": 0.20000004768371582,
+          "self": 0.20000004768371582
+        }
+      ]
+    },
+    {
+      "name": "final-3-fresh",
+      "kind": "fresh",
+      "stats": {
+        "dom": 55,
+        "firstPaint": 508,
+        "menuImage": 506.155029296875,
+        "startRegistered": 2839.7000000476837,
+        "wheelRequested": 559.5,
+        "wheelHandled": 15676.900000095367,
+        "wheelQueue": 15117.400000095367,
+        "scrollEvent": 15729.299999952316,
+        "buttonImage": 15819.300048828125,
+        "clickDispatched": 15967.600000143051,
+        "clickHandled": 15984,
+        "startSuccess": 16256.100000143051,
+        "startHandler": 272.10000014305115,
+        "overlayHiddenImage": 16287.968994140625,
+        "firstRenderStart": 2961.7999999523163,
+        "firstRenderEnd": 15445.5,
+        "firstRenderDuration": 12483.700000047684,
+        "gpuFence": 15491.400000095367,
+        "motion": 16306.600000143051,
+        "world": 2504.0999999046326,
+        "buildGame": 176.09999990463257,
+        "shaderReadiness": 12237.000000238419,
+        "longestTask": 12488.346,
+        "firstPlayingRenderEnd": 16280.100000143051,
+        "maxTaskBeforeMenu": 350.05102920532227
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "oneAttempt": true,
+        "trustedWheel": true,
+        "trustedClick": true,
+        "trustedW": true,
+        "successfulStart": true,
+        "positiveSpeedAfterW": true,
+        "errors": 0,
+        "glError": 0,
+        "visible": true,
+        "focused": true,
+        "shaderChecks": true,
+        "high": true,
+        "gpu": true
+      },
+      "browser": "155.0.4283.62",
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "player": {
+        "x": 54.26226051400001,
+        "z": 30,
+        "speed": 0
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "topTasks": [
+        {
+          "start": 2960.0199999809265,
+          "ms": 12488.346
+        },
+        {
+          "start": 156.10400009155273,
+          "ms": 2718.69
+        },
+        {
+          "start": 15982.225000143051,
+          "ms": 276.872
+        },
+        {
+          "start": 15491.117000102997,
+          "ms": 143.557
+        },
+        {
+          "start": 63.41200017929077,
+          "ms": 68.818
+        }
+      ],
+      "longtasks": [
+        {
+          "s": 63.40000009536743,
+          "ms": 68
+        },
+        {
+          "s": 156.20000004768372,
+          "ms": 2718
+        },
+        {
+          "s": 2960,
+          "ms": 12488
+        },
+        {
+          "s": 15491.100000143051,
+          "ms": 143
+        },
+        {
+          "s": 15982.299999952316,
+          "ms": 276
+        }
+      ],
+      "shaderCalls": {
+        "count": 69,
+        "max": 377.60000014305115
+      },
+      "worldRows": [
+        {
+          "n": "buildWorld",
+          "s": 159.60000014305115,
+          "ms": 2504.0999999046326,
+          "self": 0.19999980926513672
+        },
+        {
+          "n": "createVisualAssets",
+          "s": 611.7999999523163,
+          "ms": 952.8000001907349,
+          "self": 952.8000001907349
+        },
+        {
+          "n": "buildGame",
+          "s": 2663.7000000476837,
+          "ms": 176.09999990463257,
+          "self": 1.1000001430511475
+        },
+        {
+          "n": "createPlayerCar",
+          "s": 2665.2999999523163,
+          "ms": 75.80000019073486,
+          "self": 0
+        },
+        {
+          "n": "createRuntime",
+          "s": 2839.4000000953674,
+          "ms": 0,
+          "self": 0
+        }
+      ]
+    },
+    {
+      "name": "final-3-warm",
+      "kind": "warm",
+      "stats": {
+        "dom": 48.80000019073486,
+        "firstPaint": 204,
+        "menuImage": 200.60791015625,
+        "startRegistered": 2537.2000000476837,
+        "wheelRequested": 259.2000000476837,
+        "wheelHandled": 3796.5,
+        "wheelQueue": 3537.2999999523163,
+        "scrollEvent": 3842.600000143051,
+        "buttonImage": 3922.388916015625,
+        "clickDispatched": 4036.100000143051,
+        "clickHandled": 4061.600000143051,
+        "startSuccess": 4126.100000143051,
+        "startHandler": 64.5,
+        "overlayHiddenImage": 4162.458740234375,
+        "firstRenderStart": 2663,
+        "firstRenderEnd": 3589.800000190735,
+        "firstRenderDuration": 926.8000001907349,
+        "gpuFence": 3623.4000000953674,
+        "motion": 4183.100000143051,
+        "world": 2202.5,
+        "buildGame": 184.5,
+        "shaderReadiness": 723.5,
+        "longestTask": 2426.097,
+        "firstPlayingRenderEnd": 4152.300000190735,
+        "maxTaskBeforeMenu": 63.22999999999999
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "oneAttempt": true,
+        "trustedWheel": true,
+        "trustedClick": true,
+        "trustedW": true,
+        "successfulStart": true,
+        "positiveSpeedAfterW": true,
+        "errors": 0,
+        "glError": 0,
+        "visible": true,
+        "focused": true,
+        "shaderChecks": true,
+        "high": true,
+        "gpu": true
+      },
+      "browser": "155.0.4283.62",
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "player": {
+        "x": 54.27717363600001,
+        "z": 30,
+        "speed": 0
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "topTasks": [
+        {
+          "start": 147.6600000858307,
+          "ms": 2426.097
+        },
+        {
+          "start": 2661.454000234604,
+          "ms": 931.559
+        },
+        {
+          "start": 3623.215000152588,
+          "ms": 133.692
+        },
+        {
+          "start": 4060.084000110626,
+          "ms": 69.231
+        },
+        {
+          "start": 49.104000091552734,
+          "ms": 63.23
+        }
+      ],
+      "longtasks": [
+        {
+          "s": 49,
+          "ms": 63
+        },
+        {
+          "s": 147.60000014305115,
+          "ms": 2426
+        },
+        {
+          "s": 2573.800000190735,
+          "ms": 1019
+        },
+        {
+          "s": 3623.100000143051,
+          "ms": 133
+        },
+        {
+          "s": 4060,
+          "ms": 69
+        }
+      ],
+      "shaderCalls": {
+        "count": 69,
+        "max": 92.90000009536743
+      },
+      "worldRows": [
+        {
+          "n": "buildWorld",
+          "s": 150.30000019073486,
+          "ms": 2202.5,
+          "self": 0.2999999523162842
+        },
+        {
+          "n": "createVisualAssets",
+          "s": 251.10000014305115,
+          "ms": 974.5999999046326,
+          "self": 974.5999999046326
+        },
+        {
+          "n": "buildGame",
+          "s": 2352.800000190735,
+          "ms": 184.5,
+          "self": 0.7000000476837158
+        },
+        {
+          "n": "createPlayerCar",
+          "s": 2354.100000143051,
+          "ms": 77.59999990463257,
+          "self": 0.20000004768371582
+        },
+        {
+          "n": "createRuntime",
+          "s": 2536.800000190735,
+          "ms": 0.09999990463256836,
+          "self": 0.09999990463256836
+        }
+      ]
+    }
+  ],
+  "groups": {
+    "fresh": {
+      "dom": {
+        "median": 55,
+        "min": 53.09999990463257,
+        "max": 55.59999990463257
+      },
+      "firstPaint": {
+        "median": 512,
+        "min": 508,
+        "max": 528
+      },
+      "menuImage": {
+        "median": 515.77099609375,
+        "min": 506.155029296875,
+        "max": 532.53076171875
+      },
+      "startRegistered": {
+        "median": 2839.7000000476837,
+        "min": 2720.199999809265,
+        "max": 2846.5
+      },
+      "wheelRequested": {
+        "median": 574.5999999046326,
+        "min": 559.5,
+        "max": 616.3999998569489
+      },
+      "wheelHandled": {
+        "median": 15617.5,
+        "min": 15530,
+        "max": 15676.900000095367
+      },
+      "wheelQueue": {
+        "median": 15042.900000095367,
+        "min": 14913.600000143051,
+        "max": 15117.400000095367
+      },
+      "scrollEvent": {
+        "median": 15644.399999856949,
+        "min": 15556.899999856949,
+        "max": 15729.299999952316
+      },
+      "buttonImage": {
+        "median": 15801.594970703125,
+        "min": 15687.5458984375,
+        "max": 15819.300048828125
+      },
+      "clickDispatched": {
+        "median": 15927.599999904633,
+        "min": 15864.5,
+        "max": 15967.600000143051
+      },
+      "clickHandled": {
+        "median": 15962.599999904633,
+        "min": 15872.899999856949,
+        "max": 15984
+      },
+      "startSuccess": {
+        "median": 16244.399999856949,
+        "min": 16146.299999952316,
+        "max": 16256.100000143051
+      },
+      "startHandler": {
+        "median": 273.40000009536743,
+        "min": 272.10000014305115,
+        "max": 281.7999999523163
+      },
+      "overlayHiddenImage": {
+        "median": 16278.963134765625,
+        "min": 16177.2939453125,
+        "max": 16287.968994140625
+      },
+      "firstRenderStart": {
+        "median": 2961.7999999523163,
+        "min": 2849.899999856949,
+        "max": 2970.5
+      },
+      "firstRenderEnd": {
+        "median": 15396.899999856949,
+        "min": 15303.299999952316,
+        "max": 15445.5
+      },
+      "firstRenderDuration": {
+        "median": 12483.700000047684,
+        "min": 12332.799999952316,
+        "max": 12547
+      },
+      "gpuFence": {
+        "median": 15441.899999856949,
+        "min": 15354.5,
+        "max": 15491.400000095367
+      },
+      "motion": {
+        "median": 16299,
+        "min": 16199.099999904633,
+        "max": 16306.600000143051
+      },
+      "world": {
+        "median": 2500.7999999523163,
+        "min": 2386.600000143051,
+        "max": 2504.0999999046326
+      },
+      "buildGame": {
+        "median": 176.39999985694885,
+        "min": 176.09999990463257,
+        "max": 177.5
+      },
+      "shaderReadiness": {
+        "median": 12237.000000238419,
+        "min": 12093.099999666214,
+        "max": 12308.89999961853
+      },
+      "longestTask": {
+        "median": 12488.346,
+        "min": 12337.692,
+        "max": 12551.606
+      },
+      "firstPlayingRenderEnd": {
+        "median": 16271,
+        "min": 16169.599999904633,
+        "max": 16280.100000143051
+      },
+      "maxTaskBeforeMenu": {
+        "median": 361.0079960823059,
+        "min": 350.05102920532227,
+        "max": 366.74276185035706
+      }
+    },
+    "warm": {
+      "dom": {
+        "median": 55.40000009536743,
+        "min": 48.80000019073486,
+        "max": 104.09999990463257
+      },
+      "firstPaint": {
+        "median": 212,
+        "min": 204,
+        "max": 240
+      },
+      "menuImage": {
+        "median": 214.463134765625,
+        "min": 200.60791015625,
+        "max": 240.875
+      },
+      "startRegistered": {
+        "median": 2537.2000000476837,
+        "min": 2459.5,
+        "max": 2598.5
+      },
+      "wheelRequested": {
+        "median": 275.10000014305115,
+        "min": 259.2000000476837,
+        "max": 299
+      },
+      "wheelHandled": {
+        "median": 3796.5,
+        "min": 3669.5999999046326,
+        "max": 3830.5
+      },
+      "wheelQueue": {
+        "median": 3537.2999999523163,
+        "min": 3370.5999999046326,
+        "max": 3555.399999856949
+      },
+      "scrollEvent": {
+        "median": 3842.600000143051,
+        "min": 3710.4000000953674,
+        "max": 3879.100000143051
+      },
+      "buttonImage": {
+        "median": 3922.388916015625,
+        "min": 3778.52294921875,
+        "max": 3955.104248046875
+      },
+      "clickDispatched": {
+        "median": 4036.100000143051,
+        "min": 3902.0999999046326,
+        "max": 4057.100000143051
+      },
+      "clickHandled": {
+        "median": 4061.600000143051,
+        "min": 3953.5,
+        "max": 4101.799999952316
+      },
+      "startSuccess": {
+        "median": 4126.100000143051,
+        "min": 4012.2000000476837,
+        "max": 4159.100000143051
+      },
+      "startHandler": {
+        "median": 58.700000047683716,
+        "min": 57.30000019073486,
+        "max": 64.5
+      },
+      "overlayHiddenImage": {
+        "median": 4162.458740234375,
+        "min": 4043.467041015625,
+        "max": 4193.258056640625
+      },
+      "firstRenderStart": {
+        "median": 2663,
+        "min": 2588.0999999046326,
+        "max": 2736.100000143051
+      },
+      "firstRenderEnd": {
+        "median": 3589.800000190735,
+        "min": 3470.7000000476837,
+        "max": 3619.4000000953674
+      },
+      "firstRenderDuration": {
+        "median": 883.2999999523163,
+        "min": 882.6000001430511,
+        "max": 926.8000001907349
+      },
+      "gpuFence": {
+        "median": 3623.4000000953674,
+        "min": 3498.7000000476837,
+        "max": 3648
+      },
+      "motion": {
+        "median": 4183.100000143051,
+        "min": 4064.9000000953674,
+        "max": 4213.400000095367
+      },
+      "world": {
+        "median": 2202.5,
+        "min": 2088.2999999523163,
+        "max": 2248.7999999523163
+      },
+      "buildGame": {
+        "median": 183.70000004768372,
+        "min": 175.5,
+        "max": 184.5
+      },
+      "shaderReadiness": {
+        "median": 681.599999666214,
+        "min": 678.9999990463257,
+        "max": 723.5
+      },
+      "longestTask": {
+        "median": 2426.097,
+        "min": 2307.898,
+        "max": 2471.794
+      },
+      "firstPlayingRenderEnd": {
+        "median": 4152.300000190735,
+        "min": 4035.2999999523163,
+        "max": 4183.400000095367
+      },
+      "maxTaskBeforeMenu": {
+        "median": 63.22999999999999,
+        "min": 58.52699999999999,
+        "max": 67.816
+      }
+    }
+  },
+  "preserved": {
+    "src/adapters/rendering/scene.ts": {
+      "before": "f5f6e60cedb93ac533947c230eb2c06c6bc8b181278833d7abe25c6e55d33961",
+      "after": "f5f6e60cedb93ac533947c230eb2c06c6bc8b181278833d7abe25c6e55d33961",
+      "unchanged": true
+    },
+    "dist/adapters/rendering/scene.js": {
+      "before": "284784321ebdf7cd9da02a4c49ed51906e2412f42439658e010268b63025f754",
+      "after": "284784321ebdf7cd9da02a4c49ed51906e2412f42439658e010268b63025f754",
+      "unchanged": true
+    },
+    "types/rendering-contracts.d.ts": {
+      "before": "d4ce7ca94d221adf3cbdbb3da83f58cfc728332a5c3e8a9fae4fc0c72a3239c2",
+      "after": "d4ce7ca94d221adf3cbdbb3da83f58cfc728332a5c3e8a9fae4fc0c72a3239c2",
+      "unchanged": true
+    },
+    "tests/shader-checks.test.cjs": {
+      "before": "e651bcc554684717eb5ad7a045e85625ee351344d642f36444699a75e432c313",
+      "after": "e651bcc554684717eb5ad7a045e85625ee351344d642f36444699a75e432c313",
+      "unchanged": true
+    },
+    "assets/three.min.js": {
+      "before": "8a5f7249903b54d30f79f708699d2fed2d6a1d0741a4cd41377d1f01bb5a2271",
+      "after": "8a5f7249903b54d30f79f708699d2fed2d6a1d0741a4cd41377d1f01bb5a2271",
+      "unchanged": true
+    }
+  }
+}
