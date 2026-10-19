@@ -1,0 +1,1937 @@
+{
+  "units": "ms unless count",
+  "runs": [
+    {
+      "name": "ab-1-A-fresh",
+      "pair": 1,
+      "mode": "A",
+      "kind": "fresh",
+      "stats": {
+        "menu": 522.385986328125,
+        "earlyWheel": 15364.899999856949,
+        "wheelQueue": 14779.599999904633,
+        "start": 16060.399999856949,
+        "firstFrame": 15130.899999856949,
+        "gpuFence": 15171.5,
+        "control": 16111.399999856949,
+        "firstFrameDuration": 12230.399999856949,
+        "maxFrameAfterControl": 32,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 8,
+        "lateLinksAfterControl": 0,
+        "created": 80,
+        "used": 80,
+        "prepared": 0,
+        "preparedUsed": 0,
+        "unusedPrepared": 0,
+        "lateAfterPreparation": 0,
+        "submit": 0,
+        "wait": 0,
+        "poll": 0,
+        "reflection": 0,
+        "errors": 0,
+        "startToControl": 51,
+        "maxFrameAfterStart": 32
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": null
+    },
+    {
+      "name": "ab-1-A-warm",
+      "pair": 1,
+      "mode": "A",
+      "kind": "warm",
+      "stats": {
+        "menu": 217.60205078125,
+        "earlyWheel": 3726.2000000476837,
+        "wheelQueue": 3421.2000000476837,
+        "start": 4096.900000095367,
+        "firstFrame": 3504.7999999523163,
+        "gpuFence": 3549.7999999523163,
+        "control": 4297.099999904633,
+        "firstFrameDuration": 905.5,
+        "maxFrameAfterControl": 35.30000019073486,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 8,
+        "lateLinksAfterControl": 0,
+        "created": 80,
+        "used": 80,
+        "prepared": 0,
+        "preparedUsed": 0,
+        "unusedPrepared": 0,
+        "lateAfterPreparation": 0,
+        "submit": 0,
+        "wait": 0,
+        "poll": 0,
+        "reflection": 0,
+        "errors": 0,
+        "startToControl": 200.19999980926514,
+        "maxFrameAfterStart": 35.30000019073486
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": null
+    },
+    {
+      "name": "ab-1-B-fresh",
+      "pair": 1,
+      "mode": "B",
+      "kind": "fresh",
+      "stats": {
+        "menu": 485.257080078125,
+        "earlyWheel": 4994.700000047684,
+        "wheelQueue": 4430.799999952316,
+        "start": 8506.600000143051,
+        "firstFrame": 8229.400000095367,
+        "gpuFence": 8544.5,
+        "control": 8574.900000095367,
+        "firstFrameDuration": 3057.0999999046326,
+        "maxFrameAfterControl": 61,
+        "maxTaskAfterControl": 65,
+        "lateLinksAfterFirst": 0,
+        "lateLinksAfterControl": 0,
+        "created": 86,
+        "used": 73,
+        "prepared": 66,
+        "preparedUsed": 53,
+        "unusedPrepared": 13,
+        "lateAfterPreparation": 17,
+        "submit": 240.40000009536743,
+        "wait": 2003.5999999046326,
+        "poll": 3.1000006198883057,
+        "reflection": 28.799999952316284,
+        "errors": 0,
+        "startToControl": 68.29999995231628,
+        "maxFrameAfterStart": 61
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": {
+        "start": 2886.4000000953674,
+        "passes": [
+          "main-linear",
+          "reflection-cube-linear",
+          "water-reflection-linear",
+          "post-output"
+        ],
+        "submitted": 66,
+        "polls": 14,
+        "pollMs": 3.1000006198883057,
+        "ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "submitEnd": 3126.800000190735,
+        "ready": 5130.400000095367,
+        "reflected": 5159.200000047684
+      }
+    },
+    {
+      "name": "ab-1-B-warm",
+      "pair": 1,
+      "mode": "B",
+      "kind": "warm",
+      "stats": {
+        "menu": 175.988037109375,
+        "earlyWheel": 2801.800000190735,
+        "wheelQueue": 2550.4000000953674,
+        "start": 3166.7000000476837,
+        "firstFrame": 3998.4000000953674,
+        "gpuFence": 4034.600000143051,
+        "control": 4033.600000143051,
+        "firstFrameDuration": 693,
+        "maxFrameAfterControl": 29.899999856948853,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 0,
+        "lateLinksAfterControl": 0,
+        "created": 86,
+        "used": 73,
+        "prepared": 66,
+        "preparedUsed": 53,
+        "unusedPrepared": 13,
+        "lateAfterPreparation": 17,
+        "submit": 148.40000009536743,
+        "wait": 821.0999999046326,
+        "poll": 1.5999996662139893,
+        "reflection": 44,
+        "errors": 0,
+        "startToControl": 866.9000000953674,
+        "maxFrameAfterStart": 693
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": {
+        "start": 2275.2000000476837,
+        "passes": [
+          "main-linear",
+          "reflection-cube-linear",
+          "water-reflection-linear",
+          "post-output"
+        ],
+        "submitted": 66,
+        "polls": 36,
+        "pollMs": 1.5999996662139893,
+        "ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "submitEnd": 2423.600000143051,
+        "ready": 3244.7000000476837,
+        "reflected": 3288.7000000476837
+      }
+    },
+    {
+      "name": "ab-2-A-fresh",
+      "pair": 2,
+      "mode": "A",
+      "kind": "fresh",
+      "stats": {
+        "menu": 487.943115234375,
+        "earlyWheel": 15780.600000143051,
+        "wheelQueue": 15225.600000143051,
+        "start": 16371.400000095367,
+        "firstFrame": 15539,
+        "gpuFence": 15589.300000190735,
+        "control": 16422.300000190735,
+        "firstFrameDuration": 12551.799999952316,
+        "maxFrameAfterControl": 29.799999952316284,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 8,
+        "lateLinksAfterControl": 0,
+        "created": 80,
+        "used": 80,
+        "prepared": 0,
+        "preparedUsed": 0,
+        "unusedPrepared": 0,
+        "lateAfterPreparation": 0,
+        "submit": 0,
+        "wait": 0,
+        "poll": 0,
+        "reflection": 0,
+        "errors": 0,
+        "startToControl": 50.90000009536743,
+        "maxFrameAfterStart": 29.799999952316284
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": null
+    },
+    {
+      "name": "ab-2-A-warm",
+      "pair": 2,
+      "mode": "A",
+      "kind": "warm",
+      "stats": {
+        "menu": 189.86376953125,
+        "earlyWheel": 3723.300000190735,
+        "wheelQueue": 3472.4000000953674,
+        "start": 4099.400000095367,
+        "firstFrame": 3510.300000190735,
+        "gpuFence": 3539.2000000476837,
+        "control": 4199.200000047684,
+        "firstFrameDuration": 924.5,
+        "maxFrameAfterControl": 33.10000014305115,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 8,
+        "lateLinksAfterControl": 0,
+        "created": 80,
+        "used": 80,
+        "prepared": 0,
+        "preparedUsed": 0,
+        "unusedPrepared": 0,
+        "lateAfterPreparation": 0,
+        "submit": 0,
+        "wait": 0,
+        "poll": 0,
+        "reflection": 0,
+        "errors": 0,
+        "startToControl": 99.79999995231628,
+        "maxFrameAfterStart": 34.09999990463257
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": null
+    },
+    {
+      "name": "ab-2-B-fresh",
+      "pair": 2,
+      "mode": "B",
+      "kind": "fresh",
+      "stats": {
+        "menu": 500.912109375,
+        "earlyWheel": 4762.5,
+        "wheelQueue": 4184.400000095367,
+        "start": 8121.5,
+        "firstFrame": 7835.200000047684,
+        "gpuFence": 8161.400000095367,
+        "control": 8194.799999952316,
+        "firstFrameDuration": 2824.600000143051,
+        "maxFrameAfterControl": 56.700000047683716,
+        "maxTaskAfterControl": 61,
+        "lateLinksAfterFirst": 0,
+        "lateLinksAfterControl": 0,
+        "created": 86,
+        "used": 73,
+        "prepared": 66,
+        "preparedUsed": 53,
+        "unusedPrepared": 13,
+        "lateAfterPreparation": 17,
+        "submit": 248.90000009536743,
+        "wait": 2015.7999999523163,
+        "poll": 9.599999904632568,
+        "reflection": 32.09999990463257,
+        "errors": 0,
+        "startToControl": 73.29999995231628,
+        "maxFrameAfterStart": 56.700000047683716
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": {
+        "start": 2700.7999999523163,
+        "passes": [
+          "main-linear",
+          "reflection-cube-linear",
+          "water-reflection-linear",
+          "post-output"
+        ],
+        "submitted": 66,
+        "polls": 14,
+        "pollMs": 9.599999904632568,
+        "ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "submitEnd": 2949.7000000476837,
+        "ready": 4965.5,
+        "reflected": 4997.599999904633
+      }
+    },
+    {
+      "name": "ab-2-B-warm",
+      "pair": 2,
+      "mode": "B",
+      "kind": "warm",
+      "stats": {
+        "menu": 197.295166015625,
+        "earlyWheel": 3858.0999999046326,
+        "wheelQueue": 3588,
+        "start": 4764,
+        "firstFrame": 4704.5,
+        "gpuFence": 4888,
+        "control": 4879.699999809265,
+        "firstFrameDuration": 539.8000001907349,
+        "maxFrameAfterControl": 35.700000047683716,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 0,
+        "lateLinksAfterControl": 0,
+        "created": 86,
+        "used": 73,
+        "prepared": 66,
+        "preparedUsed": 53,
+        "unusedPrepared": 13,
+        "lateAfterPreparation": 17,
+        "submit": 241.5,
+        "wait": 1453.1000001430511,
+        "poll": 0.9000003337860107,
+        "reflection": 27.59999990463257,
+        "errors": 0,
+        "startToControl": 115.69999980926514,
+        "maxFrameAfterStart": 36.40000009536743
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": {
+        "start": 2429.699999809265,
+        "passes": [
+          "main-linear",
+          "reflection-cube-linear",
+          "water-reflection-linear",
+          "post-output"
+        ],
+        "submitted": 66,
+        "polls": 25,
+        "pollMs": 0.9000003337860107,
+        "ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "submitEnd": 2671.199999809265,
+        "ready": 4124.299999952316,
+        "reflected": 4151.899999856949
+      }
+    },
+    {
+      "name": "ab-3-A-fresh",
+      "pair": 3,
+      "mode": "A",
+      "kind": "fresh",
+      "stats": {
+        "menu": 494.6640625,
+        "earlyWheel": 15640.700000047684,
+        "wheelQueue": 15079.799999952316,
+        "start": 16301.799999952316,
+        "firstFrame": 15397.400000095367,
+        "gpuFence": 15444.799999952316,
+        "control": 16351.299999952316,
+        "firstFrameDuration": 12485.600000143051,
+        "maxFrameAfterControl": 33.89999985694885,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 8,
+        "lateLinksAfterControl": 0,
+        "created": 80,
+        "used": 80,
+        "prepared": 0,
+        "preparedUsed": 0,
+        "unusedPrepared": 0,
+        "lateAfterPreparation": 0,
+        "submit": 0,
+        "wait": 0,
+        "poll": 0,
+        "reflection": 0,
+        "errors": 0,
+        "startToControl": 49.5,
+        "maxFrameAfterStart": 33.89999985694885
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": null
+    },
+    {
+      "name": "ab-3-A-warm",
+      "pair": 3,
+      "mode": "A",
+      "kind": "warm",
+      "stats": {
+        "menu": 215.2578125,
+        "earlyWheel": 3575.7999999523163,
+        "wheelQueue": 3301.4000000953674,
+        "start": 3895.0999999046326,
+        "firstFrame": 3372.399999856949,
+        "gpuFence": 3399.7999999523163,
+        "control": 3999.7999999523163,
+        "firstFrameDuration": 898.7999999523163,
+        "maxFrameAfterControl": 35.200000047683716,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 8,
+        "lateLinksAfterControl": 0,
+        "created": 80,
+        "used": 80,
+        "prepared": 0,
+        "preparedUsed": 0,
+        "unusedPrepared": 0,
+        "lateAfterPreparation": 0,
+        "submit": 0,
+        "wait": 0,
+        "poll": 0,
+        "reflection": 0,
+        "errors": 0,
+        "startToControl": 104.70000004768372,
+        "maxFrameAfterStart": 37
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": null
+    },
+    {
+      "name": "ab-3-B-fresh",
+      "pair": 3,
+      "mode": "B",
+      "kind": "fresh",
+      "stats": {
+        "menu": 500.4140625,
+        "earlyWheel": 4992.5,
+        "wheelQueue": 4428.700000047684,
+        "start": 5262.799999952316,
+        "firstFrame": 8514.5,
+        "gpuFence": 8551.5,
+        "control": 8549.799999952316,
+        "firstFrameDuration": 3158.300000190735,
+        "maxFrameAfterControl": 68.70000004768372,
+        "maxTaskAfterControl": 70,
+        "lateLinksAfterFirst": 0,
+        "lateLinksAfterControl": 0,
+        "created": 86,
+        "used": 73,
+        "prepared": 66,
+        "preparedUsed": 53,
+        "unusedPrepared": 13,
+        "lateAfterPreparation": 17,
+        "submit": 224.79999995231628,
+        "wait": 2152.5,
+        "poll": 0.7000000476837158,
+        "reflection": 68.09999990463257,
+        "errors": 0,
+        "startToControl": 3287,
+        "maxFrameAfterStart": 3158.300000190735
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [
+        {
+          "name": "drawElements",
+          "s": 8649.099999904633,
+          "ms": 41.40000009536743,
+          "phase": "after-first-frame"
+        }
+      ],
+      "preparation": {
+        "start": 2889,
+        "passes": [
+          "main-linear",
+          "reflection-cube-linear",
+          "water-reflection-linear",
+          "post-output"
+        ],
+        "submitted": 66,
+        "polls": 17,
+        "pollMs": 0.7000000476837158,
+        "ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "submitEnd": 3113.7999999523163,
+        "ready": 5266.299999952316,
+        "reflected": 5334.399999856949
+      }
+    },
+    {
+      "name": "ab-3-B-warm",
+      "pair": 3,
+      "mode": "B",
+      "kind": "warm",
+      "stats": {
+        "menu": 169.0888671875,
+        "earlyWheel": 3832.7999999523163,
+        "wheelQueue": 3598.9000000953674,
+        "start": 4094.7999999523163,
+        "firstFrame": 4936.5,
+        "gpuFence": 4974.200000047684,
+        "control": 4973.399999856949,
+        "firstFrameDuration": 627.7999999523163,
+        "maxFrameAfterControl": 33,
+        "maxTaskAfterControl": 0,
+        "lateLinksAfterFirst": 0,
+        "lateLinksAfterControl": 0,
+        "created": 86,
+        "used": 73,
+        "prepared": 66,
+        "preparedUsed": 53,
+        "unusedPrepared": 13,
+        "lateAfterPreparation": 17,
+        "submit": 226.79999995231628,
+        "wait": 1636.9000000953674,
+        "poll": 1.6000003814697266,
+        "reflection": 54.39999985694885,
+        "errors": 0,
+        "startToControl": 878.5999999046326,
+        "maxFrameAfterStart": 627.7999999523163
+      },
+      "checks": {
+        "oneWheel": true,
+        "oneClick": true,
+        "trustedClick": true,
+        "trustedWheel": true,
+        "control": true,
+        "checksEnabled": true,
+        "quality": true,
+        "gpu": true,
+        "focused": true,
+        "visible": true,
+        "noErrors": true
+      },
+      "browser": "155.0.4283.62",
+      "webgl": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "revision": "149",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "width": 1910,
+        "height": 867,
+        "quality": "high"
+      },
+      "window": {
+        "innerWidth": 1528,
+        "innerHeight": 694,
+        "outerWidth": 1536,
+        "outerHeight": 824,
+        "dpr": 1.25,
+        "screen": {
+          "width": 1536,
+          "height": 864,
+          "availWidth": 1536,
+          "availHeight": 824
+        },
+        "visibility": "visible",
+        "focus": true
+      },
+      "warnings": [
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20",
+        "sigmaRadians, 0.05, is too large and will clip, as it requested 25 samples when the maximum is set to 20"
+      ],
+      "slowAfterControl": [],
+      "preparation": {
+        "start": 2374,
+        "passes": [
+          "main-linear",
+          "reflection-cube-linear",
+          "water-reflection-linear",
+          "post-output"
+        ],
+        "submitted": 66,
+        "polls": 33,
+        "pollMs": 1.6000003814697266,
+        "ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "submitEnd": 2600.7999999523163,
+        "ready": 4237.700000047684,
+        "reflected": 4292.099999904633
+      }
+    }
+  ],
+  "groups": {
+    "fresh": {
+      "A": {
+        "menu": {
+          "median": 494.6640625,
+          "min": 487.943115234375,
+          "max": 522.385986328125
+        },
+        "earlyWheel": {
+          "median": 15640.700000047684,
+          "min": 15364.899999856949,
+          "max": 15780.600000143051
+        },
+        "wheelQueue": {
+          "median": 15079.799999952316,
+          "min": 14779.599999904633,
+          "max": 15225.600000143051
+        },
+        "start": {
+          "median": 16301.799999952316,
+          "min": 16060.399999856949,
+          "max": 16371.400000095367
+        },
+        "firstFrame": {
+          "median": 15397.400000095367,
+          "min": 15130.899999856949,
+          "max": 15539
+        },
+        "gpuFence": {
+          "median": 15444.799999952316,
+          "min": 15171.5,
+          "max": 15589.300000190735
+        },
+        "control": {
+          "median": 16351.299999952316,
+          "min": 16111.399999856949,
+          "max": 16422.300000190735
+        },
+        "firstFrameDuration": {
+          "median": 12485.600000143051,
+          "min": 12230.399999856949,
+          "max": 12551.799999952316
+        },
+        "maxFrameAfterControl": {
+          "median": 32,
+          "min": 29.799999952316284,
+          "max": 33.89999985694885
+        },
+        "maxTaskAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateLinksAfterFirst": {
+          "median": 8,
+          "min": 8,
+          "max": 8
+        },
+        "lateLinksAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "created": {
+          "median": 80,
+          "min": 80,
+          "max": 80
+        },
+        "used": {
+          "median": 80,
+          "min": 80,
+          "max": 80
+        },
+        "prepared": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "preparedUsed": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "unusedPrepared": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateAfterPreparation": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "submit": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "wait": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "poll": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "reflection": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "errors": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "startToControl": {
+          "median": 50.90000009536743,
+          "min": 49.5,
+          "max": 51
+        },
+        "maxFrameAfterStart": {
+          "median": 32,
+          "min": 29.799999952316284,
+          "max": 33.89999985694885
+        }
+      },
+      "B": {
+        "menu": {
+          "median": 500.4140625,
+          "min": 485.257080078125,
+          "max": 500.912109375
+        },
+        "earlyWheel": {
+          "median": 4992.5,
+          "min": 4762.5,
+          "max": 4994.700000047684
+        },
+        "wheelQueue": {
+          "median": 4428.700000047684,
+          "min": 4184.400000095367,
+          "max": 4430.799999952316
+        },
+        "start": {
+          "median": 8121.5,
+          "min": 5262.799999952316,
+          "max": 8506.600000143051
+        },
+        "firstFrame": {
+          "median": 8229.400000095367,
+          "min": 7835.200000047684,
+          "max": 8514.5
+        },
+        "gpuFence": {
+          "median": 8544.5,
+          "min": 8161.400000095367,
+          "max": 8551.5
+        },
+        "control": {
+          "median": 8549.799999952316,
+          "min": 8194.799999952316,
+          "max": 8574.900000095367
+        },
+        "firstFrameDuration": {
+          "median": 3057.0999999046326,
+          "min": 2824.600000143051,
+          "max": 3158.300000190735
+        },
+        "maxFrameAfterControl": {
+          "median": 61,
+          "min": 56.700000047683716,
+          "max": 68.70000004768372
+        },
+        "maxTaskAfterControl": {
+          "median": 65,
+          "min": 61,
+          "max": 70
+        },
+        "lateLinksAfterFirst": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateLinksAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "created": {
+          "median": 86,
+          "min": 86,
+          "max": 86
+        },
+        "used": {
+          "median": 73,
+          "min": 73,
+          "max": 73
+        },
+        "prepared": {
+          "median": 66,
+          "min": 66,
+          "max": 66
+        },
+        "preparedUsed": {
+          "median": 53,
+          "min": 53,
+          "max": 53
+        },
+        "unusedPrepared": {
+          "median": 13,
+          "min": 13,
+          "max": 13
+        },
+        "lateAfterPreparation": {
+          "median": 17,
+          "min": 17,
+          "max": 17
+        },
+        "submit": {
+          "median": 240.40000009536743,
+          "min": 224.79999995231628,
+          "max": 248.90000009536743
+        },
+        "wait": {
+          "median": 2015.7999999523163,
+          "min": 2003.5999999046326,
+          "max": 2152.5
+        },
+        "poll": {
+          "median": 3.1000006198883057,
+          "min": 0.7000000476837158,
+          "max": 9.599999904632568
+        },
+        "reflection": {
+          "median": 32.09999990463257,
+          "min": 28.799999952316284,
+          "max": 68.09999990463257
+        },
+        "errors": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "startToControl": {
+          "median": 73.29999995231628,
+          "min": 68.29999995231628,
+          "max": 3287
+        },
+        "maxFrameAfterStart": {
+          "median": 61,
+          "min": 56.700000047683716,
+          "max": 3158.300000190735
+        }
+      }
+    },
+    "warm": {
+      "A": {
+        "menu": {
+          "median": 215.2578125,
+          "min": 189.86376953125,
+          "max": 217.60205078125
+        },
+        "earlyWheel": {
+          "median": 3723.300000190735,
+          "min": 3575.7999999523163,
+          "max": 3726.2000000476837
+        },
+        "wheelQueue": {
+          "median": 3421.2000000476837,
+          "min": 3301.4000000953674,
+          "max": 3472.4000000953674
+        },
+        "start": {
+          "median": 4096.900000095367,
+          "min": 3895.0999999046326,
+          "max": 4099.400000095367
+        },
+        "firstFrame": {
+          "median": 3504.7999999523163,
+          "min": 3372.399999856949,
+          "max": 3510.300000190735
+        },
+        "gpuFence": {
+          "median": 3539.2000000476837,
+          "min": 3399.7999999523163,
+          "max": 3549.7999999523163
+        },
+        "control": {
+          "median": 4199.200000047684,
+          "min": 3999.7999999523163,
+          "max": 4297.099999904633
+        },
+        "firstFrameDuration": {
+          "median": 905.5,
+          "min": 898.7999999523163,
+          "max": 924.5
+        },
+        "maxFrameAfterControl": {
+          "median": 35.200000047683716,
+          "min": 33.10000014305115,
+          "max": 35.30000019073486
+        },
+        "maxTaskAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateLinksAfterFirst": {
+          "median": 8,
+          "min": 8,
+          "max": 8
+        },
+        "lateLinksAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "created": {
+          "median": 80,
+          "min": 80,
+          "max": 80
+        },
+        "used": {
+          "median": 80,
+          "min": 80,
+          "max": 80
+        },
+        "prepared": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "preparedUsed": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "unusedPrepared": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateAfterPreparation": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "submit": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "wait": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "poll": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "reflection": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "errors": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "startToControl": {
+          "median": 104.70000004768372,
+          "min": 99.79999995231628,
+          "max": 200.19999980926514
+        },
+        "maxFrameAfterStart": {
+          "median": 35.30000019073486,
+          "min": 34.09999990463257,
+          "max": 37
+        }
+      },
+      "B": {
+        "menu": {
+          "median": 175.988037109375,
+          "min": 169.0888671875,
+          "max": 197.295166015625
+        },
+        "earlyWheel": {
+          "median": 3832.7999999523163,
+          "min": 2801.800000190735,
+          "max": 3858.0999999046326
+        },
+        "wheelQueue": {
+          "median": 3588,
+          "min": 2550.4000000953674,
+          "max": 3598.9000000953674
+        },
+        "start": {
+          "median": 4094.7999999523163,
+          "min": 3166.7000000476837,
+          "max": 4764
+        },
+        "firstFrame": {
+          "median": 4704.5,
+          "min": 3998.4000000953674,
+          "max": 4936.5
+        },
+        "gpuFence": {
+          "median": 4888,
+          "min": 4034.600000143051,
+          "max": 4974.200000047684
+        },
+        "control": {
+          "median": 4879.699999809265,
+          "min": 4033.600000143051,
+          "max": 4973.399999856949
+        },
+        "firstFrameDuration": {
+          "median": 627.7999999523163,
+          "min": 539.8000001907349,
+          "max": 693
+        },
+        "maxFrameAfterControl": {
+          "median": 33,
+          "min": 29.899999856948853,
+          "max": 35.700000047683716
+        },
+        "maxTaskAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateLinksAfterFirst": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "lateLinksAfterControl": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "created": {
+          "median": 86,
+          "min": 86,
+          "max": 86
+        },
+        "used": {
+          "median": 73,
+          "min": 73,
+          "max": 73
+        },
+        "prepared": {
+          "median": 66,
+          "min": 66,
+          "max": 66
+        },
+        "preparedUsed": {
+          "median": 53,
+          "min": 53,
+          "max": 53
+        },
+        "unusedPrepared": {
+          "median": 13,
+          "min": 13,
+          "max": 13
+        },
+        "lateAfterPreparation": {
+          "median": 17,
+          "min": 17,
+          "max": 17
+        },
+        "submit": {
+          "median": 226.79999995231628,
+          "min": 148.40000009536743,
+          "max": 241.5
+        },
+        "wait": {
+          "median": 1453.1000001430511,
+          "min": 821.0999999046326,
+          "max": 1636.9000000953674
+        },
+        "poll": {
+          "median": 1.5999996662139893,
+          "min": 0.9000003337860107,
+          "max": 1.6000003814697266
+        },
+        "reflection": {
+          "median": 44,
+          "min": 27.59999990463257,
+          "max": 54.39999985694885
+        },
+        "errors": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "startToControl": {
+          "median": 866.9000000953674,
+          "min": 115.69999980926514,
+          "max": 878.5999999046326
+        },
+        "maxFrameAfterStart": {
+          "median": 627.7999999523163,
+          "min": 36.40000009536743,
+          "max": 693
+        }
+      }
+    }
+  },
+  "preserved": {
+    "src/adapters/rendering/scene.ts": true,
+    "dist/adapters/rendering/scene.js": true,
+    "types/rendering-contracts.d.ts": true,
+    "tests/shader-checks.test.cjs": true,
+    "assets/three.min.js": true
+  }
+}

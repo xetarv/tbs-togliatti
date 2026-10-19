@@ -1,0 +1,832 @@
+﻿[
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-1.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-11.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1547066
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-3.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1015235
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-4.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1015252
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-6.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1017009
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-7.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1012293
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh-frame-8.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1011766
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh.json",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  435968
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-fresh.trace.json.gz",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  10162940
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-1.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-11.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1546985
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-2.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1014793
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-3.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1013092
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-5.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1015325
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-6.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1016830
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm-frame-7.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1012031
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm.json",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  444231
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-A-warm.trace.json.gz",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  9769067
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh-frame-1.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh-frame-3.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh-frame-4.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh-frame-6.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh-frame-8.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1009160
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh-frame-9.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1548971
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh.json",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  405978
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-fresh.trace.json.gz",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  6907028
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm-frame-1.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm-frame-2.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm-frame-3.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm-frame-5.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm-frame-6.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  355843
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm-frame-7.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  358419
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm.json",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  415675
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-1-B-warm.trace.json.gz",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  9635318
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-1.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-12.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1543501
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-3.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1014793
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-4.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1013092
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-6.png",
+        "archive":  "evidence-part-01.zip",
+        "bytes":  1015325
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-7.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1016597
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh-frame-8.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1011512
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh.json",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  443126
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-fresh.trace.json.gz",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  10215196
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-1.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802203
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-13.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1545258
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-3.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1014429
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-4.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1013054
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-6.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1015229
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-7.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1016705
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm-frame-8.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1012505
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm.json",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  441536
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-A-warm.trace.json.gz",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  9660622
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh-frame-1.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh-frame-2.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh-frame-3.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh-frame-4.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh-frame-7.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1009160
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh-frame-8.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1548971
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh.json",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  413022
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-fresh.trace.json.gz",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  6914407
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm-frame-1.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm-frame-2.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm-frame-3.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm-frame-5.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm-frame-6.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1009160
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm-frame-7.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1548971
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm.json",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  410878
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-2-B-warm.trace.json.gz",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  6702769
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-1.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-12.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1545681
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-3.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1014793
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-4.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1013092
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-6.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1015422
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-7.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1016723
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh-frame-8.png",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  1012675
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh.json",
+        "archive":  "evidence-part-02.zip",
+        "bytes":  443873
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-fresh.trace.json.gz",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  10266519
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-1.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-11.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1545748
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-2.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1014793
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-3.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1013092
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-5.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1015325
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-6.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1016905
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm-frame-7.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1012698
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  443481
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-A-warm.trace.json.gz",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  9686290
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh-frame-1.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh-frame-2.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh-frame-3.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh-frame-4.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh-frame-6.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  355843
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh-frame-7.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  358419
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  410711
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-fresh.trace.json.gz",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  6756599
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm-frame-1.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm-frame-2.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm-frame-3.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm-frame-4.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm-frame-6.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  355843
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm-frame-7.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  358419
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  412132
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/ab-3-B-warm.trace.json.gz",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  6484108
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/analysis-output.txt",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  12921
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/analyze.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  3471
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/app-experimental.js",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  2490
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/check-mechanism.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  3691
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/conditions-ab.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  939
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/engine-patch.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  5401
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/graphics-experimental.js",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  23520
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/index-A.html",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  13205
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/index-B.html",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  13485
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/mechanism-check.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  2154
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/mechanism.html",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  136
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/menu-probe-final.js",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1950
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh-frame-1.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802286
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh-frame-2.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802187
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh-frame-4.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  802082
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh-frame-5.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  801369
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh-frame-7.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  355843
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh-frame-8.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  358419
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  412205
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/pilot-0-B-fresh.trace.json.gz",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  6856320
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/png.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1968
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/prepare-runner.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  2352
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/prepare-visual.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  2023
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/prepare.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  7522
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/preserved-before.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  512
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/probe.js",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  7539
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/program-observer.js",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1830
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/provenance.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  1237
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/report.md",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  7494
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/run-ab.cjs",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  11088
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/summary.json",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  48019
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/three-r149-async.min.js",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  609971
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1-first.png",
+        "archive":  "evidence-part-03.zip",
+        "bytes":  2539323
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1-first.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1-moving.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2434648
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1-moving.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1-night.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2077048
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1-night.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A1.json",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  139097
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2-first.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2539323
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2-first.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2-moving.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2434648
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2-moving.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2-night.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2077048
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2-night.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-A2.json",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  139097
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B-first.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2504191
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B-first.rgba",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B-moving.png",
+        "archive":  "evidence-part-04.zip",
+        "bytes":  2433224
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B-moving.rgba",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B-night.png",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  2077048
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B-night.rgba",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  6623880
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-B.json",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  145154
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual-comparison.json",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  961
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/visual.cjs",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  7773
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/official/r149-three.js",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  1219595
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/official/r149-WebGLProgram.js",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  25671
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/official/r149-WebGLRenderer.js",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  59494
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/official/r160-WebGLProgram.js",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  31954
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/official/r160-WebGLRenderer.js",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  68979
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/saved-local-changes/dist/adapters/rendering/scene.js",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  4354
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/saved-local-changes/src/adapters/rendering/scene.ts",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  4350
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/saved-local-changes/tests/shader-checks.test.cjs",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  1778
+    },
+    {
+        "path":  "artifacts/r149-async-principle-20261019/saved-local-changes/types/rendering-contracts.d.ts",
+        "archive":  "evidence-part-05.zip",
+        "bytes":  3077
+    }
+]
