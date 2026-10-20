@@ -1,0 +1,15 @@
+{
+  "verified": "2026-10-20T12:56:44.171Z",
+  "base": "5cbd6f741415bf10d44b2a6088b9bc26e1916d50",
+  "method": "All five published and thirteen new ZIPs actually extracted into an independent worktree; entry bytes and all 871 current SHA-256 checked. All six variant HTML script links validated. No browser/build/check executed.",
+  "files": 871,
+  "archives": 13,
+  "shaderSnapshots": 4,
+  "latestSafeSHA256": "12b514927485f707d7ffc881fa8a0b62b29e2de341c18c8f74d197e86b4d8fae",
+  "portableEngineByteIdentical": true,
+  "portableRunners": {
+    "fixed": "artifacts\\r149-minimal-cancel-20261020\\index-fixed.portable.html",
+    "original": "artifacts\\r149-context-boundary-20261020\\index-safe.portable.html"
+  },
+  "originalMainNotSwitched": true
+}
