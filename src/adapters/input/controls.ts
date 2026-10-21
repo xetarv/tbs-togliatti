@@ -3,6 +3,7 @@
 type MovementControl = Exclude<keyof ControlsState, 'action'>;
 
 window.TBS.createInput = function ({
+  listen,
   keys,
   resetControls,
   resetFrameClock,
@@ -42,7 +43,7 @@ window.TBS.createInput = function ({
     return controlsByCode[e.code] || controlsByKey[String(e.key).toLowerCase()];
   }
 
-  addEventListener('keydown', (e: KeyboardEvent) => {
+  listen(window, 'keydown', (e: KeyboardEvent) => {
     if (e.target instanceof HTMLElement && e.target.closest('select,input,textarea')) return;
     if (e.code === 'KeyC') {
       e.preventDefault();
@@ -76,17 +77,17 @@ window.TBS.createInput = function ({
     if (control && state.mode === 'playing') keys[control] = true;
   });
 
-  addEventListener('keyup', (e: KeyboardEvent) => {
+  listen(window, 'keyup', (e: KeyboardEvent) => {
     const control = movementKey(e);
     if (control) keys[control] = false;
   });
 
-  addEventListener('blur', () => {
+  listen(window, 'blur', () => {
     resetControls();
     if (state.mode === 'playing') togglePause();
   });
 
-  document.addEventListener('visibilitychange', () => {
+  listen(document, 'visibilitychange', () => {
     if (document.hidden && state.mode === 'playing') togglePause();
     resetFrameClock();
   });
@@ -94,7 +95,7 @@ window.TBS.createInput = function ({
   document.querySelectorAll<HTMLButtonElement>('.touch button').forEach((btn) => {
     // Fixed index.html touch buttons all declare keys from ControlsState; verified with the markup.
     const k = btn.dataset.key as keyof ControlsState;
-    btn.addEventListener('pointerdown', (e: PointerEvent) => {
+    listen(btn, 'pointerdown', (e: PointerEvent) => {
       e.preventDefault();
       if (state.mode !== 'playing') return;
       btn.setPointerCapture(e.pointerId);
@@ -106,8 +107,8 @@ window.TBS.createInput = function ({
       btn.classList.remove('active');
       keys[k] = false;
     };
-    btn.addEventListener('pointerup', release);
-    btn.addEventListener('pointercancel', release);
-    btn.addEventListener('lostpointercapture', release);
+    listen(btn, 'pointerup', release);
+    listen(btn, 'pointercancel', release);
+    listen(btn, 'lostpointercapture', release);
   });
 };

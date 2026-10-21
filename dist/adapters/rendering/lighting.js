@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.createLighting = function ({ T, scene, lowPower, getElement, showToast, player, state, camera, ambientLight, sun, blueLight, sky, duskSun, nightWindows, streetFixtures, cityFacadeLights, car, getGraphics, getTrafficVersion = () => 0, }) {
+window.TBS.createLighting = function ({ listen, T, scene, lowPower, getElement, showToast, player, state, camera, ambientLight, sun, blueLight, sky, duskSun, nightWindows, streetFixtures, cityFacadeLights, car, getGraphics, getTrafficVersion = () => 0, }) {
     let lightMode = 0;
     const lightModes = ['День', 'Вечер', 'Ночь', 'Авто'];
     const fogDay = new T.Color(0x91abb9), fogNight = new T.Color(0x142638);
@@ -44,7 +44,7 @@ window.TBS.createLighting = function ({ T, scene, lowPower, getElement, showToas
         button.setAttribute('aria-label', button.title);
         showToast('Время суток: ' + lightModes[lightMode]);
     }
-    getElement('daylightBtn').addEventListener('click', toggleDaylight);
+    listen(getElement('daylightBtn'), 'click', toggleDaylight);
     function updateLighting(dt) {
         sun.position.set(player.x - 35, 26 + 36 * state.lightValue, player.z + 40);
         sun.target.position.set(player.x, 0, player.z);

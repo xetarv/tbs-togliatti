@@ -15,6 +15,7 @@ type WorldDimensions = Pick<
 type SceneResources = Pick<
   PresentationWorldResources,
   | 'renderer'
+  | 'startupEnvironmentTarget'
   | 'scene'
   | 'lowPower'
   | 'camera'

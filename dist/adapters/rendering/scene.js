@@ -75,5 +75,16 @@ window.TBS.createScene = function ({ canvas, T }) {
     const environmentMap = pmrem.fromScene(environmentScene, 0.05, 0.1, 500);
     scene.environment = environmentMap.texture;
     pmrem.dispose();
-    return { renderer, scene, lowPower, camera, ambientLight, sun, blueLight, sky, duskSun };
+    return {
+        renderer,
+        scene,
+        lowPower,
+        camera,
+        ambientLight,
+        sun,
+        blueLight,
+        sky,
+        duskSun,
+        startupEnvironmentTarget: environmentMap,
+    };
 };

@@ -1,6 +1,7 @@
 'use strict';
 
 window.TBS.createDisplay = function ({
+  listen,
   createGraphics,
   lowPower,
   T,
@@ -41,21 +42,17 @@ window.TBS.createDisplay = function ({
 
   (getElement('qualitySelect') as HTMLSelectElement).value = graphics.quality;
 
-  getElement('qualitySelect').addEventListener('focus', () => {
+  listen(getElement('qualitySelect'), 'focus', () => {
     resetControls();
   });
 
-  getElement('qualitySelect').addEventListener(
-    'change',
-    (e: Event & { target: EventTarget | null }) => {
-      graphics.setQuality((e.target as HTMLSelectElement).value);
-      showToast(
-        'Качество графики: ' +
-          (e.target as HTMLSelectElement).options[(e.target as HTMLSelectElement).selectedIndex]
-            .text,
-      );
-    },
-  );
+  listen(getElement('qualitySelect'), 'change', (e: Event & { target: EventTarget | null }) => {
+    graphics.setQuality((e.target as HTMLSelectElement).value);
+    showToast(
+      'Качество графики: ' +
+        (e.target as HTMLSelectElement).options[(e.target as HTMLSelectElement).selectedIndex].text,
+    );
+  });
 
   function resize() {
     camera.aspect = innerWidth / innerHeight;
@@ -63,6 +60,6 @@ window.TBS.createDisplay = function ({
     graphics.resize();
   }
 
-  addEventListener('resize', resize);
+  listen(window, 'resize', resize);
   return { graphics };
 };

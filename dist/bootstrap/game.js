@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
+window.TBS.buildGame = function ({ state, world, dom, presentation, listen, }) {
     const api = window.TBS;
     const { domain, application } = api;
     const { config, math, collision } = domain;
@@ -47,6 +47,7 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
         traffic,
         missions,
         resetControls: controls.reset,
+        listen,
     });
     const game = application.createGame({ state, physics, traffic, ports });
     const runtime = api.createRuntime({
@@ -74,6 +75,7 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
         notifications: ports.notifications,
     });
     api.createInput({
+        listen,
         state,
         keys: state.keys,
         resetControls: controls.reset,
@@ -85,7 +87,7 @@ window.TBS.buildGame = function ({ state, world, dom, presentation, }) {
         ...ports.audio,
         getSound: () => ports.audio.sound,
     });
-    dom.getElement('startBtn').addEventListener('click', session.start);
-    dom.getElement('pauseBtn').addEventListener('click', session.togglePause);
+    listen(dom.getElement('startBtn'), 'click', session.start);
+    listen(dom.getElement('pauseBtn'), 'click', session.togglePause);
     return { runtime, session };
 };

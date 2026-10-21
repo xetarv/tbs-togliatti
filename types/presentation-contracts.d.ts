@@ -445,7 +445,7 @@ interface GraphicsOptions extends Pick<
   reflectObjects?: readonly ThreeObjectHandle[];
   initialQuality: GraphicsPort['quality'];
 }
-type DisplayOptions = Pick<
+type DisplayOptions = { listen: SessionListen } & Pick<
   BootstrapWorld,
   | 'lowPower'
   | 'T'
@@ -512,7 +512,7 @@ type SoundPort = BootstrapPorts['audio'] & { readonly sound: SoundGraph | null }
 interface Window {
   webkitAudioContext?: typeof AudioContext;
 }
-type SoundOptions = VisualContext &
+type SoundOptions = { listen: SessionListen } & VisualContext &
   Pick<BootstrapDom, 'getElement'> & {
     traffic: TrafficVehicle[];
     createAmbience: AmbienceFactory;
@@ -535,13 +535,16 @@ type MarkersOptions = Pick<BootstrapWorld, 'T' | 'sprite' | 'signTexture' | 'sce
   state: PresentationState;
   target: MissionRoutes['target'];
 };
-type CameraOptions = Pick<BootstrapWorld, 'camera' | 'sky' | 'renderer' | 'T'> &
+type CameraOptions = { listen: SessionListen } & Pick<
+  BootstrapWorld,
+  'camera' | 'sky' | 'renderer' | 'T'
+> &
   Pick<BootstrapDom, 'getElement'> &
   VisualContext &
   GameFramePorts['notifications'] & {
     clamp: GameMath['clamp'];
   };
-type LightingOptions = Pick<
+type LightingOptions = { listen: SessionListen } & Pick<
   BootstrapWorld,
   | 'T'
   | 'scene'

@@ -28,6 +28,7 @@ test('camera drag and zoom affect the live camera after toggling mouse control',
   const sky = new T.Object3D();
   sky.material = { uniforms: { skyTime: { value: 0 } } };
   const controls = TBS.createCameraControls({
+    listen: (target, type, callback, options) => target.addEventListener(type, callback, options),
     T,
     state: TBS.createPresentationState(state),
     player: state.player,

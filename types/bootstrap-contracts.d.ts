@@ -42,6 +42,7 @@ interface BootstrapPorts extends GameFramePorts {
 }
 
 interface BuildGameOptions {
+  listen: SessionListen;
   state: GameState;
   world: BootstrapWorld;
   dom: BootstrapDom;
@@ -78,6 +79,7 @@ interface InputOptions
     Pick<BootstrapPorts['camera'], 'toggleMouseCamera'>,
     Pick<BootstrapPorts['lighting'], 'toggleDaylight'>,
     Pick<BootstrapPorts['audio'], 'beginSound' | 'toggleSound'> {
+  listen: SessionListen;
   state: GameState;
   keys: ControlsState;
   resetControls: () => void;

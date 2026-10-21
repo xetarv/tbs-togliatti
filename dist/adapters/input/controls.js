@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.createInput = function ({ keys, resetControls, resetFrameClock, state, toggleDaylight, getSound, beginSound, toggleSound, togglePause, interact, toggleMouseCamera, }) {
+window.TBS.createInput = function ({ listen, keys, resetControls, resetFrameClock, state, toggleDaylight, getSound, beginSound, toggleSound, togglePause, interact, toggleMouseCamera, }) {
     const controlsByCode = {
         Space: 'handbrake',
         KeyW: 'up',
@@ -24,7 +24,7 @@ window.TBS.createInput = function ({ keys, resetControls, resetFrameClock, state
     function movementKey(e) {
         return controlsByCode[e.code] || controlsByKey[String(e.key).toLowerCase()];
     }
-    addEventListener('keydown', (e) => {
+    listen(window, 'keydown', (e) => {
         if (e.target instanceof HTMLElement && e.target.closest('select,input,textarea'))
             return;
         if (e.code === 'KeyC') {
@@ -66,17 +66,17 @@ window.TBS.createInput = function ({ keys, resetControls, resetFrameClock, state
         if (control && state.mode === 'playing')
             keys[control] = true;
     });
-    addEventListener('keyup', (e) => {
+    listen(window, 'keyup', (e) => {
         const control = movementKey(e);
         if (control)
             keys[control] = false;
     });
-    addEventListener('blur', () => {
+    listen(window, 'blur', () => {
         resetControls();
         if (state.mode === 'playing')
             togglePause();
     });
-    document.addEventListener('visibilitychange', () => {
+    listen(document, 'visibilitychange', () => {
         if (document.hidden && state.mode === 'playing')
             togglePause();
         resetFrameClock();
@@ -84,7 +84,7 @@ window.TBS.createInput = function ({ keys, resetControls, resetFrameClock, state
     document.querySelectorAll('.touch button').forEach((btn) => {
         // Fixed index.html touch buttons all declare keys from ControlsState; verified with the markup.
         const k = btn.dataset.key;
-        btn.addEventListener('pointerdown', (e) => {
+        listen(btn, 'pointerdown', (e) => {
             e.preventDefault();
             if (state.mode !== 'playing')
                 return;
@@ -99,8 +99,8 @@ window.TBS.createInput = function ({ keys, resetControls, resetFrameClock, state
             btn.classList.remove('active');
             keys[k] = false;
         };
-        btn.addEventListener('pointerup', release);
-        btn.addEventListener('pointercancel', release);
-        btn.addEventListener('lostpointercapture', release);
+        listen(btn, 'pointerup', release);
+        listen(btn, 'pointercancel', release);
+        listen(btn, 'lostpointercapture', release);
     });
 };

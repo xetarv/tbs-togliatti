@@ -1,6 +1,7 @@
 'use strict';
 
 window.TBS.createSound = function ({
+  listen,
   player,
   state,
   traffic,
@@ -90,7 +91,7 @@ window.TBS.createSound = function ({
     getElement('soundBtn').setAttribute('aria-pressed', String(soundMuted));
   }
 
-  getElement('soundBtn').addEventListener('click', toggleSound);
+  listen(getElement('soundBtn'), 'click', toggleSound);
   function advance(dt: number): void {
     state.impactCooldown = Math.max(0, state.impactCooldown - dt);
   }

@@ -1,10 +1,20 @@
 'use strict';
-
-(() => {
+(async () => {
   const api = window.TBS;
+  function startupErrorDescription(error: unknown): string {
+    try {
+      return error !== null &&
+        (typeof error === 'object' || typeof error === 'function') &&
+        'message' in error
+        ? String(error.message)
+        : String(error);
+    } catch {
+      return 'Не удалось получить описание ошибки';
+    }
+  }
   function reportError(error: unknown) {
     console.error(error);
-    let message: string;
+    let message;
     try {
       message =
         error !== null &&
@@ -25,7 +35,6 @@
     if (startButton) startButton.disabled = true;
   }
   addEventListener('error', (event) => reportError(event.error || new Error(event.message)));
-
   try {
     const dom = api.createDom(document);
     if (!window.THREE) {
@@ -39,7 +48,123 @@
     const state = api.domain.createState();
     const presentation = api.createPresentationState(state);
     const world = api.buildWorld({ T, canvas: dom.canvas, config: api.domain.config });
-    const { runtime, session } = api.buildGame({ state, presentation, world, dom });
+    const subscriptions = api.createSessionListeners();
+    let game: BuildGameResult;
+    try {
+      game = api.buildGame({ state, presentation, world, dom, listen: subscriptions.listen });
+    } catch (error) {
+      subscriptions.close();
+      throw error;
+    }
+    const { runtime, session } = game;
+    world.renderer.__sessionListeners = subscriptions.snapshot;
+    const startupAbort = new AbortController();
+    const closeCore = api.installStartupEnvironmentCleanup(world, runtime);
+    const canvas = world.renderer.domElement;
+    let contextFailure: Error | null = null;
+    let closePromise: Promise<StartupCleanupResult | undefined> | undefined;
+    const closeEnvironment = (): Promise<StartupCleanupResult | undefined> => {
+      if (closePromise) return closePromise;
+      subscriptions.close();
+      runtime.stop();
+      (dom.getElement('startBtn') as HTMLButtonElement).disabled = true;
+      const drain = world.renderer.__startupDrain;
+      closePromise = (
+        drain?.promise ?? Promise.resolve<StartupDrainOutcome>({ kind: 'ready' })
+      ).then(
+        (outcome) => {
+          const permission = world.renderer.__startupClaimTeardown(outcome);
+          if (permission === 'context-lost') {
+            onContextLoss();
+            // The native context already invalidated its objects. Never query/delete old handles.
+            world.renderer.__discardLostGeneration();
+            world.renderer.__cleanupResult = { done: true, invalidated: true };
+          } else if (permission === 'live') {
+            closeCore();
+            world.renderer.__cleanupResult = { done: true, invalidated: false };
+          }
+          canvas.removeEventListener('webglcontextlost', onContextLoss);
+          delete world.renderer.__startupPasses;
+          delete world.renderer.__startupDispose;
+          delete world.renderer.__startupClose;
+          if (
+            startupAbort.signal.aborted &&
+            outcome.error &&
+            outcome.error !== startupAbort.signal.reason
+          )
+            console.error(
+              'Preparation error after cancellation (original abort preserved)',
+              outcome.error,
+            );
+          return world.renderer.__cleanupResult;
+        },
+        (error: unknown) => {
+          world.renderer.__cleanupResult = {
+            done: false,
+            blocked: true,
+            error: startupErrorDescription(error),
+          };
+          dom.getElement('overlayCopy').textContent = 'GPU cleanup is blocked. Reload with F5.';
+          reportError(error);
+          throw error;
+        },
+      );
+      world.renderer.__startupCleanup = closePromise;
+      closePromise.catch((error: unknown) => {
+        if (!world.renderer.__cleanupResult?.blocked) {
+          world.renderer.__cleanupResult = {
+            done: false,
+            blocked: true,
+            error: startupErrorDescription(error),
+          };
+          dom.getElement('overlayCopy').textContent = 'GPU cleanup is blocked. Reload with F5.';
+          reportError(error);
+        }
+        console.error('Asynchronous cleanup failed; pending owner retained', error);
+      });
+      return closePromise;
+    };
+    function onContextLoss(event?: Event): void {
+      if (event) event.preventDefault();
+      if (contextFailure) return;
+      contextFailure = new Error(
+        'Графический контекст потерян. Перезапустите страницу клавишей F5 или кнопкой обновления браузера.',
+      );
+      world.renderer.__startupInvalidateContext();
+      world.renderer.__discardLostGeneration();
+      startupAbort.abort(contextFailure);
+      try {
+        closeEnvironment();
+      } catch (cleanupError) {
+        console.error('Cleanup error (context loss preserved)', cleanupError);
+      }
+      reportError(contextFailure);
+      dom.getElement('overlayCopy').textContent = contextFailure.message;
+      dom.getElement('overlay').classList.remove('hidden');
+    }
+    world.renderer.__startupClose = closeEnvironment;
+    canvas.addEventListener('webglcontextlost', onContextLoss);
+    const cancel = () => startupAbort.abort(new Error('Page left during preparation'));
+    addEventListener('pagehide', cancel, { once: true });
+    try {
+      const passes = world.renderer.__startupPasses;
+      if (!passes) throw new Error('Graphics preparation passes are unavailable');
+      await world.renderer.compileAsyncPasses(passes(), { signal: startupAbort.signal });
+      // A resolved result is not permission to start a closed/lost generation.
+      if (world.renderer.getContext().isContextLost()) onContextLoss();
+      if (startupAbort.signal.aborted) throw startupAbort.signal.reason;
+    } catch (error) {
+      if (world.renderer.getContext().isContextLost()) onContextLoss();
+      try {
+        closeEnvironment();
+      } catch (cleanupError) {
+        console.error('Cleanup error (original preparation error preserved)', cleanupError);
+      }
+      if (contextFailure !== null) return;
+      throw error;
+    } finally {
+      removeEventListener('pagehide', cancel);
+    }
     runtime.start();
     if (new URLSearchParams(location.search).has('play')) session.start();
   } catch (error) {

@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.createSound = function ({ player, state, traffic, getElement, createAmbience, }) {
+window.TBS.createSound = function ({ listen, player, state, traffic, getElement, createAmbience, }) {
     let sound = null, soundMuted = false;
     function beginSound() {
         try {
@@ -74,7 +74,7 @@ window.TBS.createSound = function ({ player, state, traffic, getElement, createA
         getElement('soundBtn').textContent = soundMuted ? '♪×' : '♪';
         getElement('soundBtn').setAttribute('aria-pressed', String(soundMuted));
     }
-    getElement('soundBtn').addEventListener('click', toggleSound);
+    listen(getElement('soundBtn'), 'click', toggleSound);
     function advance(dt) {
         state.impactCooldown = Math.max(0, state.impactCooldown - dt);
     }

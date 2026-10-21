@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.createCameraControls = function ({ camera, sky, renderer, player, showToast, state, clamp, T, getElement, }) {
+window.TBS.createCameraControls = function ({ listen, camera, sky, renderer, player, showToast, state, clamp, T, getElement, }) {
     let mouseCamera = false, cameraYaw = 0, cameraPitch = 0.42, cameraDrag = null, cameraZoom = 1;
     const cameraButton = getElement('cameraBtn'), viewCanvas = renderer.domElement;
     function toggleMouseCamera() {
@@ -13,21 +13,21 @@ window.TBS.createCameraControls = function ({ camera, sky, renderer, player, sho
             ? 'Камера: зажмите левую кнопку мыши и двигайте мышь · C — авто'
             : 'Автоматическая камера включена');
     }
-    cameraButton.addEventListener('click', toggleMouseCamera);
-    viewCanvas.addEventListener('wheel', (e) => {
+    listen(cameraButton, 'click', toggleMouseCamera);
+    listen(viewCanvas, 'wheel', (e) => {
         if (state.mode !== 'playing')
             return;
         e.preventDefault();
         const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
         cameraZoom = clamp(cameraZoom * Math.exp(clamp(delta, -200, 200) * 0.0015), 0.5, 2.2);
     }, { passive: false });
-    viewCanvas.addEventListener('pointerdown', (e) => {
+    listen(viewCanvas, 'pointerdown', (e) => {
         if (!mouseCamera || state.mode !== 'playing' || e.button !== 0)
             return;
         cameraDrag = { id: e.pointerId, x: e.clientX, y: e.clientY };
         viewCanvas.setPointerCapture(e.pointerId);
     });
-    viewCanvas.addEventListener('pointermove', (e) => {
+    listen(viewCanvas, 'pointermove', (e) => {
         if (!cameraDrag || cameraDrag.id !== e.pointerId || state.mode !== 'playing')
             return;
         // Mouse right turns the view right; mouse down looks down.
@@ -37,10 +37,10 @@ window.TBS.createCameraControls = function ({ camera, sky, renderer, player, sho
         cameraDrag.y = e.clientY;
     });
     for (const event of ['pointerup', 'pointercancel', 'lostpointercapture'])
-        viewCanvas.addEventListener(event, () => {
+        listen(viewCanvas, event, () => {
             cameraDrag = null;
         });
-    addEventListener('blur', () => {
+    listen(window, 'blur', () => {
         cameraDrag = null;
     });
     const cameraForward = new T.Vector3(), cameraWanted = new T.Vector3();

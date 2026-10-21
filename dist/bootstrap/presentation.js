@@ -1,7 +1,7 @@
 'use strict';
-window.TBS.buildPresentation = function ({ world, state, presentation, traffic, missions, dom, resetControls, }) {
+window.TBS.buildPresentation = function ({ world, state, presentation, traffic, missions, dom, resetControls, listen, }) {
     const api = window.TBS;
-    const context = { ...world, ...dom, state: presentation, player: state.player };
+    const context = { listen, ...world, ...dom, state: presentation, player: state.player };
     const notifications = api.createToast(dom);
     const getGraphics = () => display.graphics;
     const carModels = api.createCarModels({
@@ -36,6 +36,7 @@ window.TBS.buildPresentation = function ({ world, state, presentation, traffic, 
         traffic: traffic.traffic,
         getElement: dom.getElement,
         createAmbience: api.createAmbience,
+        listen,
     });
     const hud = api.createHud({
         ...dom,

@@ -3,3 +3,9 @@ artifacts/
 assets/
 package-lock.json
 dist/
+# Immutable evidence imported by the base checkpoint; preserve its byte hashes.
+docs/diagnostics/menu-laptop-20261019/report.md
+docs/diagnostics/menu-laptop-20261019/summary-final.json
+docs/diagnostics/r149-async-principle-20261019/archive-manifest.json
+docs/diagnostics/r149-async-principle-20261019/report.md
+docs/diagnostics/r149-async-principle-20261019/summary.json

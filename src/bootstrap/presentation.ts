@@ -8,9 +8,10 @@ window.TBS.buildPresentation = function ({
   missions,
   dom,
   resetControls,
+  listen,
 }: BuildPresentationOptions): BootstrapPorts {
   const api = window.TBS;
-  const context = { ...world, ...dom, state: presentation, player: state.player };
+  const context = { listen, ...world, ...dom, state: presentation, player: state.player };
   const notifications = api.createToast(dom);
   const getGraphics = (): GraphicsPort => display.graphics;
   const carModels = api.createCarModels({
@@ -45,6 +46,7 @@ window.TBS.buildPresentation = function ({
     traffic: traffic.traffic,
     getElement: dom.getElement,
     createAmbience: api.createAmbience,
+    listen,
   });
   const hud = api.createHud({
     ...dom,

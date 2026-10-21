@@ -7,6 +7,7 @@ interface CameraDrag {
 }
 
 window.TBS.createCameraControls = function ({
+  listen,
   camera,
   sky,
   renderer,
@@ -40,9 +41,10 @@ window.TBS.createCameraControls = function ({
     );
   }
 
-  cameraButton.addEventListener('click', toggleMouseCamera);
+  listen(cameraButton, 'click', toggleMouseCamera);
 
-  viewCanvas.addEventListener(
+  listen(
+    viewCanvas,
     'wheel',
     (e: WheelEvent) => {
       if (state.mode !== 'playing') return;
@@ -53,13 +55,13 @@ window.TBS.createCameraControls = function ({
     { passive: false },
   );
 
-  viewCanvas.addEventListener('pointerdown', (e: PointerEvent) => {
+  listen(viewCanvas, 'pointerdown', (e: PointerEvent) => {
     if (!mouseCamera || state.mode !== 'playing' || e.button !== 0) return;
     cameraDrag = { id: e.pointerId, x: e.clientX, y: e.clientY };
     viewCanvas.setPointerCapture(e.pointerId);
   });
 
-  viewCanvas.addEventListener('pointermove', (e: PointerEvent) => {
+  listen(viewCanvas, 'pointermove', (e: PointerEvent) => {
     if (!cameraDrag || cameraDrag.id !== e.pointerId || state.mode !== 'playing') return;
     // Mouse right turns the view right; mouse down looks down.
     cameraYaw -= (e.clientX - cameraDrag.x) * 0.005;
@@ -69,11 +71,11 @@ window.TBS.createCameraControls = function ({
   });
 
   for (const event of ['pointerup', 'pointercancel', 'lostpointercapture'])
-    viewCanvas.addEventListener(event, () => {
+    listen(viewCanvas, event, () => {
       cameraDrag = null;
     });
 
-  addEventListener('blur', () => {
+  listen(window, 'blur', () => {
     cameraDrag = null;
   });
 

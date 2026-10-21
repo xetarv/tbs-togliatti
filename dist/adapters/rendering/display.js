@@ -1,5 +1,5 @@
 'use strict';
-window.TBS.createDisplay = function ({ createGraphics, lowPower, T, renderer, scene, camera, sky, facadeMaterials, mooredBoats, reflectionBuildings, car, getElement, resetControls, showToast, }) {
+window.TBS.createDisplay = function ({ listen, createGraphics, lowPower, T, renderer, scene, camera, sky, facadeMaterials, mooredBoats, reflectionBuildings, car, getElement, resetControls, showToast, }) {
     let savedQuality = lowPower ? 'low' : 'high';
     try {
         const saved = localStorage.getItem('tbs.graphicsQuality');
@@ -23,20 +23,19 @@ window.TBS.createDisplay = function ({ createGraphics, lowPower, T, renderer, sc
         initialQuality: savedQuality,
     });
     getElement('qualitySelect').value = graphics.quality;
-    getElement('qualitySelect').addEventListener('focus', () => {
+    listen(getElement('qualitySelect'), 'focus', () => {
         resetControls();
     });
-    getElement('qualitySelect').addEventListener('change', (e) => {
+    listen(getElement('qualitySelect'), 'change', (e) => {
         graphics.setQuality(e.target.value);
         showToast('Качество графики: ' +
-            e.target.options[e.target.selectedIndex]
-                .text);
+            e.target.options[e.target.selectedIndex].text);
     });
     function resize() {
         camera.aspect = innerWidth / innerHeight;
         camera.updateProjectionMatrix();
         graphics.resize();
     }
-    addEventListener('resize', resize);
+    listen(window, 'resize', resize);
     return { graphics };
 };

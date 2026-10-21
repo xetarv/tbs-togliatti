@@ -118,6 +118,7 @@ test('lighting narrows optional fog and preserves configured fog updates', () =>
   car.userData.headlights = [];
   const state = { mode: 'paused', lightValue: 0.5, lightingClock: 0 };
   const api = TBS.createLighting({
+    listen: (target, type, callback, options) => target.addEventListener(type, callback, options),
     T,
     scene,
     lowPower: false,

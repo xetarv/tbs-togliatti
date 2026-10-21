@@ -80,6 +80,7 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     water.userData.shader = shader;
   };
   water.onBeforeCompile = originalCompile;
+  const originalBeforeRender = water.onBeforeRender;
   const sky = new T.Mesh(track(new T.SphereGeometry(1)), track(new T.ShaderMaterial()));
   const boat = new T.Group();
   const boatMaterial = track(new T.MeshStandardMaterial({ map: facade }));
@@ -180,6 +181,8 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     reflective,
     originalEnv,
     originalCompile,
+    originalBeforeRender,
+    camera,
     compile,
     sky,
     boat,
@@ -228,6 +231,19 @@ test('compiled water bindings and own environment maps are detached and prior ho
   const f = fixture({ quality: 'high' });
   const previousReflection = { value: new T.Texture() };
   const shader = f.compile({ waterReflection: previousReflection });
+  assert.equal(
+    f.water.userData.shader,
+    undefined,
+    'Preparation must not publish water before its first draw',
+  );
+  const object = f.boat.children[0];
+  f.water.onBeforeRender(f.renderer, f.scene, f.camera, object.geometry, object, null);
+  assert.equal(
+    f.water.userData.shader,
+    shader,
+    'The first real draw publishes the prepared shader',
+  );
+  assert.equal(f.water.onBeforeRender, f.originalBeforeRender);
   const wave = shader.uniforms.waveTime;
   const installed = f.water.onBeforeCompile;
   f.graphics.render(1, 0.3);

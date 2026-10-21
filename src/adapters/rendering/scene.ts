@@ -127,5 +127,16 @@ window.TBS.createScene = function ({ canvas, T }: Pick<BuildWorldOptions, 'canva
   scene.environment = environmentMap.texture;
 
   pmrem.dispose();
-  return { renderer, scene, lowPower, camera, ambientLight, sun, blueLight, sky, duskSun };
+  return {
+    renderer,
+    scene,
+    lowPower,
+    camera,
+    ambientLight,
+    sun,
+    blueLight,
+    sky,
+    duskSun,
+    startupEnvironmentTarget: environmentMap,
+  };
 };

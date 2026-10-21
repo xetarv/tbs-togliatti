@@ -182,9 +182,31 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
     });
     const mirrorCamera = new T.PerspectiveCamera(), mirrorDirection = new T.Vector3(), reflectionMatrix = new T.Matrix4();
     let cubeReady = false, waterReady = false;
+    let deferredWaterShader;
+    let deferWaterPublication = true;
+    const originalWaterBeforeRender = water.onBeforeRender;
+    function publishWaterOnFirstDraw(...args) {
+        const result = originalWaterBeforeRender.apply(this, args);
+        deferWaterPublication = false;
+        if (deferredWaterShader !== undefined)
+            water.userData.shader = deferredWaterShader;
+        deferredWaterShader = undefined;
+        water.onBeforeRender = originalWaterBeforeRender;
+        return result;
+    }
+    water.onBeforeRender = publishWaterOnFirstDraw;
     const originalCompile = water.onBeforeCompile;
     const compileWater = (shader) => {
+        const hadPublishedShader = Object.hasOwn(water.userData, 'shader');
+        const publishedShader = water.userData.shader;
         originalCompile(shader);
+        if (deferWaterPublication) {
+            deferredWaterShader = water.userData.shader;
+            if (hadPublishedShader)
+                water.userData.shader = publishedShader;
+            else
+                delete water.userData.shader;
+        }
         if (disposed)
             return;
         const previous = waterBindings.get(shader)?.previous || {
@@ -367,6 +389,32 @@ window.TBS.createGraphics = function ({ T, renderer, scene, camera, sky, car, wa
                 waterReady && camera.position.z < 90 ? 1 : 0;
         renderer.toneMapping = previousToneMapping;
     }
+    renderer.__pmremSources = () => ({ fastback: cubeTarget, quarter: quarterTarget });
+    renderer.__startupDispose = dispose;
+    renderer.__startupPasses = () => [
+        { name: 'main-linear', scene, camera, target: sceneTarget, toneMapping: renderer.toneMapping },
+        {
+            name: 'reflection-cube-linear',
+            scene: reflectionScene,
+            camera: cubeCamera.children[0],
+            target: cubeTarget,
+            toneMapping: T.NoToneMapping,
+        },
+        {
+            name: 'water-reflection-linear',
+            scene: reflectionScene,
+            camera: mirrorCamera,
+            target: waterTarget,
+            toneMapping: T.NoToneMapping,
+        },
+        {
+            name: 'post-output',
+            scene: postScene,
+            camera: postCamera,
+            target: null,
+            toneMapping: renderer.toneMapping,
+        },
+    ];
     function render(dt, daylight) {
         if (disposed)
             return;

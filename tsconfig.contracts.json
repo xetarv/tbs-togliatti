@@ -13,6 +13,7 @@
   },
   "files": [
     "types/game-contracts.d.ts",
+    "types/startup-contracts.d.ts",
     "types/bootstrap-contracts.d.ts",
     "types/presentation-contracts.d.ts",
     "types/rendering-contracts.d.ts",

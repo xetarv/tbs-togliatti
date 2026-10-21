@@ -316,6 +316,7 @@ test('dynamic traffic materials adopt current daylight and removed materials lea
     new T.ShaderMaterial({ uniforms: { daylight: { value: 1 } } }),
   );
   const lighting = f.TBS.createLighting({
+    listen: (target, type, callback, options) => target.addEventListener(type, callback, options),
     T,
     scene: f.scene,
     state,

@@ -1,6 +1,7 @@
 'use strict';
 
 window.TBS.createLighting = function ({
+  listen,
   T,
   scene,
   lowPower,
@@ -86,7 +87,7 @@ window.TBS.createLighting = function ({
     showToast('Время суток: ' + lightModes[lightMode]);
   }
 
-  getElement('daylightBtn').addEventListener('click', toggleDaylight);
+  listen(getElement('daylightBtn'), 'click', toggleDaylight);
 
   function updateLighting(dt: number) {
     sun.position.set(player.x - 35, 26 + 36 * state.lightValue, player.z + 40);

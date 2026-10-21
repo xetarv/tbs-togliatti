@@ -37,7 +37,7 @@ interface ThreeRendererHandle {
   physicallyCorrectLights: boolean;
   toneMapping: number;
   toneMappingExposure: number;
-  shadowMap: { enabled: boolean; type: number };
+  shadowMap: { enabled: boolean; type: number; dispose?: () => void };
 }
 interface ThreeShaderMaterialHandle extends ThreeMaterialHandle {
   uniforms: Record<string, { value: unknown }>;
@@ -82,7 +82,7 @@ interface ThreeLibraryHandle {
       sigma: number,
       near: number,
       far: number,
-    ) => { texture: ThreeTextureHandle };
+    ) => ThreePipelineRenderTarget;
     dispose: () => void;
   };
   readonly ACESFilmicToneMapping: 4;

@@ -23,6 +23,7 @@ function setupInput() {
   const state = TBS.createState();
   state.mode = 'playing';
   TBS.createInput({
+    listen: (target, type, callback, options) => target.addEventListener(type, callback, options),
     state,
     keys: state.keys,
     resetControls: () => TBS.resetControls(state.keys),
