@@ -1,0 +1,744 @@
+{
+  "schema": 1,
+  "date": "2026-10-22",
+  "publishedBase": "dcedc0238ddb326438acc686a5cdd761e7b9f320",
+  "scope": "Compact results and provenance only. Original reports, raw traces, ZIPs, images, browser profiles and local backups are not bundled. Relative source IDs are logical local evidence labels, not repository links.",
+  "acceptedCommits": {
+    "safe": "549a6beb8d7e98aa15c8b02bac9678b8d3c459da",
+    "textures": "0c74e4e943a436adf0796f3c69b1349458d07603",
+    "vegetation": "dcedc0238ddb326438acc686a5cdd761e7b9f320"
+  },
+  "shaderArchive": {
+    "branch": "archive/shader-checks-20261022",
+    "commit": "b763df05d7bebe106bd9ee6eb1fc2a259f70f01f",
+    "parent": "dcedc0238ddb326438acc686a5cdd761e7b9f320",
+    "mergedIntoMain": false,
+    "files": [
+      {
+        "path": "src/adapters/rendering/scene.ts",
+        "sha256": "7c3ffcb0c6e00e17e5cc5c7125b442347038efc79f1b8412e133cfa1f7d0c06d"
+      },
+      {
+        "path": "dist/adapters/rendering/scene.js",
+        "sha256": "484a3f1e0379717223b40a1f206427cb8d1a8fe9cc92075864d9999ecd7aae2b"
+      },
+      {
+        "path": "types/rendering-contracts.d.ts",
+        "sha256": "8031997e47bf66ea7942a52211768bfb06665d40b3ec017b6ad4662028fe2e2a"
+      },
+      {
+        "path": "tests/shader-checks.test.cjs",
+        "sha256": "e651bcc554684717eb5ad7a045e85625ee351344d642f36444699a75e432c313"
+      }
+    ]
+  },
+  "conditions": {
+    "cpu": "Ryzen 7 7435HS",
+    "gpu": "RTX 3050 Laptop 4 GB",
+    "ramGB": 16,
+    "browser": "Edge 155.0.4283.62",
+    "backend": "ANGLE/D3D11",
+    "quality": "High",
+    "css": [1528, 694],
+    "dpr": 1.25,
+    "framebuffer": [1910, 867],
+    "shaderChecks": true,
+    "caveats": [
+      "Baseline startup-laptop used headless Edge 155.0.4283.45, 1024x768, DPR 1; do not combine absolute times with later windowed series.",
+      "New browser profiles are not guaranteed cold system/GPU caches.",
+      "Series have different versions and instrumentation; do not merge into a single A/B.",
+      "Texture pair1 A-new was minimized during the observation window; not a full long-frame control.",
+      "Critical-path current-HEAD diagnostic uses seed 72421 and CPU profiling/hooks; not new performance A/B."
+    ]
+  },
+  "sourceReports": [
+    {
+      "topic": "baseline",
+      "id": "startup-laptop-20261019/report.md",
+      "sha256": "12560bc576529bac5ffff390bd3350236150a5084d841c05e230fb85b20e65e6",
+      "bytes": 16687,
+      "included": false
+    },
+    {
+      "topic": "safe",
+      "id": "r149-two-phase-session-lifecycle-20261021/report.md",
+      "sha256": "49e8de1cc1086ea0d976bbc3b66185af56f873fa5a7b29f15075693a9df579be",
+      "bytes": 12154,
+      "included": false
+    },
+    {
+      "topic": "safe",
+      "id": "r149-cancel-js-delay-20261021/report.md",
+      "sha256": "bfc4e067079a4050f3e664b8251b5d504961c80617ad5fbd1a2ec92faf3bf886",
+      "bytes": 11372,
+      "included": false
+    },
+    {
+      "topic": "safe",
+      "id": "r149-two-phase-ab-completion-20261021/report.md",
+      "sha256": "d1c78ea1e2935eb9eec075bce963125c6d638c63e508ed00d3cbb6bfcc7ed900",
+      "bytes": 10045,
+      "included": false
+    },
+    {
+      "topic": "safe",
+      "id": "r149-production-safe-visual-20261021/report.md",
+      "sha256": "9cb386e190ce199fdb3fe9673aed6dc02b352aa6d98f2a69a7058c14a9d0e148",
+      "bytes": 6609,
+      "included": false
+    },
+    {
+      "topic": "textures",
+      "id": "texture-final-acceptance-20261022/report.md",
+      "sha256": "82a3d247be532b77f6b5b0a20aba45ae9e7fa097caeadff536d435b669473140",
+      "bytes": 12471,
+      "included": false
+    },
+    {
+      "topic": "textures",
+      "id": "texture-acceptance-completion-20261022/report.md",
+      "sha256": "8ff155781f4e292ba5bca249db783d4525e7d0169c0fcefb880dec8564809d2e",
+      "bytes": 8533,
+      "included": false
+    },
+    {
+      "topic": "architecture",
+      "id": "startup-z3-20261022/report.md",
+      "sha256": "deace20fc554c1b69bce070f4ce04b4a40cd0ca92aa8f1ba42a37bcdd875fc2a",
+      "bytes": 10709,
+      "included": false
+    },
+    {
+      "topic": "vegetation",
+      "id": "tbs-startup-architecture-20261022/report.md",
+      "sha256": "7aab1b5ac3ccba71c48f01bf55983c64c23b0563af335cf3eb0c9aee8bb51bc5",
+      "bytes": 22683,
+      "included": false
+    },
+    {
+      "topic": "vegetation",
+      "id": "tbs-startup-architecture-20261022/review-20261022/report.md",
+      "sha256": "79e647d09d52d9c71de0b79c846d40d2fd0a0a428fb438bdc280009b04b3b435",
+      "bytes": 15436,
+      "included": false
+    },
+    {
+      "topic": "architecture",
+      "id": "tbs-critical-path-20261022/report.md",
+      "sha256": "d02789f63ece3e34797722ecb67cf1ec53fff63f34c2922b44ac82c4fa80656e",
+      "bytes": 16805,
+      "included": false
+    }
+  ],
+  "primaryFiles": [
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair1-A-new.json",
+      "sha256": "83a48102e4d40810504b0c6ae98def80f05af05972390af01faaba0f19f9256b",
+      "bytes": 90767,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair1-A-warm.json",
+      "sha256": "656274226e3f894ef27956351b7048a701231b630f220802551ea2c0194408f1",
+      "bytes": 79682,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair1-B-new.json",
+      "sha256": "5d1edf4f7bfd004ffd9c188af4026901e5236691ff0b6191ae24d94c9583bf1e",
+      "bytes": 98589,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair1-B-warm.json",
+      "sha256": "1b06d047cb50beddb8e8d367fb9bbb0ddfd8e1fd8d6b71a0f1387322c9108025",
+      "bytes": 81121,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair2-A-new.json",
+      "sha256": "2d0a63d6544161fa718e353bf6c0e1819a0e13d6c0d3845a18e2979db8b8e9ac",
+      "bytes": 70838,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair2-A-warm.json",
+      "sha256": "8f06d53ffcf9783951acb1e4fffe4c2229289460e729f565cfb3967ab71b531b",
+      "bytes": 80766,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair2-B-new.json",
+      "sha256": "b5f6df3e04f14fe8f12175cf23493cfd22bbed10c2e0fc70bf102b6c5079dd87",
+      "bytes": 68040,
+      "included": false
+    },
+    {
+      "id": "r149-two-phase-ab-completion-20261021/pair2-B-warm.json",
+      "sha256": "6220f13a871dfc3e9770bd67f51e1bf068aee47ebb9d2ff29a4aae3a6041678e",
+      "bytes": 81350,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair1-A-new.json",
+      "sha256": "fc7e88d2af7d39279658ccfbb303be3609daadd45064b675af83f3474d2e1b0e",
+      "bytes": 31537,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair1-A-warm.json",
+      "sha256": "ee214a97b71d693ac7afcd9a002334530299390a5f3917cc0778557c3066a27a",
+      "bytes": 102080,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair1-B-new.json",
+      "sha256": "7fd2c712a929ceaa71f9f9581850499ea4cd8efa6a7282f05501ed05f53b9afa",
+      "bytes": 91173,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair1-B-warm.json",
+      "sha256": "8e5d4b13a751b9611f07370655bef260014566ab9430900d3b4e6b688bc725ec",
+      "bytes": 101390,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair2-A-new.json",
+      "sha256": "2447fb05d249ab7fdba2f6ea51cd39ca1dad227686a07dd74811c77a2ebddaff",
+      "bytes": 94373,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair2-A-warm.json",
+      "sha256": "ef462cf51eef41995b75c3e49ee2b9a26160ed296ce601b8045bbfdc57baf469",
+      "bytes": 100533,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair2-B-new.json",
+      "sha256": "79b6aa143f804a4ff4c3fae48466da2390d28450f9fda25421fcdc1f1f8b3cce",
+      "bytes": 92685,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing/pair2-B-warm.json",
+      "sha256": "fd458546b8390fc536e0ca43a3d3e9c7c39846d8c8758620d7db4efb3a498946",
+      "bytes": 98345,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair1-A-new.json",
+      "sha256": "0dc0e5683fa58cb0be6c2545c03776be8b9673b51dd0a144e07195046ab881fa",
+      "bytes": 95895,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair1-A-warm.json",
+      "sha256": "31d867a5236bfc7c3c9ba16d2845b9b2f68a369aab222d2345a24184d8653388",
+      "bytes": 104306,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair1-B-new.json",
+      "sha256": "57915d5c85f11f73cfd4b6adf27673153b84ce0157f6f4f14696eb3cd088047b",
+      "bytes": 97899,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair1-B-warm.json",
+      "sha256": "c61a1d5fadea4002d78fa4b84c1d0f6f002421993062b017effadc6daf9394e3",
+      "bytes": 100460,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair2-A-new.json",
+      "sha256": "df9fd58c9a14d7f1f76b375080a64e13a235db694cb64f540cb57532977ae506",
+      "bytes": 95221,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair2-A-warm.json",
+      "sha256": "f41d19b96f3212011ba3ae3c5caa582ef07af04d114a8e5b4fbdc3982ded9a78",
+      "bytes": 105390,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair2-B-new.json",
+      "sha256": "d8ac189aa6ea44ffe9b93d955833e27977c49b103a0ad2c4ecaf958a75f4e7f4",
+      "bytes": 97138,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/pair2-B-warm.json",
+      "sha256": "0b4114e8c79e80081ab920fe56edfa267555e121081ecb2177751aa32c03d0c3",
+      "bytes": 100430,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/synthetic/pair91-A-new.json",
+      "sha256": "290c43577c2473f4f8f2c78090575a1ceec48815e9648f794ac75e3e38409055",
+      "bytes": 93477,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/synthetic/pair91-A-warm.json",
+      "sha256": "7f12c82f778c50df24dd87187c9a745ac25dcb8f1affdfda84b4ea5f48dead42",
+      "bytes": 98892,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/synthetic/pair91-B-new.json",
+      "sha256": "e2349478c7fab8c55824df854334843f17c143af9efed10e45dddac513ac34b6",
+      "bytes": 98565,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/synthetic/pair91-B-warm.json",
+      "sha256": "da60407c16d792ea1ffe8c703af39acfd8649f64365754d6acefbc67a88fbfee",
+      "bytes": 103431,
+      "included": false
+    },
+    {
+      "id": "r149-production-safe-visual-20261021/comparison.json",
+      "sha256": "6b6f14c8d17b0e4417e0e8ff000b7869825cc39cad6475cd88358c3e1735ebc5",
+      "bytes": 8026,
+      "included": false
+    },
+    {
+      "id": "texture-final-acceptance-20261022/reproducibility.json",
+      "sha256": "0bfb4fb41c71a4af63bddc446f1faa1235818d003192f3b50c6c7a958459584f",
+      "bytes": 186,
+      "included": false
+    },
+    {
+      "id": "texture-acceptance-completion-20261022/start-analysis.json",
+      "sha256": "c11dce7708dbe13b32310d5274a75078729a9b6e507a6e77b080c28df5d8a7eb",
+      "bytes": 7177,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/review-20261022/audit.json",
+      "sha256": "c58a4df95f6cc5e4d906246504639d9b071b679f00858077b94a4cf246b6d86d",
+      "bytes": 15338,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/review-20261022/memory.json",
+      "sha256": "7805684dd5848ba0585a6ef34d098a8abf1c29585967830ff70245aff2f36bbd",
+      "bytes": 4678,
+      "included": false
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/review-20261022/trace-analysis.json",
+      "sha256": "0117b4ed17c15e734a646e4d3b08efd0551130bad5f498c37fc35ec646106fc4",
+      "bytes": 150191,
+      "included": false
+    },
+    {
+      "id": "tbs-critical-path-20261022/analysis.json",
+      "sha256": "67f289b6637dfbef65fd57fffa5165b3b42bbdda6941c226be12cffc105d017b",
+      "bytes": 51440,
+      "included": false
+    },
+    {
+      "id": "tbs-critical-path-20261022/diagnostic/pair1-A-new.json",
+      "sha256": "59598ea3bc6ef3131bba3da6d0c28cd532dffa3561614dbf045b464ccbca9a0b",
+      "bytes": 117402,
+      "included": false
+    }
+  ],
+  "seriesMetrics": [
+    {
+      "id": "r149-two-phase-ab-completion-20261021",
+      "runs": [
+        {
+          "pair": 1,
+          "variant": "A",
+          "profile": "new",
+          "source": "r149-two-phase-ab-completion-20261021/pair1-A-new.json",
+          "navigationToControlMs": 16380.099999904633,
+          "firstRenderWallMs": 12121.400000095367,
+          "startDeliveryToControlMs": 323.2000000476837,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "A",
+          "profile": "warm",
+          "source": "r149-two-phase-ab-completion-20261021/pair1-A-warm.json",
+          "navigationToControlMs": 4513.5,
+          "firstRenderWallMs": 879.2000000476837,
+          "startDeliveryToControlMs": 325.89999985694885,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "B",
+          "profile": "new",
+          "source": "r149-two-phase-ab-completion-20261021/pair1-B-new.json",
+          "navigationToControlMs": 9417.599999904633,
+          "firstRenderWallMs": 2969.7999999523163,
+          "startDeliveryToControlMs": 320.89999985694885,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "B",
+          "profile": "warm",
+          "source": "r149-two-phase-ab-completion-20261021/pair1-B-warm.json",
+          "navigationToControlMs": 4677.700000047684,
+          "firstRenderWallMs": 543.1999998092651,
+          "startDeliveryToControlMs": 956.5999999046326,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "A",
+          "profile": "new",
+          "source": "r149-two-phase-ab-completion-20261021/pair2-A-new.json",
+          "navigationToControlMs": 19637,
+          "firstRenderWallMs": 15108.900000095367,
+          "startDeliveryToControlMs": 348.59999990463257,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "A",
+          "profile": "warm",
+          "source": "r149-two-phase-ab-completion-20261021/pair2-A-warm.json",
+          "navigationToControlMs": 4509.600000143051,
+          "firstRenderWallMs": 905,
+          "startDeliveryToControlMs": 149.70000004768372,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "B",
+          "profile": "new",
+          "source": "r149-two-phase-ab-completion-20261021/pair2-B-new.json",
+          "navigationToControlMs": 8754.299999952316,
+          "firstRenderWallMs": 2966.899999856949,
+          "startDeliveryToControlMs": 327.7000000476837,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "B",
+          "profile": "warm",
+          "source": "r149-two-phase-ab-completion-20261021/pair2-B-warm.json",
+          "navigationToControlMs": 4702.5,
+          "firstRenderWallMs": 640.1000001430511,
+          "startDeliveryToControlMs": 1026.2000000476837,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        }
+      ]
+    },
+    {
+      "id": "texture-final-acceptance-20261022/timing",
+      "runs": [
+        {
+          "pair": 1,
+          "variant": "A",
+          "profile": "new",
+          "source": "texture-final-acceptance-20261022/timing/pair1-A-new.json",
+          "navigationToControlMs": 8993,
+          "firstRenderWallMs": 3251.7000000476837,
+          "startDeliveryToControlMs": 347.39999985694885,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "A",
+          "profile": "warm",
+          "source": "texture-final-acceptance-20261022/timing/pair1-A-warm.json",
+          "navigationToControlMs": 4488,
+          "firstRenderWallMs": 610.6000001430511,
+          "startDeliveryToControlMs": 870.0999999046326,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "B",
+          "profile": "new",
+          "source": "texture-final-acceptance-20261022/timing/pair1-B-new.json",
+          "navigationToControlMs": 7385.599999904633,
+          "firstRenderWallMs": 2961.100000143051,
+          "startDeliveryToControlMs": 341,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "B",
+          "profile": "warm",
+          "source": "texture-final-acceptance-20261022/timing/pair1-B-warm.json",
+          "navigationToControlMs": 3333.7000000476837,
+          "firstRenderWallMs": 578.5,
+          "startDeliveryToControlMs": 868.0999999046326,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "A",
+          "profile": "new",
+          "source": "texture-final-acceptance-20261022/timing/pair2-A-new.json",
+          "navigationToControlMs": 8907.899999856949,
+          "firstRenderWallMs": 2971.5999999046326,
+          "startDeliveryToControlMs": 326.09999990463257,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "A",
+          "profile": "warm",
+          "source": "texture-final-acceptance-20261022/timing/pair2-A-warm.json",
+          "navigationToControlMs": 5268,
+          "firstRenderWallMs": 499.40000009536743,
+          "startDeliveryToControlMs": 818.5999999046326,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "B",
+          "profile": "new",
+          "source": "texture-final-acceptance-20261022/timing/pair2-B-new.json",
+          "navigationToControlMs": 7276.599999904633,
+          "firstRenderWallMs": 3052.7999999523163,
+          "startDeliveryToControlMs": 3219.5,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "B",
+          "profile": "warm",
+          "source": "texture-final-acceptance-20261022/timing/pair2-B-warm.json",
+          "navigationToControlMs": 3591,
+          "firstRenderWallMs": 564.0999999046326,
+          "startDeliveryToControlMs": 947.6999998092651,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        }
+      ]
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data",
+      "runs": [
+        {
+          "pair": 1,
+          "variant": "A",
+          "profile": "new",
+          "source": "tbs-startup-architecture-20261022/data/pair1-A-new.json",
+          "navigationToControlMs": 7419.599999904633,
+          "firstRenderWallMs": 2935.7999999523163,
+          "startDeliveryToControlMs": 335.7000000476837,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "A",
+          "profile": "warm",
+          "source": "tbs-startup-architecture-20261022/data/pair1-A-warm.json",
+          "navigationToControlMs": 3935.5999999046326,
+          "firstRenderWallMs": 625,
+          "startDeliveryToControlMs": 925.2999999523163,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "B",
+          "profile": "new",
+          "source": "tbs-startup-architecture-20261022/data/pair1-B-new.json",
+          "navigationToControlMs": 7378.299999952316,
+          "firstRenderWallMs": 2953.5999999046326,
+          "startDeliveryToControlMs": 334.2000000476837,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 1,
+          "variant": "B",
+          "profile": "warm",
+          "source": "tbs-startup-architecture-20261022/data/pair1-B-warm.json",
+          "navigationToControlMs": 3622,
+          "firstRenderWallMs": 502.7999999523163,
+          "startDeliveryToControlMs": 146.40000009536743,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "A",
+          "profile": "new",
+          "source": "tbs-startup-architecture-20261022/data/pair2-A-new.json",
+          "navigationToControlMs": 7563.200000047684,
+          "firstRenderWallMs": 3055,
+          "startDeliveryToControlMs": 328.09999990463257,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "A",
+          "profile": "warm",
+          "source": "tbs-startup-architecture-20261022/data/pair2-A-warm.json",
+          "navigationToControlMs": 2873.2000000476837,
+          "firstRenderWallMs": 504.7000000476837,
+          "startDeliveryToControlMs": 853.2000000476837,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "B",
+          "profile": "new",
+          "source": "tbs-startup-architecture-20261022/data/pair2-B-new.json",
+          "navigationToControlMs": 7374.699999809265,
+          "firstRenderWallMs": 3087.899999856949,
+          "startDeliveryToControlMs": 124.79999995231628,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 2,
+          "variant": "B",
+          "profile": "warm",
+          "source": "tbs-startup-architecture-20261022/data/pair2-B-warm.json",
+          "navigationToControlMs": 3287,
+          "firstRenderWallMs": 483.2999999523163,
+          "startDeliveryToControlMs": 114.89999985694885,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        }
+      ]
+    },
+    {
+      "id": "tbs-startup-architecture-20261022/data/synthetic",
+      "runs": [
+        {
+          "pair": 91,
+          "variant": "A",
+          "profile": "new",
+          "source": "tbs-startup-architecture-20261022/data/synthetic/pair91-A-new.json",
+          "navigationToControlMs": 8746.400000095367,
+          "firstRenderWallMs": 3072.2000000476837,
+          "startDeliveryToControlMs": 337.7999999523163,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 91,
+          "variant": "A",
+          "profile": "warm",
+          "source": "tbs-startup-architecture-20261022/data/synthetic/pair91-A-warm.json",
+          "navigationToControlMs": 4351.599999904633,
+          "firstRenderWallMs": 649.2999999523163,
+          "startDeliveryToControlMs": 980,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 91,
+          "variant": "B",
+          "profile": "new",
+          "source": "tbs-startup-architecture-20261022/data/synthetic/pair91-B-new.json",
+          "navigationToControlMs": 7692.699999809265,
+          "firstRenderWallMs": 3009.9000000953674,
+          "startDeliveryToControlMs": 324.7999999523163,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        },
+        {
+          "pair": 91,
+          "variant": "B",
+          "profile": "warm",
+          "source": "tbs-startup-architecture-20261022/data/synthetic/pair91-B-warm.json",
+          "navigationToControlMs": 3809.100000143051,
+          "firstRenderWallMs": 625.8000001907349,
+          "startDeliveryToControlMs": 967.8000001907349,
+          "shaderChecks": true,
+          "jsErrors": 0,
+          "glError": 0
+        }
+      ]
+    }
+  ],
+  "acceptedRuntimeFiles": [
+    {
+      "path": "assets/three.min.js",
+      "sha256": "8a5f7249903b54d30f79f708699d2fed2d6a1d0741a4cd41377d1f01bb5a2271"
+    },
+    {
+      "path": "assets/three-r149-safe.min.js",
+      "sha256": "5fb78aeaa9ba4092eacdf2018e8e757aebc53eed0f3a98f7202cb7aa8c5684a0"
+    },
+    {
+      "path": "assets/visual-surfaces-embedded.js",
+      "sha256": "de507c6ef3736e98d1b396b0616095f9e5b5c2848f6b7b3aec1c1d4edb454509"
+    },
+    {
+      "path": "src/adapters/world/visual-assets.ts",
+      "sha256": "22cc63916670d704b5c4d995928a9c804ec62ee46f58d83a1043f4ce234b9519"
+    },
+    {
+      "path": "dist/adapters/world/visual-assets.js",
+      "sha256": "6facdd3cc8aaf2a609e71afe98b097af137552ccb6aecb5ac9464ee5da0b35ba"
+    },
+    {
+      "path": "types/visual-assets-contracts.d.ts",
+      "sha256": "4a3b50577e9b2ec64fd207e091af19d8cf6312d846b73fc07b254928e2fd9773"
+    },
+    {
+      "path": "tests/plant-data.test.cjs",
+      "sha256": "bc444f62c55747294581464a18352b63648511849e3d00456b0a065c256d449a"
+    },
+    {
+      "path": "tests/fixtures/plant-reference-r149.js.txt",
+      "sha256": "4af3b9fa9bd9d5d047635b7b339806ba567145ca97b214604139bdcc0c3958ef"
+    }
+  ],
+  "conclusion": "Three accepted packages are published. Further large architectural startup migration was not justified by the limited evidence; no new candidate or optimization is authorized by this snapshot."
+}
