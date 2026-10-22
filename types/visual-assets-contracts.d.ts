@@ -86,3 +86,18 @@ interface ThreeLibraryHandle {
     closed?: boolean,
   ) => ThreeTubeGeometry;
 }
+// Private, bounded per-factory snapshots. Arrays are copied into each new model.
+interface PreparedPlantData {
+  branchRandomCalls: number;
+  position: Float32Array;
+  normal: Float32Array;
+  uv: Float32Array;
+  indices: number[];
+  leavesMatrix: Float32Array;
+  leavesColor: Float32Array;
+  grassMatrix: Float32Array;
+  grassColor: Float32Array;
+}
+interface ThreeInstanceMatrixHandle {
+  readonly array: Float32Array;
+}

@@ -249,6 +249,9 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling, prepar
     grassGeometry.setAttribute('uv', new T.Float32BufferAttribute([0, 0, 1, 0, 0, 0.5, 1, 0.5, 0.5, 1], 2));
     grassGeometry.setIndex([0, 1, 2, 1, 3, 2, 2, 3, 4]);
     grassGeometry.computeVertexNormals();
+    // Per-factory CPU data only: no shared scene objects or disposable GPU resources.
+    // Bound the retained snapshots when future districts introduce more variants.
+    const plantData = new Map();
     function plant(parent, x, z, variant = 0, scale = 1) {
         const species = ((variant % 3) + 3) % 3, birch = species === 1, poplar = species === 2;
         const height = poplar ? 7.8 : birch ? 6.6 : 5.6, radius = poplar ? 1.05 : birch ? 1.7 : 2.1;
@@ -257,6 +260,7 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling, prepar
         group.position.set(x, 0, z);
         group.scale.setScalar(scale);
         parent.add(group);
+        const prepared = plantData.get(variant);
         const tips = [], branchParts = [];
         function branch(points, r) {
             const path = new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p))), g = new T.TubeGeometry(path, 10, r, 7, false), p = g.attributes.position;
@@ -271,28 +275,36 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling, prepar
             g.computeVertexNormals();
             branchParts.push(g);
         }
-        branch([
-            [0, 0.35, 0],
-            [0.07, 2, 0],
-            [-0.06, height * 0.62, 0.05],
-            [0.11, height - 0.35, 0],
-        ], birch ? 0.105 : 0.15);
-        for (let n = 0; n < 18; n++) {
-            const a = n * 2.399 + variant, t = n / 17, y = 2.1 + t * (height - 3.3), reach = radius * (0.85 - 0.35 * t), ex = Math.cos(a) * reach, ez = Math.sin(a) * reach;
-            const ey = poplar ? y + 1.5 : y + 0.8;
+        if (prepared) {
+            // r149 TubeGeometry allocates one UUID (four random draws) per branch.
+            // Replaying those draws preserves later world/audio/traffic randomness.
+            for (let i = 0; i < prepared.branchRandomCalls; i++)
+                Math.random();
+        }
+        else {
             branch([
-                [0, y, 0],
-                [ex * 0.5, y + 0.55, ez * 0.5],
-                [ex, ey, ez],
-            ], 0.044 - t * 0.022);
-            for (const side of [-1, 1]) {
-                const tip = [
-                    ex + Math.cos(a + side * 0.75) * radius * 0.32,
-                    ey + (birch ? -0.25 : 0.2),
-                    ez + Math.sin(a + side * 0.75) * radius * 0.32,
-                ];
-                branch([[ex * 0.65, y + 0.65, ez * 0.65], [ex, ey, ez], tip], 0.016);
-                tips.push(tip);
+                [0, 0.35, 0],
+                [0.07, 2, 0],
+                [-0.06, height * 0.62, 0.05],
+                [0.11, height - 0.35, 0],
+            ], birch ? 0.105 : 0.15);
+            for (let n = 0; n < 18; n++) {
+                const a = n * 2.399 + variant, t = n / 17, y = 2.1 + t * (height - 3.3), reach = radius * (0.85 - 0.35 * t), ex = Math.cos(a) * reach, ez = Math.sin(a) * reach;
+                const ey = poplar ? y + 1.5 : y + 0.8;
+                branch([
+                    [0, y, 0],
+                    [ex * 0.5, y + 0.55, ez * 0.5],
+                    [ex, ey, ez],
+                ], 0.044 - t * 0.022);
+                for (const side of [-1, 1]) {
+                    const tip = [
+                        ex + Math.cos(a + side * 0.75) * radius * 0.32,
+                        ey + (birch ? -0.25 : 0.2),
+                        ez + Math.sin(a + side * 0.75) * radius * 0.32,
+                    ];
+                    branch([[ex * 0.65, y + 0.65, ez * 0.65], [ex, ey, ez], tip], 0.016);
+                    tips.push(tip);
+                }
             }
         }
         // Merge the tapered branches into one mesh per tree.
@@ -307,25 +319,33 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling, prepar
             part.dispose();
         }
         const woodGeometry = new T.BufferGeometry();
-        woodGeometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
-        woodGeometry.setAttribute('normal', new T.Float32BufferAttribute(normals, 3));
-        woodGeometry.setAttribute('uv', new T.Float32BufferAttribute(uvs, 2));
-        woodGeometry.setIndex(indices);
+        woodGeometry.setAttribute('position', new T.Float32BufferAttribute(prepared?.position ?? positions, 3));
+        woodGeometry.setAttribute('normal', new T.Float32BufferAttribute(prepared?.normal ?? normals, 3));
+        woodGeometry.setAttribute('uv', new T.Float32BufferAttribute(prepared?.uv ?? uvs, 2));
+        woodGeometry.setIndex(prepared?.indices ?? indices);
         const trunk = new T.Mesh(woodGeometry, birch ? birchBark : bark);
         trunk.castShadow = true;
         trunk.receiveShadow = true;
         group.add(trunk);
         const count = 4200, leaves = new T.InstancedMesh(speciesLeaves[species], foliage, count), pose = new T.Object3D();
-        for (let n = 0; n < count; n++) {
-            const tip = tips[n % tips.length], angle = n * 2.399, v = ((n * 0.618034) % 1) * 2 - 1, rr = Math.sqrt(1 - v * v) * (0.18 + ((n * 0.754877) % 1) * 0.55);
-            pose.position.set(tip[0] + Math.cos(angle) * rr * (poplar ? 0.63 : 1), tip[1] + v * (poplar ? 0.75 : 0.55), tip[2] + Math.sin(angle) * rr * (poplar ? 0.63 : 1));
-            pose.rotation.set(0.35 + Math.sin(n * 0.57) * 0.85, n * 1.37, Math.sin(n * 0.71) * 0.8);
-            pose.scale.setScalar(0.42 + (n % 9) * 0.025);
-            pose.updateMatrix();
-            leaves.setMatrixAt(n, pose.matrix);
-            const exposed = Math.min(1, Math.hypot(pose.position.x, pose.position.z) / radius);
-            leaves.setColorAt(n, new T.Color().setHSL(0.21 + species * 0.012, 0.3, 0.39 + exposed * 0.13 + (n % 7) * 0.008));
+        if (prepared) {
+            leaves.instanceMatrix.array.set(prepared.leavesMatrix);
+            leaves.setColorAt(0, new T.Color());
+            if (!leaves.instanceColor)
+                throw new Error('Missing leaf colors');
+            leaves.instanceColor.array.set(prepared.leavesColor);
         }
+        else
+            for (let n = 0; n < count; n++) {
+                const tip = tips[n % tips.length], angle = n * 2.399, v = ((n * 0.618034) % 1) * 2 - 1, rr = Math.sqrt(1 - v * v) * (0.18 + ((n * 0.754877) % 1) * 0.55);
+                pose.position.set(tip[0] + Math.cos(angle) * rr * (poplar ? 0.63 : 1), tip[1] + v * (poplar ? 0.75 : 0.55), tip[2] + Math.sin(angle) * rr * (poplar ? 0.63 : 1));
+                pose.rotation.set(0.35 + Math.sin(n * 0.57) * 0.85, n * 1.37, Math.sin(n * 0.71) * 0.8);
+                pose.scale.setScalar(0.42 + (n % 9) * 0.025);
+                pose.updateMatrix();
+                leaves.setMatrixAt(n, pose.matrix);
+                const exposed = Math.min(1, Math.hypot(pose.position.x, pose.position.z) / radius);
+                leaves.setColorAt(n, new T.Color().setHSL(0.21 + species * 0.012, 0.3, 0.39 + exposed * 0.13 + (n % 7) * 0.008));
+            }
         leaves.castShadow = true;
         leaves.receiveShadow = true;
         vegetationCulling.add(group, leaves, { displacement: new T.Vector3(0.022, 0, 0.014) });
@@ -334,17 +354,40 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling, prepar
         bed.receiveShadow = true;
         group.add(bed);
         const grass = new T.InstancedMesh(grassGeometry, foliage, 240);
-        for (let n = 0; n < 240; n++) {
-            const a = n * 2.399, r = 0.24 + Math.sqrt((n * 0.618034) % 1) * 0.6;
-            pose.position.set(Math.cos(a) * r, 0.495, Math.sin(a) * r);
-            pose.rotation.set(0, n * 1.73, 0);
-            pose.scale.setScalar(0.35 + (n % 7) * 0.065);
-            pose.updateMatrix();
-            grass.setMatrixAt(n, pose.matrix);
-            grass.setColorAt(n, new T.Color().setHSL(0.2, 0.25, 0.36 + (n % 7) * 0.023));
+        if (prepared) {
+            grass.instanceMatrix.array.set(prepared.grassMatrix);
+            grass.setColorAt(0, new T.Color());
+            if (!grass.instanceColor)
+                throw new Error('Missing grass colors');
+            grass.instanceColor.array.set(prepared.grassColor);
         }
+        else
+            for (let n = 0; n < 240; n++) {
+                const a = n * 2.399, r = 0.24 + Math.sqrt((n * 0.618034) % 1) * 0.6;
+                pose.position.set(Math.cos(a) * r, 0.495, Math.sin(a) * r);
+                pose.rotation.set(0, n * 1.73, 0);
+                pose.scale.setScalar(0.35 + (n % 7) * 0.065);
+                pose.updateMatrix();
+                grass.setMatrixAt(n, pose.matrix);
+                grass.setColorAt(n, new T.Color().setHSL(0.2, 0.25, 0.36 + (n % 7) * 0.023));
+            }
         grass.receiveShadow = true;
         vegetationCulling.add(group, grass, { displacement: new T.Vector3(0.022, 0, 0.014) });
+        if (!prepared && plantData.size < 64) {
+            if (!leaves.instanceColor || !grass.instanceColor)
+                throw new Error('Missing plant colors');
+            plantData.set(variant, {
+                branchRandomCalls: branchParts.length * 4,
+                position: new Float32Array(positions),
+                normal: new Float32Array(normals),
+                uv: new Float32Array(uvs),
+                indices,
+                leavesMatrix: leaves.instanceMatrix.array.slice(),
+                leavesColor: leaves.instanceColor.array.slice(),
+                grassMatrix: grass.instanceMatrix.array.slice(),
+                grassColor: grass.instanceColor.array.slice(),
+            });
+        }
         return group;
     }
     return { material, plant, wind, leaf, foliage };
