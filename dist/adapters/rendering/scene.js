@@ -5,6 +5,8 @@ window.TBS.createScene = function ({ canvas, T }) {
         antialias: true,
         powerPreference: 'high-performance',
     });
+    renderer.debug.checkShaderErrors =
+        new URLSearchParams(location.search).get('shaderChecks') !== '0';
     const lowPower = matchMedia('(pointer:coarse)').matches || innerWidth < 700;
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower ? 1.15 : 1.75));
     renderer.setSize(innerWidth, innerHeight, false);

@@ -6,6 +6,8 @@ window.TBS.createScene = function ({ canvas, T }: Pick<BuildWorldOptions, 'canva
     antialias: true,
     powerPreference: 'high-performance',
   });
+  renderer.debug.checkShaderErrors =
+    new URLSearchParams(location.search).get('shaderChecks') !== '0';
 
   const lowPower = matchMedia('(pointer:coarse)').matches || innerWidth < 700;
 

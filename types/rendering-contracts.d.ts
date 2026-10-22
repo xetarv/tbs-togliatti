@@ -31,6 +31,7 @@ interface ThreeCameraHandle {
   updateProjectionMatrix: () => void;
 }
 interface ThreeRendererHandle {
+  debug: { checkShaderErrors: boolean };
   setPixelRatio: (ratio: number) => void;
   setSize: (width: number, height: number, updateStyle?: boolean) => void;
   outputEncoding: number;
