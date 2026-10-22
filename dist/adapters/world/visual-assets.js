@@ -1,6 +1,40 @@
 /* Authored surface and planting library. All assets are local and deterministic. */
 'use strict';
-window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
+window.TBS.prepareVisualSurfaces = async function (baked) {
+    if (!baked)
+        return undefined;
+    const load = async (url) => {
+        if (!url.startsWith('data:image/png;base64,'))
+            throw new Error('Expected local surface PNG');
+        const image = new Image();
+        image.decoding = 'async';
+        image.src = url;
+        await image.decode();
+        if (image.naturalWidth !== 512 || image.naturalHeight !== 512)
+            throw new Error('Unexpected surface dimensions');
+        return image;
+    };
+    const prepare = async (surface) => {
+        if (!Number.isInteger(surface.randomCalls) ||
+            surface.randomCalls < 0 ||
+            surface.randomCalls > 300000)
+            throw new Error('Invalid surface RNG count');
+        const [map, normalMap, roughnessMap] = await Promise.all([
+            load(surface.images.map),
+            load(surface.images.normalMap),
+            load(surface.images.roughnessMap),
+        ]);
+        return { ...surface, images: { map, normalMap, roughnessMap } };
+    };
+    const [asphalt, stone, paving, brick] = await Promise.all([
+        prepare(baked.asphalt),
+        prepare(baked.stone),
+        prepare(baked.paving),
+        prepare(baked.brick),
+    ]);
+    return { asphalt, stone, paving, brick };
+};
+window.TBS.createVisualAssets = function (T, renderer, vegetationCulling, preparedSurfaces) {
     const size = 512, cache = new Map(), wind = { value: 0 };
     let seed = 81231;
     const random = () => {
@@ -20,6 +54,21 @@ window.TBS.createVisualAssets = function (T, renderer, vegetationCulling) {
         return t;
     }
     function surface(kind) {
+        const prepared = preparedSurfaces?.[kind];
+        if (prepared) {
+            if (seed !== prepared.beforeSeed)
+                throw new Error('Stale surface RNG input');
+            // Consume the original deterministic sequence; never assign or reset its seed.
+            for (let i = 0; i < prepared.randomCalls; i++)
+                random();
+            if (seed !== prepared.afterSeed)
+                throw new Error('Stale surface RNG output');
+            return {
+                map: texture(prepared.images.map),
+                normalMap: texture(prepared.images.normalMap, true),
+                roughnessMap: texture(prepared.images.roughnessMap, true),
+            };
+        }
         const color = canvas(), height = canvas(), rough = canvas(), c = color.getContext('2d'), h = height.getContext('2d'), r = rough.getContext('2d');
         const asphalt = kind === 'asphalt', brick = kind === 'brick', paving = kind === 'paving';
         c.fillStyle = asphalt ? '#585a59' : brick ? '#999080' : paving ? '#817d71' : '#beb8a6';

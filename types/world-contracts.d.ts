@@ -7,6 +7,7 @@ interface BuildWorldOptions {
   T: ThreeLibraryHandle;
   canvas: HTMLCanvasElement;
   config: Readonly<GameConfig>;
+  preparedSurfaces?: PreparedVisualSurfaces;
 }
 type WorldDimensions = Pick<
   GameConfig,
@@ -72,6 +73,7 @@ type VisualAssetsFactory = (
   T: ThreeLibraryHandle,
   renderer: ThreeRendererHandle,
   vegetationCulling: VegetationCulling,
+  preparedSurfaces?: PreparedVisualSurfaces,
 ) => WorldVisualAssets;
 interface WorldOptions extends WorldDimensions, SceneResources, GeometryHelpers {
   T: ThreeLibraryHandle;
@@ -80,6 +82,7 @@ interface WorldOptions extends WorldDimensions, SceneResources, GeometryHelpers 
   createVisualAssets: VisualAssetsFactory;
   embeddedAssets: EmbeddedWorldAssets;
   asphaltMaps: AsphaltMaps | undefined;
+  preparedSurfaces?: PreparedVisualSurfaces;
 }
 interface WorldResources extends Pick<
   PresentationWorldResources,

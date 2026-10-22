@@ -5,6 +5,23 @@ interface VisualSurfaceMaps {
   normalMap: ThreeTextureHandle;
   roughnessMap: ThreeTextureHandle;
 }
+interface BakedVisualSurface {
+  beforeSeed: number;
+  afterSeed: number;
+  randomCalls: number;
+  images: Record<keyof VisualSurfaceMaps, string>;
+}
+interface PreparedVisualSurface extends Omit<BakedVisualSurface, 'images'> {
+  images: Record<keyof VisualSurfaceMaps, HTMLImageElement>;
+}
+type BakedVisualSurfaces = Record<VisualSurfaceKind, BakedVisualSurface>;
+type PreparedVisualSurfaces = Record<VisualSurfaceKind, PreparedVisualSurface>;
+declare var TBS_VISUAL_SURFACES: BakedVisualSurfaces | undefined;
+interface TbsRegistry {
+  prepareVisualSurfaces: (
+    baked: BakedVisualSurfaces | undefined,
+  ) => Promise<PreparedVisualSurfaces | undefined>;
+}
 interface ThreeNumericAttribute extends ThreeBufferAttributeHandle {
   readonly array: ArrayLike<number> & Iterable<number>;
   readonly count: number;
@@ -57,7 +74,7 @@ interface ThreeStandardMaterialHandle {
 interface ThreeLibraryHandle {
   readonly sRGBEncoding: 3001;
   readonly RepeatWrapping: 1000;
-  CanvasTexture: new (canvas: HTMLCanvasElement) => ThreeCanvasTexture;
+  CanvasTexture: new (image: HTMLCanvasElement | HTMLImageElement) => ThreeCanvasTexture;
   Vector2: new (x?: number, y?: number) => ThreeTextureRepeatHandle;
   BufferAttribute: new (array: Float32Array, itemSize: number) => ThreeNumericAttribute;
   CatmullRomCurve3: new (points: CameraVector3[]) => ThreeCurveHandle;

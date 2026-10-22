@@ -1,6 +1,6 @@
 'use strict';
 window.TBS.createWorldResources = function (options) {
-    const { T, renderer, createVisualAssets, embeddedAssets, vegetationCulling } = options;
+    const { T, renderer, createVisualAssets, embeddedAssets, vegetationCulling, preparedSurfaces } = options;
     const mat = (color, metalness = 0, roughness = 0.8, emissive = 0x000000) => new T.MeshStandardMaterial({ color, metalness, roughness, emissive, envMapIntensity: 0.45 });
     const dark = mat(0x142733, 0.22, 0.72), roadMat = mat(0x192b34, 0.08, 0.93), curbMat = mat(0x31505a, 0.08, 0.83), cyanMat = mat(0x47e6e0, 0.12, 0.27, 0x148c8b), orangeMat = mat(0xff4808, 0.2, 0.34, 0xa32c0c), whiteMat = mat(0xdcebf0, 0.24, 0.42), glassMat = mat(0x16445d, 0.68, 0.18, 0x071a28), tireMat = mat(0x101820, 0.08, 0.95), laneMat = new T.MeshBasicMaterial({ color: 0xaabac0 }), grassMat = mat(0x173730), roofMat = mat(0x203945, 0.12, 0.76);
     const trimMat = mat(0x5d7e87, 0.48, 0.35);
@@ -35,7 +35,7 @@ window.TBS.createWorldResources = function (options) {
         t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
         return t;
     }
-    const visualAssets = createVisualAssets(T, renderer, vegetationCulling);
+    const visualAssets = createVisualAssets(T, renderer, vegetationCulling, preparedSurfaces);
     function roadSurface(w, d) {
         return visualAssets.material('asphalt', w, d);
     }

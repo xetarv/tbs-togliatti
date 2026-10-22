@@ -1,6 +1,11 @@
 'use strict';
 
-window.TBS.buildWorld = function ({ T, canvas, config }: BuildWorldOptions): BuiltWorld {
+window.TBS.buildWorld = function ({
+  T,
+  canvas,
+  config,
+  preparedSurfaces,
+}: BuildWorldOptions): BuiltWorld {
   const api = window.TBS;
   const { WORLD_W, WORLD_H, ROAD, roadsX, roadsZ, isParkBlock } = config;
   const worldState: WorldConstructionState = { maglevTrain: null, centralSquare: null };
@@ -12,6 +17,7 @@ window.TBS.buildWorld = function ({ T, canvas, config }: BuildWorldOptions): Bui
   });
   const options = {
     T,
+    preparedSurfaces,
     WORLD_W,
     WORLD_H,
     ROAD,

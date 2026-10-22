@@ -47,7 +47,28 @@
     T.ColorManagement.legacyMode = false;
     const state = api.domain.createState();
     const presentation = api.createPresentationState(state);
-    const world = api.buildWorld({ T, canvas: dom.canvas, config: api.domain.config });
+    // No renderer exists during decoding; page departure must not start a late world.
+    let surfacePageClosed = false;
+    const leaveSurfacePreparation = () => {
+      surfacePageClosed = true;
+    };
+    addEventListener('pagehide', leaveSurfacePreparation, { once: true });
+    let preparedSurfaces: PreparedVisualSurfaces | undefined;
+    try {
+      preparedSurfaces = await api.prepareVisualSurfaces(window.TBS_VISUAL_SURFACES);
+    } catch (error) {
+      if (surfacePageClosed) return;
+      throw error;
+    } finally {
+      removeEventListener('pagehide', leaveSurfacePreparation);
+    }
+    if (surfacePageClosed) return;
+    const world = api.buildWorld({
+      T,
+      canvas: dom.canvas,
+      config: api.domain.config,
+      preparedSurfaces,
+    });
     const subscriptions = api.createSessionListeners();
     let game: BuildGameResult;
     try {

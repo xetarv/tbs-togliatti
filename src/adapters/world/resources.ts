@@ -1,7 +1,8 @@
 'use strict';
 
 window.TBS.createWorldResources = function (options: WorldOptions): WorldResources {
-  const { T, renderer, createVisualAssets, embeddedAssets, vegetationCulling } = options;
+  const { T, renderer, createVisualAssets, embeddedAssets, vegetationCulling, preparedSurfaces } =
+    options;
   const mat = (color: number, metalness = 0, roughness = 0.8, emissive = 0x000000) =>
     new T.MeshStandardMaterial({ color, metalness, roughness, emissive, envMapIntensity: 0.45 });
   const dark = mat(0x142733, 0.22, 0.72),
@@ -63,7 +64,7 @@ window.TBS.createWorldResources = function (options: WorldOptions): WorldResourc
     t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     return t;
   }
-  const visualAssets = createVisualAssets(T, renderer, vegetationCulling);
+  const visualAssets = createVisualAssets(T, renderer, vegetationCulling, preparedSurfaces);
   function roadSurface(w: number, d: number) {
     return visualAssets.material('asphalt', w, d);
   }
