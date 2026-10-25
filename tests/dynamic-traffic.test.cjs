@@ -152,6 +152,39 @@ test('native traffic model disposal releases individual allocations once, preser
   assert.equal(f.models.disposeTrafficCar(new T.Group()), false);
 });
 
+test('traffic wheel geometries are shared within each car, with independent model ownership', () => {
+  const f = modelFixture();
+  const wheelGeometries = (car) => {
+    const groups = new Map();
+    car.traverse((object) => {
+      const geometry = object.geometry;
+      if (!['CylinderGeometry', 'TorusGeometry'].includes(geometry?.type)) return;
+      const key = JSON.stringify([geometry.type, geometry.parameters]);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(geometry);
+    });
+    return [...groups.values()];
+  };
+  for (const variant of ['compact', 'sedan', 'van', 'shuttle']) {
+    const first = f.models.createTrafficCar(0x123456, variant);
+    const second = f.models.createTrafficCar(0x654321, variant);
+    const shared = wheelGeometries(first).filter((group) => group.length === 4);
+    assert.equal(shared.length, 4);
+    const other = new Set(wheelGeometries(second).flat());
+    for (const group of shared) {
+      assert.equal(new Set(group).size, 1);
+      assert.equal(other.has(group[0]), false);
+    }
+    f.models.animateVehicle(first, 6, 0.4, true, 0.05);
+    assert.notEqual(first.userData.wheels[0].rolling.rotation.x, 0);
+    assert.equal(second.userData.wheels[0].rolling.rotation.x, 0);
+    assert.equal(f.models.disposeTrafficCar(first), true);
+    for (const geometry of other) assert.equal(f.resources.get(geometry), 0);
+    assert.equal(f.models.disposeTrafficCar(second), true);
+    for (const group of shared) assert.equal(f.resources.get(group[0]), 1);
+  }
+});
+
 test('failed native assembly releases allocations even before attachment and preserves the original error', () => {
   const f = modelFixture();
   const original = f.context.TBS.buildTrafficCarLights;
