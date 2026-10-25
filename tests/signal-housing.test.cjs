@@ -177,6 +177,8 @@ test('exact per-camera attributes retain the ordinary Mesh Float32 matrix path, 
     camera.position.set(...position);
     camera.lookAt(75.234, 4.17, 88.135);
     camera.updateMatrixWorld(true);
+    // Inspect every group's data; registration can re-enable culling after a sort.
+    for (const batch of batches) batch.frustumCulled = false;
     after.scene.onBeforeRender(null, after.scene, camera);
     const expected = [],
       actual = [];
@@ -248,6 +250,8 @@ test('instances follow original opaque depth order and refresh conservative boun
       camera.matrixWorldInverse,
     );
     const frustum = new after.T.Frustum().setFromProjectionMatrix(projection);
+    for (const batch of after.scene.children.filter((o) => o.isInstancedMesh))
+      batch.frustumCulled = false;
     after.scene.onBeforeRender(null, after.scene, camera);
     for (const batch of after.scene.children.filter((o) => o.isInstancedMesh)) {
       const first = new after.T.Matrix4();

@@ -4,11 +4,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-function setup(batched, housing = true) {
+function setup(batched, housing = true, visibleMatrices = true) {
   const context = vm.createContext({
     URLSearchParams,
     location: {
-      search: `?signalLampBatching=${Number(batched)}&signalHousingBatching=${Number(housing)}`,
+      search: `?signalLampBatching=${Number(batched)}&signalHousingBatching=${Number(housing)}&visibleSignalMatrices=${Number(visibleMatrices)}`,
     },
   });
   context.window = context;
@@ -177,6 +177,8 @@ test('lamp projection retains exact Mesh Float32 model-view matrices for two cam
       a.phase(phase);
       b.phase(phase);
       a.scene.updateMatrixWorld(true);
+      // Phase registration can reset this flag; inspect all groups per render.
+      for (const batch of b.batches) batch.frustumCulled = false;
       prepare(b, c);
       assert.deepEqual(views(b, c), views(a, c));
     }
@@ -198,6 +200,7 @@ test('lamp projection retains exact Mesh Float32 model-view matrices for two cam
 test('lamp buffers/resources stay stable without phase or camera change; camera changes do not upload instance transforms', () => {
   const f = setup(true),
     c = camera(f, [81, 7, 95]);
+  for (const batch of f.batches) batch.frustumCulled = false;
   prepare(f, c);
   const resources = f.batches.map((o) => ({
     geometry: o.geometry,
@@ -304,5 +307,131 @@ test('per-junction bounds retain visible lamps through phase changes and indepen
         'A lamp batch cannot span separate intersections.',
       );
     }
+  }
+});
+
+function signalBatches(f) {
+  return Array.from(f.scene.children).filter(
+    (o) =>
+      o.isInstancedMesh &&
+      (o.geometry.attributes.signalModelView || o.geometry.attributes.signalLampModelView),
+  );
+}
+function viewAttribute(o) {
+  return o.geometry.attributes.signalModelView || o.geometry.attributes.signalLampModelView;
+}
+
+test('visible signal matrices match eager preparation through phases, camera re-entry and transformed parents', () => {
+  let rendered = 0,
+    skipped = 0,
+    reentered = 0;
+  for (const housing of [false, true]) {
+    const a = setup(true, housing, false),
+      b = setup(true, housing, true);
+    const source = signalBatches(a),
+      target = signalBatches(b);
+    assert.equal(source.length, target.length);
+    let lastVisible = new Set();
+    const poses = [
+      [
+        [26, 6, 20],
+        [26, 3, 40],
+      ],
+      [
+        [110, 6, 100],
+        [110, 3, 120],
+      ],
+      [
+        [90, 8, 40],
+        [30, 3, 35],
+      ],
+      [
+        [26, 6, 20],
+        [26, 3, 40],
+      ],
+    ];
+    for (const [poseIndex, pose] of poses.entries()) {
+      if (poseIndex === 2)
+        for (const f of [a, b]) {
+          f.scene.position.set(5, 0.5, -3);
+          f.scene.rotation.y = 0.23;
+          f.scene.scale.set(1.1, 0.9, 1.2);
+        }
+      const ca = new a.T.PerspectiveCamera(44, 16 / 9, 0.1, 180),
+        cb = new b.T.PerspectiveCamera(44, 16 / 9, 0.1, 180);
+      for (const c of [ca, cb]) {
+        c.position.set(...pose[0]);
+        c.lookAt(...pose[1]);
+        c.updateMatrixWorld(true);
+      }
+      for (let phase = 0; phase < 9; phase++) {
+        a.phase(phase);
+        b.phase(phase);
+        const before = target.map((o) => ({
+          version: viewAttribute(o).version,
+          data: Array.from(viewAttribute(o).array),
+        }));
+        prepare(a, ca);
+        prepare(b, cb);
+        const frustum = new b.T.Frustum().setFromProjectionMatrix(
+          new b.T.Matrix4().multiplyMatrices(cb.projectionMatrix, cb.matrixWorldInverse),
+        );
+        const visible = new Set();
+        target.forEach((o, i) => {
+          if (!o.visible) return;
+          const attr = viewAttribute(o);
+          if (o.frustumCulled && !frustum.intersectsObject(o)) {
+            assert.equal(attr.version, before[i].version);
+            assert.deepEqual(Array.from(attr.array), before[i].data);
+            skipped++;
+          } else {
+            assert.deepEqual(
+              Array.from(attr.array.slice(0, o.count * 16)),
+              Array.from(viewAttribute(source[i]).array.slice(0, o.count * 16)),
+            );
+            if (o.geometry.attributes.signalNormal)
+              assert.deepEqual(
+                Array.from(o.geometry.attributes.signalNormal.array),
+                Array.from(source[i].geometry.attributes.signalNormal.array),
+              );
+            visible.add(o.id);
+            rendered++;
+            if (poseIndex && !lastVisible.has(o.id)) reentered++;
+          }
+        });
+        lastVisible = visible;
+      }
+    }
+  }
+  assert.ok(rendered > 0);
+  assert.ok(skipped > 0);
+  assert.ok(reentered > 0);
+});
+
+test('disabling per-object culling still prepares all signal attributes exactly', () => {
+  const a = setup(true, true, false),
+    b = setup(true, true, true),
+    source = signalBatches(a),
+    target = signalBatches(b);
+  for (const o of target) o.frustumCulled = false;
+  const ca = new a.T.PerspectiveCamera(30, 1, 0.1, 60),
+    cb = new b.T.PerspectiveCamera(30, 1, 0.1, 60);
+  for (const c of [ca, cb]) {
+    c.position.set(0, 5, 0);
+    c.lookAt(0, 5, -100);
+    c.updateMatrixWorld(true);
+  }
+  for (let phase = 0; phase < 9; phase++) {
+    a.phase(phase);
+    b.phase(phase);
+    for (const o of target) o.frustumCulled = false;
+    prepare(a, ca);
+    prepare(b, cb);
+    target.forEach((o, i) =>
+      assert.deepEqual(
+        Array.from(viewAttribute(o).array.slice(0, o.count * 16)),
+        Array.from(viewAttribute(source[i]).array.slice(0, o.count * 16)),
+      ),
+    );
   }
 });

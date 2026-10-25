@@ -25,6 +25,9 @@ window.TBS.createTrafficView = function ({
   const housingBatches = new Map<string, TrafficHousingPart[]>();
   const prepareSignals: ((camera: ThreeRenderCameraHandle) => void)[] = [];
   const projectionView = new T.Matrix4();
+  const signalFrustum = new T.Frustum();
+  const prepareVisibleSignals =
+    new URLSearchParams(location.search).get('visibleSignalMatrices') !== '0';
   const batchHousing = new URLSearchParams(location.search).get('signalHousingBatching') !== '0';
   const batchLamps = new URLSearchParams(location.search).get('signalLampBatching') !== '0';
   const lampGroups = new Map<string, TrafficLampRecord[]>();
@@ -158,6 +161,9 @@ window.TBS.createTrafficView = function ({
       const key = () => variantKey;
       const order = records.map((record) => record.index);
       prepareSignals.push((camera) => {
+        // Use the renderer's per-camera culling test before preparing its matrix attributes.
+        if (prepareVisibleSignals && batch.frustumCulled && !signalFrustum.intersectsObject(batch))
+          return;
         for (const record of records) {
           world.multiplyMatrices(record.head.matrixWorld, record.local);
           record.view.multiplyMatrices(camera.matrixWorldInverse, world);
@@ -243,6 +249,12 @@ window.TBS.createTrafficView = function ({
         prepareSignals.push((camera) => {
           if (!batch.visible) return;
           if (
+            prepareVisibleSignals &&
+            batch.frustumCulled &&
+            !signalFrustum.intersectsObject(batch)
+          )
+            return;
+          if (
             prepared &&
             lastCamera.equals(camera.matrixWorldInverse) &&
             lastProjection.equals(camera.projectionMatrix) &&
@@ -277,6 +289,7 @@ window.TBS.createTrafficView = function ({
     ): void {
       original.call(this, renderer, renderedScene, camera, ...args);
       projectionView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      if (prepareVisibleSignals) signalFrustum.setFromProjectionMatrix(projectionView);
       for (const prepare of prepareSignals) prepare(camera);
     };
   }

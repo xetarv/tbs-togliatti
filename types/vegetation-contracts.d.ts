@@ -42,6 +42,7 @@ interface ThreeFrustumMesh extends ThreeMeshHandle {
   instanceMatrix?: ThreeInstanceMatrixHandle;
 }
 interface ThreeFrustumHandle {
+  setFromProjectionMatrix: (matrix: ThreeMatrix4Handle) => this;
   intersectsObject: (this: ThreeFrustumHandle, object: ThreeFrustumMesh) => boolean;
   intersectsBox: (box: BoundsBoxHandle) => boolean;
 }
@@ -66,6 +67,6 @@ interface ThreeSkidTransform {
   copy: (source: ThreeObjectHandle, recursive?: boolean) => this;
 }
 interface ThreeLibraryHandle {
-  Frustum: { prototype: ThreeFrustumHandle };
+  Frustum: { new (): ThreeFrustumHandle; prototype: ThreeFrustumHandle };
   Box3: new () => BoundsBoxHandle;
 }
