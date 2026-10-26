@@ -57,6 +57,9 @@ interface ThreeRendererHandle {
   ) => Promise<unknown>;
   __startupDrain?: { promise: Promise<StartupDrainOutcome> | null };
   __startupPasses?: () => StartupRenderPass[];
+  /** Scalar env-map preparation supported by the separately pinned Safe vendor. */
+  __compileOnlyEnvMapsSupported?: boolean;
+  __compileOnlyEnvMaps?: Map<ThreeMaterialHandle, ThreeTextureHandle>;
   __startupDispose?: () => void;
   __startupClose?: () => void | Promise<StartupCleanupResult | undefined>;
   __startupCleanup?: Promise<StartupCleanupResult | undefined>;

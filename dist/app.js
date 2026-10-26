@@ -193,6 +193,8 @@
             throw error;
         }
         finally {
+            // Safe consumes these references synchronously; its owner retains only programs while draining.
+            delete world.renderer.__compileOnlyEnvMaps;
             removeEventListener('pagehide', cancel);
         }
         runtime.start();

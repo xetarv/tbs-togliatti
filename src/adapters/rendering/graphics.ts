@@ -499,6 +499,7 @@ window.TBS.createGraphics = function ({
   function dispose(): void {
     if (disposed) return;
     disposed = true;
+    delete renderer.__compileOnlyEnvMaps;
     const targets = [sceneTarget, cubeTarget, quarterTarget, waterTarget];
     if (targets.some((target) => target !== null && renderer.getRenderTarget() === target))
       renderer.setRenderTarget(null);
@@ -564,6 +565,13 @@ window.TBS.createGraphics = function ({
     if (renderer.info.autoReset === false) renderer.info.autoReset = originalAutoReset;
   }
   setQuality(quality);
+  // Use the existing materials and reflection targets; compile-only must not resolve PMREM.
+  if (settings.reflection && renderer.__compileOnlyEnvMapsSupported && quarter && quarterTarget) {
+    const sources = new Map<ThreeMaterialHandle, ThreeTextureHandle>();
+    for (const material of quarter.reflective) sources.set(material, quarterTarget.texture);
+    sources.set(car.userData.paint, cubeTarget.texture);
+    renderer.__compileOnlyEnvMaps = sources;
+  }
   return {
     dispose,
     setReflectionObjects,

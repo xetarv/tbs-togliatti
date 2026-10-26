@@ -110,7 +110,7 @@ test('terminal world cleanup deduplicates owned resources and captures instances
   assert.equal(renderer.__startupClose, undefined);
 });
 
-test('the original vendor and separate reviewed Safe retain their exact provenance', () => {
+test('the original vendor and separate Safe retain their exact pinned provenance', () => {
   const hash = (file) =>
     crypto
       .createHash('sha256')
@@ -122,6 +122,6 @@ test('the original vendor and separate reviewed Safe retain their exact provenan
   );
   assert.equal(
     hash('assets/three-r149-safe.min.js'),
-    '5fb78aeaa9ba4092eacdf2018e8e757aebc53eed0f3a98f7202cb7aa8c5684a0',
+    '061f51c90a5e594fb344732929a6938ebb5475580f75cfb13347a24b95457fb3',
   );
 });

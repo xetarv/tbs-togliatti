@@ -1,5 +1,33 @@
 # r149 Safe — isolated integration candidate
 
+## Compile-only env-map preparation — 26 October 2026
+
+The isolated `feature/safe-compile-only-startup-20261026` candidate starts from
+`166ac744`. Sergey accepted approximately 200 ms of previously measured warm
+overhead in exchange for the earlier new-profile improvement; this does not
+authorize commit, push or merge.
+
+The Safe vendor applies the frozen compile-only patch, SHA256
+`061f51c90a5e594fb344732929a6938ebb5475580f75cfb13347a24b95457fb3`.
+The original `three.min.js` remains unchanged. High graphics passes the existing
+quarter materials and Fastback paint with their existing 128-pixel cubemap sources
+through `renderer.__compileOnlyEnvMaps`. The seven real variants enter the same
+83-program preparation owner without resolving PMREM early. Actual draws keep
+the original texture resolution path. Polling, cancellation and context generations
+are unchanged. Low/Medium retain their previous preparation path.
+
+The map borrows materials/textures; it creates no GPU resources. App drops it on
+preparation completion/rejection, and graphics disposal also drops the reference.
+No diagnostic activation is required by `index.html`. This section describes the
+integration candidate; the earlier Safe promotion and evidence below remain historical.
+
+The ordinary High Start/W smoke verified 83 prepared programs, exact reuse of the
+seven env-map variants, and no early PMREM/render or new errors. The current visual
+gate remains open: first/night match exactly; camera B differs from A1/A2/A3 by
+23,088 pixels (maximum 4/255). Exact historical native A frames and signed deltas
+exist, but historical RNG/audio metadata differ. No new tolerance or automatic
+visual approval was introduced. Publication readiness is not established.
+
 The isolated branch `integration/r149-safe-candidate` was created from
 `5cbd6f741415bf10d44b2a6088b9bc26e1916d50`. During that integration main remained
 unchanged. Four historical shaderChecks files were copied and preserved separately

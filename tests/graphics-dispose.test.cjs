@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const T = require('../assets/three.min.js');
 const { loadModules } = require('./helpers.cjs');
 
-function fixture({ quarter = true, quality = 'low' } = {}) {
+function fixture({ quarter = true, quality = 'low', compileOnly = false } = {}) {
   const counts = new Map();
   const targets = [],
     geometries = [],
@@ -89,7 +89,9 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
   scene.add(sky, boat);
   const car = new T.Group();
   car.userData.paint = paint;
-  const reflective = [track(new T.MeshStandardMaterial({ envMap: originalEnv }))];
+  const reflective = Array.from({ length: compileOnly ? 3 : 1 }, () =>
+    track(new T.MeshStandardMaterial({ envMap: originalEnv })),
+  );
   if (quarter) scene.userData.quarterLighting = { x: 0, z: 0, reflective };
   const camera = new T.PerspectiveCamera();
   camera.position.set(0, 10, 20);
@@ -99,6 +101,7 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     touches = 0,
     rendererDisposals = 0;
   const renderer = {
+    __compileOnlyEnvMapsSupported: compileOnly,
     info: {
       autoReset: true,
       reset() {
@@ -193,6 +196,33 @@ function fixture({ quarter = true, quality = 'low' } = {}) {
     compileCalls: () => compileCalls,
   };
 }
+
+test('High startup passes actual material/cubemap references and releases them on disposal', () => {
+  const f = fixture({ quality: 'high', compileOnly: true });
+  const sources = f.renderer.__compileOnlyEnvMaps;
+  const targets = f.renderer.__pmremSources();
+  assert.equal(sources.size, 4);
+  for (const material of f.reflective) assert.equal(sources.get(material), targets.quarter.texture);
+  assert.equal(sources.get(f.paint), targets.fastback.texture);
+  assert.equal(targets.quarter.texture.isCubeTexture, true);
+  assert.equal(targets.fastback.width, 128);
+  assert.equal(f.paint.envMap, f.originalEnv);
+  f.graphics.dispose();
+  assert.equal(f.renderer.__compileOnlyEnvMaps, undefined);
+  assert.equal(sources.size, 4, 'Disposal drops its reference without mutating a borrowed map');
+});
+
+test('non-reflective presets and an unsupported renderer keep the previous preparation path', () => {
+  for (const options of [
+    { quality: 'low', compileOnly: true },
+    { quality: 'medium', compileOnly: true },
+    { quality: 'high', compileOnly: false },
+  ]) {
+    const f = fixture(options);
+    assert.equal(f.renderer.__compileOnlyEnvMaps, undefined);
+    f.graphics.dispose();
+  }
+});
 
 test('graphics disposal owns targets/depth/fullscreen/proxies and leaves shared world resources alive', () => {
   const f = fixture();
