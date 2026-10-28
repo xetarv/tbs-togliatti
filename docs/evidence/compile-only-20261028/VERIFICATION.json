@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-28",
+  "kind": "offline archival verification; no game/browser/test run",
+  "baseCommit": "2347940021c074acfd1f5a249c7b3a46ec6895c8",
+  "branch": "archive/compile-only-evidence-20261028",
+  "logicalFiles": 496,
+  "sourceGroups": 15,
+  "allOriginalSourceHashesUnchanged": true,
+  "allRestoredSizesAndHashesMatch": true,
+  "zipPackages": 6,
+  "packageBytes": 79528930,
+  "existingWorktreesUnchanged": 18,
+  "protectedFileHashesVerified": 1101,
+  "readmeIndexLocalLinksChecked": 20,
+  "exclusions": 26,
+  "credentialMarkerScan": {
+    "strongCredentialMarkersFound": 0,
+    "scope": "Selected project text files; browser profiles/caches excluded before traversal"
+  },
+  "limitations": [
+    "Visual gate BLOCKED; offline equivalence NOT PROVEN",
+    "No new game experiments were performed",
+    "Historical absolute paths are provenance, not restore requirements"
+  ]
+}
