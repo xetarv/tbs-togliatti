@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-29",
+  "logicalFiles": 143,
+  "allRestoredSizesAndSHA256Match": true,
+  "allOriginalEvidenceUnchanged": true,
+  "existingWorktreesUnchanged": 21,
+  "historicalShaderChecksUnchanged": true,
+  "zipParts": 2,
+  "zipBytes": 31285717,
+  "noGameBrowserOrBuildTestsRun": true
+}
